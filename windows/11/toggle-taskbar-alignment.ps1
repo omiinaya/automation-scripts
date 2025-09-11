@@ -17,8 +17,6 @@ try {
     # Restart Windows Explorer to apply changes
     try {
         Stop-Process -Name "explorer" -Force -ErrorAction Stop
-        Start-Sleep -Seconds 2
-        Start-Process "explorer.exe"
         Write-Host "🔄 Windows Explorer restarted to apply changes" -ForegroundColor Cyan
     } catch {
         Write-Host "⚠️  Could not restart Windows Explorer automatically. Please restart Explorer manually or log off/on to apply changes." -ForegroundColor Yellow
@@ -42,8 +40,6 @@ try {
         
         # Restart Explorer
         Stop-Process -Name "explorer" -Force
-        Start-Sleep -Seconds 2
-        Start-Process "explorer.exe"
         
         Write-Host "✅ Taskbar alignment set to CENTER (registry values created)" -ForegroundColor Green
     } catch {
