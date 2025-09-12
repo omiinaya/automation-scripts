@@ -116,7 +116,7 @@ function Write-ProgressBar {
     $filled = [math]::Round($Width * $Percent / 100)
     $empty = $Width - $filled
     
-    $bar = "█" * $filled + "░" * $empty
+    $bar = "#" * $filled + "-" * $empty
     
     if ($Activity) {
         Write-Host "$Activity [$bar] $Percent%" -ForegroundColor Green
@@ -316,7 +316,7 @@ function Show-List {
     }
     
     foreach ($item in $Items) {
-        Write-Host "  • $item" -ForegroundColor White
+        Write-Host "  * $item" -ForegroundColor White
     }
 }
 
@@ -376,15 +376,15 @@ function Show-SystemBanner {
     $computer = Get-CimInstance -ClassName Win32_ComputerSystem
     
     Write-Host ""
-    Write-Host "╔════════════════════════════════════════════════════════════════╗" -ForegroundColor Cyan
-    Write-Host "║                        SYSTEM INFORMATION                      ║" -ForegroundColor Cyan
-    Write-Host "╠════════════════════════════════════════════════════════════════╣" -ForegroundColor Cyan
-    Write-Host ("║ Computer: {0,-52} ║" -f $env:COMPUTERNAME) -ForegroundColor White
-    Write-Host ("║ User:     {0,-52} ║" -f $env:USERNAME) -ForegroundColor White
-    Write-Host ("║ OS:       {0,-52} ║" -f $os.Caption) -ForegroundColor White
-    Write-Host ("║ Version:  {0,-52} ║" -f $os.Version) -ForegroundColor White
-    Write-Host ("║ Boot:     {0,-52} ║" -f $computer.BootupState) -ForegroundColor White
-    Write-Host "╚════════════════════════════════════════════════════════════════╝" -ForegroundColor Cyan
+    Write-Host "+----------------------------------------------------------------+" -ForegroundColor Cyan
+    Write-Host "|                        SYSTEM INFORMATION                      |" -ForegroundColor Cyan
+    Write-Host "+----------------------------------------------------------------+" -ForegroundColor Cyan
+    Write-Host ("| Computer: {0,-52} |" -f $env:COMPUTERNAME) -ForegroundColor White
+    Write-Host ("| User:     {0,-52} |" -f $env:USERNAME) -ForegroundColor White
+    Write-Host ("| OS:       {0,-52} |" -f $os.Caption) -ForegroundColor White
+    Write-Host ("| Version:  {0,-52} |" -f $os.Version) -ForegroundColor White
+    Write-Host ("| Boot:     {0,-52} |" -f $computer.BootupState) -ForegroundColor White
+    Write-Host "+----------------------------------------------------------------+" -ForegroundColor Cyan
     Write-Host ""
 }
 
