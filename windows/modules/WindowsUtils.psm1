@@ -56,6 +56,9 @@ param(
     [string]`$TargetScript = '$($scriptPath -replace "'", "''")'
 )
 
+`$hasError = `$false
+`$errorMessage = ""
+
 try {
     # Set error action preference
     `$ErrorActionPreference = 'Stop'
@@ -67,17 +70,30 @@ try {
         `$exitCode = `$LASTEXITCODE
         
         if (`$exitCode -ne 0) {
-            Write-Host "Script completed with exit code: `$exitCode" -ForegroundColor Yellow
+            `$hasError = `$true
+            `$errorMessage = "Script completed with exit code: `$exitCode"
+            Write-Host `$errorMessage -ForegroundColor Yellow
+        } else {
+            Write-Host "Script completed successfully" -ForegroundColor Green
         }
     } else {
-        Write-Host "ERROR: Target script not found: `$TargetScript" -ForegroundColor Red
+        `$hasError = `$true
+        `$errorMessage = "ERROR: Target script not found: `$TargetScript"
+        Write-Host `$errorMessage -ForegroundColor Red
     }
 } catch {
-    Write-Host "ERROR: `$(`$_.Exception.Message)" -ForegroundColor Red
+    `$hasError = `$true
+    `$errorMessage = "ERROR: `$(`$_.Exception.Message)"
+    Write-Host `$errorMessage -ForegroundColor Red
     Write-Host "Stack Trace: `$(`$_.ScriptStackTrace)" -ForegroundColor DarkRed
 } finally {
-    Write-Host "Press Enter to close this window..." -ForegroundColor Yellow
-    Read-Host
+    # Only wait for user input if there was an error
+    if (`$hasError) {
+        Write-Host "Press Enter to close..." -ForegroundColor Yellow
+        Read-Host
+    }
+    # Exit with appropriate code
+    exit (`$hasError ? 1 : 0)
 }
 "@
         
