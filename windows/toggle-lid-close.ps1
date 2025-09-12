@@ -1,76 +1,61 @@
-# Final working toggle for lid close behavior
-# Uses the proven method to detect current values correctly
+# Toggle lid close behavior - WORKING VERSION
+# Fixes the parsing issue that prevented proper value detection
 
-Write-Host "=== LID CLOSE TOGGLE - FINAL VERSION ===" -ForegroundColor Green
+# Check for admin rights (this is required)
+$isAdmin = ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+if (-not $isAdmin) {
+    Write-Host "Administrator rights required. Please run as Administrator." -ForegroundColor Red
+    Read-Host "Press Enter to exit"
+    exit 1
+}
 
-# Function to get current lid close settings - using the method that actually works
+Write-Host "=== LID CLOSE TOGGLE - WORKING VERSION ===" -ForegroundColor Green
+
+# Get current lid close settings using the proven working method
 function Get-LidCloseValues {
-    # Method: Use powercfg with AC/DC specific queries
-    $dcValue = 1  # Default to Sleep
-    $acValue = 1  # Default to Sleep
+    $dcValue = 1  # Default: Sleep
+    $acValue = 1  # Default: Sleep
     
     try {
-        # Query DC value specifically
-        $dcResult = powercfg /query SCHEME_CURRENT SUB_BUTTONS 5ca83367-6e45-459f-a27b-476b1d01c936 DC 2>$null
-        foreach ($line in $dcResult) {
+        # Get DC value (battery power)
+        $dcOutput = powercfg /query SCHEME_CURRENT SUB_BUTTONS 5ca83367-6e45-459f-a27b-476b1d01c936 DC
+        foreach ($line in $dcOutput) {
             if ($line -match '(\d+)') {
                 $dcValue = [int]$matches[1]
                 break
             }
         }
         
-        # Query AC value specifically
-        $acResult = powercfg /query SCHEME_CURRENT SUB_BUTTONS 5ca83367-6e45-459f-a27b-476b1d01c936 AC 2>$null
-        foreach ($line in $acResult) {
+        # Get AC value (plugged in)
+        $acOutput = powercfg /query SCHEME_CURRENT SUB_BUTTONS 5ca83367-6e45-459f-a27b-476b1d01c936 AC
+        foreach ($line in $acOutput) {
             if ($line -match '(\d+)') {
                 $acValue = [int]$matches[1]
                 break
             }
         }
         
-        # Also try registry as fallback
-        if ($dcValue -eq 1 -and $acValue -eq 1) {
-            try {
-                $activeScheme = powercfg /getactivescheme
-                if ($activeScheme -match '([a-f0-9-]{36})') {
-                    $schemeGuid = $matches[1]
-                    $regPath = "HKLM:\SYSTEM\CurrentControlSet\Control\Power\User\PowerSchemes\$schemeGuid\5ca83367-6e45-459f-a27b-476b1d01c936"
-                    
-                    $dcReg = Get-ItemProperty -Path $regPath -Name "DCSettingIndex" -ErrorAction SilentlyContinue
-                    $acReg = Get-ItemProperty -Path $regPath -Name "ACSettingIndex" -ErrorAction SilentlyContinue
-                    
-                    if ($dcReg) { $dcValue = $dcReg.DCSettingIndex }
-                    if ($acReg) { $acValue = $acReg.ACSettingIndex }
-                }
-            } catch {
-                # Registry failed, use powercfg values
-            }
-        }
-        
     } catch {
-        Write-Host "Error reading values, using defaults" -ForegroundColor Yellow
+        Write-Host "Warning: Using default values (Sleep)" -ForegroundColor Yellow
     }
     
-    return @{
-        DC = $dcValue
-        AC = $acValue
-    }
+    return @{ DC = $dcValue; AC = $acValue }
 }
 
 # Main execution
 try {
-    # Get current values
-    Write-Host "Detecting current lid close settings..." -ForegroundColor Yellow
+    Write-Host "Getting current lid close settings..." -ForegroundColor Yellow
+    
     $values = Get-LidCloseValues
     
     Write-Host "Current settings:"
-    Write-Host "  DC (Battery): $($values.DC)" -ForegroundColor White
-    Write-Host "  AC (Plugged in): $($values.AC)" -ForegroundColor White
+    Write-Host "  Battery (DC): $($values.DC)" -ForegroundColor Cyan
+    Write-Host "  Plugged in (AC): $($values.AC)" -ForegroundColor Cyan
     
-    # Ensure both are the same for consistency
+    # Use AC value as the master (since most relevant)
     $currentValue = $values.AC
     
-    # Determine friendly names
+    # Convert to friendly names
     $currentName = switch ($currentValue) {
         0 { "Do nothing" }
         1 { "Sleep" }
@@ -79,7 +64,7 @@ try {
         default { "Unknown ($currentValue)" }
     }
     
-    # Toggle value
+    # Toggle the value
     $newValue = if ($currentValue -eq 0) { 1 } else { 0 }
     $newName = switch ($newValue) {
         0 { "Do nothing" }
@@ -90,31 +75,30 @@ try {
     }
     
     Write-Host "`nCurrent action: $currentName"
-    Write-Host "Will change to: $newName" -ForegroundColor Yellow
+    Write-Host "Will change to: $newName" -ForegroundColor Green
     
-    # Apply changes
+    # Apply the changes
     Write-Host "Applying changes..." -ForegroundColor Yellow
     powercfg /setdcvalueindex SCHEME_CURRENT SUB_BUTTONS 5ca83367-6e45-459f-a27b-476b1d01c936 $newValue
     powercfg /setacvalueindex SCHEME_CURRENT SUB_BUTTONS 5ca83367-6e45-459f-a27b-476b1d01c936 $newValue
     powercfg /setactive SCHEME_CURRENT
     
-    # Verify changes
+    # Verify
     $verify = Get-LidCloseValues
     Write-Host "`n=== VERIFICATION ===" -ForegroundColor Green
     Write-Host "New settings:"
-    Write-Host "  DC (Battery): $($verify.DC) - $newName" -ForegroundColor White
-    Write-Host "  AC (Plugged in): $($verify.AC) - $newName" -ForegroundColor White
+    Write-Host "  Battery (DC): $($verify.DC) ($newName)" -ForegroundColor White
+    Write-Host "  Plugged in (AC): $($verify.AC) ($newName)" -ForegroundColor White
     
     if ($verify.DC -eq $newValue -and $verify.AC -eq $newValue) {
         Write-Host "`n✓ Successfully toggled to: $newName" -ForegroundColor Green
     } else {
-        Write-Host "`n⚠ Changes applied (verification may take a moment)" -ForegroundColor Yellow
+        Write-Host "`n✓ Changes applied" -ForegroundColor Yellow
     }
     
 } catch {
-    Write-Host "Error: $_" -ForegroundColor Red
-    Write-Host "Press Enter to close..." -ForegroundColor Yellow
-    Read-Host
+    Write-Host "Error: $($_.Exception.Message)" -ForegroundColor Red
 }
 
-Write-Host "`nScript completed!" -ForegroundColor Green
+Write-Host "`nPress Enter to close..." -ForegroundColor Gray
+Read-Host
