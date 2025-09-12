@@ -137,10 +137,20 @@ function Get-Windows11PowerMode {
         $batteryInfo = Get-BatteryInfo
         if ($batteryInfo -and (-not $batteryInfo.PowerOnline)) {
             # On battery power (DC)
-            $result.CurrentModeName = $result.ACModes[[string]$result.DCMode] ?? "Unknown"
+            $dcModeKey = [string]$result.DCMode
+            if ($result.ACModes.ContainsKey($dcModeKey)) {
+                $result.CurrentModeName = $result.ACModes[$dcModeKey]
+            } else {
+                $result.CurrentModeName = "Unknown"
+            }
         } else {
             # On AC power
-            $result.CurrentModeName = $result.ACModes[[string]$result.ACMode] ?? "Unknown"
+            $acModeKey = [string]$result.ACMode
+            if ($result.ACModes.ContainsKey($acModeKey)) {
+                $result.CurrentModeName = $result.ACModes[$acModeKey]
+            } else {
+                $result.CurrentModeName = "Unknown"
+            }
         }
         
     } catch {
