@@ -69,14 +69,21 @@ function Request-Elevation {
         $command = @"
 # Simple elevation wrapper that preserves context
 Set-Location '$currentDirectory'
-& '$scriptPath' $originalArgs
-if (`$LASTEXITCODE -ne 0) {
-    Write-Host "Script completed with errors (Exit Code: `$LASTEXITCODE)" -ForegroundColor Red
+try {
+    & '$scriptPath' $originalArgs
+    `$exitCode = `$LASTEXITCODE
+    if (`$exitCode -eq 0 -or `$exitCode -eq `$null -or `$exitCode -eq '') {
+        Write-Host "Script completed successfully!" -ForegroundColor Green
+        Start-Sleep -Seconds 1
+    } else {
+        Write-Host "Script completed with errors (Exit Code: `$exitCode)" -ForegroundColor Red
+        Write-Host "Press Enter to close..." -ForegroundColor Yellow
+        Read-Host
+    }
+} catch {
+    Write-Host "ERROR: `$($_.Exception.Message)" -ForegroundColor Red
     Write-Host "Press Enter to close..." -ForegroundColor Yellow
     Read-Host
-} else {
-    Write-Host "Script completed successfully!" -ForegroundColor Green
-    Start-Sleep -Seconds 1
 }
 "@
         
