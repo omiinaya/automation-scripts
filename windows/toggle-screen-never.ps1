@@ -1,6 +1,16 @@
 # Toggle screen off behavior on both battery and plugged in for Windows 11
 # Refactored to use modular system - reduces from 42 lines to 20 lines
 
+# Function to pause on error
+function Wait-OnError {
+    param(
+        [string]$ErrorMessage
+    )
+    Write-Host "`nERROR: $ErrorMessage" -ForegroundColor Red
+    Write-Host "Press Enter to close this window..." -ForegroundColor Yellow
+    Read-Host
+}
+
 # Import the Windows modules
 $modulePath = Join-Path $PSScriptRoot "modules\ModuleIndex.psm1"
 Import-Module $modulePath -Force
@@ -43,6 +53,5 @@ try {
     }
     
 } catch {
-    Write-StatusMessage -Message "Failed to toggle screen timeout settings: $($_.Exception.Message)" -Type Error
-    Write-StatusMessage -Message "This script requires administrator privileges to modify power settings." -Type Warning
+    Wait-OnError -ErrorMessage "Failed to toggle screen timeout settings: $($_.Exception.Message)"
 }

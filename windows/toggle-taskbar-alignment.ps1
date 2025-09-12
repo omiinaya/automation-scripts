@@ -1,6 +1,16 @@
 # Toggle taskbar alignment between left and center on Windows 11
 # Refactored to use modular system - reduces from 50 lines to 15 lines
 
+# Function to pause on error
+function Wait-OnError {
+    param(
+        [string]$ErrorMessage
+    )
+    Write-Host "`nERROR: $ErrorMessage" -ForegroundColor Red
+    Write-Host "Press Enter to close this window..." -ForegroundColor Yellow
+    Read-Host
+}
+
 # Import the Windows modules
 $modulePath = Join-Path $PSScriptRoot "modules\ModuleIndex.psm1"
 Import-Module $modulePath -Force
@@ -33,7 +43,7 @@ try {
     }
     
 } catch [System.Management.Automation.ItemNotFoundException] {
-    Write-StatusMessage -Message "Registry path not found. This script requires Windows 11." -Type Error
+    Wait-OnError -ErrorMessage "Registry path not found. This script requires Windows 11."
 } catch [System.Management.Automation.PSArgumentException] {
     # Create registry values if they don't exist
     Set-RegistryValue -KeyPath $registryPath -ValueName "TaskbarAl" -ValueData 1 -ValueType DWord
@@ -41,5 +51,5 @@ try {
     Stop-Process -Name "explorer" -Force
     Write-StatusMessage -Message "Taskbar alignment set to CENTER (registry values created)" -Type Success
 } catch {
-    Write-StatusMessage -Message "Failed to toggle taskbar alignment: $($_.Exception.Message)" -Type Error
+    Wait-OnError -ErrorMessage "Failed to toggle taskbar alignment: $($_.Exception.Message)"
 }

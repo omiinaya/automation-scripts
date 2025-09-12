@@ -1,6 +1,16 @@
 # Toggle between light and dark mode on Windows 11
 # Refactored to use modular system - reduces from 38 lines to 12 lines
 
+# Function to pause on error
+function Wait-OnError {
+    param(
+        [string]$ErrorMessage
+    )
+    Write-Host "`nERROR: $ErrorMessage" -ForegroundColor Red
+    Write-Host "Press Enter to close this window..." -ForegroundColor Yellow
+    Read-Host
+}
+
 # Import the Windows modules
 $modulePath = Join-Path $PSScriptRoot "modules\ModuleIndex.psm1"
 Import-Module $modulePath -Force
@@ -32,5 +42,5 @@ try {
     }
     
 } catch {
-    Write-StatusMessage -Message "Failed to toggle theme: $($_.Exception.Message)" -Type Error
+    Wait-OnError -ErrorMessage "Failed to toggle theme: $($_.Exception.Message)"
 }

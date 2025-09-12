@@ -1,6 +1,16 @@
 # Toggle transparency effects on Windows 11
 # Refactored to use modular system - reduces from 28 lines to 9 lines
 
+# Function to pause on error
+function Wait-OnError {
+    param(
+        [string]$ErrorMessage
+    )
+    Write-Host "`nERROR: $ErrorMessage" -ForegroundColor Red
+    Write-Host "Press Enter to close this window..." -ForegroundColor Yellow
+    Read-Host
+}
+
 # Import the Windows modules
 $modulePath = Join-Path $PSScriptRoot "modules\ModuleIndex.psm1"
 Import-Module $modulePath -Force
@@ -21,5 +31,5 @@ try {
     Write-StatusMessage -Message "Note: Changes may require restarting applications or signing out/in to take full effect" -Type Info
     
 } catch {
-    Write-StatusMessage -Message "Failed to toggle transparency effects: $($_.Exception.Message)" -Type Error
+    Wait-OnError -ErrorMessage "Failed to toggle transparency effects: $($_.Exception.Message)"
 }
