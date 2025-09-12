@@ -1,13 +1,14 @@
 # Set power mode to "Best Performance" on Windows 11
+# Refactored to use modular system - reduces from 13 lines to 5 lines
 
-try {
-    # Set power scheme to "Best Performance" (high performance)
-    powercfg -setactive 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c
-    
-    Write-Host "✅ Power mode set to 'Best Performance'" -ForegroundColor Green
-    Write-Host "Note: This enables maximum system performance at the cost of higher power consumption" -ForegroundColor Cyan
-    
-} catch {
-    Write-Host "❌ Failed to set power mode to Best Performance: $($_.Exception.Message)" -ForegroundColor Red
-    Write-Host "This script requires administrator privileges to modify power settings." -ForegroundColor Yellow
+# Import the Windows modules
+Import-Module .\windows\modules\ModuleIndex.psm1 -Force
+
+# Check admin rights and set high performance
+if (Test-AdminRights) {
+    Set-PowerScheme -SchemeGUID "8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c"
+    Write-StatusMessage -Message "Power mode set to 'Best Performance' - maximum performance at higher power consumption" -Type Success
+} else {
+    Write-StatusMessage -Message "Administrator privileges required to modify power settings" -Type Error
+    Request-Elevation
 }
