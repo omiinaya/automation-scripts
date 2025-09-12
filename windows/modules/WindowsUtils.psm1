@@ -40,30 +40,65 @@ function Request-Elevation {
     if (-not (Test-AdminRights)) {
         Write-Host "Administrator rights required. Requesting elevation..." -ForegroundColor Yellow
         
-        # Create a temporary script to run elevated with error handling
-        $scriptPath = $MyInvocation.MyCommand.Path
-        $errorScript = @"
-param(`$OriginalScript = '$scriptPath')
+        # Get the current script path
+        $scriptPath = $MyInvocation.ScriptName
+        if ([string]::IsNullOrEmpty($scriptPath)) {
+            $scriptPath = $MyInvocation.MyCommand.Path
+        }
+        
+        # Create a proper temporary script for elevation
+        $tempScript = [System.IO.Path]::GetTempFileName() + ".ps1"
+        
+        # Build the script content with proper escaping
+        $scriptContent = @"
+# Elevation wrapper script
+param(
+    [string]`$TargetScript = '$($scriptPath -replace "'", "''")'
+)
+
 try {
-    & "`$OriginalScript"
-    if (`$LASTEXITCODE -ne 0) {
-        Write-Host "Script failed with exit code: `$LASTEXITCODE" -ForegroundColor Red
-        Write-Host "Press Enter to close this window..." -ForegroundColor Yellow
-        Read-Host
+    # Set error action preference
+    `$ErrorActionPreference = 'Stop'
+    
+    # Execute the original script
+    if (Test-Path `$TargetScript) {
+        Write-Host "Running elevated script: `$TargetScript" -ForegroundColor Green
+        & `$TargetScript
+        `$exitCode = `$LASTEXITCODE
+        
+        if (`$exitCode -ne 0) {
+            Write-Host "Script completed with exit code: `$exitCode" -ForegroundColor Yellow
+        }
+    } else {
+        Write-Host "ERROR: Target script not found: `$TargetScript" -ForegroundColor Red
     }
 } catch {
     Write-Host "ERROR: `$(`$_.Exception.Message)" -ForegroundColor Red
     Write-Host "Stack Trace: `$(`$_.ScriptStackTrace)" -ForegroundColor DarkRed
+} finally {
     Write-Host "Press Enter to close this window..." -ForegroundColor Yellow
     Read-Host
 }
 "@
         
-        $tempScript = [System.IO.Path]::GetTempFileName() + ".ps1"
-        $errorScript | Out-File -FilePath $tempScript -Encoding UTF8
+        # Write the script to temp file
+        $scriptContent | Out-File -FilePath $tempScript -Encoding UTF8
         
-        Start-Process powershell.exe -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$tempScript`" -OriginalScript `"$scriptPath`"" -Verb RunAs
-        exit
+        # Start the elevated process with proper argument formatting
+        $psi = New-Object System.Diagnostics.ProcessStartInfo
+        $psi.FileName = "powershell.exe"
+        $psi.Arguments = "-NoLogo -NoProfile -ExecutionPolicy Bypass -File `"$tempScript`""
+        $psi.Verb = "runas"
+        $psi.UseShellExecute = $true
+        
+        try {
+            $process = [System.Diagnostics.Process]::Start($psi)
+            exit
+        } catch {
+            Write-Host "ERROR: Failed to start elevated process. $_" -ForegroundColor Red
+            Write-Host "You may need to manually run this script as Administrator." -ForegroundColor Yellow
+            exit 1
+        }
     }
 }
 
