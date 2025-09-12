@@ -98,32 +98,36 @@ function Get-RegistryValue {
 
 # Function to set a registry value
 function Set-RegistryValue {
-    <#
-    .SYNOPSIS
-        Sets a registry value.
-    .DESCRIPTION
-        Creates or updates a registry value with the specified data.
-    .PARAMETER KeyPath
-        The full path to the registry key.
-    .PARAMETER ValueName
-        The name of the registry value to set.
-    .PARAMETER ValueData
-        The data to store in the registry value.
-    .PARAMETER ValueType
-        The type of the registry value (String, DWord, QWord, Binary, MultiString, ExpandString).
-    .EXAMPLE
-        Set-RegistryValue -KeyPath "HKLM:\SOFTWARE\MyApp" -ValueName "Setting1" -ValueData "MyValue" -ValueType String
-    #>
-    param(
-        [Parameter(Mandatory=$true)]
-        [string]$KeyPath,
-        [Parameter(Mandatory=$true)]
-        [string]$ValueName,
-        [Parameter(Mandatory=$true)]
-        [object]$ValueData,
-        [ValidateSet("String", "DWord", "QWord", "Binary", "MultiString", "ExpandString")]
-        [string]$ValueType = "String"
-    )
+<#
+.SYNOPSIS
+    Sets a registry value.
+.DESCRIPTION
+    Creates or updates a registry value with the specified data.
+.PARAMETER KeyPath
+    The full path to the registry key.
+.PARAMETER ValueName
+    The name of the registry value to set.
+.PARAMETER ValueData
+    The data to store in the registry value.
+.PARAMETER ValueType
+    The type of the registry value (String, DWord, QWord, Binary, MultiString, ExpandString).
+.EXAMPLE
+    Set-RegistryValue -KeyPath "HKLM:\SOFTWARE\MyApp" -ValueName "Setting1" -ValueData "MyValue" -ValueType String
+.EXAMPLE
+    Set-RegistryValue -KeyPath "HKLM:\SOFTWARE\MyApp" -ValueName "Enabled" -ValueData 1 -ValueType DWord
+.NOTES
+    Creates the registry key if it doesn't exist.
+#>
+param(
+    [Parameter(Mandatory=$true)]
+    [string]$KeyPath,
+    [Parameter(Mandatory=$true)]
+    [string]$ValueName,
+    [Parameter(Mandatory=$true)]
+    [object]$ValueData,
+    [ValidateSet("String", "DWord", "QWord", "Binary", "MultiString", "ExpandString")]
+    [string]$ValueType = "String"
+)
     
     try {
         if (-not (Test-RegistryKey -KeyPath $KeyPath)) {
@@ -174,20 +178,22 @@ function Remove-RegistryValue {
 
 # Function to remove a registry key
 function Remove-RegistryKey {
-    <#
-    .SYNOPSIS
-        Removes a registry key and all its subkeys.
-    .DESCRIPTION
-        Deletes a registry key and all its contents recursively.
-    .PARAMETER KeyPath
-        The full path to the registry key to remove.
-    .EXAMPLE
-        Remove-RegistryKey -KeyPath "HKLM:\SOFTWARE\MyApp"
-    #>
-    param(
-        [Parameter(Mandatory=$true)]
-        [string]$KeyPath
-    )
+<#
+.SYNOPSIS
+    Removes a registry key and all its subkeys.
+.DESCRIPTION
+    Deletes a registry key and all its contents recursively.
+.PARAMETER KeyPath
+    The full path to the registry key to remove.
+.EXAMPLE
+    Remove-RegistryKey -KeyPath "HKLM:\SOFTWARE\MyApp"
+.NOTES
+    This action is irreversible. Use with caution.
+#>
+param(
+    [Parameter(Mandatory=$true)]
+    [string]$KeyPath
+)
     
     try {
         if (Test-RegistryKey -KeyPath $KeyPath) {

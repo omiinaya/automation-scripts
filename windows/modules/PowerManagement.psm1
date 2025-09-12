@@ -58,20 +58,23 @@ function Get-ActivePowerScheme {
 
 # Function to set a power scheme by GUID
 function Set-PowerScheme {
-    <#
-    .SYNOPSIS
-        Sets a power scheme as active.
-    .DESCRIPTION
-        Activates a power scheme by its GUID.
-    .PARAMETER SchemeGUID
-        The GUID of the power scheme to activate.
-    .EXAMPLE
-        Set-PowerScheme -SchemeGUID "381b4222-f694-41f0-9685-ff5bb260df2e"
-    #>
-    param(
-        [Parameter(Mandatory=$true)]
-        [string]$SchemeGUID
-    )
+<#
+.SYNOPSIS
+    Sets a power scheme as active.
+.DESCRIPTION
+    Activates a power scheme by its GUID.
+.PARAMETER SchemeGUID
+    The GUID of the power scheme to activate.
+.EXAMPLE
+    Set-PowerScheme -SchemeGUID "381b4222-f694-41f0-9685-ff5bb260df2e"
+.NOTES
+    Requires administrative privileges.
+#>
+param(
+    [Parameter(Mandatory=$true)]
+    [ValidatePattern('^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$')]
+    [string]$SchemeGUID
+)
     
     try {
         $result = powercfg /setactive $SchemeGUID
@@ -264,25 +267,27 @@ function Toggle-Windows11PowerMode {
 
 # Function to get power scheme GUID by name
 function Get-PowerSchemeByName {
-    <#
-    .SYNOPSIS
-        Gets a power scheme by its name.
-    .DESCRIPTION
-        Returns the power scheme with the specified name or pattern.
-    .PARAMETER Name
-        The name or pattern to search for.
-    .PARAMETER ExactMatch
-        Require exact name match.
-    .EXAMPLE
-        $scheme = Get-PowerSchemeByName -Name "High performance"
-    .OUTPUTS
-        PSCustomObject
-    #>
-    param(
-        [Parameter(Mandatory=$true)]
-        [string]$Name,
-        [switch]$ExactMatch
-    )
+<#
+.SYNOPSIS
+    Gets a power scheme by its name.
+.DESCRIPTION
+    Returns the power scheme with the specified name or pattern.
+.PARAMETER Name
+    The name or pattern to search for.
+.PARAMETER ExactMatch
+    Require exact name match.
+.EXAMPLE
+    $scheme = Get-PowerSchemeByName -Name "High performance"
+.OUTPUTS
+    PSCustomObject
+.NOTES
+    Case-insensitive search by default.
+#>
+param(
+    [Parameter(Mandatory=$true)]
+    [string]$Name,
+    [switch]$ExactMatch
+)
     
     $schemes = Get-PowerSchemes
     
@@ -295,25 +300,29 @@ function Get-PowerSchemeByName {
 
 # Function to get power setting value
 function Get-PowerSetting {
-    <#
-    .SYNOPSIS
-        Gets the value of a power setting.
-    .DESCRIPTION
-        Retrieves the current value of a specific power setting.
-    .PARAMETER SettingGUID
-        The GUID of the power setting.
-    .PARAMETER PowerSchemeGUID
-        Optional. The GUID of the power scheme to query (defaults to active scheme).
-    .EXAMPLE
-        $value = Get-PowerSetting -SettingGUID "238c9fa8-0aad-41ed-83f4-97be242c8f20"
-    .OUTPUTS
-        PSCustomObject
-    #>
-    param(
-        [Parameter(Mandatory=$true)]
-        [string]$SettingGUID,
-        [string]$PowerSchemeGUID = ""
-    )
+<#
+.SYNOPSIS
+    Gets the value of a power setting.
+.DESCRIPTION
+    Retrieves the current value of a specific power setting.
+.PARAMETER SettingGUID
+    The GUID of the power setting.
+.PARAMETER PowerSchemeGUID
+    Optional. The GUID of the power scheme to query (defaults to active scheme).
+.EXAMPLE
+    $value = Get-PowerSetting -SettingGUID "238c9fa8-0aad-41ed-83f4-97be242c8f20"
+.OUTPUTS
+    PSCustomObject
+.NOTES
+    Returns null if the setting cannot be retrieved.
+#>
+param(
+    [Parameter(Mandatory=$true)]
+    [ValidatePattern('^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$')]
+    [string]$SettingGUID,
+    [ValidatePattern('^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$')]
+    [string]$PowerSchemeGUID = ""
+)
     
     if ([string]::IsNullOrEmpty($PowerSchemeGUID)) {
         $PowerSchemeGUID = (Get-ActivePowerScheme).GUID
@@ -350,27 +359,34 @@ function Get-PowerSetting {
 
 # Function to set power setting value
 function Set-PowerSetting {
-    <#
-    .SYNOPSIS
-        Sets the value of a power setting.
-    .DESCRIPTION
-        Configures a specific power setting for both AC and DC power.
-    .PARAMETER SettingGUID
-        The GUID of the power setting.
-    .PARAMETER Value
-        The value to set.
-    .PARAMETER PowerSchemeGUID
-        Optional. The GUID of the power scheme to modify (defaults to active scheme).
-    .EXAMPLE
-        Set-PowerSetting -SettingGUID "238c9fa8-0aad-41ed-83f4-97be242c8f20" -Value 0
-    #>
-    param(
-        [Parameter(Mandatory=$true)]
-        [string]$SettingGUID,
-        [Parameter(Mandatory=$true)]
-        [int]$Value,
-        [string]$PowerSchemeGUID = ""
-    )
+<#
+.SYNOPSIS
+    Sets the value of a power setting.
+.DESCRIPTION
+    Configures a specific power setting for both AC and DC power.
+.PARAMETER SettingGUID
+    The GUID of the power setting.
+.PARAMETER Value
+    The value to set (0 for never, minutes otherwise).
+.PARAMETER PowerSchemeGUID
+    Optional. The GUID of the power scheme to modify (defaults to active scheme).
+.EXAMPLE
+    Set-PowerSetting -SettingGUID "238c9fa8-0aad-41ed-83f4-97be242c8f20" -Value 0
+.EXAMPLE
+    Set-PowerSetting -SettingGUID "238c9fa8-0aad-41ed-83f4-97be242c8f20" -Value 900
+.NOTES
+    Requires administrative privileges.
+#>
+param(
+    [Parameter(Mandatory=$true)]
+    [ValidatePattern('^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$')]
+    [string]$SettingGUID,
+    [Parameter(Mandatory=$true)]
+    [ValidateRange(0, 999999)]
+    [int]$Value,
+    [ValidatePattern('^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$')]
+    [string]$PowerSchemeGUID = ""
+)
     
     if ([string]::IsNullOrEmpty($PowerSchemeGUID)) {
         $PowerSchemeGUID = (Get-ActivePowerScheme).GUID

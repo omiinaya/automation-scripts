@@ -52,8 +52,8 @@ try {
     }
     
     # Toggle logic
-    $newDCValue = if ($currentDC -ne 0) { 0 } else { 900 }
-    $newACValue = if ($currentAC -ne 0) { 0 } else { 900 }
+    $newDCValue = if ($currentDC -ne 0) { 0x0 } else { 900 }
+    $newACValue = if ($currentAC -ne 0) { 0x0 } else { 900 }
     
     # Apply changes
     powercfg -setdcvalueindex $powerScheme 238c9fa8-0aad-41ed-83f4-97be242c8f20 29f6c1db-86da-48c5-9fdb-f2b67b1f44da $newDCValue

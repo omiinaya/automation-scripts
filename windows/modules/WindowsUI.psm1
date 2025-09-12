@@ -11,27 +11,36 @@
 
 # Function to write colored status messages
 function Write-StatusMessage {
-    <#
-    .SYNOPSIS
-        Writes a formatted status message to the console.
-    .DESCRIPTION
-        Displays a message with consistent formatting and color coding based on status type.
-    .PARAMETER Message
-        The message to display.
-    .PARAMETER Type
-        The type of message (Info, Success, Warning, Error).
-    .PARAMETER NoNewline
-        Don't add a newline at the end of the message.
-    .EXAMPLE
-        Write-StatusMessage -Message "Operation completed" -Type Success
-    #>
-    param(
-        [Parameter(Mandatory=$true)]
-        [string]$Message,
-        [ValidateSet("Info", "Success", "Warning", "Error")]
-        [string]$Type = "Info",
-        [switch]$NoNewline
-    )
+<#
+.SYNOPSIS
+    Writes a formatted status message to the console.
+.DESCRIPTION
+    Displays a message with consistent formatting and color coding based on status type.
+.PARAMETER Message
+    The message to display.
+.PARAMETER Type
+    The type of message (Info, Success, Warning, Error).
+.PARAMETER NoNewline
+    Don't add a newline at the end of the message.
+.EXAMPLE
+    Write-StatusMessage -Message "Operation completed" -Type Success
+.EXAMPLE
+    Write-StatusMessage -Message "Processing..." -Type Info -NoNewline
+.EXAMPLE
+    Write-StatusMessage -Message "Warning: Check configuration" -Type Warning
+.OUTPUTS
+    None. Writes to console.
+.NOTES
+    Colors: Info=Cyan, Success=Green, Warning=Yellow, Error=Red
+#>
+param(
+    [Parameter(Mandatory=$true)]
+    [ValidateNotNullOrEmpty()]
+    [string]$Message,
+    [ValidateSet("Info", "Success", "Warning", "Error")]
+    [string]$Type = "Info",
+    [switch]$NoNewline
+)
     
     $colors = @{
         "Info"    = "Cyan"
@@ -225,24 +234,30 @@ function Show-Confirmation {
 
 # Function to display a table
 function Show-Table {
-    <#
-    .SYNOPSIS
-        Displays data in a formatted table.
-    .DESCRIPTION
-        Shows an array of objects in a simple formatted table.
-    .PARAMETER Data
-        The data to display.
-    .PARAMETER Title
-        Optional table title.
-    .EXAMPLE
-        $data = @([PSCustomObject]@{Name="Item1"; Value=100}, [PSCustomObject]@{Name="Item2"; Value=200})
-        Show-Table -Data $data -Title "My Data"
-    #>
-    param(
-        [Parameter(Mandatory=$true)]
-        [array]$Data,
-        [string]$Title = ""
-    )
+<#
+.SYNOPSIS
+    Displays data in a formatted table.
+.DESCRIPTION
+    Shows an array of objects in a simple formatted table with auto-calculated column widths.
+.PARAMETER Data
+    The data to display. Should be an array of objects with properties.
+.PARAMETER Title
+    Optional table title.
+.EXAMPLE
+    $data = @([PSCustomObject]@{Name="Item1"; Value=100}, [PSCustomObject]@{Name="Item2"; Value=200})
+    Show-Table -Data $data -Title "My Data"
+.EXAMPLE
+    Get-Process | Select-Object -First 5 Name, Id, CPU | Show-Table -Title "Running Processes"
+.OUTPUTS
+    None. Writes formatted table to console.
+.NOTES
+    Automatically calculates column widths based on data content.
+#>
+param(
+    [Parameter(Mandatory=$true)]
+    [array]$Data,
+    [string]$Title = ""
+)
     
     if ($Title) {
         Write-Host ""

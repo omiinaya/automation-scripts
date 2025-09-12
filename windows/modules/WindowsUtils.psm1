@@ -179,22 +179,27 @@ function Get-CurrentUserInfo {
 
 # Function to test if a service exists
 function Test-ServiceExists {
-    <#
-    .SYNOPSIS
-        Checks if a Windows service exists.
-    .DESCRIPTION
-        Returns $true if the service exists, $false otherwise.
-    .PARAMETER ServiceName
-        The name of the service to check.
-    .EXAMPLE
-        if (Test-ServiceExists -ServiceName "Spooler") { Write-Host "Print Spooler exists" }
-    .OUTPUTS
-        System.Boolean
-    #>
-    param(
-        [Parameter(Mandatory=$true)]
-        [string]$ServiceName
-    )
+<#
+.SYNOPSIS
+    Checks if a Windows service exists.
+.DESCRIPTION
+    Returns $true if the service exists, $false otherwise.
+.PARAMETER ServiceName
+    The name of the service to check.
+.EXAMPLE
+    if (Test-ServiceExists -ServiceName "Spooler") { Write-Host "Print Spooler exists" }
+.EXAMPLE
+    $services = @("Spooler", "W32Time", "BITS") | Where-Object { Test-ServiceExists -ServiceName $_ }
+.OUTPUTS
+    System.Boolean
+.NOTES
+    Case-insensitive service name matching.
+#>
+param(
+    [Parameter(Mandatory=$true)]
+    [ValidateNotNullOrEmpty()]
+    [string]$ServiceName
+)
     
     $service = Get-Service -Name $ServiceName -ErrorAction SilentlyContinue
     return ($null -ne $service)
@@ -202,20 +207,27 @@ function Test-ServiceExists {
 
 # Function to restart a service safely
 function Restart-ServiceSafely {
-    <#
-    .SYNOPSIS
-        Restarts a Windows service with error handling.
-    .DESCRIPTION
-        Attempts to restart a service and provides feedback on success/failure.
-    .PARAMETER ServiceName
-        The name of the service to restart.
-    .EXAMPLE
-        Restart-ServiceSafely -ServiceName "Spooler"
-    #>
-    param(
-        [Parameter(Mandatory=$true)]
-        [string]$ServiceName
-    )
+<#
+.SYNOPSIS
+    Restarts a Windows service with error handling.
+.DESCRIPTION
+    Attempts to restart a service and provides feedback on success/failure.
+.PARAMETER ServiceName
+    The name of the service to restart.
+.EXAMPLE
+    Restart-ServiceSafely -ServiceName "Spooler"
+.EXAMPLE
+    Restart-ServiceSafely -ServiceName "W32Time"
+.OUTPUTS
+    None. Writes status messages to console.
+.NOTES
+    Requires administrative privileges for service management.
+#>
+param(
+    [Parameter(Mandatory=$true)]
+    [ValidateNotNullOrEmpty()]
+    [string]$ServiceName
+)
     
     if (-not (Test-ServiceExists -ServiceName $ServiceName)) {
         Write-Warning "Service '$ServiceName' does not exist"
@@ -234,23 +246,31 @@ function Restart-ServiceSafely {
 
 # Function to wait for a process to exit
 function Wait-ProcessExit {
-    <#
-    .SYNOPSIS
-        Waits for a process to exit.
-    .DESCRIPTION
-        Monitors a process and waits until it terminates.
-    .PARAMETER ProcessName
-        The name of the process to wait for.
-    .PARAMETER TimeoutSeconds
-        Maximum time to wait in seconds (default: 30).
-    .EXAMPLE
-        Wait-ProcessExit -ProcessName "notepad" -TimeoutSeconds 10
-    #>
-    param(
-        [Parameter(Mandatory=$true)]
-        [string]$ProcessName,
-        [int]$TimeoutSeconds = 30
-    )
+<#
+.SYNOPSIS
+    Waits for a process to exit.
+.DESCRIPTION
+    Monitors a process and waits until it terminates.
+.PARAMETER ProcessName
+    The name of the process to wait for.
+.PARAMETER TimeoutSeconds
+    Maximum time to wait in seconds (default: 30).
+.EXAMPLE
+    Wait-ProcessExit -ProcessName "notepad" -TimeoutSeconds 10
+.EXAMPLE
+    Wait-ProcessExit -ProcessName "chrome" -TimeoutSeconds 60
+.OUTPUTS
+    None. Writes status messages to console.
+.NOTES
+    Process name should not include .exe extension.
+#>
+param(
+    [Parameter(Mandatory=$true)]
+    [ValidateNotNullOrEmpty()]
+    [string]$ProcessName,
+    [ValidateRange(1, 300)]
+    [int]$TimeoutSeconds = 30
+)
     
     $startTime = Get-Date
     while ((Get-Process -Name $ProcessName -ErrorAction SilentlyContinue) -and ((Get-Date) - $startTime).TotalSeconds -lt $TimeoutSeconds) {
