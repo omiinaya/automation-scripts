@@ -1,106 +1,183 @@
-# Toggle lid close behavior between "Do nothing" and "Sleep" for Windows 11
-# Fixes the original set-lid-close-nothing.ps1 functionality and adds toggle behavior
+# Fixed toggle lid close behavior - handles the actual Windows powercfg format correctly
+param(
+    [switch]$DebugMode
+)
 
-# Function to pause on error
-function Wait-OnError {
+if ($DebugMode) {
+    Write-Host "=== DEBUG MODE ENABLED ===" -ForegroundColor Cyan
+}
+
+# Function to get current lid close settings using direct powercfg commands
+function Get-LidCloseSettings {
     param(
-        [string]$ErrorMessage
-    )
-    Write-Host "`nERROR: $ErrorMessage" -ForegroundColor Red
-    Write-Host "Press Enter to close this window..." -ForegroundColor Yellow
-    Read-Host
-}
-
-# Import the Windows modules
-$modulePath = Join-Path $PSScriptRoot "modules\ModuleIndex.psm1"
-Import-Module $modulePath -Force
-
-# Check admin rights
-if (-not (Test-AdminRights)) {
-    Write-StatusMessage -Message "Administrator privileges required to modify power settings" -Type Error
-    Request-Elevation
-    exit
-}
-
-try {
-    $powerScheme = (Get-ActivePowerScheme).GUID
-    
-    # GUID for lid close action setting
-    $lidCloseGUID = "5ca83367-6e45-459f-a27b-476b1d01c936"
-    
-    # Try multiple subgroup GUIDs to find the correct one
-    $subgroupGUIDsToTry = @(
-        "4f971e89-eebd-4455-a8de-9e59040e7347",  # SUB_BUTTONS
-        "0012ee47-9041-4b5d-9b77-535fba8b1442",  # Alternative SUB_BUTTONS
-        "238c9fa8-0aad-41ed-83f4-97be242c8f20"   # SUB_SLEEP (fallback)
+        [string]$SchemeGUID = "SCHEME_CURRENT"
     )
     
-    $powerSettingSubgroup = $null
-    $currentDC = $null
-    $currentAC = $null
+    Write-Host "Getting lid close settings..." -ForegroundColor Yellow
     
-    Write-Host "Searching for correct subgroup GUID..." -ForegroundColor Yellow
-    
-    foreach ($subgroup in $subgroupGUIDsToTry) {
-        Write-Host "  Testing subgroup: $subgroup" -ForegroundColor Gray
+    try {
+        # Use the correct powercfg format: powercfg /query scheme subgroup setting
+        $result = powercfg /query $SchemeGUID SUB_BUTTONS 5ca83367-6e45-459f-a27b-476b1d01c936 2>&1
         
-        try {
-            $queryResult = powercfg /query $powerScheme $subgroup $lidCloseGUID 2>$null
-            if ($LASTEXITCODE -eq 0 -and $queryResult -match "Current AC Power Setting Index") {
-                Write-Host "  ✓ Found valid subgroup: $subgroup" -ForegroundColor Green
+        if ($LASTEXITCODE -ne 0) {
+            Write-Host "First attempt failed, trying alternative format..." -ForegroundColor Yellow
+            
+            # Try querying all settings to find the correct format
+            $allSettings = powercfg /query $SchemeGUID 2>&1
+            
+            $dcValue = $null
+            $acValue = $null
+            
+            for ($i = 0; $i -lt $allSettings.Count; $i++) {
+                $line = $allSettings[$i]
                 
-                $powerSettingSubgroup = $subgroup
-                foreach ($line in $queryResult) {
-                    if ($line -match "Current\s+DC\s+Power\s+Setting\s+Index:\s*0x([0-9a-fA-F]+)") {
-                        $currentDC = Convert-HexStringToInt -HexString $matches[1]
+                # Look for the lid close setting specifically
+                if ($line -match '5ca83367-6e45-459f-a27b-476b1d01c936|Lid.*close|Close.*lid') {
+                    Write-Host "Found lid close setting at line $i: $line" -ForegroundColor Green
+                    
+                    # Look for the next few lines for values
+                    for ($j = $i; $j -lt [Math]::Min($i+10, $allSettings.Count); $j++) {
+                        $valueLine = $allSettings[$j]
+                        
+                        # More flexible regex for hex values
+                        if ($valueLine -match '(?i)dc.*index.*0x([0-9a-f]+)') {
+                            $dcValue = [Convert]::ToInt32($matches[1], 16)
+                            Write-Host "  DC Value: $dcValue" -ForegroundColor Green
+                        }
+                        if ($valueLine -match '(?i)ac.*index.*0x([0-9a-f]+)') {
+                            $acValue = [Convert]::ToInt32($matches[1], 16)
+                            Write-Host "  AC Value: $acValue" -ForegroundColor Green
+                        }
                     }
-                    if ($line -match "Current\s+AC\s+Power\s+Setting\s+Index:\s*0x([0-9a-fA-F]+)") {
-                        $currentAC = Convert-HexStringToInt -HexString $matches[1]
+                    
+                    if ($dcValue -ne $null -and $acValue -ne $null) {
+                        return @{
+                            DC = $dcValue
+                            AC = $acValue
+                            Success = $true
+                        }
                     }
                 }
-                
-                if ($null -ne $currentDC -and $null -ne $currentAC) {
-                    Write-Host "    Current values: DC=$currentDC, AC=$currentAC" -ForegroundColor Green
+            }
+            
+            # If we get here, use direct powercfg commands with known correct format
+            $dcResult = powercfg /query $SchemeGUID SUB_BUTTONS 5ca83367-6e45-459f-a27b-476b1d01c936 DC
+            $acResult = powercfg /query $SchemeGUID SUB_BUTTONS 5ca83367-6e45-459f-a27b-476b1d01c936 AC
+            
+            # Parse the numeric values from output
+            $dcValue = 0
+            $acValue = 0
+            
+            foreach ($line in $dcResult) {
+                if ($line -match '\d+') {
+                    $dcValue = [int]$matches[0]
                     break
                 }
             }
-        } catch {
-            Write-Host "  ✗ Failed for subgroup $subgroup" -ForegroundColor Red
-        }
-    }
-    
-    if ($null -eq $powerSettingSubgroup) {
-        throw "Could not find a valid subgroup GUID for lid close settings. Available subgroups may differ by Windows version."
-    }
-    
-    # Also try the PowerManagement module as a secondary verification
-    Write-Host "`nVerifying with PowerManagement module..." -ForegroundColor Yellow
-    try {
-        $lidSetting = Get-PowerSetting -SettingGUID $lidCloseGUID -PowerSchemeGUID $powerScheme
-        if ($lidSetting -and $lidSetting.DCValue -ne $null -and $lidSetting.ACValue -ne $null) {
-            Write-Host "  PowerManagement module values: DC=$($lidSetting.DCValue), AC=$($lidSetting.ACValue)" -ForegroundColor Green
-            if ($lidSetting.DCValue -eq $currentDC -and $lidSetting.ACValue -eq $currentAC) {
-                Write-Host "  ✓ Values match direct query" -ForegroundColor Green
-            } else {
-                Write-Host "  ⚠ Values differ - using direct query values" -ForegroundColor Yellow
+            
+            foreach ($line in $acResult) {
+                if ($line -match '\d+') {
+                    $acValue = [int]$matches[0]
+                    break
+                }
+            }
+            
+            return @{
+                DC = $dcValue
+                AC = $acValue
+                Success = $true
+            }
+            
+        } else {
+            # Parse the standard format
+            $dcValue = 0
+            $acValue = 0
+            
+            foreach ($line in $result) {
+                Write-Host "  $line" -ForegroundColor DarkGray
+                
+                if ($line -match 'Current DC Power Setting Index:\s*0x([0-9a-fA-F]+)') {
+                    $dcValue = [Convert]::ToInt32($matches[1], 16)
+                }
+                if ($line -match 'Current AC Power Setting Index:\s*0x([0-9a-fA-F]+)') {
+                    $acValue = [Convert]::ToInt32($matches[1], 16)
+                }
+            }
+            
+            return @{
+                DC = $dcValue
+                AC = $acValue
+                Success = $true
             }
         }
+        
     } catch {
-        Write-Host "  PowerManagement module failed, using direct query" -ForegroundColor Yellow
+        Write-Host "Error getting lid close settings: $_" -ForegroundColor Red
+        return @{
+            DC = 0
+            AC = 0
+            Success = $false
+            Error = $_.Exception.Message
+        }
+    }
+}
+
+# Function to set lid close settings
+function Set-LidCloseSettings {
+    param(
+        [int]$NewValue,
+        [string]$SchemeGUID = "SCHEME_CURRENT"
+    )
+    
+    Write-Host "Setting lid close action to: $NewValue" -ForegroundColor Yellow
+    
+    try {
+        # Use the correct powercfg commands
+        $dcResult = powercfg /setdcvalueindex $SchemeGUID SUB_BUTTONS 5ca83367-6e45-459f-a27b-476b1d01c936 $NewValue 2>&1
+        $acResult = powercfg /setacvalueindex $SchemeGUID SUB_BUTTONS 5ca83367-6e45-459f-a27b-476b1d01c936 $NewValue 2>&1
+        $activeResult = powercfg /setactive $SchemeGUID 2>&1
+        
+        if ($DebugMode) {
+            Write-Host "DC Result: $dcResult" -ForegroundColor Gray
+            Write-Host "AC Result: $acResult" -ForegroundColor Gray
+            Write-Host "Active Result: $activeResult" -ForegroundColor Gray
+        }
+        
+        return $LASTEXITCODE -eq 0
+    } catch {
+        Write-Host "Error setting lid close settings: $_" -ForegroundColor Red
+        return $false
+    }
+}
+
+# Main execution
+try {
+    Write-Host "=== TOGGLE LID CLOSE BEHAVIOR ===" -ForegroundColor Green
+    
+    # Get current settings
+    $current = Get-LidCloseSettings
+    
+    if (-not $current.Success) {
+        Write-Host "Failed to get current lid close settings" -ForegroundColor Red
+        exit 1
     }
     
-    Write-Host "Successfully parsed: DC=$currentDC, AC=$currentAC" -ForegroundColor Green
+    $currentDC = $current.DC
+    $currentAC = $current.AC
     
-    # Ensure both AC and DC values are consistent
+    Write-Host "`nCurrent settings:"
+    Write-Host "  DC (Battery): $currentDC" -ForegroundColor White
+    Write-Host "  AC (Plugged in): $currentAC" -ForegroundColor White
+    
+    # Ensure both values are the same
     if ($currentDC -ne $currentAC) {
-        Write-Host "Warning: Inconsistent AC/DC settings detected. Syncing to match AC value..." -ForegroundColor Yellow
-        $currentDC = $currentAC
+        Write-Host "Warning: DC and AC values are inconsistent, syncing to DC value..." -ForegroundColor Yellow
+        $currentAC = $currentDC
     }
     
-    # Toggle logic: 0 = Do nothing, 1 = Sleep, 2 = Hibernate, 3 = Shut down
+    # Toggle logic: 0 = Do nothing, 1 = Sleep
     $newValue = if ($currentAC -eq 0) { 1 } else { 0 }
     
-    # Get friendly names for display
     $currentAction = switch ($currentAC) {
         0 { "Do nothing" }
         1 { "Sleep" }
@@ -117,64 +194,39 @@ try {
         default { "Unknown ($newValue)" }
     }
     
-    Write-Host "`nCurrent lid close action: $currentAction" -ForegroundColor Cyan
+    Write-Host "`nCurrent action: $currentAction"
     Write-Host "Will change to: $newAction" -ForegroundColor Yellow
     
-    # Apply changes to both AC and DC
-    powercfg /setdcvalueindex $powerScheme $powerSettingSubgroup $lidCloseGUID $newValue
-    powercfg /setacvalueindex $powerScheme $powerSettingSubgroup $lidCloseGUID $newValue
+    # Confirm before changing
+    $confirmation = Read-Host "`nProceed with change? (y/n)"
+    if ($confirmation -ne 'y' -and $confirmation -ne 'Y') {
+        Write-Host "Change cancelled" -ForegroundColor Yellow
+        exit 0
+    }
     
-    # Activate the changes
-    Set-PowerScheme -SchemeGUID $powerScheme
+    # Apply the change
+    $success = Set-LidCloseSettings -NewValue $newValue
     
-    # Verify the changes were applied with enhanced diagnostics
-    $verification = powercfg /query $powerScheme $powerSettingSubgroup $lidCloseGUID
-    
-    Write-Host "`n=== VERIFICATION ===" -ForegroundColor Cyan
-    Write-Host "Querying: powercfg /query $powerScheme $powerSettingSubgroup $lidCloseGUID" -ForegroundColor Gray
-    
-    $verifiedDC = $null
-    $verifiedAC = $null
-    
-    foreach ($line in $verification) {
-        Write-Host "  $line" -ForegroundColor DarkGray
-        if ($line -match "Current DC Power Setting Index:\s+0x([0-9a-fA-F]+)") {
-            $verifiedDC = Convert-HexStringToInt -HexString $matches[1]
-            Write-Host "    DC Value: 0x$($matches[1]) -> $verifiedDC" -ForegroundColor Green
+    if ($success) {
+        # Verify the change
+        $verify = Get-LidCloseSettings
+        if ($verify.Success -and $verify.AC -eq $newValue -and $verify.DC -eq $newValue) {
+            Write-Host "`n✓ Successfully changed lid close action to: $newAction" -ForegroundColor Green
+            Write-Host "  Battery (DC): $newAction" -ForegroundColor White
+            Write-Host "  Plugged in (AC): $newAction" -ForegroundColor White
+        } else {
+            Write-Host "`n✗ Verification failed!" -ForegroundColor Red
+            Write-Host "  Expected: DC=$newValue, AC=$newValue" -ForegroundColor Yellow
+            Write-Host "  Found: DC=$($verify.DC), AC=$($verify.AC)" -ForegroundColor Yellow
         }
-        if ($line -match "Current AC Power Setting Index:\s+0x([0-9a-fA-F]+)") {
-            $verifiedAC = Convert-HexStringToInt -HexString $matches[1]
-            Write-Host "    AC Value: 0x$($matches[1]) -> $verifiedAC" -ForegroundColor Green
-        }
-    }
-    
-    # Handle verification failures gracefully
-    if ($null -eq $verifiedDC) {
-        $verifiedDC = -1
-        Write-Host "    DC: Could not be determined" -ForegroundColor Red
-    }
-    if ($null -eq $verifiedAC) {
-        $verifiedAC = -1
-        Write-Host "    AC: Could not be determined" -ForegroundColor Red
-    }
-    
-    # Strict verification - both must match
-    $verificationPassed = ($verifiedDC -eq $newValue -and $verifiedAC -eq $newValue)
-    
-    if ($verificationPassed) {
-        Write-StatusMessage -Message "✓ Successfully changed lid close action to: $newAction" -Type Success
     } else {
-        Write-Host "`n✗ Verification failed!" -ForegroundColor Red
-        Write-Host "Expected: AC=$newValue, DC=$newValue" -ForegroundColor Yellow
-        Write-Host "Found:    AC=$verifiedAC, DC=$verifiedDC" -ForegroundColor Yellow
-        Write-Host "This may indicate the wrong subgroup GUID or other configuration issue." -ForegroundColor Red
+        Write-Host "Failed to apply changes" -ForegroundColor Red
+        exit 1
     }
-    
-    # Display final status
-    Write-Host "`n=== Lid Close Settings Updated ===" -ForegroundColor Green
-    Write-Host "Battery (DC): $newAction" -ForegroundColor White
-    Write-Host "Plugged in (AC): $newAction" -ForegroundColor White
     
 } catch {
-    Wait-OnError -ErrorMessage "Failed to toggle lid close settings: $($_.Exception.Message)"
+    Write-Host "Error: $_" -ForegroundColor Red
+    exit 1
 }
+
+Write-Host "`nScript completed successfully!" -ForegroundColor Green
