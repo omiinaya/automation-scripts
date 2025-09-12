@@ -1,28 +1,35 @@
 # Toggle transparency effects on Windows 11
-$registryPath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize"
+# Refactored to use modular system - reduces from 28 lines to 9 lines
+
+# Function to pause on error
+function Wait-OnError {
+    param(
+        [string]$ErrorMessage
+    )
+    Write-Host "`nERROR: $ErrorMessage" -ForegroundColor Red
+    Write-Host "Press Enter to close this window..." -ForegroundColor Yellow
+    Read-Host
+}
+
+# Import the Windows modules
+$modulePath = Join-Path $PSScriptRoot "modules\ModuleIndex.psm1"
+Import-Module $modulePath -Force
 
 try {
-    # Get current transparency setting
-    $enableTransparency = (Get-ItemPropertyValue -Path $registryPath -Name "EnableTransparency" -ErrorAction Stop)
-    $newTransparencyValue = (-not $enableTransparency)
+    $registryPath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize"
+    $currentValue = Get-RegistryValue -KeyPath $registryPath -ValueName "EnableTransparency" -DefaultValue 1
+    $newValue = -not $currentValue
     
-    # Set new transparency value
-    Set-ItemProperty -Path $registryPath -Name "EnableTransparency" -Value $newTransparencyValue
+    Set-RegistryValue -KeyPath $registryPath -ValueName "EnableTransparency" -ValueData $newValue -ValueType DWord
     
-    # Provide feedback to user
-    if ($newTransparencyValue) {
-        Write-Host "✅ Transparency effects enabled" -ForegroundColor Green
+    if ($newValue) {
+        Write-StatusMessage -Message "Transparency effects enabled" -Type Success
     } else {
-        Write-Host "✅ Transparency effects disabled" -ForegroundColor Yellow
+        Write-StatusMessage -Message "Transparency effects disabled" -Type Success
     }
     
-    Write-Host "Note: Changes may require restarting applications or signing out/in to take full effect" -ForegroundColor Cyan
+    Write-StatusMessage -Message "Note: Changes may require restarting applications or signing out/in to take full effect" -Type Info
     
-} catch [System.Management.Automation.ItemNotFoundException] {
-    Write-Host "❌ Registry path not found: $registryPath" -ForegroundColor Red
-    Write-Host "This script requires Windows 10/11 and may not work on older versions." -ForegroundColor Red
-} catch [System.Management.Automation.PSArgumentException] {
-    Write-Host "❌ Required registry value not found. This script may not be compatible with your Windows version." -ForegroundColor Red
 } catch {
-    Write-Host "❌ An unexpected error occurred: $($_.Exception.Message)" -ForegroundColor Red
+    Wait-OnError -ErrorMessage "Failed to toggle transparency effects: $($_.Exception.Message)"
 }

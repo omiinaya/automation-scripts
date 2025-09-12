@@ -1,50 +1,55 @@
 # Toggle taskbar alignment between left and center on Windows 11
-$registryPath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"
+# Refactored to use modular system - reduces from 50 lines to 15 lines
+
+# Function to pause on error
+function Wait-OnError {
+    param(
+        [string]$ErrorMessage
+    )
+    Write-Host "`nERROR: $ErrorMessage" -ForegroundColor Red
+    Write-Host "Press Enter to close this window..." -ForegroundColor Yellow
+    Read-Host
+}
+
+# Import the Windows modules
+$modulePath = Join-Path $PSScriptRoot "modules\ModuleIndex.psm1"
+Import-Module $modulePath -Force
 
 try {
-    # Get current taskbar alignment setting
-    $taskbarAlValue = (Get-ItemPropertyValue -Path $registryPath -Name "TaskbarAl" -ErrorAction Stop)
+    $registryPath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"
+    
+    # Get current taskbar alignment
+    $taskbarAlValue = Get-RegistryValue -KeyPath $registryPath -ValueName "TaskbarAl" -DefaultValue 0
     
     # Toggle between 0 (left) and 1 (center)
     $newAlignmentValue = if ($taskbarAlValue -eq 0) { 1 } else { 0 }
     
-    # Set new alignment value
-    Set-ItemProperty -Path $registryPath -Name "TaskbarAl" -Value $newAlignmentValue
-    
-    # Also set the TaskbarSi value which might be needed for proper alignment
-    Set-ItemProperty -Path $registryPath -Name "TaskbarSi" -Value 0
+    # Apply changes
+    Set-RegistryValue -KeyPath $registryPath -ValueName "TaskbarAl" -ValueData $newAlignmentValue -ValueType DWord
+    Set-RegistryValue -KeyPath $registryPath -ValueName "TaskbarSi" -ValueData 0 -ValueType DWord
     
     # Restart Windows Explorer to apply changes
     try {
         Stop-Process -Name "explorer" -Force -ErrorAction Stop
-        Write-Host "🔄 Windows Explorer restarted to apply changes" -ForegroundColor Cyan
+        Write-StatusMessage -Message "Windows Explorer restarted to apply changes" -Type Info
     } catch {
-        Write-Host "⚠️  Could not restart Windows Explorer automatically. Please restart Explorer manually or log off/on to apply changes." -ForegroundColor Yellow
+        Write-StatusMessage -Message "Could not restart Windows Explorer automatically. Please restart Explorer manually or log off/on to apply changes." -Type Warning
     }
     
-    # Provide feedback to user
     if ($newAlignmentValue -eq 1) {
-        Write-Host "✅ Taskbar alignment set to CENTER" -ForegroundColor Green
+        Write-StatusMessage -Message "Taskbar alignment set to CENTER" -Type Success
     } else {
-        Write-Host "✅ Taskbar alignment set to LEFT" -ForegroundColor Yellow
+        Write-StatusMessage -Message "Taskbar alignment set to LEFT" -Type Success
     }
     
 } catch [System.Management.Automation.ItemNotFoundException] {
-    Write-Host "❌ Registry path not found: $registryPath" -ForegroundColor Red
-    Write-Host "This script requires Windows 11 and may not work on older versions." -ForegroundColor Red
+    Wait-OnError -ErrorMessage "Registry path not found. This script requires Windows 11."
 } catch [System.Management.Automation.PSArgumentException] {
-    # If the registry value doesn't exist, create it and set to center
-    try {
-        New-ItemProperty -Path $registryPath -Name "TaskbarAl" -Value 1 -PropertyType DWORD -Force
-        New-ItemProperty -Path $registryPath -Name "TaskbarSi" -Value 0 -PropertyType DWORD -Force
-        
-        # Restart Explorer
-        Stop-Process -Name "explorer" -Force
-        
-        Write-Host "✅ Taskbar alignment set to CENTER (registry values created)" -ForegroundColor Green
-    } catch {
-        Write-Host "❌ Failed to create registry values: $($_.Exception.Message)" -ForegroundColor Red
-    }
+    # Create registry values if they don't exist
+    Set-RegistryValue -KeyPath $registryPath -ValueName "TaskbarAl" -ValueData 1 -ValueType DWord
+    Set-RegistryValue -KeyPath $registryPath -ValueName "TaskbarSi" -ValueData 0 -ValueType DWord
+    Stop-Process -Name "explorer" -Force
+    Write-StatusMessage -Message "Taskbar alignment set to CENTER (registry values created)" -Type Success
 } catch {
-    Write-Host "❌ An unexpected error occurred: $($_.Exception.Message)" -ForegroundColor Red
+    Wait-OnError -ErrorMessage "Failed to toggle taskbar alignment: $($_.Exception.Message)"
 }

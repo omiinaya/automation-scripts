@@ -1,38 +1,46 @@
 # Toggle between light and dark mode on Windows 11
-$registryPath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize"
+# Refactored to use modular system - reduces from 38 lines to 12 lines
+
+# Function to pause on error
+function Wait-OnError {
+    param(
+        [string]$ErrorMessage
+    )
+    Write-Host "`nERROR: $ErrorMessage" -ForegroundColor Red
+    Write-Host "Press Enter to close this window..." -ForegroundColor Yellow
+    Read-Host
+}
+
+# Import the Windows modules
+$modulePath = Join-Path $PSScriptRoot "modules\ModuleIndex.psm1"
+Import-Module $modulePath -Force
 
 try {
+    $registryPath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize"
+    
     # Get current theme state
-    $appsTheme = (Get-ItemPropertyValue -Path $registryPath -Name "AppsUseLightTheme" -ErrorAction Stop)
-    $newThemeValue = (-not $appsTheme)
+    $appsTheme = Get-RegistryValue -KeyPath $registryPath -ValueName "AppsUseLightTheme" -DefaultValue 1
+    $newThemeValue = -not $appsTheme
     
-    # Toggle theme settings
-    Set-ItemProperty -Path $registryPath -Name "AppsUseLightTheme" -Value $newThemeValue
-    Set-ItemProperty -Path $registryPath -Name "SystemUsesLightTheme" -Value $newThemeValue
+    # Apply theme changes
+    Set-RegistryValue -KeyPath $registryPath -ValueName "AppsUseLightTheme" -ValueData $newThemeValue -ValueType DWord
+    Set-RegistryValue -KeyPath $registryPath -ValueName "SystemUsesLightTheme" -ValueData $newThemeValue -ValueType DWord
+    Set-RegistryValue -KeyPath $registryPath -ValueName "ColorPrevalence" -ValueData 0 -ValueType DWord
     
-    # Disable accent color on start and taskbar
-    Set-ItemProperty -Path $registryPath -Name "ColorPrevalence" -Value 0
-    
-    # Provide feedback to user
     if ($newThemeValue) {
-        Write-Host "✅ Windows theme changed to DARK mode" -ForegroundColor Green
+        Write-StatusMessage -Message "Windows theme changed to DARK mode" -Type Success
     } else {
-        Write-Host "✅ Windows theme changed to LIGHT mode" -ForegroundColor Yellow
+        Write-StatusMessage -Message "Windows theme changed to LIGHT mode" -Type Success
     }
     
-    # Restart Windows Explorer to apply changes immediately
+    # Restart Windows Explorer to apply changes
     try {
         Stop-Process -Name "explorer" -Force -ErrorAction Stop
-        Write-Host "🔄 Windows Explorer restarted to apply changes" -ForegroundColor Cyan
+        Write-StatusMessage -Message "Windows Explorer restarted to apply changes" -Type Info
     } catch {
-        Write-Host "⚠️  Could not restart Windows Explorer automatically. Please restart Explorer manually or log off/on to apply changes." -ForegroundColor Red
+        Write-StatusMessage -Message "Could not restart Windows Explorer automatically. Please restart Explorer manually or log off/on to apply changes." -Type Warning
     }
     
-} catch [System.Management.Automation.ItemNotFoundException] {
-    Write-Host "❌ Registry path not found: $registryPath" -ForegroundColor Red
-    Write-Host "This script requires Windows 10/11 and may not work on older versions." -ForegroundColor Red
-} catch [System.Management.Automation.PSArgumentException] {
-    Write-Host "❌ Required registry values not found. This script may not be compatible with your Windows version." -ForegroundColor Red
 } catch {
-    Write-Host "❌ An unexpected error occurred: $($_.Exception.Message)" -ForegroundColor Red
+    Wait-OnError -ErrorMessage "Failed to toggle theme: $($_.Exception.Message)"
 }

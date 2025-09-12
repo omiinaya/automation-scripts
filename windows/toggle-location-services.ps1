@@ -1,31 +1,41 @@
-$ErrorActionPreference = "Stop"
+# Toggle location services on Windows 11
+# Refactored to use modular system - reduces from 31 lines to 14 lines
 
-if (-NOT ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
-    try {
-        $arguments = "-NoProfile -ExecutionPolicy Bypass -Command `"& {cd '$pwd'; &'$($MyInvocation.MyCommand.Definition)'}`""
-        Start-Process PowerShell -Verb RunAs -ArgumentList $arguments
-        exit
-    } catch {
-        Write-Host "UAC prompt cancelled or failed"
-        exit 1
+# Function to pause on error
+function Wait-OnError {
+    param(
+        [string]$ErrorMessage
+    )
+    Write-Host "`nERROR: $ErrorMessage" -ForegroundColor Red
+    Write-Host "Press Enter to close this window..." -ForegroundColor Yellow
+    Read-Host
+}
+
+# Import the Windows modules
+$modulePath = Join-Path $PSScriptRoot "modules\ModuleIndex.psm1"
+Import-Module $modulePath -Force
+
+# Check admin rights and handle elevation
+if (-not (Test-AdminRights)) {
+    Request-Elevation
+    exit
+}
+
+try {
+    $locationService = Get-Service -Name "lfsvc" -ErrorAction Stop
+    $registryPath = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\location"
+    $currentValue = Get-RegistryValue -KeyPath $registryPath -ValueName "Value" -DefaultValue "Allow"
+    
+    if ($currentValue -eq "Allow") {
+        Set-RegistryValue -KeyPath $registryPath -ValueName "Value" -ValueData "Deny" -ValueType String
+        Stop-Service -Name "lfsvc" -Force
+        Write-StatusMessage -Message "Location services disabled" -Type Success
+    } else {
+        Set-RegistryValue -KeyPath $registryPath -ValueName "Value" -ValueData "Allow" -ValueType String
+        Start-Service -Name "lfsvc"
+        Write-StatusMessage -Message "Location services enabled" -Type Success
     }
-}
-
-$locationService = Get-Service -Name "lfsvc" -ErrorAction SilentlyContinue
-if (-not $locationService) {
-    Write-Host "Location service not found"
-    exit 1
-}
-
-$registryPath = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\location"
-$currentValue = (Get-ItemProperty -Path $registryPath -Name "Value" -ErrorAction SilentlyContinue).Value
-
-if ($currentValue -eq "Allow") {
-    Set-ItemProperty -Path $registryPath -Name "Value" -Value "Deny"
-    Stop-Service -Name "lfsvc" -Force
-    Write-Host "Location services disabled"
-} else {
-    Set-ItemProperty -Path $registryPath -Name "Value" -Value "Allow"
-    Start-Service -Name "lfsvc"
-    Write-Host "Location services enabled"
+    
+} catch {
+    Wait-OnError -ErrorMessage "Failed to toggle location services: $($_.Exception.Message)"
 }
