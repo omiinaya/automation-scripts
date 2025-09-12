@@ -49,49 +49,161 @@ function Request-Elevation {
         # Create a proper temporary script for elevation
         $tempScript = [System.IO.Path]::GetTempFileName() + ".ps1"
         
-        # Build the script content with proper escaping
+        # Build the script content with comprehensive error handling
         $scriptContent = @"
-# Elevation wrapper script
+# Elevation wrapper script with comprehensive error handling
 param(
     [string]`$TargetScript = '$($scriptPath -replace "'", "''")'
 )
 
+# Initialize error tracking
 `$hasError = `$false
-`$errorMessage = ""
+`$errorMessages = [System.Collections.ArrayList]::new()
+`$originalErrorAction = `$ErrorActionPreference
+
+# Function to capture and display errors
+function Write-ErrorLog {
+    param(
+        [string]`$Message,
+        [string]`$Severity = "ERROR"
+    )
+    
+    `$timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+    `$logEntry = "`$timestamp [`$Severity] `$Message"
+    
+    # Add to error collection
+    [void]`$errorMessages.Add(`$logEntry)
+    
+    # Write to console with appropriate colors
+    switch (`$Severity) {
+        "ERROR" { Write-Host `$logEntry -ForegroundColor Red }
+        "WARNING" { Write-Host `$logEntry -ForegroundColor Yellow }
+        "INFO" { Write-Host `$logEntry -ForegroundColor Cyan }
+        default { Write-Host `$logEntry }
+    }
+}
+
+# Function to capture all error streams
+function Invoke-ScriptWithErrorCapture {
+    param(
+        [string]`$ScriptPath
+    )
+    
+    try {
+        # Create temporary files for error capturing
+        `$errorFile = [System.IO.Path]::GetTempFileName()
+        `$outputFile = [System.IO.Path]::GetTempFileName()
+        
+        # Build the command with proper error stream redirection
+        `$psCommand = "powershell.exe"
+        `$psArgs = "-NoLogo", "-NoProfile", "-ExecutionPolicy", "Bypass", "-File", "`"`$ScriptPath`""
+        
+        Write-ErrorLog -Message "Starting elevated execution: `$ScriptPath" -Severity "INFO"
+        
+        # Execute the process with redirected streams
+        `$processInfo = New-Object System.Diagnostics.ProcessStartInfo
+        `$processInfo.FileName = `$psCommand
+        `$processInfo.Arguments = `$psArgs -join " "
+        `$processInfo.RedirectStandardError = `$true
+        `$processInfo.RedirectStandardOutput = `$true
+        `$processInfo.UseShellExecute = `$false
+        `$processInfo.CreateNoWindow = `$true
+        
+        `$process = New-Object System.Diagnostics.Process
+        `$process.StartInfo = `$processInfo
+        `$process.Start() | Out-Null
+        
+        # Read all output and error streams
+        `$stdout = `$process.StandardOutput.ReadToEnd()
+        `$stderr = `$process.StandardError.ReadToEnd()
+        
+        `$process.WaitForExit()
+        `$exitCode = `$process.ExitCode
+        
+        # Process captured streams
+        if (-not [string]::IsNullOrEmpty(`$stdout)) {
+            Write-Host `$stdout
+        }
+        
+        if (-not [string]::IsNullOrEmpty(`$stderr)) {
+            `$stderr -split "`r`n" | ForEach-Object {
+                if (-not [string]::IsNullOrWhiteSpace(`$_)) {
+                    Write-ErrorLog -Message `$_ -Severity "ERROR"
+                }
+            }
+        }
+        
+        # Clean up temporary files
+        Remove-Item `$errorFile -ErrorAction SilentlyContinue
+        Remove-Item `$outputFile -ErrorAction SilentlyContinue
+        
+        return @{
+            ExitCode = `$exitCode
+            StdOut = `$stdout
+            StdErr = `$stderr
+            HasErrors = `$exitCode -ne 0 -or -not [string]::IsNullOrEmpty(`$stderr)
+        }
+    }
+    catch {
+        Write-ErrorLog -Message "Failed to execute script: `$(`$_.Exception.Message)" -Severity "ERROR"
+        Write-ErrorLog -Message "Stack Trace: `$(`$_.ScriptStackTrace)" -Severity "ERROR"
+        return @{
+            ExitCode = 1
+            StdOut = ""
+            StdErr = `$.Exception.Message
+            HasErrors = `$true
+        }
+    }
+}
 
 try {
-    # Set error action preference
+    # Set strict error handling
     `$ErrorActionPreference = 'Stop'
     
-    # Execute the original script
     if (Test-Path `$TargetScript) {
-        Write-Host "Running elevated script: `$TargetScript" -ForegroundColor Green
-        & `$TargetScript
-        `$exitCode = `$LASTEXITCODE
+        # Execute script with comprehensive error capture
+        `$result = Invoke-ScriptWithErrorCapture -ScriptPath `$TargetScript
         
-        if (`$exitCode -ne 0) {
+        if (`$result.HasErrors) {
             `$hasError = `$true
-            `$errorMessage = "Script completed with exit code: `$exitCode"
-            Write-Host `$errorMessage -ForegroundColor Yellow
-        } else {
-            Write-Host "Script completed successfully" -ForegroundColor Green
+            Write-ErrorLog -Message "Script completed with errors (Exit Code: `$(`$result.ExitCode))" -Severity "ERROR"
         }
-    } else {
+        else {
+            Write-ErrorLog -Message "Script completed successfully (Exit Code: `$(`$result.ExitCode))" -Severity "INFO"
+        }
+    }
+    else {
         `$hasError = `$true
-        `$errorMessage = "ERROR: Target script not found: `$TargetScript"
-        Write-Host `$errorMessage -ForegroundColor Red
+        Write-ErrorLog -Message "Target script not found: `$TargetScript" -Severity "ERROR"
     }
-} catch {
+}
+catch {
     `$hasError = `$true
-    `$errorMessage = "ERROR: `$(`$_.Exception.Message)"
-    Write-Host `$errorMessage -ForegroundColor Red
-    Write-Host "Stack Trace: `$(`$_.ScriptStackTrace)" -ForegroundColor DarkRed
-} finally {
-    # Only wait for user input if there was an error
-    if (`$hasError) {
-        Write-Host "Press Enter to close..." -ForegroundColor Yellow
-        Read-Host
+    Write-ErrorLog -Message "Unexpected error during execution: `$(`$_.Exception.Message)" -Severity "ERROR"
+    Write-ErrorLog -Message "Stack Trace: `$(`$_.ScriptStackTrace)" -Severity "ERROR"
+}
+finally {
+    # Restore original error action preference
+    `$ErrorActionPreference = `$originalErrorAction
+    
+    # Display summary of all errors
+    if (`$errorMessages.Count -gt 0) {
+        Write-Host "`n=== ERROR SUMMARY ===" -ForegroundColor Red
+        `$errorMessages | ForEach-Object { Write-Host `$_ -ForegroundColor Red }
+        Write-Host "===================" -ForegroundColor Red
     }
+    
+    # Only wait for user input if there were actual errors
+    if (`$hasError) {
+        Write-Host "`n" -NoNewline
+        Write-Host "ERROR DETECTED - Press Enter to close this window..." -ForegroundColor Yellow -BackgroundColor DarkRed
+        `$null = Read-Host
+    }
+    else {
+        Write-Host "`nOperation completed successfully - closing in 2 seconds..." -ForegroundColor Green
+        Start-Sleep -Seconds 2
+    }
+    
     # Exit with appropriate code
     exit (`$hasError ? 1 : 0)
 }
