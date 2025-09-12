@@ -156,10 +156,10 @@ function Get-PowerSetting {
         # Parse the output for AC and DC values
         foreach ($line in $output) {
             if ($line -match 'Current AC Power Setting Index:\s+0x([0-9a-fA-F]+)') {
-                $result.ACValue = [Convert]::ToInt32($matches[1], 16)
+                $result.ACValue = Convert-HexStringToInt -HexString $matches[1]
             }
             if ($line -match 'Current DC Power Setting Index:\s+0x([0-9a-fA-F]+)') {
-                $result.DCValue = [Convert]::ToInt32($matches[1], 16)
+                $result.DCValue = Convert-HexStringToInt -HexString $matches[1]
             }
         }
         
@@ -423,5 +423,36 @@ function Remove-PowerScheme {
     }
 }
 
+# Function to safely convert hex string to integer
+function Convert-HexStringToInt {
+    <#
+    .SYNOPSIS
+        Safely converts a hex string to integer, handling leading zeros.
+    .DESCRIPTION
+        Converts hex strings like "0000012c" to integers, handling edge cases.
+    .PARAMETER HexString
+        The hex string to convert.
+    .EXAMPLE
+        $value = Convert-HexStringToInt -HexString "0000012c"
+    .OUTPUTS
+        System.Int32
+    #>
+    param(
+        [Parameter(Mandatory=$true)]
+        [string]$HexString
+    )
+    
+    try {
+        # Remove leading zeros and 0x prefix
+        $cleanHex = $HexString -replace '^0x', '' -replace '^0+', ''
+        if ([string]::IsNullOrEmpty($cleanHex)) { $cleanHex = '0' }
+        
+        return [Convert]::ToInt32($cleanHex, 16)
+    } catch {
+        Write-Error "Failed to convert hex string '$HexString' to integer: $_"
+        return 0
+    }
+}
+
 # Export the module members
-Export-ModuleMember -Function Get-PowerSchemes, Get-ActivePowerScheme, Set-PowerScheme, Get-PowerSchemeByName, Get-PowerSetting, Set-PowerSetting, Get-PowerSettingGUID, Get-PowerSettings, Get-BatteryInfo, Copy-PowerScheme, Remove-PowerScheme
+Export-ModuleMember -Function Get-PowerSchemes, Get-ActivePowerScheme, Set-PowerScheme, Get-PowerSchemeByName, Get-PowerSetting, Set-PowerSetting, Get-PowerSettingGUID, Get-PowerSettings, Get-BatteryInfo, Copy-PowerScheme, Remove-PowerScheme, Convert-HexStringToInt

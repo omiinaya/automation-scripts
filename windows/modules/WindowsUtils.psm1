@@ -33,12 +33,36 @@ function Request-Elevation {
         Prompts for elevation if not running as administrator.
     .DESCRIPTION
         Restarts the current script with elevated privileges if needed.
+        Includes error handling to prevent auto-closing on failure.
     .EXAMPLE
         Request-Elevation
     #>
     if (-not (Test-AdminRights)) {
         Write-Host "Administrator rights required. Requesting elevation..." -ForegroundColor Yellow
-        Start-Process powershell.exe -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$($MyInvocation.MyCommand.Path)`"" -Verb RunAs
+        
+        # Create a temporary script to run elevated with error handling
+        $scriptPath = $MyInvocation.MyCommand.Path
+        $errorScript = @"
+param(`$OriginalScript = '$scriptPath')
+try {
+    & "`$OriginalScript"
+    if (`$LASTEXITCODE -ne 0) {
+        Write-Host "Script failed with exit code: `$LASTEXITCODE" -ForegroundColor Red
+        Write-Host "Press Enter to close this window..." -ForegroundColor Yellow
+        Read-Host
+    }
+} catch {
+    Write-Host "ERROR: `$(`$_.Exception.Message)" -ForegroundColor Red
+    Write-Host "Stack Trace: `$(`$_.ScriptStackTrace)" -ForegroundColor DarkRed
+    Write-Host "Press Enter to close this window..." -ForegroundColor Yellow
+    Read-Host
+}
+"@
+        
+        $tempScript = [System.IO.Path]::GetTempFileName() + ".ps1"
+        $errorScript | Out-File -FilePath $tempScript -Encoding UTF8
+        
+        Start-Process powershell.exe -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$tempScript`" -OriginalScript `"$scriptPath`"" -Verb RunAs
         exit
     }
 }

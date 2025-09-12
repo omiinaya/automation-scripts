@@ -29,11 +29,19 @@ try {
     $displaySettings = powercfg -q $powerScheme 7516b95f-f776-4464-8c53-06167f40cc99 3c0bc021-c8a8-4e07-a973-6b14cbcb2b7e
     
     # Parse current values
-    $dcSetting = $displaySettings | Select-String "Current DC Power Setting Index.*0x(\w+)" | ForEach-Object { $_.Matches.Groups[1].Value }
-    $acSetting = $displaySettings | Select-String "Current AC Power Setting Index.*0x(\w+)" | ForEach-Object { $_.Matches.Groups[1].Value }
+    $dcSetting = $displaySettings | Select-String "Current DC Power Setting Index.*0x([0-9a-fA-F]+)" | ForEach-Object { $_.Matches.Groups[1].Value }
+    $acSetting = $displaySettings | Select-String "Current AC Power Setting Index.*0x([0-9a-fA-F]+)" | ForEach-Object { $_.Matches.Groups[1].Value }
     
-    $currentDC = if ($dcSetting) { [Convert]::ToInt32($dcSetting, 16) } else { 300 }
-    $currentAC = if ($acSetting) { [Convert]::ToInt32($acSetting, 16) } else { 300 }
+    $currentDC = 300
+    $currentAC = 300
+    
+    if ($dcSetting) {
+        $currentDC = Convert-HexStringToInt -HexString $dcSetting
+    }
+    
+    if ($acSetting) {
+        $currentAC = Convert-HexStringToInt -HexString $acSetting
+    }
     
     # Toggle logic
     $newDCValue = if ($currentDC -ne 0) { 0 } else { 300 }

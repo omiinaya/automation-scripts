@@ -32,8 +32,24 @@ try {
     $dcLine = $sleepSettings | Select-String "DC.*Index.*0x" | Select-Object -First 1
     $acLine = $sleepSettings | Select-String "AC.*Index.*0x" | Select-Object -First 1
     
-    $currentDC = if ($dcLine) { [int]($dcLine -replace '.*Index.*0x(\w+).*', '$1') } else { 900 }
-    $currentAC = if ($acLine) { [int]($acLine -replace '.*Index.*0x(\w+).*', '$1') } else { 900 }
+    # Parse hex values with proper error handling
+    $currentDC = 900
+    $currentAC = 900
+    
+    if ($dcLine -and $dcLine -match '.*Index.*0x([0-9a-fA-F]+)') {
+        $currentDC = Convert-HexStringToInt -HexString $matches[1]
+    }
+    
+    if ($acLine -and $acLine -match '.*Index.*0x([0-9a-fA-F]+)') {
+        try {
+            $currentAC = [Convert]::ToInt32($matches[1], 16)
+        } catch {
+            # Handle hex strings with leading zeros
+            $cleanHex = $matches[1] -replace '^0+', ''
+            if ([string]::IsNullOrEmpty($cleanHex)) { $cleanHex = '0' }
+            $currentAC = [Convert]::ToInt32($cleanHex, 16)
+        }
+    }
     
     # Toggle logic
     $newDCValue = if ($currentDC -ne 0) { 0 } else { 900 }
