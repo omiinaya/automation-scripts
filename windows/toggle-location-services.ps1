@@ -2,7 +2,8 @@
 # Refactored to use modular system - reduces from 31 lines to 14 lines
 
 # Import the Windows modules
-Import-Module .\windows\modules\ModuleIndex.psm1 -Force
+$modulePath = Join-Path $PSScriptRoot "modules\ModuleIndex.psm1"
+Import-Module $modulePath -Force
 
 # Check admin rights and handle elevation
 if (-not (Test-AdminRights)) {

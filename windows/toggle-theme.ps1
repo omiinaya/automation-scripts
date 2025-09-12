@@ -2,7 +2,8 @@
 # Refactored to use modular system - reduces from 38 lines to 12 lines
 
 # Import the Windows modules
-Import-Module .\windows\modules\ModuleIndex.psm1 -Force
+$modulePath = Join-Path $PSScriptRoot "modules\ModuleIndex.psm1"
+Import-Module $modulePath -Force
 
 try {
     $registryPath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize"
