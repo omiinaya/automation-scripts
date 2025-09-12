@@ -33,198 +33,89 @@ function Request-Elevation {
         Prompts for elevation if not running as administrator.
     .DESCRIPTION
         Restarts the current script with elevated privileges if needed.
-        Includes error handling to prevent auto-closing on failure.
+        Preserves working directory and command line arguments.
     .EXAMPLE
         Request-Elevation
     #>
     if (-not (Test-AdminRights)) {
         Write-Host "Administrator rights required. Requesting elevation..." -ForegroundColor Yellow
         
-        # Get the current script path
+        # Get the current script path - try multiple methods for reliability
         $scriptPath = $MyInvocation.ScriptName
         if ([string]::IsNullOrEmpty($scriptPath)) {
             $scriptPath = $MyInvocation.MyCommand.Path
         }
-        
-        # Create a proper temporary script for elevation
-        $tempScript = [System.IO.Path]::GetTempFileName() + ".ps1"
-        
-        # Build the script content with comprehensive error handling
-        $scriptContent = @"
-# Elevation wrapper script with comprehensive error handling
-param(
-    [string]`$TargetScript = '$($scriptPath -replace "'", "''")'
-)
-
-# Initialize error tracking
-`$hasError = `$false
-`$errorMessages = [System.Collections.ArrayList]::new()
-`$originalErrorAction = `$ErrorActionPreference
-
-# Function to capture and display errors
-function Write-ErrorLog {
-    param(
-        [string]`$Message,
-        [string]`$Severity = "ERROR"
-    )
-    
-    `$timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
-    `$logEntry = "`$timestamp [`$Severity] `$Message"
-    
-    # Add to error collection
-    [void]`$errorMessages.Add(`$logEntry)
-    
-    # Write to console with appropriate colors
-    switch (`$Severity) {
-        "ERROR" { Write-Host `$logEntry -ForegroundColor Red }
-        "WARNING" { Write-Host `$logEntry -ForegroundColor Yellow }
-        "INFO" { Write-Host `$logEntry -ForegroundColor Cyan }
-        default { Write-Host `$logEntry }
-    }
-}
-
-# Function to capture all error streams
-function Invoke-ScriptWithErrorCapture {
-    param(
-        [string]`$ScriptPath
-    )
-    
-    try {
-        # Create temporary files for error capturing
-        `$errorFile = [System.IO.Path]::GetTempFileName()
-        `$outputFile = [System.IO.Path]::GetTempFileName()
-        
-        # Build the command with proper error stream redirection
-        `$psCommand = "powershell.exe"
-        `$psArgs = "-NoLogo", "-NoProfile", "-ExecutionPolicy", "Bypass", "-File", "`"`$ScriptPath`""
-        
-        Write-ErrorLog -Message "Starting elevated execution: `$ScriptPath" -Severity "INFO"
-        
-        # Execute the process with redirected streams
-        `$processInfo = New-Object System.Diagnostics.ProcessStartInfo
-        `$processInfo.FileName = `$psCommand
-        `$processInfo.Arguments = `$psArgs -join " "
-        `$processInfo.RedirectStandardError = `$true
-        `$processInfo.RedirectStandardOutput = `$true
-        `$processInfo.UseShellExecute = `$false
-        `$processInfo.CreateNoWindow = `$true
-        
-        `$process = New-Object System.Diagnostics.Process
-        `$process.StartInfo = `$processInfo
-        `$process.Start() | Out-Null
-        
-        # Read all output and error streams
-        `$stdout = `$process.StandardOutput.ReadToEnd()
-        `$stderr = `$process.StandardError.ReadToEnd()
-        
-        `$process.WaitForExit()
-        `$exitCode = `$process.ExitCode
-        
-        # Process captured streams
-        if (-not [string]::IsNullOrEmpty(`$stdout)) {
-            Write-Host `$stdout
+        if ([string]::IsNullOrEmpty($scriptPath)) {
+            $scriptPath = $PSCommandPath
         }
         
-        if (-not [string]::IsNullOrEmpty(`$stderr)) {
-            `$stderr -split "`r`n" | ForEach-Object {
-                if (-not [string]::IsNullOrWhiteSpace(`$_)) {
-                    Write-ErrorLog -Message `$_ -Severity "ERROR"
-                }
-            }
+        # Validate we have a valid script path
+        if ([string]::IsNullOrEmpty($scriptPath) -or -not (Test-Path $scriptPath)) {
+            Write-Host "ERROR: Could not determine script path for elevation." -ForegroundColor Red
+            Write-Host "Current working directory: $(Get-Location)" -ForegroundColor Yellow
+            Write-Host "Please run this script manually as Administrator." -ForegroundColor Yellow
+            exit 1
         }
         
-        # Clean up temporary files
-        Remove-Item `$errorFile -ErrorAction SilentlyContinue
-        Remove-Item `$outputFile -ErrorAction SilentlyContinue
+        Write-Host "Script path identified: $scriptPath" -ForegroundColor Cyan
         
-        return @{
-            ExitCode = `$exitCode
-            StdOut = `$stdout
-            StdErr = `$stderr
-            HasErrors = `$exitCode -ne 0 -or -not [string]::IsNullOrEmpty(`$stderr)
-        }
-    }
-    catch {
-        Write-ErrorLog -Message "Failed to execute script: `$(`$_.Exception.Message)" -Severity "ERROR"
-        Write-ErrorLog -Message "Stack Trace: `$(`$_.ScriptStackTrace)" -Severity "ERROR"
-        return @{
-            ExitCode = 1
-            StdOut = ""
-            StdErr = `$.Exception.Message
-            HasErrors = `$true
-        }
-    }
-}
-
-try {
-    # Set strict error handling
-    `$ErrorActionPreference = 'Stop'
-    
-    if (Test-Path `$TargetScript) {
-        # Execute script with comprehensive error capture
-        `$result = Invoke-ScriptWithErrorCapture -ScriptPath `$TargetScript
+        # Get the current working directory to preserve context
+        $currentDirectory = Get-Location
         
-        if (`$result.HasErrors) {
-            `$hasError = `$true
-            Write-ErrorLog -Message "Script completed with errors (Exit Code: `$(`$result.ExitCode))" -Severity "ERROR"
-        }
-        else {
-            Write-ErrorLog -Message "Script completed successfully (Exit Code: `$(`$result.ExitCode))" -Severity "INFO"
-        }
-    }
-    else {
-        `$hasError = `$true
-        Write-ErrorLog -Message "Target script not found: `$TargetScript" -Severity "ERROR"
-    }
-}
-catch {
-    `$hasError = `$true
-    Write-ErrorLog -Message "Unexpected error during execution: `$(`$_.Exception.Message)" -Severity "ERROR"
-    Write-ErrorLog -Message "Stack Trace: `$(`$_.ScriptStackTrace)" -Severity "ERROR"
-}
-finally {
-    # Restore original error action preference
-    `$ErrorActionPreference = `$originalErrorAction
-    
-    # Display summary of all errors
-    if (`$errorMessages.Count -gt 0) {
-        Write-Host "`n=== ERROR SUMMARY ===" -ForegroundColor Red
-        `$errorMessages | ForEach-Object { Write-Host `$_ -ForegroundColor Red }
-        Write-Host "===================" -ForegroundColor Red
-    }
-    
-    # Only wait for user input if there were actual errors
-    if (`$hasError) {
-        Write-Host "`n" -NoNewline
-        Write-Host "ERROR DETECTED - Press Enter to close this window..." -ForegroundColor Yellow -BackgroundColor DarkRed
-        `$null = Read-Host
-    }
-    else {
-        Write-Host "`nOperation completed successfully - closing in 2 seconds..." -ForegroundColor Green
-        Start-Sleep -Seconds 2
-    }
-    
-    # Exit with appropriate code
-    exit (`$hasError ? 1 : 0)
+        # Get original command line arguments
+        $originalArgs = $MyInvocation.UnboundArguments -join " "
+        
+        # Build the command to execute the original script with proper context
+        $command = @"
+# Simple elevation wrapper that preserves context
+Set-Location '$currentDirectory'
+& '$scriptPath' $originalArgs
+if (`$LASTEXITCODE -ne 0) {
+    Write-Host "Script completed with errors (Exit Code: `$LASTEXITCODE)" -ForegroundColor Red
+    Write-Host "Press Enter to close..." -ForegroundColor Yellow
+    Read-Host
+} else {
+    Write-Host "Script completed successfully!" -ForegroundColor Green
+    Start-Sleep -Seconds 1
 }
 "@
         
-        # Write the script to temp file
-        $scriptContent | Out-File -FilePath $tempScript -Encoding UTF8
-        
-        # Start the elevated process with proper argument formatting
-        $psi = New-Object System.Diagnostics.ProcessStartInfo
-        $psi.FileName = "powershell.exe"
-        $psi.Arguments = "-NoLogo -NoProfile -ExecutionPolicy Bypass -File `"$tempScript`""
-        $psi.Verb = "runas"
-        $psi.UseShellExecute = $true
+        # Create a simple temporary script
+        $tempScript = [System.IO.Path]::Combine([System.IO.Path]::GetTempPath(), "elevated_$(Get-Date -Format 'yyyyMMddHHmmss').ps1")
         
         try {
+            # Write the simple wrapper script
+            $command | Out-File -FilePath $tempScript -Encoding UTF8
+            
+            Write-Host "Launching elevated PowerShell..." -ForegroundColor Green
+            
+            # Start the elevated process directly with the original script
+            $psi = New-Object System.Diagnostics.ProcessStartInfo
+            $psi.FileName = "powershell.exe"
+            $psi.Arguments = "-NoLogo -NoProfile -ExecutionPolicy Bypass -File `"$tempScript`""
+            $psi.Verb = "runas"  # This triggers UAC elevation
+            $psi.UseShellExecute = $true
+            $psi.WorkingDirectory = $currentDirectory
+            
+            # Start the elevated process
             $process = [System.Diagnostics.Process]::Start($psi)
-            exit
-        } catch {
-            Write-Host "ERROR: Failed to start elevated process. $_" -ForegroundColor Red
-            Write-Host "You may need to manually run this script as Administrator." -ForegroundColor Yellow
+            
+            if ($process -ne $null) {
+                Write-Host "Elevation request sent. The script will continue in the elevated window." -ForegroundColor Green
+                exit
+            } else {
+                Write-Host "ERROR: Failed to start elevated process." -ForegroundColor Red
+                exit 1
+            }
+        }
+        catch {
+            Write-Host "ERROR: Failed to request elevation: $_" -ForegroundColor Red
+            Write-Host "Please manually run this script as Administrator." -ForegroundColor Yellow
+            
+            # Clean up temp file if it exists
+            if (Test-Path $tempScript) {
+                Remove-Item $tempScript -ErrorAction SilentlyContinue
+            }
             exit 1
         }
     }
