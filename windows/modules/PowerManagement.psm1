@@ -2,7 +2,8 @@
 .SYNOPSIS
     Power management functions for Windows power schemes and settings.
 .DESCRIPTION
-    Provides functions for managing power schemes, power settings, and retrieving power-related information.
+    Provides functions for managing power schemes, power settings, Windows 11 Power Mode,
+    and retrieving power-related information.
 .NOTES
     File Name      : PowerManagement.psm1
     Author         : System Administrator
@@ -83,6 +84,172 @@ function Set-PowerScheme {
     catch {
         Write-Error "Error setting power scheme: $_"
     }
+}
+
+# Function to get Windows 11 Power Mode
+function Get-Windows11PowerMode {
+    <#
+    .SYNOPSIS
+        Gets the current Windows 11 Power Mode setting.
+    .DESCRIPTION
+        Retrieves the current Windows 11 Power Mode (0=Recommended, 1=Better Performance, 2=Best Performance)
+        from the registry for both AC and DC power states.
+    .EXAMPLE
+        $powerMode = Get-Windows11PowerMode
+        Write-Host "Current power mode: $($powerMode.CurrentModeName)"
+    .OUTPUTS
+        PSCustomObject
+    #>
+    $registryPaths = @{
+        AC = "HKLM:\SYSTEM\CurrentControlSet\Control\Power\User\PowerSchemes\ActiveOverlayAcDc\OverlayAc"
+        DC = "HKLM:\SYSTEM\CurrentControlSet\Control\Power\User\PowerSchemes\ActiveOverlayAcDc\OverlayDc"
+    }
+    
+    $result = [PSCustomObject]@{
+        ACMode = $null
+        DCMode = $null
+        CurrentModeName = "Unknown"
+        ACModes = @{
+            0 = "Recommended"
+            1 = "Better Performance"
+            2 = "Best Performance"
+        }
+    }
+    
+    try {
+        # Get AC power mode
+        if (Test-Path $registryPaths.AC) {
+            $acValue = Get-ItemProperty -Path $registryPaths.AC -Name "OverlayScheme" -ErrorAction SilentlyContinue
+            if ($acValue -and $acValue.OverlayScheme -ne $null) {
+                $result.ACMode = [int]$acValue.OverlayScheme
+            }
+        }
+        
+        # Get DC power mode
+        if (Test-Path $registryPaths.DC) {
+            $dcValue = Get-ItemProperty -Path $registryPaths.DC -Name "OverlayScheme" -ErrorAction SilentlyContinue
+            if ($dcValue -and $dcValue.OverlayScheme -ne $null) {
+                $result.DCMode = [int]$dcValue.OverlayScheme
+            }
+        }
+        
+        # Determine current mode based on power source
+        $batteryInfo = Get-BatteryInfo
+        if ($batteryInfo -and (-not $batteryInfo.PowerOnline)) {
+            # On battery power (DC)
+            $result.CurrentModeName = $result.ACModes[[string]$result.DCMode] ?? "Unknown"
+        } else {
+            # On AC power
+            $result.CurrentModeName = $result.ACModes[[string]$result.ACMode] ?? "Unknown"
+        }
+        
+    } catch {
+        Write-Error "Failed to get Windows 11 Power Mode: $_"
+    }
+    
+    return $result
+}
+
+# Function to set Windows 11 Power Mode
+function Set-Windows11PowerMode {
+    <#
+    .SYNOPSIS
+        Sets the Windows 11 Power Mode.
+    .DESCRIPTION
+        Configures Windows 11 Power Mode setting (0=Recommended, 1=Better Performance, 2=Best Performance)
+        for both AC and DC power states.
+    .PARAMETER Mode
+        The power mode to set (0, 1, or 2).
+    .PARAMETER ApplyTo
+        Which power states to apply to: "AC", "DC", or "Both" (default).
+    .EXAMPLE
+        Set-Windows11PowerMode -Mode 2
+        Set-Windows11PowerMode -Mode 1 -ApplyTo "DC"
+    #>
+    param(
+        [Parameter(Mandatory=$true)]
+        [ValidateRange(0, 2)]
+        [int]$Mode,
+        
+        [Parameter(Mandatory=$false)]
+        [ValidateSet("AC", "DC", "Both")]
+        [string]$ApplyTo = "Both"
+    )
+    
+    $registryPaths = @{
+        AC = "HKLM:\SYSTEM\CurrentControlSet\Control\Power\User\PowerSchemes\ActiveOverlayAcDc\OverlayAc"
+        DC = "HKLM:\SYSTEM\CurrentControlSet\Control\Power\User\PowerSchemes\ActiveOverlayAcDc\OverlayDc"
+    }
+    
+    $modeNames = @{
+        0 = "Recommended"
+        1 = "Better Performance"
+        2 = "Best Performance"
+    }
+    
+    try {
+        # Ensure registry paths exist
+        foreach ($pathType in $registryPaths.Keys) {
+            if ($ApplyTo -ne "Both" -and $pathType -ne $ApplyTo) {
+                continue
+            }
+            
+            $path = $registryPaths[$pathType]
+            if (-not (Test-Path $path)) {
+                New-Item -Path $path -Force | Out-Null
+            }
+            
+            # Set the power mode
+            Set-ItemProperty -Path $path -Name "OverlayScheme" -Value $Mode -Type DWord -Force
+        }
+        
+        Write-Host "Power mode set to: $($modeNames[$Mode])" -ForegroundColor Green
+        
+        # Apply changes
+        $activeScheme = Get-ActivePowerScheme
+        if ($activeScheme) {
+            Set-PowerScheme -SchemeGUID $activeScheme.GUID
+        }
+        
+    } catch {
+        Write-Error "Failed to set Windows 11 Power Mode: $_"
+    }
+}
+
+# Function to toggle Windows 11 Power Mode
+function Toggle-Windows11PowerMode {
+    <#
+    .SYNOPSIS
+        Toggles between Windows 11 Power Modes.
+    .DESCRIPTION
+        Cycles through the three Windows 11 Power Modes: Recommended (0), Better Performance (1), Best Performance (2).
+    .EXAMPLE
+        Toggle-Windows11PowerMode
+    .OUTPUTS
+        PSCustomObject
+    #>
+    $currentMode = Get-Windows11PowerMode
+    
+    if ($currentMode.CurrentModeName -eq "Unknown") {
+        Write-Warning "Current power mode could not be determined. Setting to Recommended mode."
+        Set-Windows11PowerMode -Mode 0
+        return Get-Windows11PowerMode
+    }
+    
+    # Determine next mode (cycle through 0, 1, 2)
+    $batteryInfo = Get-BatteryInfo
+    $currentValue = if ($batteryInfo -and (-not $batteryInfo.PowerOnline)) {
+        $currentMode.DCMode
+    } else {
+        $currentMode.ACMode
+    }
+    
+    $nextMode = ($currentValue + 1) % 3
+    
+    # Set the new mode
+    Set-Windows11PowerMode -Mode $nextMode
+    
+    return Get-Windows11PowerMode
 }
 
 # Function to get power scheme GUID by name
@@ -455,4 +622,4 @@ function Convert-HexStringToInt {
 }
 
 # Export the module members
-Export-ModuleMember -Function Get-PowerSchemes, Get-ActivePowerScheme, Set-PowerScheme, Get-PowerSchemeByName, Get-PowerSetting, Set-PowerSetting, Get-PowerSettingGUID, Get-PowerSettings, Get-BatteryInfo, Copy-PowerScheme, Remove-PowerScheme, Convert-HexStringToInt
+Export-ModuleMember -Function Get-PowerSchemes, Get-ActivePowerScheme, Set-PowerScheme, Get-PowerSchemeByName, Get-PowerSetting, Set-PowerSetting, Get-PowerSettingGUID, Get-PowerSettings, Get-BatteryInfo, Copy-PowerScheme, Remove-PowerScheme, Convert-HexStringToInt, Get-Windows11PowerMode, Set-Windows11PowerMode, Toggle-Windows11PowerMode

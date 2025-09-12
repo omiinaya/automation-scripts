@@ -1,5 +1,5 @@
-# Toggle between Recommended (Balanced) and Best Performance (High Performance) power modes
-# Refactored to use modular system for Windows 11
+# Toggle between Windows 11 Power Modes: Recommended, Better Performance, and Best Performance
+# Updated to use Windows 11's registry-based Power Mode settings instead of legacy power schemes
 
 # Function to pause on error
 function Wait-OnError {
@@ -17,63 +17,76 @@ Import-Module $modulePath -Force
 
 # Check admin rights
 if (-not (Test-AdminRights)) {
-    Write-StatusMessage -Message "Administrator privileges required to modify power schemes" -Type Error
+    Write-StatusMessage -Message "Administrator privileges required to modify power settings" -Type Error
     Request-Elevation
     exit
 }
 
 try {
-    # Get all available power schemes
-    $schemes = Get-PowerSchemes
+    Write-Host "`n=== Windows 11 Power Mode Toggle ===" -ForegroundColor Cyan
+    Write-Host "This script toggles between Windows 11 Power Modes via registry settings" -ForegroundColor Gray
     
-    # Find the schemes we need
-    $balancedScheme = $schemes | Where-Object { $_.Name -like "*Balanced*" -or $_.Name -like "*Recommended*" } | Select-Object -First 1
-    $highPerformanceScheme = $schemes | Where-Object { $_.Name -like "*High performance*" -or $_.Name -like "*Best performance*" } | Select-Object -First 1
-    
-    if (-not $balancedScheme -or -not $highPerformanceScheme) {
-        Write-Host "Available power schemes:" -ForegroundColor Yellow
-        $schemes | Format-Table -AutoSize | Out-Host
-        throw "Unable to find required power schemes. Please ensure both 'Balanced' and 'High performance' schemes are available."
-    }
-    
-    # Get current active scheme
-    $currentScheme = Get-ActivePowerScheme
+    # Get current Windows 11 Power Mode
+    $currentPowerMode = Get-Windows11PowerMode
     
     Write-Host "`nCurrent power mode: " -NoNewline
-    Write-Host $currentScheme.Name -ForegroundColor Cyan
+    Write-Host $currentPowerMode.CurrentModeName -ForegroundColor Cyan
     
-    # Determine which scheme to switch to
-    if ($currentScheme.GUID -eq $highPerformanceScheme.GUID) {
-        # Currently on high performance, switch to balanced
-        $targetScheme = $balancedScheme
-        $targetName = "Recommended (Balanced)"
-    } else {
-        # Currently on balanced or other, switch to high performance
-        $targetScheme = $highPerformanceScheme
-        $targetName = "Best Performance (High Performance)"
+    # Show AC/DC values if different
+    if ($currentPowerMode.ACMode -ne $currentPowerMode.DCMode) {
+        Write-Host "  AC Power:  " -NoNewline
+        Write-Host $currentPowerMode.ACModes[[string]$currentPowerMode.ACMode] -ForegroundColor Yellow
+        Write-Host "  DC Power:  " -NoNewline
+        Write-Host $currentPowerMode.ACModes[[string]$currentPowerMode.DCMode] -ForegroundColor Yellow
     }
     
-    Write-Host "`nSwitching to: " -NoNewline 
-    Write-Host $targetName -ForegroundColor Green
+    # Determine next mode (cycle through 0, 1, 2)
+    $batteryInfo = Get-BatteryInfo
+    $currentModeValue = if ($batteryInfo -and (-not $batteryInfo.PowerOnline)) {
+        $currentPowerMode.DCMode
+    } else {
+        $currentPowerMode.ACMode
+    }
     
-    # Set the new power scheme
-    Set-PowerScheme -SchemeGUID $targetScheme.GUID
+    $nextModeValue = ($currentModeValue + 1) % 3
+    $modeNames = @{
+        0 = "Recommended"
+        1 = "Better Performance"
+        2 = "Best Performance"
+    }
+    
+    $nextModeName = $modeNames[$nextModeValue]
+    
+    Write-Host "`nSwitching to: " -NoNewline
+    Write-Host $nextModeName -ForegroundColor Green
+    
+    # Set the new power mode
+    Set-Windows11PowerMode -Mode $nextModeValue
     
     # Verify the change
-    $newScheme = Get-ActivePowerScheme
-    if ($newScheme.GUID -eq $targetScheme.GUID) {
-        Write-StatusMessage -Message "Power mode successfully changed to: $($newScheme.Name)" -Type Success
+    $newPowerMode = Get-Windows11PowerMode
+    if ($newPowerMode.CurrentModeName -eq $nextModeName) {
+        Write-StatusMessage -Message "Power mode successfully changed to: $nextModeName" -Type Success
+        
+        # Show detailed information
+        Write-Host "`nPower Mode Details:" -ForegroundColor Yellow
+        Write-Host "Registry Value: $nextModeValue" -ForegroundColor Gray
+        Write-Host "Mode Name: $nextModeName" -ForegroundColor Gray
+        
+        # Show power source info
+        if ($batteryInfo) {
+            Write-Host "`nPower Source: " -NoNewline
+            if ($batteryInfo.PowerOnline) {
+                Write-Host "AC Power (Plugged in)" -ForegroundColor Green
+            } else {
+                Write-Host "DC Power (On battery)" -ForegroundColor Yellow
+            }
+        }
     } else {
         Write-StatusMessage -Message "Power mode change may not have been applied correctly" -Type Warning
     }
     
-    # Show power scheme information
-    Write-Host "`nPower Scheme Details:" -ForegroundColor Yellow
-    Write-Host "GUID: $($newScheme.GUID)" -ForegroundColor Gray
-    Write-Host "Active: $($newScheme.Active)" -ForegroundColor Gray
-    
-    # Optionally show battery info if available
-    $batteryInfo = Get-BatteryInfo
+    # Show battery information if available
     if ($batteryInfo) {
         Write-Host "`nBattery Information:" -ForegroundColor Yellow
         Write-Host "Charge Level: $($batteryInfo.ChargeLevel)%"
@@ -83,6 +96,8 @@ try {
         }
     }
     
+    Write-Host "`nPower mode toggle complete!" -ForegroundColor Green
+    
 } catch {
-    Wait-OnError -ErrorMessage "Failed to toggle power mode: $($_.Exception.Message)"
+    Wait-OnError -ErrorMessage "Failed to toggle Windows 11 Power Mode: $($_.Exception.Message)"
 }
