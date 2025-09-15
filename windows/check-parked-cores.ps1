@@ -74,7 +74,7 @@ try {
             $minAc = $minResult | Select-String "Current AC Power Setting Index.*0x([0-9a-f]+)"
             $minDc = $minResult | Select-String "Current DC Power Setting Index.*0x([0-9a-f]+)"
             
-            # Get maximum processor state
+            # Get maximum processor state  
             $maxResult = powercfg -q $schemeGuid $cpuSubgroupGuid $maxProcessorStateGuid 2>&1
             $maxAc = $maxResult | Select-String "Current AC Power Setting Index.*0x([0-9a-f]+)"
             $maxDc = $maxResult | Select-String "Current DC Power Setting Index.*0x([0-9a-f]+)"
@@ -98,44 +98,15 @@ try {
             Write-Host "         $($scheme.Name) - Error reading settings" -ForegroundColor Red
         }
     }
-            
-            if ($acValue -eq "ERR" -or $dcValue -eq "ERR") {
-                $statusSymbol = "[?]"
-                $statusText = "ERROR"
-                $statusColor = "Yellow"
-            } elseif ($acValue -eq 0 -and $dcValue -eq 0) {
-                $statusSymbol = "[X]"
-                $statusText = "DISABLED"
-                $statusColor = "Green"
-            } else {
-                $statusSymbol = "[V]"
-                $statusText = "ENABLED"
-                $statusColor = "Red"
-            }
-            
-            if ($isActive) {
-                Write-Host "[ACTIVE] " -NoNewline -ForegroundColor Yellow
-            } else {
-                Write-Host "         " -NoNewline
-            }
-            
-            Write-Host "$statusSymbol $($scheme.Name.PadRight(30)) " -NoNewline
-            Write-Host "AC: $($acValue.ToString().PadLeft(3)) " -NoNewline -ForegroundColor Cyan
-            Write-Host "DC: $($dcValue.ToString().PadLeft(3)) " -NoNewline -ForegroundColor Cyan
-            Write-Host "[$statusText]" -ForegroundColor $statusColor
-            
-        } catch {
-            Write-Host "         $($scheme.Name) - Error reading settings" -ForegroundColor Red
-        }
-    }
     
     Write-Host ""
     Write-StatusMessage -Message "Legend:" -Type Info
-    Write-Host "  [X] = Core Parking DISABLED (0 = unparked)" -ForegroundColor Green
-    Write-Host "  [V] = Core Parking ENABLED (100 = parked)" -ForegroundColor Red
-    Write-Host "  [?] = Error reading setting" -ForegroundColor Yellow
-    Write-Host "  AC = AC Power (plugged in)" -ForegroundColor Cyan
-    Write-Host "  DC = DC Power (battery)" -ForegroundColor Cyan
+    Write-Host "  Min: AC/DC Minimum Processor State (%)" -ForegroundColor Cyan
+    Write-Host "  Max: AC/DC Maximum Processor State (%)" -ForegroundColor Cyan
+    Write-Host "  Values show AC/DC power settings" -ForegroundColor Cyan
+    Write-Host ""
+    Write-StatusMessage -Message "Note: CPU core parking settings not available on this system" -Type Warning
+    Write-StatusMessage -Message "Showing minimum/maximum processor state instead for comparison" -Type Info
     
     # Check additional registry settings
     Write-StatusMessage -Message "Checking Additional Registry Settings:" -Type Info
