@@ -24,9 +24,15 @@ try {
 # Check admin rights - always require for proper functionality
 if (-not (Test-AdminRights)) {
     Write-StatusMessage -Message "Administrator privileges required to read CPU core parking settings" -Type Error
+    
+    # Store that we need to pause after elevation
+    $script:ShouldPause = $true
     Request-Elevation
     exit
 }
+
+# Initialize pause flag
+$script:ShouldPause = $false
 
 try {
     Write-SectionHeader -Title "CPU Core Parking Status Check"
@@ -66,11 +72,29 @@ try {
                     throw "powercfg failed with exit code $LASTEXITCODE"
                 }
                 
+                # Use the same verification approach as unpark-cores.ps1
                 $acParking = $powerResult | Select-String "Current AC Power Setting Index.*0x([0-9a-f]+)"
                 $dcParking = $powerResult | Select-String "Current DC Power Setting Index.*0x([0-9a-f]+)"
                 
-                $acValue = if ($acParking) { [convert]::ToInt32($acParking.Matches.Groups[1].Value, 16) } else { "ERR" }
-                $dcValue = if ($dcParking) { [convert]::ToInt32($dcParking.Matches.Groups[1].Value, 16) } else { "ERR" }
+                if ($acParking -and $dcParking) {
+                    $acValue = [convert]::ToInt32($acParking.Matches.Groups[1].Value, 16)
+                    $dcValue = [convert]::ToInt32($dcParking.Matches.Groups[1].Value, 16)
+                } else {
+                    # Try alternative parsing if the standard pattern doesn't work
+                    $acAlt = $powerResult | Select-String "AC.*Index.*0x([0-9a-f]+)"
+                    $dcAlt = $powerResult | Select-String "DC.*Index.*0x([0-9a-f]+)"
+                    
+                    if ($acAlt -and $dcAlt) {
+                        $acValue = [convert]::ToInt32($acAlt.Matches.Groups[1].Value, 16)
+                        $dcValue = [convert]::ToInt32($dcAlt.Matches.Groups[1].Value, 16)
+                    } else {
+                        $acValue = "ERR"
+                        $dcValue = "ERR"
+                        # Debug: Show what we got from powercfg
+                        Write-Verbose "Powercfg output for $($scheme.Name):"
+                        Write-Verbose ($powerResult -join "`n")
+                    }
+                }
             } catch {
                 $acValue = "ERR"
                 $dcValue = "ERR"
@@ -160,9 +184,12 @@ try {
     Write-Host "  Values of '100' indicate core parking is ENABLED" -ForegroundColor Red
     Write-Host ""
     
-    # Pause to see results
-    Write-Host "Press Enter to close..." -ForegroundColor Yellow
-    Read-Host
+    # Pause to see results if we're in an elevated session or originally requested pause
+    if ($script:ShouldPause -or (Test-AdminRights)) {
+        Write-Host ""
+        Write-Host "Press Enter to close..." -ForegroundColor Yellow
+        $null = Read-Host
+    }
     
 } catch {
     Wait-OnError -ErrorMessage "Failed to check CPU core parking status: $($_.Exception.Message)"
