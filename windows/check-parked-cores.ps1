@@ -53,52 +53,51 @@ try {
     Write-StatusMessage -Message "Active Power Scheme: $($activeScheme.Name)" -Type Info
     Write-Host ""
     
-    # Check core parking settings for all power schemes
+    # Check processor power management settings (available on this system)
     $powerSchemes = Get-PowerSchemes
-    $cpuParkingGuid = "0cc5b647-c1df-4637-891a-dec35c318583"
-    $cpuSubgroupGuid = "54533251-82be-4824-96c1-47b60b740d00"
+    $cpuSubgroupGuid = "54533251-82be-4824-96c1-47b60b740d00"  # Processor power management
+    $minProcessorStateGuid = "893dee8e-2bef-41e0-89c6-b55d0929964c"  # Minimum processor state
+    $maxProcessorStateGuid = "bc5038f7-23e0-4960-96da-33abaf5935ec"  # Maximum processor state
     
-    Write-StatusMessage -Message "Checking Core Parking Settings:" -Type Info
+    Write-StatusMessage -Message "Checking Processor Power Management Settings:" -Type Info
+    Write-Host "Note: CPU core parking settings not available on this system" -ForegroundColor Yellow
+    Write-Host "Showing minimum/maximum processor state instead:" -ForegroundColor Yellow
+    Write-Host ""
     
     foreach ($scheme in $powerSchemes) {
         try {
             $schemeGuid = $scheme.GUID
             $isActive = ($schemeGuid -eq $activeScheme.GUID)
             
-            # Get power settings with better error handling
-            try {
-                $powerResult = powercfg -q $schemeGuid $cpuSubgroupGuid $cpuParkingGuid 2>&1
-                if ($LASTEXITCODE -ne 0) {
-                    throw "powercfg failed with exit code $LASTEXITCODE"
-                }
-                
-                # Use the same verification approach as unpark-cores.ps1
-                $acParking = $powerResult | Select-String "Current AC Power Setting Index.*0x([0-9a-f]+)"
-                $dcParking = $powerResult | Select-String "Current DC Power Setting Index.*0x([0-9a-f]+)"
-                
-                if ($acParking -and $dcParking) {
-                    $acValue = [convert]::ToInt32($acParking.Matches.Groups[1].Value, 16)
-                    $dcValue = [convert]::ToInt32($dcParking.Matches.Groups[1].Value, 16)
-                } else {
-                    # Try alternative parsing if the standard pattern doesn't work
-                    $acAlt = $powerResult | Select-String "AC.*Index.*0x([0-9a-f]+)"
-                    $dcAlt = $powerResult | Select-String "DC.*Index.*0x([0-9a-f]+)"
-                    
-                    if ($acAlt -and $dcAlt) {
-                        $acValue = [convert]::ToInt32($acAlt.Matches.Groups[1].Value, 16)
-                        $dcValue = [convert]::ToInt32($dcAlt.Matches.Groups[1].Value, 16)
-                    } else {
-                        $acValue = "ERR"
-                        $dcValue = "ERR"
-                        # Debug: Show what we got from powercfg
-                        Write-Verbose "Powercfg output for $($scheme.Name):"
-                        Write-Verbose ($powerResult -join "`n")
-                    }
-                }
-            } catch {
-                $acValue = "ERR"
-                $dcValue = "ERR"
+            # Get minimum processor state
+            $minResult = powercfg -q $schemeGuid $cpuSubgroupGuid $minProcessorStateGuid 2>&1
+            $minAc = $minResult | Select-String "Current AC Power Setting Index.*0x([0-9a-f]+)"
+            $minDc = $minResult | Select-String "Current DC Power Setting Index.*0x([0-9a-f]+)"
+            
+            # Get maximum processor state
+            $maxResult = powercfg -q $schemeGuid $cpuSubgroupGuid $maxProcessorStateGuid 2>&1
+            $maxAc = $maxResult | Select-String "Current AC Power Setting Index.*0x([0-9a-f]+)"
+            $maxDc = $maxResult | Select-String "Current DC Power Setting Index.*0x([0-9a-f]+)"
+            
+            $minAcValue = if ($minAc) { [convert]::ToInt32($minAc.Matches.Groups[1].Value, 16) } else { "ERR" }
+            $minDcValue = if ($minDc) { [convert]::ToInt32($minDc.Matches.Groups[1].Value, 16) } else { "ERR" }
+            $maxAcValue = if ($maxAc) { [convert]::ToInt32($maxAc.Matches.Groups[1].Value, 16) } else { "ERR" }
+            $maxDcValue = if ($maxDc) { [convert]::ToInt32($maxDc.Matches.Groups[1].Value, 16) } else { "ERR" }
+            
+            if ($isActive) {
+                Write-Host "[ACTIVE] " -NoNewline -ForegroundColor Yellow
+            } else {
+                Write-Host "         " -NoNewline
             }
+            
+            Write-Host "$($scheme.Name.PadRight(30)) " -NoNewline
+            Write-Host "Min: $($minAcValue.ToString().PadLeft(2))/$($minDcValue.ToString().PadLeft(2)) " -NoNewline -ForegroundColor Cyan
+            Write-Host "Max: $($maxAcValue.ToString().PadLeft(2))/$($maxDcValue.ToString().PadLeft(2))" -ForegroundColor Cyan
+            
+        } catch {
+            Write-Host "         $($scheme.Name) - Error reading settings" -ForegroundColor Red
+        }
+    }
             
             if ($acValue -eq "ERR" -or $dcValue -eq "ERR") {
                 $statusSymbol = "[?]"
@@ -180,8 +179,8 @@ try {
     Write-StatusMessage -Message "Summary:" -Type Info
     Write-Host "  Run this script BEFORE and AFTER using unpark-cores.ps1" -ForegroundColor Yellow
     Write-Host "  Compare the values to verify core parking changes" -ForegroundColor Yellow
-    Write-Host "  Values of '0' indicate core parking is DISABLED" -ForegroundColor Green
-    Write-Host "  Values of '100' indicate core parking is ENABLED" -ForegroundColor Red
+    Write-Host "  Lower minimum values may indicate more aggressive power saving" -ForegroundColor Yellow
+    Write-Host "  Lower maximum values limit CPU performance" -ForegroundColor Yellow
     Write-Host ""
     
     # Pause to see results if we're in an elevated session or originally requested pause
