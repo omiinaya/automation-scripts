@@ -21,12 +21,11 @@ try {
     exit
 }
 
-# Check admin rights (optional for read-only operations)
-$isAdmin = Test-AdminRights
-if (-not $isAdmin) {
-    Write-Host "`nWARNING: Running without administrator privileges" -ForegroundColor Yellow
-    Write-Host "Some core parking information may not be accessible" -ForegroundColor Yellow
-    Write-Host ""
+# Check admin rights - always require for proper functionality
+if (-not (Test-AdminRights)) {
+    Write-StatusMessage -Message "Administrator privileges required to read CPU core parking settings" -Type Error
+    Request-Elevation
+    exit
 }
 
 try {
@@ -114,8 +113,6 @@ try {
     Write-Host "  [?] = Error reading setting" -ForegroundColor Yellow
     Write-Host "  AC = AC Power (plugged in)" -ForegroundColor Cyan
     Write-Host "  DC = DC Power (battery)" -ForegroundColor Cyan
-    Write-Host ""
-    Write-StatusMessage -Message "Note: Some settings may require administrator privileges to read" -Type Warning
     
     # Check additional registry settings
     Write-StatusMessage -Message "Checking Additional Registry Settings:" -Type Info
