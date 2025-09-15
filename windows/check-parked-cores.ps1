@@ -160,6 +160,10 @@ try {
     Write-Host "  Values of '100' indicate core parking is ENABLED" -ForegroundColor Red
     Write-Host ""
     
+    # Pause to see results
+    Write-Host "Press Enter to close..." -ForegroundColor Yellow
+    Read-Host
+    
 } catch {
     Wait-OnError -ErrorMessage "Failed to check CPU core parking status: $($_.Exception.Message)"
 }
