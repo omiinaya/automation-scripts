@@ -77,9 +77,9 @@ try {
                 $dcValue = "ERR"
             }
             
-            $statusSymbol = if ($acValue -eq "ERR" -or $dcValue -eq "ERR") { "❓" }
-                            elseif ($acValue -eq 0 -and $dcValue -eq 0) { "❌" }
-                            else { "✅" }
+            $statusSymbol = if ($acValue -eq "ERR" -or $dcValue -eq "ERR") { "[?]" }
+                            elseif ($acValue -eq 0 -and $dcValue -eq 0) { "[X]" }
+                            else { "[✓]" }
             $statusText = if ($acValue -eq "ERR" -or $dcValue -eq "ERR") { "ERROR" }
                          elseif ($acValue -eq 0 -and $dcValue -eq 0) { "DISABLED" }
                          else { "ENABLED" }
@@ -105,9 +105,9 @@ try {
     
     Write-Host ""
     Write-StatusMessage -Message "Legend:" -Type Info
-    Write-Host "  ❌ = Core Parking DISABLED (0 = unparked)" -ForegroundColor Green
-    Write-Host "  ✅ = Core Parking ENABLED (100 = parked)" -ForegroundColor Red
-    Write-Host "  ❓ = Error reading setting" -ForegroundColor Yellow
+    Write-Host "  [X] = Core Parking DISABLED (0 = unparked)" -ForegroundColor Green
+    Write-Host "  [✓] = Core Parking ENABLED (100 = parked)" -ForegroundColor Red
+    Write-Host "  [?] = Error reading setting" -ForegroundColor Yellow
     Write-Host "  AC = AC Power (plugged in)" -ForegroundColor Cyan
     Write-Host "  DC = DC Power (battery)" -ForegroundColor Cyan
     Write-Host ""
