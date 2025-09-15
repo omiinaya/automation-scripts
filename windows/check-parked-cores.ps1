@@ -60,20 +60,32 @@ try {
             $schemeGuid = $scheme.GUID
             $isActive = ($schemeGuid -eq $activeScheme.GUID)
             
-            # Get AC power setting
-            $acResult = powercfg -q $schemeGuid $cpuSubgroupGuid $cpuParkingGuid 2>&1
-            $acParking = $acResult | Select-String "Current AC Power Setting Index.*0x([0-9a-f]+)"
+            # Get power settings with better error handling
+            try {
+                $powerResult = powercfg -q $schemeGuid $cpuSubgroupGuid $cpuParkingGuid 2>&1
+                if ($LASTEXITCODE -ne 0) {
+                    throw "powercfg failed with exit code $LASTEXITCODE"
+                }
+                
+                $acParking = $powerResult | Select-String "Current AC Power Setting Index.*0x([0-9a-f]+)"
+                $dcParking = $powerResult | Select-String "Current DC Power Setting Index.*0x([0-9a-f]+)"
+                
+                $acValue = if ($acParking) { [convert]::ToInt32($acParking.Matches.Groups[1].Value, 16) } else { "ERR" }
+                $dcValue = if ($dcParking) { [convert]::ToInt32($dcParking.Matches.Groups[1].Value, 16) } else { "ERR" }
+            } catch {
+                $acValue = "ERR"
+                $dcValue = "ERR"
+            }
             
-            # Get DC power setting  
-            $dcResult = powercfg -q $schemeGuid $cpuSubgroupGuid $cpuParkingGuid 2>&1
-            $dcParking = $dcResult | Select-String "Current DC Power Setting Index.*0x([0-9a-f]+)"
-            
-            $acValue = if ($acParking) { [convert]::ToInt32($acParking.Matches.Groups[1].Value, 16) } else { "N/A" }
-            $dcValue = if ($dcParking) { [convert]::ToInt32($dcParking.Matches.Groups[1].Value, 16) } else { "N/A" }
-            
-            $statusSymbol = if ($acValue -eq 0 -and $dcValue -eq 0) { "❌" } else { "✅" }
-            $statusText = if ($acValue -eq 0 -and $dcValue -eq 0) { "DISABLED" } else { "ENABLED" }
-            $statusColor = if ($acValue -eq 0 -and $dcValue -eq 0) { "Green" } else { "Red" }
+            $statusSymbol = if ($acValue -eq "ERR" -or $dcValue -eq "ERR") { "❓" }
+                            elseif ($acValue -eq 0 -and $dcValue -eq 0) { "❌" }
+                            else { "✅" }
+            $statusText = if ($acValue -eq "ERR" -or $dcValue -eq "ERR") { "ERROR" }
+                         elseif ($acValue -eq 0 -and $dcValue -eq 0) { "DISABLED" }
+                         else { "ENABLED" }
+            $statusColor = if ($acValue -eq "ERR" -or $dcValue -eq "ERR") { "Yellow" }
+                          elseif ($acValue -eq 0 -and $dcValue -eq 0) { "Green" }
+                          else { "Red" }
             
             if ($isActive) {
                 Write-Host "[ACTIVE] " -NoNewline -ForegroundColor Yellow
@@ -95,9 +107,11 @@ try {
     Write-StatusMessage -Message "Legend:" -Type Info
     Write-Host "  ❌ = Core Parking DISABLED (0 = unparked)" -ForegroundColor Green
     Write-Host "  ✅ = Core Parking ENABLED (100 = parked)" -ForegroundColor Red
+    Write-Host "  ❓ = Error reading setting" -ForegroundColor Yellow
     Write-Host "  AC = AC Power (plugged in)" -ForegroundColor Cyan
     Write-Host "  DC = DC Power (battery)" -ForegroundColor Cyan
     Write-Host ""
+    Write-StatusMessage -Message "Note: Some settings may require administrator privileges to read" -Type Warning
     
     # Check additional registry settings
     Write-StatusMessage -Message "Checking Additional Registry Settings:" -Type Info
