@@ -112,7 +112,7 @@ try {
         if (Test-Path -Path $path) {
             try {
                 $pathName = Split-Path $path -Leaf
-                Write-Host "  $pathName: " -NoNewline -ForegroundColor Cyan
+                Write-Host ("  {0}: " -f $pathName) -NoNewline -ForegroundColor Cyan
                 
                 if ($path -like "*intelppm*" -or $path -like "*amdppm*") {
                     $startValue = Get-ItemProperty -Path $path -Name "Start" -ErrorAction SilentlyContinue
