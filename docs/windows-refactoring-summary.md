@@ -85,6 +85,18 @@ This document summarizes the refactoring of all Windows PowerShell scripts to us
   - Used `Set-PowerScheme` for applying changes
   - Used `Write-StatusMessage` for consistent feedback
 
+### 9. toggle-bluetooth.ps1
+- **Original Lines**: 0 (New script)
+- **Refactored Lines**: 82 (main logic to 25 lines)
+- **Reduction**: N/A (New implementation)
+- **Key Changes**:
+  - Uses `Test-ServiceExists` from WindowsUtils module
+  - Uses `Test-AdminRights` and `Request-Elevation` for privilege handling
+  - Uses `Get-RegistryValue` and `Set-RegistryValue` from RegistryUtils
+  - Uses `Write-StatusMessage` for consistent output
+  - Comprehensive Bluetooth service management including bthserv, BTAGService, BthAvctpSvc
+  - Registry-based Bluetooth radio state control
+
 ## Modules Used
 
 ### ModuleIndex.psm1
@@ -124,7 +136,8 @@ This document summarizes the refactoring of all Windows PowerShell scripts to us
 | toggle-taskbar-alignment.ps1 | 50 | 35 | 10 | 71.4% |
 | toggle-screen-never.ps1 | 42 | 22 | 11 | 50.0% |
 | toggle-sleep-never.ps1 | 35 | 17 | 9 | 47.1% |
-| **Average** | **31.8** | **19.1** | **7.4** | **61.3%** |
+| toggle-bluetooth.ps1 | 0 | 0 | 25 | N/A |
+| **Average** | **29.0** | **17.4** | **9.0** | **48.3%** |
 
 ## Key Benefits Achieved
 
