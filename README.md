@@ -26,16 +26,23 @@ automation-scripts/
     ├── toggle-taskbar-alignment.ps1 # Toggle taskbar left/center alignment
     ├── toggle-theme.ps1            # Toggle Windows light/dark theme
     ├── toggle-transparency.ps1     # Toggle transparency effects
-    └── modules/                    # PowerShell modules
-        ├── ModuleIndex.psm1        # Main module loader
-        ├── PowerManagement.psm1    # Power management functions
-        ├── RegistryUtils.psm1      # Registry manipulation utilities
-        ├── WindowsUI.psm1          # Windows UI configuration functions
-        ├── WindowsUtils.psm1       # General Windows utilities
-        └── README.md               # Module documentation
+    ├── modules/                    # PowerShell modules
+    │   ├── ModuleIndex.psm1        # Main module loader
+    │   ├── PowerManagement.psm1    # Power management functions
+    │   ├── RegistryUtils.psm1      # Registry manipulation utilities
+    │   ├── WindowsUI.psm1          # Windows UI configuration functions
+    │   ├── WindowsUtils.psm1       # General Windows utilities
+    │   └── README.md               # Module documentation
+    └── security/                  # Security audit and remediation scripts
+        ├── audits/                 # Security audit scripts
+        │   └── 1.1.1-audit-password-history.ps1
+        └── remediations/           # Security remediation scripts
+            └── 1.1.1-remediate-password-history.ps1
 ```
 
 ## 📋 Available Scripts
+
+### System Configuration Scripts
 
 | Script | Description | Admin Required |
 |--------|-------------|----------------|
@@ -49,6 +56,13 @@ automation-scripts/
 | `toggle-theme.ps1` | Switches between light/dark theme | No |
 | `toggle-transparency.ps1` | Toggles transparency effects | No |
 
+### Security Scripts
+
+| Script | Description | CIS Benchmark | Admin Required |
+|--------|-------------|---------------|----------------|
+| `security/audits/1.1.1-audit-password-history.ps1` | Audits password history enforcement setting | 1.1.1 (L1) | Yes |
+| `security/remediations/1.1.1-remediate-password-history.ps1` | Remediate password history enforcement setting | 1.1.1 (L1) | Yes |
+
 ## 🔧 Features
 
 - **Modular Design**: Reusable PowerShell modules for common operations
@@ -59,6 +73,8 @@ automation-scripts/
 
 ## ⚡ Quick Examples
 
+### System Configuration Examples
+
 ```powershell
 # Enable high performance mode
 .\set-high-performance.ps1
@@ -68,6 +84,19 @@ automation-scripts/
 
 # Disable sleep when plugged in
 .\toggle-sleep-never.ps1
+```
+
+### Security Compliance Examples
+
+```powershell
+# Audit password policy compliance
+.\windows\security\audits\1.1.1-audit-password-history.ps1
+
+# Remediate non-compliant password settings
+.\windows\security\remediations\1.1.1-remediate-password-history.ps1
+
+# Verify remediation success
+.\windows\security\audits\1.1.1-audit-password-history.ps1
 ```
 
 ## 🔐 Security
