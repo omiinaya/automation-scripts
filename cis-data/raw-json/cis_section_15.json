@@ -1,0 +1,40 @@
+[
+  {
+    "cis_id": "15.4",
+    "title": "Disable Wireless Access on Devices if Not Required v7 ● Disable wireless access on devices that do not have a business purpose for wireless access.",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to Disabled: Computer Configuration\\Policies\\Administrative Templates\\Network\\Windows Connect Now\\Configuration of wireless settings using Windows Connect Now Note: This Group Policy path is provided by the Group Policy template WindowsConnectNow.admx/adml that is included with all versions of the Microsoft Windows Administrative Templates.",
+    "default_value": "WCN operations are enabled and allowed over all media.",
+    "references": [
+      "https://learn.microsoft.com/en-us/windows/win32/wcn/about-windows-connect-",
+      "GRID: MS-00000276",
+      "8 Uninstall or Disable Unnecessary Services on"
+    ],
+    "additional_info": "",
+    "page_number": 589
+  },
+  {
+    "cis_id": "15.5",
+    "title": "Limit Wireless Access on Client Devices",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to Disabled: Computer Configuration\\Policies\\Administrative Templates\\Network\\Windows Connect Now\\Configuration of wireless settings using Windows Connect Now Note: This Group Policy path is provided by the Group Policy template WindowsConnectNow.admx/adml that is included with all versions of the Microsoft Windows Administrative Templates.",
+    "default_value": "WCN operations are enabled and allowed over all media.",
+    "references": [
+      "https://learn.microsoft.com/en-us/windows/win32/wcn/about-windows-connect-",
+      "GRID: MS-00000276",
+      "8 Uninstall or Disable Unnecessary Services on"
+    ],
+    "additional_info": "",
+    "page_number": 589
+  }
+]

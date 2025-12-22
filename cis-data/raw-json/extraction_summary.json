@@ -1,18 +1,18 @@
 {
-  "total_recommendations": 295,
+  "total_recommendations": 906,
   "profiles": {
-    "L1": 266,
-    "L2": 28,
+    "L1": 798,
+    "L2": 107,
     "BL": 1
   },
   "assessment_status": {
-    "Automated": 295
+    "Automated": 906
   },
   "sections_with_content": {
-    "description": 96,
-    "rationale": 96,
-    "impact": 98,
-    "audit_procedure": 110,
-    "remediation_procedure": 94
+    "description": 132,
+    "rationale": 132,
+    "impact": 139,
+    "audit_procedure": 318,
+    "remediation_procedure": 187
   }
 }

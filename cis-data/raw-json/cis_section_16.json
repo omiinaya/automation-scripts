@@ -1,0 +1,183 @@
+[
+  {
+    "cis_id": "16.2",
+    "title": "Configure Centralized Point of Authentication",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [],
+    "additional_info": "",
+    "page_number": 42
+  },
+  {
+    "cis_id": "16.10",
+    "title": "Ensure All Accounts Have An Expiration Date",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed.",
+    "remediation_procedure": "section and confirm it is set as prescribed.",
+    "default_value": "42 days. References: 1. https://www.cisecurity.org/white-papers/cis-password-policy-guide/ 2. https://learn.microsoft.com/en-us/windows/security/threat-protection/security- policy-settings/password-policy 3. GRID: MS-00000002 CIS Controls: Controls Control IG 1 IG 2 IG 3 Version 5.2 Use Unique Passwords v8 Use unique passwords for all enterprise assets. Best practice implementation ● ● ● includes, at a minimum, an 8-character password for accounts using MFA and a 14-character password for accounts not using MFA. 16.10 Ensure All Accounts Have An Expiration Date v7 ● ● Ensure that all accounts have an expiration date that is monitored and enforced. Page 43",
+    "references": [
+      "https://www.cisecurity.org/white-papers/cis-password-policy-guide/",
+      "https://learn.microsoft.com/en-us/windows/security/threat-protection/security-",
+      "GRID: MS-00000002"
+    ],
+    "additional_info": "",
+    "page_number": 44
+  },
+  {
+    "cis_id": "16.4",
+    "title": "Encrypt or Hash all Authentication Credentials",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "ing- and-enforcement-on-certain-versions-of-windows-5ef7fecf-3325-f56b-cc10- 4fd565aacc59 3. https://learn.microsoft.com/en-us/windows/security/threat-protection/security- policy-settings/password-policy 4. GRID: MS-00000006 CIS Controls: Controls Control IG 1 IG 2 IG 3 Version",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to Enabled: Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Account Policies\\Password Policy\\Relax minimum password length limits Note: This setting is only available within the built-in OS security template of Windows 10 Release 2004 and Server 2022 (or newer), and is not available via older versions of the OS, or via downloadable Administrative Templates (ADMX/ADML). Therefore, you must use a Windows 10 Release 2004 or Server 2022 system (or newer) to view or edit this setting with the Group Policy Management Console (GPMC) or Group Policy Management Editor (GPME).",
+    "default_value": "Disabled. (The Minimum password length may be configured to a maximum of 14 characters.)",
+    "references": [
+      "https://www.cisecurity.org/white-papers/cis-password-policy-guide/",
+      "https://support.microsoft.com/en-us/topic/minimum-password-length-auditing-",
+      "https://learn.microsoft.com/en-us/windows/security/threat-protection/security-",
+      "GRID: MS-00000006"
+    ],
+    "additional_info": "",
+    "page_number": 54
+  },
+  {
+    "cis_id": "16.11",
+    "title": "Lock Workstation Sessions After Inactivity",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed.",
+    "remediation_procedure": "section and confirm it is set as prescribed.",
+    "default_value": "None, because this policy setting only has meaning when an Account lockout threshold is specified. When an Account lockout threshold is configured, Windows automatically suggests a value of 30 minutes.",
+    "references": [
+      "https://www.cisecurity.org/white-papers/cis-password-policy-guide/",
+      "GRID: MS-00000008",
+      "10 Enforce Automatic Device Lockout on Portable End-"
+    ],
+    "additional_info": "",
+    "page_number": 59
+  },
+  {
+    "cis_id": "16.12",
+    "title": "Monitor Attempts to Access Deactivated Accounts",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "logging. Page 62",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "https://support.microsoft.com/en-us/topic/kb5020282-account-lockout-available-",
+      "GRID: MS-00000010",
+      "10 Enforce Automatic Device Lockout on Portable End-"
+    ],
+    "additional_info": "",
+    "page_number": 63
+  },
+  {
+    "cis_id": "16.8",
+    "title": "Disable Any Unassociated Accounts",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to Disabled: Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Local Policies\\Security Options\\Accounts: Guest account status",
+    "default_value": "Disabled. References: 1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security- policy-settings/accounts-guest-account-status 2. GRID: MS-00000054 CIS Controls: Controls Control IG 1 IG 2 IG 3 Version 4.7 Manage Default Accounts on Enterprise Assets and Software v8 ● ● ● Manage default accounts on enterprise assets and software, such as root, administrator, and other pre-configured vendor accounts. Example implementations can include: disabling default accounts or making them unusable. 16.8 Disable Any Unassociated Accounts v7 ● ● ● Disable any account that cannot be associated with a business process or business owner. Page 149",
+    "references": [
+      "https://learn.microsoft.com/en-us/windows/security/threat-protection/security-",
+      "GRID: MS-00000054",
+      "7 Manage Default Accounts on Enterprise Assets and"
+    ],
+    "additional_info": "",
+    "page_number": 150
+  },
+  {
+    "cis_id": "16.13",
+    "title": "Alert on Account Login Behavior Deviation",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to Enabled: Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Local Policies\\Security Options\\Microsoft network server: Disconnect clients when logon hours expire",
+    "default_value": "Enabled. (Client sessions with the SMB service are forcibly disconnected when the client's logon hours expire.)",
+    "references": [
+      "https://learn.microsoft.com/en-us/windows/security/threat-protection/security-",
+      "GRID: MS-00000087"
+    ],
+    "additional_info": "",
+    "page_number": 201
+  },
+  {
+    "cis_id": "16.6",
+    "title": "Maintain an Inventory of Accounts",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "Logs v8 Configure detailed audit logging for enterprise assets containing sensitive data. ● ● Include event source, date, username, timestamp, source addresses, destination addresses, and other useful elements that could assist in a forensic investigation.",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [],
+    "additional_info": "",
+    "page_number": 410
+  },
+  {
+    "cis_id": "16.5",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "GRID: MS-00000265",
+      "5 Use Up-to-Date and Trusted Third-Party Software",
+      "4 Only Use Up-to-date And Trusted Third-Party",
+      "6.6 Hotspot Authentication"
+    ],
+    "additional_info": "",
+    "page_number": 534
+  },
+  {
+    "cis_id": "16.3",
+    "title": "Require Multi-factor Authentication",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to Enabled: Computer Configuration\\Policies\\Administrative Templates\\Windows Components\\BitLocker Drive Encryption\\Fixed Data Drives\\Configure use of smart cards on fixed data drives Note: This Group Policy path is provided by the Group Policy template VolumeEncryption.admx/adml that is included with the Microsoft Windows 7 & Server 2008 R2 Administrative Templates (or newer).",
+    "default_value": "Enabled. (Users are allowed to use smart cards to authenticate their access to BitLocker-protected fixed data drives.)",
+    "references": [
+      "GRID: MS-00000390"
+    ],
+    "additional_info": "",
+    "page_number": 831
+  }
+]

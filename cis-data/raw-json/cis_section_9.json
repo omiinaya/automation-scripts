@@ -53,5 +53,360 @@
     ],
     "additional_info": "",
     "page_number": 382
+  },
+  {
+    "cis_id": "9.2.1",
+    "title": "Ensure 'Windows Firewall: Private: Firewall state' is set to 'On (recommended)'",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "37 (L1) Ensure 'World Wide Web Publishing Service (W3SVC)' is set to 'Disabled' or 'Not",
+      "40 (L1) Ensure 'Xbox Live Game Save (XblGameSave)' is set to 'Disabled' (Automated) . 362",
+      "1 Domain Profile .............................................................................................................................. 366",
+      "2 Private Profile ............................................................................................................................... 366",
+      "3 Public Profile ................................................................................................................................ 381"
+    ],
+    "additional_info": "",
+    "page_number": 9
+  },
+  {
+    "cis_id": "9.2.2",
+    "title": "Ensure 'Windows Firewall: Private: Inbound connections' is set to 'Block (default)'",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "37 (L1) Ensure 'World Wide Web Publishing Service (W3SVC)' is set to 'Disabled' or 'Not",
+      "40 (L1) Ensure 'Xbox Live Game Save (XblGameSave)' is set to 'Disabled' (Automated) . 362",
+      "1 Domain Profile .............................................................................................................................. 366",
+      "2 Private Profile ............................................................................................................................... 366",
+      "3 Public Profile ................................................................................................................................ 381"
+    ],
+    "additional_info": "",
+    "page_number": 9
+  },
+  {
+    "cis_id": "9.2.3",
+    "title": "Ensure 'Windows Firewall: Private: Settings: Display a notification' is set to 'No'",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "37 (L1) Ensure 'World Wide Web Publishing Service (W3SVC)' is set to 'Disabled' or 'Not",
+      "40 (L1) Ensure 'Xbox Live Game Save (XblGameSave)' is set to 'Disabled' (Automated) . 362",
+      "1 Domain Profile .............................................................................................................................. 366",
+      "2 Private Profile ............................................................................................................................... 366",
+      "3 Public Profile ................................................................................................................................ 381"
+    ],
+    "additional_info": "",
+    "page_number": 9
+  },
+  {
+    "cis_id": "9.2.4",
+    "title": "Ensure 'Windows Firewall: Private: Logging: Name' is set to '%SystemRoot%\\System32\\logfiles\\firewall\\privatefw.log'",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "37 (L1) Ensure 'World Wide Web Publishing Service (W3SVC)' is set to 'Disabled' or 'Not",
+      "40 (L1) Ensure 'Xbox Live Game Save (XblGameSave)' is set to 'Disabled' (Automated) . 362",
+      "1 Domain Profile .............................................................................................................................. 366",
+      "2 Private Profile ............................................................................................................................... 366",
+      "3 Public Profile ................................................................................................................................ 381"
+    ],
+    "additional_info": "",
+    "page_number": 9
+  },
+  {
+    "cis_id": "9.2.5",
+    "title": "Ensure 'Windows Firewall: Private: Logging: Size limit (KB)' is set to '16,384 KB or greater'",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "37 (L1) Ensure 'World Wide Web Publishing Service (W3SVC)' is set to 'Disabled' or 'Not",
+      "40 (L1) Ensure 'Xbox Live Game Save (XblGameSave)' is set to 'Disabled' (Automated) . 362",
+      "1 Domain Profile .............................................................................................................................. 366",
+      "2 Private Profile ............................................................................................................................... 366",
+      "3 Public Profile ................................................................................................................................ 381"
+    ],
+    "additional_info": "",
+    "page_number": 9
+  },
+  {
+    "cis_id": "9.2.6",
+    "title": "Ensure 'Windows Firewall: Private: Logging: Log dropped packets' is set to 'Yes'",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "37 (L1) Ensure 'World Wide Web Publishing Service (W3SVC)' is set to 'Disabled' or 'Not",
+      "40 (L1) Ensure 'Xbox Live Game Save (XblGameSave)' is set to 'Disabled' (Automated) . 362",
+      "1 Domain Profile .............................................................................................................................. 366",
+      "2 Private Profile ............................................................................................................................... 366",
+      "3 Public Profile ................................................................................................................................ 381"
+    ],
+    "additional_info": "",
+    "page_number": 9
+  },
+  {
+    "cis_id": "9.2.7",
+    "title": "Ensure 'Windows Firewall: Private: Logging: Log successful connections' is set to 'Yes'",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "37 (L1) Ensure 'World Wide Web Publishing Service (W3SVC)' is set to 'Disabled' or 'Not",
+      "40 (L1) Ensure 'Xbox Live Game Save (XblGameSave)' is set to 'Disabled' (Automated) . 362",
+      "1 Domain Profile .............................................................................................................................. 366",
+      "2 Private Profile ............................................................................................................................... 366",
+      "3 Public Profile ................................................................................................................................ 381"
+    ],
+    "additional_info": "",
+    "page_number": 9
+  },
+  {
+    "cis_id": "9.3.1",
+    "title": "Ensure 'Windows Firewall: Public: Firewall state' is set to 'On (recommended)'",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "37 (L1) Ensure 'World Wide Web Publishing Service (W3SVC)' is set to 'Disabled' or 'Not",
+      "40 (L1) Ensure 'Xbox Live Game Save (XblGameSave)' is set to 'Disabled' (Automated) . 362",
+      "1 Domain Profile .............................................................................................................................. 366",
+      "2 Private Profile ............................................................................................................................... 366",
+      "3 Public Profile ................................................................................................................................ 381"
+    ],
+    "additional_info": "",
+    "page_number": 9
+  },
+  {
+    "cis_id": "9.3.2",
+    "title": "Ensure 'Windows Firewall: Public: Inbound connections' is set to 'Block (default)'",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "37 (L1) Ensure 'World Wide Web Publishing Service (W3SVC)' is set to 'Disabled' or 'Not",
+      "40 (L1) Ensure 'Xbox Live Game Save (XblGameSave)' is set to 'Disabled' (Automated) . 362",
+      "1 Domain Profile .............................................................................................................................. 366",
+      "2 Private Profile ............................................................................................................................... 366",
+      "3 Public Profile ................................................................................................................................ 381"
+    ],
+    "additional_info": "",
+    "page_number": 9
+  },
+  {
+    "cis_id": "9.3.3",
+    "title": "Ensure 'Windows Firewall: Public: Settings: Display a notification' is set to 'No'",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "37 (L1) Ensure 'World Wide Web Publishing Service (W3SVC)' is set to 'Disabled' or 'Not",
+      "40 (L1) Ensure 'Xbox Live Game Save (XblGameSave)' is set to 'Disabled' (Automated) . 362",
+      "1 Domain Profile .............................................................................................................................. 366",
+      "2 Private Profile ............................................................................................................................... 366",
+      "3 Public Profile ................................................................................................................................ 381"
+    ],
+    "additional_info": "",
+    "page_number": 9
+  },
+  {
+    "cis_id": "9.3.4",
+    "title": "Ensure 'Windows Firewall: Public: Settings: Apply local firewall rules' is set to 'No'",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "37 (L1) Ensure 'World Wide Web Publishing Service (W3SVC)' is set to 'Disabled' or 'Not",
+      "40 (L1) Ensure 'Xbox Live Game Save (XblGameSave)' is set to 'Disabled' (Automated) . 362",
+      "1 Domain Profile .............................................................................................................................. 366",
+      "2 Private Profile ............................................................................................................................... 366",
+      "3 Public Profile ................................................................................................................................ 381"
+    ],
+    "additional_info": "",
+    "page_number": 9
+  },
+  {
+    "cis_id": "9.3.5",
+    "title": "Ensure 'Windows Firewall: Public: Settings: Apply local connection security rules' is set to 'No'",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "37 (L1) Ensure 'World Wide Web Publishing Service (W3SVC)' is set to 'Disabled' or 'Not",
+      "40 (L1) Ensure 'Xbox Live Game Save (XblGameSave)' is set to 'Disabled' (Automated) . 362",
+      "1 Domain Profile .............................................................................................................................. 366",
+      "2 Private Profile ............................................................................................................................... 366",
+      "3 Public Profile ................................................................................................................................ 381"
+    ],
+    "additional_info": "",
+    "page_number": 9
+  },
+  {
+    "cis_id": "9.3.6",
+    "title": "Ensure 'Windows Firewall: Public: Logging: Name' is set to '%SystemRoot%\\System32\\logfiles\\firewall\\publicfw.log'",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "37 (L1) Ensure 'World Wide Web Publishing Service (W3SVC)' is set to 'Disabled' or 'Not",
+      "40 (L1) Ensure 'Xbox Live Game Save (XblGameSave)' is set to 'Disabled' (Automated) . 362",
+      "1 Domain Profile .............................................................................................................................. 366",
+      "2 Private Profile ............................................................................................................................... 366",
+      "3 Public Profile ................................................................................................................................ 381"
+    ],
+    "additional_info": "",
+    "page_number": 9
+  },
+  {
+    "cis_id": "9.3.7",
+    "title": "Ensure 'Windows Firewall: Public: Logging: Size limit (KB)' is set to '16,384 KB or greater'",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "37 (L1) Ensure 'World Wide Web Publishing Service (W3SVC)' is set to 'Disabled' or 'Not",
+      "40 (L1) Ensure 'Xbox Live Game Save (XblGameSave)' is set to 'Disabled' (Automated) . 362",
+      "1 Domain Profile .............................................................................................................................. 366",
+      "2 Private Profile ............................................................................................................................... 366",
+      "3 Public Profile ................................................................................................................................ 381"
+    ],
+    "additional_info": "",
+    "page_number": 9
+  },
+  {
+    "cis_id": "9.3.8",
+    "title": "Ensure 'Windows Firewall: Public: Logging: Log dropped packets' is set to 'Yes'",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "37 (L1) Ensure 'World Wide Web Publishing Service (W3SVC)' is set to 'Disabled' or 'Not",
+      "40 (L1) Ensure 'Xbox Live Game Save (XblGameSave)' is set to 'Disabled' (Automated) . 362",
+      "1 Domain Profile .............................................................................................................................. 366",
+      "2 Private Profile ............................................................................................................................... 366",
+      "3 Public Profile ................................................................................................................................ 381"
+    ],
+    "additional_info": "",
+    "page_number": 9
+  },
+  {
+    "cis_id": "9.3.9",
+    "title": "Ensure 'Windows Firewall: Public: Logging: Log successful connections' is set to 'Yes'",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "37 (L1) Ensure 'World Wide Web Publishing Service (W3SVC)' is set to 'Disabled' or 'Not",
+      "40 (L1) Ensure 'Xbox Live Game Save (XblGameSave)' is set to 'Disabled' (Automated) . 362",
+      "1 Domain Profile .............................................................................................................................. 366",
+      "2 Private Profile ............................................................................................................................... 366",
+      "3 Public Profile ................................................................................................................................ 381"
+    ],
+    "additional_info": "",
+    "page_number": 9
+  },
+  {
+    "cis_id": "9.4",
+    "title": "Apply Host-based Firewalls or Port Filtering",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "https://learn.microsoft.com/en-us/windows/security/threat-protection/windows-",
+      "GRID: MS-00000180",
+      "5 Implement and Manage a Firewall on End-User"
+    ],
+    "additional_info": "",
+    "page_number": 369
   }
 ]

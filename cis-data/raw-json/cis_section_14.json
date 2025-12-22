@@ -1,0 +1,75 @@
+[
+  {
+    "cis_id": "14.6",
+    "title": "Protect Information through Access Control Lists",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "https://learn.microsoft.com/en-us/windows/security/threat-protection/security-",
+      "GRID: MS-00000101",
+      "6 Protect Information through Access Control Lists"
+    ],
+    "additional_info": "",
+    "page_number": 228
+  },
+  {
+    "cis_id": "14.4",
+    "title": "Encrypt All Sensitive Information in Transit v7 ● ● Encrypt all sensitive information in transit.",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 2147483640. HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\Kerberos\\Param eters:SupportedEncryptionTypes",
+    "remediation_procedure": "section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 2147483640. HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\Kerberos\\Param eters:SupportedEncryptionTypes",
+    "default_value": "RC4_HMAC_MD5, AES128_HMAC_SHA1, AES256_HMAC_SHA1, Future encryption types.",
+    "references": [
+      "https://learn.microsoft.com/en-us/windows/security/threat-protection/security-",
+      "GRID: MS-00000106"
+    ],
+    "additional_info": "",
+    "page_number": 239
+  },
+  {
+    "cis_id": "14.3",
+    "title": "Disable Workstation to Workstation Communication",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "8 Uninstall or Disable Unnecessary Services on",
+      "2 Ensure Only Approved Ports, Protocols and Services"
+    ],
+    "additional_info": "",
+    "page_number": 487
+  },
+  {
+    "cis_id": "14.8",
+    "title": "Encrypt Sensitive Information at Rest",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "GRID: MS-00000511",
+      "8 Uninstall or Disable Unnecessary Services on"
+    ],
+    "additional_info": "",
+    "page_number": 1132
+  }
+]

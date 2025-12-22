@@ -116,26 +116,89 @@ class CISExtractor:
         toc_mapping = {}
         
         # Look for patterns like "1.1.1 ... 39" in the first few pages
-        for page_data in self.pages_text[:20]:  # TOC might span more pages
-            for line in page_data['lines']:
-                # Match patterns like "1.1.1 (L1) Ensure ... 39" or "1.1.1 ... 39"
-                patterns = [
-                    r'^(\d+\.\d+(?:\.\d+)*)\s+.*?(\d+)$',  # Standard pattern
-                    r'^(\d+\.\d+(?:\.\d+)*)\s+\(L\d\).*?(\d+)$',  # With profile
-                    r'^(\d+\.\d+(?:\.\d+)*)\s+Ensure.*?(\d+)$',  # With title start
-                ]
+        for page_data in self.pages_text[:30]:  # TOC might span more pages - increased from 20 to 30
+            # Process lines with multi-line awareness for TOC entries
+            lines = page_data['lines']
+            i = 0
+            while i < len(lines):
+                line = lines[i].strip()
                 
-                for pattern in patterns:
-                    matches = re.findall(pattern, line)
-                    for cis_id, page_num in matches:
-                        if cis_id and page_num and cis_id not in toc_mapping:
-                            # Apply page offset correction: TOC page numbers are often off by 1
-                            # Add +1 to account for the discrepancy between TOC and actual content pages
-                            corrected_page_num = int(page_num) + 1
-                            toc_mapping[cis_id] = corrected_page_num
+                # Check if this line starts with a CIS ID pattern
+                cis_id_match = re.match(r'^(\d+\.\d+(?:\.\d+)*)', line)
+                if cis_id_match:
+                    cis_id = cis_id_match.group(1)
+                    
+                    # Look for page number on this line or subsequent lines
+                    page_num = None
+                    
+                    # Pattern 1: Page number on same line
+                    same_line_match = re.search(r'(\d+)\s*$', line)
+                    if same_line_match:
+                        page_num = same_line_match.group(1)
+                    
+                    # Pattern 2: Page number on next line (for multi-line TOC entries)
+                    if not page_num and i + 1 < len(lines):
+                        next_line = lines[i + 1].strip()
+                        next_line_match = re.search(r'^(\d+)\s*$', next_line)
+                        if next_line_match:
+                            page_num = next_line_match.group(1)
+                            i += 1  # Skip the next line since we used it
+                    
+                    # Pattern 3: Look for page number in the line content
+                    if not page_num:
+                        content_match = re.search(r'.*?(\d+)\s*$', line)
+                        if content_match:
+                            page_num = content_match.group(1)
+                    
+                    if page_num and cis_id not in toc_mapping:
+                        # Apply page offset correction: TOC page numbers are often off by 1
+                        corrected_page_num = int(page_num) + 1
+                        toc_mapping[cis_id] = corrected_page_num
+                
+                i += 1
         
-        self.logger.info(f"Extracted {len(toc_mapping)} CIS ID to page mappings from TOC")
+        # Enhanced fallback: Always use content-based extraction for sections with missing sub-recommendations
+        # This ensures we capture all recommendations regardless of TOC completeness
+        self.logger.info(f"TOC extraction found {len(toc_mapping)} entries. Augmenting with content-based extraction.")
+        content_toc_mapping = self.extract_cis_ids_from_content()
+        
+        # Merge mappings, prioritizing TOC entries but adding missing ones from content
+        for cis_id, page_num in content_toc_mapping.items():
+            if cis_id not in toc_mapping:
+                toc_mapping[cis_id] = page_num
+                self.logger.info(f"Added missing recommendation {cis_id} from content extraction")
+        
+        self.logger.info(f"Final CIS ID to page mappings: {len(toc_mapping)}")
         return toc_mapping
+    
+    def extract_cis_ids_from_content(self) -> Dict[str, int]:
+        """Extract CIS IDs directly from content pages as fallback when TOC is incomplete"""
+        content_mapping = {}
+        
+        # Look for CIS recommendation headers throughout the document
+        for page_data in self.pages_text:
+            page_text = page_data['text']
+            page_num = page_data['page_number']
+            
+            # Pattern to find CIS recommendation headers in content
+            # Look for patterns like "9.3.7 (L1) Ensure ..." or "9.3.7 Ensure ..."
+            patterns = [
+                r'^(\d+\.\d+(?:\.\d+)*)\s+\(L\d\)',
+                r'^(\d+\.\d+(?:\.\d+)*)\s+Ensure',
+                r'^(\d+\.\d+(?:\.\d+)*)\s+[A-Z]',
+                r'\n(\d+\.\d+(?:\.\d+)*)\s+\(L\d\)',
+                r'\n(\d+\.\d+(?:\.\d+)*)\s+Ensure',
+                r'\n(\d+\.\d+(?:\.\d+)*)\s+[A-Z]',
+            ]
+            
+            for pattern in patterns:
+                matches = re.findall(pattern, page_text, re.MULTILINE)
+                for cis_id in matches:
+                    if cis_id not in content_mapping:
+                        content_mapping[cis_id] = page_num
+        
+        self.logger.info(f"Extracted {len(content_mapping)} CIS IDs from content pages as fallback")
+        return content_mapping
     
     def extract_recommendation_from_pages(self, start_page_data: Dict, cis_id: str) -> Optional[CISRecommendation]:
         """Extract a single recommendation spanning multiple pages"""

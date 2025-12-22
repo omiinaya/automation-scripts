@@ -1,0 +1,61 @@
+[
+  {
+    "cis_id": "7.4",
+    "title": "Maintain and Enforce Network-Based URL Filters",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "https://learn.microsoft.com/en-us/windows/win32/lwef/pubwiz-intro",
+      "GRID: MS-00000323",
+      "8 Uninstall or Disable Unnecessary Services on"
+    ],
+    "additional_info": "",
+    "page_number": 690
+  },
+  {
+    "cis_id": "7.3",
+    "title": "ensure that the operating",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of anything other than 3. HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DeliveryOptimization:DODownloadMode",
+    "remediation_procedure": "section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of anything other than 3. HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DeliveryOptimization:DODownloadMode",
+    "default_value": "Enterprise, Enterprise LTSB and Education SKUs: Enabled: LAN (1) All other SKUs: Enabled: Internet (3)",
+    "references": [
+      "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DeliveryOptimization:DODownloadMode",
+      "https://learn.microsoft.com/en-us/windows/deployment/do/waas-delivery-",
+      "GRID: MS-00000440",
+      "3 Perform Automated Operating System Patch",
+      "4 Deploy Automated Operating System Patch"
+    ],
+    "additional_info": "",
+    "page_number": 924
+  },
+  {
+    "cis_id": "7.2",
+    "title": "Disable Unnecessary or Unauthorized Browser or",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "Disabled. (Users can set the Feed Sync Engine to download an enclosure through the Feed property page. Developers can change the download setting through the Feed APIs.)",
+    "references": [
+      "GRID: MS-00000507",
+      "4 Restrict Unnecessary or Unauthorized Browser and",
+      "2 Disable Unnecessary or Unauthorized Browser or"
+    ],
+    "additional_info": "",
+    "page_number": 1121
+  }
+]
