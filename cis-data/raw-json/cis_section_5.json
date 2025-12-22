@@ -1,0 +1,214 @@
+[
+  {
+    "cis_id": "5.2",
+    "title": "Ensure 'Bluetooth Support Service (bthserv)' is set to 'Disabled'",
+    "profile": "L2",
+    "assessment_status": "Automated",
+    "description": "The Bluetooth service supports discovery and association of remote Bluetooth devices. The recommended state for this setting is: Disabled.",
+    "rationale": "Bluetooth technology has inherent security risks - especially prior to the v2.1 standard. Wireless Bluetooth traffic is not well encrypted (if at all), so in a high-security environment, it should not be permitted, in spite of the added inconvenience of not being able to use Bluetooth devices.",
+    "impact": "Already installed Bluetooth devices may fail to operate properly and new devices may be prevented from being discovered or associated. If Bluetooth devices were installed, then some Windows components, such as Devices and Printers, may fail to operate correctly - including hanging/freezing when opened. The solution, besides re-enabling this service, is to disable or delete the offending Bluetooth device(s) in Device Manager, or disable the device altogether via the system BIOS (if it is an on-board Bluetooth device).",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 4. HKLM\\SYSTEM\\CurrentControlSet\\Services\\bthserv:Start",
+    "remediation_procedure": "section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 4. HKLM\\SYSTEM\\CurrentControlSet\\Services\\bthserv:Start",
+    "default_value": "Windows 7: Manual Windows 8.0 or newer: Manual (Trigger Start) Page 286",
+    "references": [
+      "1 standard",
+      "HKLM\\SYSTEM\\CurrentControlSet\\Services\\bthserv:Start",
+      "0 or newer: Manual (Trigger Start)",
+      "Level 2 (L2)"
+    ],
+    "additional_info": "",
+    "page_number": 287
+  },
+  {
+    "cis_id": "5.5",
+    "title": "Ensure 'GameInput Service (GameInputSvc)' is set to 'Disabled'",
+    "profile": "L2",
+    "assessment_status": "Automated",
+    "description": "This service enables the use of keyboards, mice, gamepads, and other input devices to be used with the GameInput API. The recommended state for this setting is: Disabled. Note: GameInput service runs as LocalSystem in its own process of GameInputSvc.exe and doesn't share its process with other services.",
+    "rationale": "GameInput API pipes input from keyboards, mice, gamepads, and other game controllers via Direct Memory Access (DMA) to decrease latency for gaming performance. This DMA use increases the risk of input data (especially keystrokes) being captured by a malicious attacker.",
+    "impact": "Input devices will not be able to utilize the GameInput API.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 4. HKLM\\SYSTEM\\CurrentControlSet\\Services\\GameInputSvc:Start",
+    "remediation_procedure": "section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 4. HKLM\\SYSTEM\\CurrentControlSet\\Services\\GameInputSvc:Start",
+    "default_value": "Windows 11 Release 24H2 or newer: Manual (Trigger Start)",
+    "references": [
+      "HKLM\\SYSTEM\\CurrentControlSet\\Services\\GameInputSvc:Start",
+      "https://learn.microsoft.com/en-us/gaming/gdk/_content/gc/input/overviews/input-",
+      "GRID: MS-00000607",
+      "Level 2 (L2)"
+    ],
+    "additional_info": "",
+    "page_number": 293
+  },
+  {
+    "cis_id": "5.6",
+    "title": "Ensure 'Geolocation Service (lfsvc)' is set to 'Disabled'",
+    "profile": "L2",
+    "assessment_status": "Automated",
+    "description": "This service monitors the current location of the system and manages geofences (a geographical location with associated events). The recommended state for this setting is: Disabled.",
+    "rationale": "This setting affects the location feature (e.g. GPS or other location tracking). From a security perspective, it’s not a good idea to reveal your location to software in most cases, but there are legitimate uses, such as mapping software. However, they should not be used in high security environments.",
+    "impact": "Applications will be unable to use or receive notifications for geolocation or geofences.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 4. HKLM\\SYSTEM\\CurrentControlSet\\Services\\lfsvc:Start",
+    "remediation_procedure": "section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 4. HKLM\\SYSTEM\\CurrentControlSet\\Services\\lfsvc:Start",
+    "default_value": "Manual (Trigger Start)",
+    "references": [
+      "HKLM\\SYSTEM\\CurrentControlSet\\Services\\lfsvc:Start",
+      "GRID: MS-00000132",
+      "Level 2 (L2)"
+    ],
+    "additional_info": "",
+    "page_number": 295
+  },
+  {
+    "cis_id": "5.13",
+    "title": "Ensure 'Print Spooler (Spooler)' is set to 'Disabled'",
+    "profile": "L2",
+    "assessment_status": "Automated",
+    "description": "This service spools print jobs and handles interaction with printers. The recommended state for this setting is: Disabled.",
+    "rationale": "In a high security environment, unnecessary services especially those with known vulnerabilities should be disabled. Disabling the Print Spooler (Spooler) service mitigates the PrintNightmare vulnerability (CVE-2021-34527) and other attacks against the service.",
+    "impact": "Users will not be able to print, including printing to files (such as Adobe Portable Document Format (PDF)) which uses the Print Spooler service.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 4. HKLM\\SYSTEM\\CurrentControlSet\\Services\\Spooler:Start",
+    "remediation_procedure": "section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 4. HKLM\\SYSTEM\\CurrentControlSet\\Services\\Spooler:Start",
+    "default_value": "Automatic References: 1. https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-34527 2. GRID: MS-00000145 Page 308",
+    "references": [
+      "HKLM\\SYSTEM\\CurrentControlSet\\Services\\Spooler:Start",
+      "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-34527",
+      "GRID: MS-00000145",
+      "Level 2 (L2)"
+    ],
+    "additional_info": "",
+    "page_number": 309
+  },
+  {
+    "cis_id": "5.20",
+    "title": "Ensure 'Remote Registry (RemoteRegistry)' is set to 'Disabled'",
+    "profile": "L2",
+    "assessment_status": "Automated",
+    "description": "Enables remote users to view and modify registry settings on this computer. The recommended state for this setting is: Disabled.",
+    "rationale": "In a high security environment, exposing the registry to remote access is an increased security risk.",
+    "impact": "The registry can be viewed and modified only by users on the computer. Note: Many remote administration tools, such as System Center Configuration Manager (SCCM), require the Remote Registry service to be operational for remote management. In addition, many vulnerability scanners use this service to access the registry remotely.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 4. HKLM\\SYSTEM\\CurrentControlSet\\Services\\RemoteRegistry:Start",
+    "remediation_procedure": "section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 4. HKLM\\SYSTEM\\CurrentControlSet\\Services\\RemoteRegistry:Start",
+    "default_value": "Windows 7: Manual Windows 8.0 or newer: Disabled",
+    "references": [
+      "HKLM\\SYSTEM\\CurrentControlSet\\Services\\RemoteRegistry:Start",
+      "0 or newer: Disabled",
+      "GRID: MS-00000152",
+      "Level 2 (L2)"
+    ],
+    "additional_info": "",
+    "page_number": 323
+  },
+  {
+    "cis_id": "5.22",
+    "title": "Ensure 'Server (LanmanServer)' is set to 'Disabled'",
+    "profile": "L2",
+    "assessment_status": "Automated",
+    "description": "Supports file, print, and named-pipe sharing over the network for this computer. If this service is stopped, these functions will be unavailable. The recommended state for this setting is: Disabled.",
+    "rationale": "In a high security environment, a secure workstation should only be a client, not a server. Sharing workstation resources for remote access increases security risk as the attack surface is notably higher.",
+    "impact": "File, print and named-pipe sharing functions will be unavailable from this machine over the network. Note: Many remote administration tools, such as System Center Configuration Manager (SCCM), require the Server service to be operational for remote management. In addition, many vulnerability scanners use this service to scan the file system remotely.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 4. HKLM\\SYSTEM\\CurrentControlSet\\Services\\LanmanServer:Start",
+    "remediation_procedure": "section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 4. HKLM\\SYSTEM\\CurrentControlSet\\Services\\LanmanServer:Start",
+    "default_value": "Windows 7 through Windows 10 R1703: Automatic Windows 10 R1709 or newer: Automatic (Trigger Start) Page 326",
+    "references": [
+      "HKLM\\SYSTEM\\CurrentControlSet\\Services\\LanmanServer:Start",
+      "Level 2 (L2)"
+    ],
+    "additional_info": "",
+    "page_number": 327
+  },
+  {
+    "cis_id": "5.24",
+    "title": "Ensure 'SNMP Service (SNMP)' is set to 'Disabled'",
+    "profile": "L2",
+    "assessment_status": "Automated",
+    "description": "Enables Simple Network Management Protocol (SNMP) requests to be processed by this computer. The recommended state for this setting is: Disabled or Not Installed. Note: This service is not installed by default. It is supplied with Windows, but is installed by enabling an optional Windows feature (Simple Network Management Protocol (SNMP)).",
+    "rationale": "Features that enable inbound network connections increase the attack surface. In a high security environment, management of secure workstations should be handled locally.",
+    "impact": "The computer will be unable to process SNMP requests.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 4 or that the key does not exist. HKLM\\SYSTEM\\CurrentControlSet\\Services\\SNMP:Start",
+    "remediation_procedure": "section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 4 or that the key does not exist. HKLM\\SYSTEM\\CurrentControlSet\\Services\\SNMP:Start",
+    "default_value": "Not Installed (Automatic when installed)",
+    "references": [
+      "GRID: MS-00000156",
+      "Level 2 (L2)"
+    ],
+    "additional_info": "",
+    "page_number": 331
+  },
+  {
+    "cis_id": "5.26",
+    "title": "Ensure 'SSDP Discovery (SSDPSRV)' is set to 'Disabled'",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "Discovers networked devices and services that use the SSDP discovery protocol, such as UPnP devices. Also announces SSDP devices and services running on the local computer. The recommended state for this setting is: Disabled.",
+    "rationale": "Universal Plug n Play (UPnP) is a real security risk - it allows automatic discovery and attachment to network devices. Note that UPnP is different than regular Plug n Play (PnP). Workstations should not be advertising their services (or automatically discovering and connecting to networked services) in a security-conscious enterprise managed environment.",
+    "impact": "SSDP-based devices will not be discovered.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 4. HKLM\\SYSTEM\\CurrentControlSet\\Services\\SSDPSRV:Start",
+    "remediation_procedure": "section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 4. HKLM\\SYSTEM\\CurrentControlSet\\Services\\SSDPSRV:Start",
+    "default_value": "Manual References: 1. GRID: MS-00000158 Page 334",
+    "references": [
+      "HKLM\\SYSTEM\\CurrentControlSet\\Services\\SSDPSRV:Start",
+      "GRID: MS-00000158",
+      "Level 1 (L1)"
+    ],
+    "additional_info": "",
+    "page_number": 335
+  },
+  {
+    "cis_id": "5.27",
+    "title": "Ensure 'UPnP Device Host (upnphost)' is set to 'Disabled'",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "Allows UPnP devices to be hosted on this computer. The recommended state for this setting is: Disabled.",
+    "rationale": "Universal Plug n Play (UPnP) is a real security risk - it allows automatic discovery and attachment to network devices. Notes that UPnP is different than regular Plug n Play (PnP). Workstations should not be advertising their services (or automatically discovering and connecting to networked services) in a security-conscious enterprise managed environment.",
+    "impact": "Any hosted UPnP devices will stop functioning and no additional hosted devices can be added.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 4. HKLM\\SYSTEM\\CurrentControlSet\\Services\\upnphost:Start",
+    "remediation_procedure": "section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 4. HKLM\\SYSTEM\\CurrentControlSet\\Services\\upnphost:Start",
+    "default_value": "Manual References: 1. GRID: MS-00000159 Page 336",
+    "references": [
+      "HKLM\\SYSTEM\\CurrentControlSet\\Services\\upnphost:Start",
+      "GRID: MS-00000159",
+      "Level 1 (L1)"
+    ],
+    "additional_info": "",
+    "page_number": 337
+  },
+  {
+    "cis_id": "5.30",
+    "title": "Ensure 'Windows Event Collector (Wecsvc)' is set to 'Disabled'",
+    "profile": "L2",
+    "assessment_status": "Automated",
+    "description": "This service manages persistent subscriptions to events from remote sources that support WS-Management protocol. This includes Windows Vista event logs, hardware and IPMI-enabled event sources. The service stores forwarded events in a local Event Log. The recommended state for this setting is: Disabled.",
+    "rationale": "In a high security environment, remote connections to secure workstations should be minimized, and management functions should be done locally.",
+    "impact": "If this service is stopped or disabled event subscriptions cannot be created and forwarded events cannot be accepted. Note: Many remote management tools and third-party security audit tools depend on this service.",
+    "audit_procedure": "tools depend on this service.",
+    "remediation_procedure": "section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 4. HKLM\\SYSTEM\\CurrentControlSet\\Services\\Wecsvc:Start",
+    "default_value": "Manual References: 1. GRID: MS-00000162 Page 342",
+    "references": [
+      "HKLM\\SYSTEM\\CurrentControlSet\\Services\\Wecsvc:Start",
+      "GRID: MS-00000162",
+      "Level 2 (L2)"
+    ],
+    "additional_info": "",
+    "page_number": 343
+  },
+  {
+    "cis_id": "5.40",
+    "title": "Ensure 'Xbox Live Game Save (XblGameSave)' is set to 'Disabled'",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "This service syncs save data for Xbox Live save enabled games. The recommended state for this setting is: Disabled.",
+    "rationale": "Xbox Live is a gaming service and has no place in an enterprise managed environment (perhaps unless it is a gaming company).",
+    "impact": "Game save data will not upload to or download from Xbox Live.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 4. HKLM\\SYSTEM\\CurrentControlSet\\Services\\XblGameSave:Start",
+    "remediation_procedure": "section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 4. HKLM\\SYSTEM\\CurrentControlSet\\Services\\XblGameSave:Start",
+    "default_value": "Windows 10 R1507 and R1511: Manual Windows 10 R1607 or newer: Manual (Trigger Start)",
+    "references": [
+      "HKLM\\SYSTEM\\CurrentControlSet\\Services\\XblGameSave:Start",
+      "https://www.cisecurity.org/insights/blog/update-cis-microsoft-windows-10-",
+      "GRID: MS-00000171",
+      "Level 1 (L1)"
+    ],
+    "additional_info": "",
+    "page_number": 363
+  }
+]

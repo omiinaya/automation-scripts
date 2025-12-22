@@ -1,0 +1,57 @@
+[
+  {
+    "cis_id": "9.1",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "3) Policies",
+      "9.1 Domain Profile",
+      "2 Private Profile"
+    ],
+    "additional_info": "",
+    "page_number": 367
+  },
+  {
+    "cis_id": "9.2",
+    "title": "Private Profile",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "3) Policies",
+      "9.1 Domain Profile",
+      "2 Private Profile"
+    ],
+    "additional_info": "",
+    "page_number": 367
+  },
+  {
+    "cis_id": "9.3",
+    "title": "Public Profile",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "3 Public Profile"
+    ],
+    "additional_info": "",
+    "page_number": 382
+  }
+]

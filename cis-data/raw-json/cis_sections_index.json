@@ -1,0 +1,19 @@
+{
+  "total_recommendations": 295,
+  "sections": {
+    "1": 8,
+    "2": 42,
+    "5": 11,
+    "9": 3,
+    "17": 24,
+    "18": 207
+  },
+  "section_files": [
+    "cis_section_1.json",
+    "cis_section_2.json",
+    "cis_section_5.json",
+    "cis_section_9.json",
+    "cis_section_17.json",
+    "cis_section_18.json"
+  ]
+}

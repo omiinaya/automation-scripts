@@ -1,0 +1,759 @@
+[
+  {
+    "cis_id": "2.1",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "Policy This section is intentionally blank and exists to ensure the structure of Windows benchmarks is consistent.",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "1 Audit Policy",
+      "2 User Rights Assignment"
+    ],
+    "additional_info": "",
+    "page_number": 67
+  },
+  {
+    "cis_id": "2.2",
+    "title": "User Rights Assignment",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "Policy This section is intentionally blank and exists to ensure the structure of Windows benchmarks is consistent.",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "1 Audit Policy",
+      "2 User Rights Assignment"
+    ],
+    "additional_info": "",
+    "page_number": 67
+  },
+  {
+    "cis_id": "2.2.3",
+    "title": "Ensure 'Act as part of the operating system' is set to 'No One'",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "This policy setting allows a process to assume the identity of any user and thus gain access to the resources that the user is authorized to access. The recommended state for this setting is: No One. Note: This user right is considered a \"sensitive privilege\" for the purposes of auditing.",
+    "rationale": "The Act as part of the operating system user right is extremely powerful. Anyone with this user right can take complete control of the computer and erase evidence of their activities.",
+    "impact": "There should be little or no impact because the Act as part of the operating system user right is rarely needed by any accounts other than the Local System account, which implicitly has this right.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed.",
+    "remediation_procedure": "section and confirm it is set as prescribed.",
+    "default_value": "No one. References: 1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security- policy-settings/act-as-part-of-the-operating-system 2. GRID: MS-00000014 Page 72",
+    "references": [
+      "https://learn.microsoft.com/en-us/windows/security/threat-protection/security-",
+      "GRID: MS-00000014",
+      "Level 1 (L1)"
+    ],
+    "additional_info": "",
+    "page_number": 73
+  },
+  {
+    "cis_id": "2.2.5",
+    "title": "Ensure 'Allow log on locally' is set to 'Administrators, Users'",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "This policy setting determines which users can interactively log on to computers in your environment. Logons that are initiated by pressing the CTRL+ALT+DEL key sequence on the client computer keyboard require this user right. Users who attempt to log on through Terminal Services / Remote Desktop Services or IIS also require this user right. The recommended state for this setting is: Administrators, Users. Note: The Guest account is also assigned this user right by default. Although this account is disabled by default, it's recommended that you configure this setting through Group Policy. However, this user right should generally be restricted to the Administrators and Users groups. Assign this user right to the Backup Operators group if your organization requires that they have this capability.",
+    "rationale": "Any account with the Allow log on locally user right can log on at the console of the computer. If you do not restrict this user right to legitimate users who need to be able to log on to the console of the computer, unauthorized users could download and run malicious software to elevate their privileges.",
+    "impact": "If you remove these default groups, you could limit the abilities of users who are assigned to specific administrative roles in your environment. You should confirm that delegated activities will not be adversely affected by any changes that you make to the Allow log on locally user right.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. Page 76",
+    "remediation_procedure": "section and confirm it is set as prescribed. Page 76",
+    "default_value": "",
+    "references": [
+      "2.5 (L1) Ensure 'Allow log on locally' is set to 'Administrators",
+      "Level 1 (L1)"
+    ],
+    "additional_info": "",
+    "page_number": 77
+  },
+  {
+    "cis_id": "2.2.7",
+    "title": "Ensure 'Back up files and directories' is set to 'Administrators'",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "This policy setting allows users to circumvent file and directory permissions to back up the system. This user right is enabled only when an application (such as NTBACKUP) attempts to access a file or directory through the NTFS file system backup application programming interface (API). Otherwise, the assigned file and directory permissions apply. The recommended state for this setting is: Administrators. Note: This user right is considered a \"sensitive privilege\" for the purposes of auditing.",
+    "rationale": "Users who are able to back up data from a computer could take the backup media to a non-domain computer on which they have administrative privileges and restore the data. They could take ownership of the files and view any unencrypted data that is contained within the backup set.",
+    "impact": "Changes in the membership of the groups that have the Back up files and directories user right could limit the abilities of users who are assigned to specific administrative roles in your environment. You should confirm that authorized backup administrators are still able to perform backup operations.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed.",
+    "remediation_procedure": "section and confirm it is set as prescribed.",
+    "default_value": "Administrators, Backup Operators. Page 80",
+    "references": [
+      "Level 1 (L1)"
+    ],
+    "additional_info": "",
+    "page_number": 81
+  },
+  {
+    "cis_id": "2.2.10",
+    "title": "Ensure 'Create a pagefile' is set to 'Administrators'",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "This policy setting allows users to change the size of the pagefile. By making the pagefile extremely large or extremely small, an attacker could easily affect the performance of a compromised computer. The recommended state for this setting is: Administrators.",
+    "rationale": "Users who can change the page file size could make it extremely small or move the file to a highly fragmented storage volume, which could cause reduced computer performance.",
+    "impact": "None - this is the default behavior.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed.",
+    "remediation_procedure": "section and confirm it is set as prescribed.",
+    "default_value": "Administrators.",
+    "references": [
+      "https://learn.microsoft.com/en-us/windows/security/threat-protection/security-",
+      "GRID: MS-00000022",
+      "Level 1 (L1)"
+    ],
+    "additional_info": "",
+    "page_number": 88
+  },
+  {
+    "cis_id": "2.2.11",
+    "title": "Ensure 'Create a token object' is set to 'No One'",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "This policy setting allows a process to create an access token, which may provide elevated rights to access sensitive data. The recommended state for this setting is: No One. Note: This user right is considered a \"sensitive privilege\" for the purposes of auditing.",
+    "rationale": "A user account that is given this user right has complete control over the system and can lead to the system being compromised. It is highly recommended that you do not assign any user accounts this right. The operating system examines a user's access token to determine the level of the user's privileges. Access tokens are built when users log on to the local computer or connect to a remote computer over a network. When you revoke a privilege, the change is immediately recorded, but the change is not reflected in the user's access token until the next time the user logs on or connects. Users with the ability to create or modify tokens can change the level of access for any currently logged on account. They could escalate their own privileges or create a DoS condition.",
+    "impact": "None - this is the default behavior.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed.",
+    "remediation_procedure": "section and confirm it is set as prescribed.",
+    "default_value": "No one. Page 89",
+    "references": [
+      "Level 1 (L1)"
+    ],
+    "additional_info": "",
+    "page_number": 90
+  },
+  {
+    "cis_id": "2.2.13",
+    "title": "Ensure 'Create permanent shared objects' is set to 'No One'",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "This user right is useful to kernel-mode components that extend the object namespace. However, components that run in kernel mode have this user right inherently. Therefore, it is typically not necessary to specifically assign this user right. The recommended state for this setting is: No One.",
+    "rationale": "Users who have the Create permanent shared objects user right could create new shared objects and expose sensitive data to the network.",
+    "impact": "None - this is the default behavior.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed.",
+    "remediation_procedure": "section and confirm it is set as prescribed.",
+    "default_value": "No one. References: 1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security- policy-settings/create-permanent-shared-objects 2. GRID: MS-00000025 Page 93",
+    "references": [
+      "https://learn.microsoft.com/en-us/windows/security/threat-protection/security-",
+      "GRID: MS-00000025",
+      "Level 1 (L1)"
+    ],
+    "additional_info": "",
+    "page_number": 94
+  },
+  {
+    "cis_id": "2.2.14",
+    "title": "Ensure 'Create symbolic links' is set to 'Administrators'",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "This policy setting determines which users can create symbolic links. In Windows Vista, existing NTFS file system objects, such as files and folders, can be accessed by referring to a new kind of file system object called a symbolic link. A symbolic link is a pointer (much like a shortcut or .lnk file) to another file system object, which can be a file, folder, shortcut or another symbolic link. The difference between a shortcut and a symbolic link is that a shortcut only works from within the Windows shell. To other programs and applications, shortcuts are just another file, whereas with symbolic links, the concept of a shortcut is implemented as a feature of the NTFS file system. Symbolic links can potentially expose security vulnerabilities in applications that are not designed to use them. For this reason, the privilege for creating symbolic links should only be assigned to trusted users. By default, only Administrators can create symbolic links. The recommended state for this setting is: Administrators and (when the Hyper-V feature is installed) NT VIRTUAL MACHINE\\Virtual Machines.",
+    "rationale": "Users who have the Create symbolic links user right could inadvertently or maliciously expose your system to symbolic link attacks. Symbolic link attacks can be used to change the permissions on a file, to corrupt data, to destroy data, or as a Denial of Service attack.",
+    "impact": "In most cases there will be no impact because this is the default configuration. However, on Windows Workstations with the Hyper-V feature installed, this user right should also be granted to the special group NT VIRTUAL MACHINE\\Virtual Machines - otherwise you will not be able to create new virtual machines.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. Page 95",
+    "remediation_procedure": "section and confirm it is set as prescribed. Page 95",
+    "default_value": "",
+    "references": [
+      "Level 1 (L1)"
+    ],
+    "additional_info": "",
+    "page_number": 96
+  },
+  {
+    "cis_id": "2.2.15",
+    "title": "Ensure 'Debug programs' is set to 'Administrators'",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "This policy setting determines which user accounts will have the right to attach a debugger to any process or to the kernel, which provides complete access to sensitive and critical operating system components. Developers who are debugging their own applications do not need to be assigned this user right; however, developers who are debugging new system components will need it. The recommended state for this setting is: Administrators. Note: This user right is considered a \"sensitive privilege\" for the purposes of auditing.",
+    "rationale": "The Debug programs user right can be exploited to capture sensitive computer information from system memory, or to access and modify kernel or application structures. Some attack tools exploit this user right to extract hashed passwords and other private security information, or to insert rootkit code. By default, the Debug programs user right is assigned only to administrators, which helps to mitigate the risk from this vulnerability.",
+    "impact": "If you revoke this user right, no one will be able to debug programs. However, typical circumstances rarely require this capability on production computers. If a problem arises that requires an application to be debugged on a production server, you can move the server to a different OU temporarily and assign the Debug programs user right to a separate Group Policy for that OU. The service account that is used for the cluster service needs the Debug programs user right; if it does not have it, Windows Clustering will fail. Tools that are used to manage processes will be unable to affect processes that are not owned by the person who runs the tools. For example, the Windows Server 2003 Resource Kit tool Kill.exe requires this user right for administrators to terminate processes that they did not start.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. Page 97",
+    "remediation_procedure": "section and confirm it is set as prescribed. Page 97",
+    "default_value": "",
+    "references": [
+      "Level 1 (L1)"
+    ],
+    "additional_info": "",
+    "page_number": 98
+  },
+  {
+    "cis_id": "2.2.17",
+    "title": "Ensure 'Deny log on as a batch job' to include 'Guests'",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "This policy setting determines which accounts will not be able to log on to the computer as a batch job. A batch job is not a batch (.bat) file, but rather a batch-queue facility. Accounts that use the Task Scheduler to schedule jobs need this user right. This user right supersedes the Log on as a batch job user right, which could be used to allow accounts to schedule jobs that consume excessive system resources. Such an occurrence could cause a DoS condition. Failure to assign this user right to the recommended accounts can be a security risk. The recommended state for this setting is to include: Guests.",
+    "rationale": "Accounts that have the Log on as a batch job user right could be used to schedule jobs that could consume excessive computer resources and cause a DoS condition.",
+    "impact": "If you assign the Deny log on as a batch job user right to other accounts, you could deny users who are assigned to specific administrative roles the ability to perform their required job activities. You should confirm that delegated tasks will not be affected adversely. For example, if you assign this user right to the IWAM_(ComputerName) account, the MSM Management Point will fail. On a newly installed computer that runs Windows Server 2003 this account does not belong to the Guests group, but on a computer that was upgraded from Windows 2000 this account is a member of the Guests group. Therefore, it is important that you understand which accounts belong to any groups that you assign the Deny log on as a batch job user right.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. Page 101",
+    "remediation_procedure": "section and confirm it is set as prescribed. Page 101",
+    "default_value": "",
+    "references": [
+      "Level 1 (L1)"
+    ],
+    "additional_info": "",
+    "page_number": 102
+  },
+  {
+    "cis_id": "2.2.18",
+    "title": "Ensure 'Deny log on as a service' to include 'Guests'",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "This security setting determines which service accounts are prevented from registering a process as a service. This user right supersedes the Log on as a service user right if an account is subject to both policies. The recommended state for this setting is to include: Guests. Note: This security setting does not apply to the System, Local Service, or Network Service accounts.",
+    "rationale": "Accounts that can log on as a service could be used to configure and start new unauthorized services, such as a keylogger or other malicious software. The benefit of the specified countermeasure is somewhat reduced by the fact that only users with administrative privileges can install and configure services, and an attacker who has already attained that level of access could configure the service to run with the System account.",
+    "impact": "If you assign the Deny log on as a service user right to specific accounts, services may not be able to start and a DoS condition could result.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed.",
+    "remediation_procedure": "section and confirm it is set as prescribed.",
+    "default_value": "No one. Page 103",
+    "references": [
+      "Level 1 (L1)"
+    ],
+    "additional_info": "",
+    "page_number": 104
+  },
+  {
+    "cis_id": "2.2.19",
+    "title": "Ensure 'Deny log on locally' to include 'Guests'",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "This security setting determines which users are prevented from logging on at the computer. This policy setting supersedes the Allow log on locally policy setting if an account is subject to both policies. The recommended state for this setting is to include: Guests. Important: If you apply this security policy to the Everyone group, no one will be able to log on locally.",
+    "rationale": "Any account with the ability to log on locally could be used to log on at the console of the computer. If this user right is not restricted to legitimate users who need to log on to the console of the computer, unauthorized users might download and run malicious software that elevates their privileges.",
+    "impact": "If you assign the Deny log on locally user right to additional accounts, you could limit the abilities of users who are assigned to specific roles in your environment. However, this user right should explicitly be assigned to the ASPNET account on computers that run IIS 6.0. You should confirm that delegated activities will not be adversely affected.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed.",
+    "remediation_procedure": "section and confirm it is set as prescribed.",
+    "default_value": "Guest. Page 105",
+    "references": [
+      "0. You should confirm that delegated activities will not be adversely affected",
+      "Level 1 (L1)"
+    ],
+    "additional_info": "",
+    "page_number": 106
+  },
+  {
+    "cis_id": "2.2.26",
+    "title": "Ensure 'Load and unload device drivers' is set to 'Administrators'",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "This policy setting allows users to dynamically load a new device driver on a system. An attacker could potentially use this capability to install malicious code that appears to be a device driver. This user right is required for users to add local printers or printer drivers in Windows Vista. The recommended state for this setting is: Administrators. Note: This user right is considered a \"sensitive privilege\" for the purposes of auditing.",
+    "rationale": "Device drivers run as highly privileged code. A user who has the Load and unload device drivers user right could unintentionally install malicious code that masquerades as a device driver. Administrators should exercise greater care and install only drivers with verified digital signatures.",
+    "impact": "If you remove the Load and unload device drivers user right from the Print Operators group or other accounts you could limit the abilities of users who are assigned to specific administrative roles in your environment. You should ensure that delegated tasks will not be negatively affected.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed.",
+    "remediation_procedure": "section and confirm it is set as prescribed.",
+    "default_value": "Administrators. Page 119",
+    "references": [
+      "Level 1 (L1)"
+    ],
+    "additional_info": "",
+    "page_number": 120
+  },
+  {
+    "cis_id": "2.2.27",
+    "title": "Ensure 'Lock pages in memory' is set to 'No One'",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "This policy setting allows a process to keep data in physical memory, which prevents the system from paging the data to virtual memory on disk. If this user right is assigned, significant degradation of system performance can occur. The recommended state for this setting is: No One.",
+    "rationale": "Users with the Lock pages in memory user right could assign physical memory to several processes, which could leave little or no RAM for other processes and result in a DoS condition.",
+    "impact": "None - this is the default behavior.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed.",
+    "remediation_procedure": "section and confirm it is set as prescribed.",
+    "default_value": "No one. References: 1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security- policy-settings/lock-pages-in-memory 2. GRID: MS-00000039 Page 121",
+    "references": [
+      "https://learn.microsoft.com/en-us/windows/security/threat-protection/security-",
+      "GRID: MS-00000039",
+      "Level 1 (L1)"
+    ],
+    "additional_info": "",
+    "page_number": 122
+  },
+  {
+    "cis_id": "2.2.28",
+    "title": "Ensure 'Log on as a batch job' is set to 'Administrators'",
+    "profile": "L2",
+    "assessment_status": "Automated",
+    "description": "This policy setting allows accounts to log on using the task scheduler service. Because the task scheduler is often used for administrative purposes, it may be needed in enterprise environments. However, its use should be restricted in high security environments to prevent misuse of system resources or to prevent attackers from using the right to launch malicious code after gaining user level access to a computer. The recommended state for this setting is: Administrators.",
+    "rationale": "The Log on as a batch job user right presents a low-risk vulnerability. For most organizations, the default settings are sufficient.",
+    "impact": "If you configure the Log on as a batch job setting through domain-based Group Policies, the computer will not be able to assign the user right to accounts that are used for scheduled jobs in the Task Scheduler. If you install optional components such as ASP.NET or IIS, you might need to assign this user right to additional accounts that are required by those components. For example, IIS requires assignment of this user right to the IIS_WPG group and the IUSR_(ComputerName), ASPNET, and IWAM_(ComputerName) accounts. If this user right is not assigned to this group and these accounts, IIS will be unable to run some COM objects that are necessary for proper functionality.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed.",
+    "remediation_procedure": "section and confirm it is set as prescribed.",
+    "default_value": "Administrators, Backup Operators, Performance Log Users. Page 123",
+    "references": [
+      "Level 2 (L2)"
+    ],
+    "additional_info": "",
+    "page_number": 124
+  },
+  {
+    "cis_id": "2.2.29",
+    "title": "Ensure 'Log on as a service' is configured",
+    "profile": "L2",
+    "assessment_status": "Automated",
+    "description": "This policy setting allows accounts to launch network services or to register a process as a service running on the system. This user right should be restricted on any computer in a high security environment, but because many applications may require this privilege, it should be carefully evaluated and tested before configuring it in an enterprise environment. On Windows Vista-based (or newer) computers, no users or groups have this privilege by default. The recommended state for this setting is: No One or (when the Hyper-V feature is installed) NT VIRTUAL MACHINE\\Virtual Machines or (when using Windows Defender Application Guard, such as in the Next Generation Windows Security profile) WDAGUtilityAccount. Note: The Hyper-V feature was first introduced on Windows workstations with the 64-bit version of Windows 8.0, so the NT VIRTUAL MACHINE\\Virtual Machines option does not apply to Windows 7 (or older) versions of Windows. Older OSes should only be configured for No One. Note #2: The Windows Defender Application Guard feature was first introduced on Windows workstations with the 64-bit version of Windows 10, so the WDAGUtilityAccount option does not apply to 32-bit versions of Windows.",
+    "rationale": "Log on as a service is a powerful user right because it allows accounts to launch network services or services that run continuously on a computer, even when no one is logged on to the console. The risk is reduced by the fact that only users with administrative privileges can install and configure services. An attacker who has already attained that level of access could configure the service to run with the Local System account.",
+    "impact": "If you have installed optional components such as ASP.NET or IIS, you may need to assign the Log on as a service user right to additional accounts that are required by those components. IIS requires that this user right be explicitly granted to the ASPNET user account. On Windows Workstations with the Hyper-V feature installed, this user right should also be granted to the special group NT VIRTUAL MACHINE\\Virtual Machines. Page 125",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "Level 2 (L2)"
+    ],
+    "additional_info": "",
+    "page_number": 126
+  },
+  {
+    "cis_id": "2.2.31",
+    "title": "Ensure 'Modify an object label' is set to 'No One'",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "This privilege determines which user accounts can modify the integrity label of objects, such as files, registry keys, or processes owned by other users. Processes running under a user account can modify the label of an object owned by that user to a lower level without this privilege. The recommended state for this setting is: No One.",
+    "rationale": "By modifying the integrity label of an object owned by another user a malicious user may cause them to execute code at a higher level of privilege than intended.",
+    "impact": "None - this is the default behavior.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed.",
+    "remediation_procedure": "section and confirm it is set as prescribed.",
+    "default_value": "No one. References: 1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security- policy-settings/modify-an-object-label 2. GRID: MS-00000043 Page 129",
+    "references": [
+      "https://learn.microsoft.com/en-us/windows/security/threat-protection/security-",
+      "GRID: MS-00000043",
+      "Level 1 (L1)"
+    ],
+    "additional_info": "",
+    "page_number": 130
+  },
+  {
+    "cis_id": "2.2.34",
+    "title": "Ensure 'Profile single process' is set to 'Administrators'",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "This policy setting determines which users can use tools to monitor the performance of non-system processes. Typically, you do not need to configure this user right to use the Microsoft Management Console (MMC) Performance snap-in. However, you do need this user right if System Monitor is configured to collect data using Windows Management Instrumentation (WMI). Restricting the Profile single process user right prevents intruders from gaining additional information that could be used to mount an attack on the system. The recommended state for this setting is: Administrators.",
+    "rationale": "The Profile single process user right presents a moderate vulnerability. An attacker with this user right could monitor a computer's performance to help identify critical processes that they might wish to attack directly. The attacker may also be able to determine what processes run on the computer so that they could identify countermeasures that they may need to avoid, such as antivirus software, an intrusion- detection system, or which other users are logged on to a computer.",
+    "impact": "None - this is the default behavior.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed.",
+    "remediation_procedure": "section and confirm it is set as prescribed.",
+    "default_value": "Administrators. Page 135",
+    "references": [
+      "Level 1 (L1)"
+    ],
+    "additional_info": "",
+    "page_number": 136
+  },
+  {
+    "cis_id": "2.2.37",
+    "title": "Ensure 'Restore files and directories' is set to 'Administrators'",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "This policy setting determines which users can bypass file, directory, registry, and other persistent object permissions when restoring backed up files and directories on computers that run Windows Vista (or newer) in your environment. This user right also determines which users can set valid security principals as object owners; it is similar to the Back up files and directories user right. The recommended state for this setting is: Administrators. Note: This user right is considered a \"sensitive privilege\" for the purposes of auditing.",
+    "rationale": "An attacker with the Restore files and directories user right could restore sensitive data to a computer and overwrite data that is more recent, which could lead to loss of important data, data corruption, or a denial of service. Attackers could overwrite executable files that are used by legitimate administrators or system services with versions that include malicious software to grant themselves elevated privileges, compromise data, or install backdoors for continued access to the computer. Note: Even if the following countermeasure is configured, an attacker could still restore data to a computer in a domain that is controlled by the attacker. Therefore, it is critical that organizations carefully protect the media that is used to back up data.",
+    "impact": "If you remove the Restore files and directories user right from the Backup Operators group and other accounts you could make it impossible for users who have been delegated specific tasks to perform those tasks. You should verify that this change won't negatively affect the ability of your organization's personnel to do their jobs.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. Page 141",
+    "remediation_procedure": "section and confirm it is set as prescribed. Page 141",
+    "default_value": "",
+    "references": [
+      "Level 1 (L1)"
+    ],
+    "additional_info": "",
+    "page_number": 142
+  },
+  {
+    "cis_id": "2.2.38",
+    "title": "Ensure 'Shut down the system' is set to 'Administrators, Users'",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "This policy setting determines which users who are logged on locally to the computers in your environment can shut down the operating system with the Shut Down command. Misuse of this user right can result in a denial of service condition. The recommended state for this setting is: Administrators, Users.",
+    "rationale": "The ability to shut down a workstation should be available generally to Administrators and authorized users of that workstation, but not permitted for guests or unauthorized users - in order to prevent a Denial of Service attack.",
+    "impact": "The impact of removing these default groups from the Shut down the system user right could limit the delegated abilities of assigned roles in your environment. You should confirm that delegated activities will not be adversely affected.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed.",
+    "remediation_procedure": "section and confirm it is set as prescribed.",
+    "default_value": "Administrators, Backup Operators, Users.",
+    "references": [
+      "https://learn.microsoft.com/en-us/windows/security/threat-protection/security-",
+      "GRID: MS-00000050",
+      "Level 1 (L1)"
+    ],
+    "additional_info": "",
+    "page_number": 144
+  },
+  {
+    "cis_id": "2.3",
+    "title": "Security Options This section contains recommendations for security options.",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "3 Security Options",
+      "3.1 Accounts"
+    ],
+    "additional_info": "",
+    "page_number": 148
+  },
+  {
+    "cis_id": "2.3.1",
+    "title": "Accounts",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "3 Security Options",
+      "3.1 Accounts"
+    ],
+    "additional_info": "",
+    "page_number": 148
+  },
+  {
+    "cis_id": "2.3.1.1",
+    "title": "Ensure 'Accounts: Guest account status' is set to 'Disabled'",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "This policy setting determines whether the Guest account is enabled or disabled. The Guest account allows unauthenticated network users to gain access to the system. The recommended state for this setting is: Disabled. Note: This setting will have no impact when applied to the Domain Controllers organizational unit via group policy because Domain Controllers have no local account database. It can be configured at the domain level via group policy, similar to account lockout and password policy settings.",
+    "rationale": "The default Guest account allows unauthenticated network users to log on as Guest with no password. These unauthorized users could access any resources that are accessible to the Guest account over the network. This capability means that any network shares with permissions that allow access to the Guest account, the Guests group, or the Everyone group will be accessible over the network, which could lead to the exposure or corruption of data.",
+    "impact": "when applied to the Domain Controllers organizational unit via group policy because Domain Controllers have no local account database. It can be configured at the domain level via group policy, similar to account lockout and password policy settings.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. Page 148",
+    "remediation_procedure": "section and confirm it is set as prescribed. Page 148",
+    "default_value": "",
+    "references": [
+      "Audit:",
+      "Level 1 (L1)"
+    ],
+    "additional_info": "",
+    "page_number": 149
+  },
+  {
+    "cis_id": "2.3.1.3",
+    "title": "(L1) Configure 'Accounts: Rename administrator account' (Automated) Profile Applicability: • Level 1 (L1)",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "The built-in local administrator account is a well-known account name that attackers will target. It is recommended to choose another name for this account, and to avoid names that denote administrative or elevated access accounts. Be sure to also change the default description for the local administrator (through the Computer Management console).",
+    "rationale": "The Administrator account exists on all computers that run the Windows 2000 or newer operating systems. If you rename this account, it is slightly more difficult for unauthorized persons to guess this privileged user name and password combination. The built-in Administrator account cannot be locked out, regardless of how many times an attacker might use a bad password. This capability makes the Administrator account a popular target for brute force attacks that attempt to guess passwords. The value of this countermeasure is lessened because this account has a well-known SID, and there are third-party tools that allow authentication by using the SID rather than the account name. Therefore, even if you rename the Administrator account, an attacker could launch a brute force attack by using the SID to log on.",
+    "impact": "You will have to inform users who are authorized to use this account of the new account name. (The guidance for this setting assumes that the Administrator account was not disabled, which was recommended earlier in this chapter.)",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed.",
+    "remediation_procedure": "section and confirm it is set as prescribed.",
+    "default_value": "Administrator. Page 152",
+    "references": [
+      "Level 1 (L1)"
+    ],
+    "additional_info": "",
+    "page_number": 153
+  },
+  {
+    "cis_id": "2.3.1.4",
+    "title": "ensure that you rename it for",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "The built-in local guest account is another well-known name to attackers. It is recommended to rename this account to something that does not indicate its purpose. Even if you disable this account, which is recommended, ensure that you rename it for added security.",
+    "rationale": "The Guest account exists on all computers that run the Windows 2000 or newer operating systems. If you rename this account, it is slightly more difficult for unauthorized persons to guess this privileged user name and password combination.",
+    "impact": "There should be little impact, because the Guest account is disabled by default.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed.",
+    "remediation_procedure": "section and confirm it is set as prescribed.",
+    "default_value": "Guest. References: 1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security- policy-settings/accounts-rename-guest-account 2. GRID: MS-00000057 Page 154",
+    "references": [
+      "https://learn.microsoft.com/en-us/windows/security/threat-protection/security-",
+      "GRID: MS-00000057",
+      "Level 1 (L1)"
+    ],
+    "additional_info": "",
+    "page_number": 155
+  },
+  {
+    "cis_id": "2.3.2",
+    "title": "CIS 2.3.2",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "This section contains recommendations related to auditing controls. Page 156",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "3.2 Audit"
+    ],
+    "additional_info": "",
+    "page_number": 157
+  },
+  {
+    "cis_id": "2.3.3",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 0. HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa:CrashOnAuditFail",
+    "remediation_procedure": "section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 0. HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa:CrashOnAuditFail",
+    "default_value": "Disabled. References: 1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security- policy-settings/audit-shut-down-system-immediately-if-unable-to-log-security- audits 2. GRID: MS-00000059 CIS Controls: Controls Control IG 1 IG 2 IG 3 Version 8.3 Ensure Adequate Audit Log Storage v8 ● ● ● Ensure that logging destinations maintain adequate storage to comply with the enterprise’s audit log management process. 6.4 Ensure adequate storage for logs v7 ● ● Ensure that all systems that store logs have adequate storage space for the logs generated. 2.3.3 DCOM This section is intentionally blank and exists to ensure the structure of Windows benchmarks is consistent. Page 160",
+    "references": [
+      "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa:CrashOnAuditFail",
+      "https://learn.microsoft.com/en-us/windows/security/threat-protection/security-",
+      "GRID: MS-00000059",
+      "3.3 DCOM"
+    ],
+    "additional_info": "",
+    "page_number": 161
+  },
+  {
+    "cis_id": "2.3.4",
+    "title": "Devices",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "3.4 Devices"
+    ],
+    "additional_info": "",
+    "page_number": 162
+  },
+  {
+    "cis_id": "2.3.5",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to Enabled: Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Local Policies\\Security Options\\Devices: Prevent users from installing printer drivers",
+    "default_value": "Disabled. (Any user can install a printer driver as part of connecting to a shared printer.)",
+    "references": [
+      "https://learn.microsoft.com/en-us/windows/security/threat-protection/security-",
+      "GRID: MS-00000060",
+      "8 Define and Maintain Role-Based Access Control",
+      "3.5 Domain controller",
+      "3.6 Domain member"
+    ],
+    "additional_info": "",
+    "page_number": 164
+  },
+  {
+    "cis_id": "2.3.6",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to Enabled: Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Local Policies\\Security Options\\Devices: Prevent users from installing printer drivers",
+    "default_value": "Disabled. (Any user can install a printer driver as part of connecting to a shared printer.)",
+    "references": [
+      "https://learn.microsoft.com/en-us/windows/security/threat-protection/security-",
+      "GRID: MS-00000060",
+      "8 Define and Maintain Role-Based Access Control",
+      "3.5 Domain controller",
+      "3.6 Domain member"
+    ],
+    "additional_info": "",
+    "page_number": 164
+  },
+  {
+    "cis_id": "2.3.7",
+    "title": "Interactive logon",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "3.7 Interactive logon"
+    ],
+    "additional_info": "",
+    "page_number": 165
+  },
+  {
+    "cis_id": "2.3.8",
+    "title": "Microsoft network client",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "3.8 Microsoft network client"
+    ],
+    "additional_info": "",
+    "page_number": 182
+  },
+  {
+    "cis_id": "2.3.9",
+    "title": "Microsoft network server",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "3.9 Microsoft network server"
+    ],
+    "additional_info": "",
+    "page_number": 191
+  },
+  {
+    "cis_id": "2.3.10",
+    "title": "Network access",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "3.10 Network access"
+    ],
+    "additional_info": "",
+    "page_number": 204
+  },
+  {
+    "cis_id": "2.3.11",
+    "title": "Network security",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "3.11 Network security"
+    ],
+    "additional_info": "",
+    "page_number": 231
+  },
+  {
+    "cis_id": "2.3.12",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "all or higher: Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Local Policies\\Security Options\\Network security: Restrict NTLM: Outgoing NTLM traffic to remote servers",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to Audit all or higher: Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Local Policies\\Security Options\\Network security: Restrict NTLM: Outgoing NTLM traffic to remote servers",
+    "default_value": "Allow all. (The client can authenticate to remote servers by using NTLM authentication.)",
+    "references": [
+      "https://learn.microsoft.com/en-us/windows/security/threat-protection/security-",
+      "https://learn.microsoft.com/en-us/defender-for-identity/configure-windows-event-",
+      "GRID: MS-00000115",
+      "3.12 Recovery console",
+      "3.13 Shutdown"
+    ],
+    "additional_info": "",
+    "page_number": 258
+  },
+  {
+    "cis_id": "2.3.13",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "all or higher: Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Local Policies\\Security Options\\Network security: Restrict NTLM: Outgoing NTLM traffic to remote servers",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to Audit all or higher: Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Local Policies\\Security Options\\Network security: Restrict NTLM: Outgoing NTLM traffic to remote servers",
+    "default_value": "Allow all. (The client can authenticate to remote servers by using NTLM authentication.)",
+    "references": [
+      "https://learn.microsoft.com/en-us/windows/security/threat-protection/security-",
+      "https://learn.microsoft.com/en-us/defender-for-identity/configure-windows-event-",
+      "GRID: MS-00000115",
+      "3.12 Recovery console",
+      "3.13 Shutdown"
+    ],
+    "additional_info": "",
+    "page_number": 258
+  },
+  {
+    "cis_id": "2.3.14",
+    "title": "System cryptography",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "3.14 System cryptography"
+    ],
+    "additional_info": "",
+    "page_number": 259
+  },
+  {
+    "cis_id": "2.3.15",
+    "title": "System objects",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "3.15 System objects"
+    ],
+    "additional_info": "",
+    "page_number": 262
+  },
+  {
+    "cis_id": "2.3.16",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "this Safeguard.",
+    "audit_procedure": "",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to Enabled: Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Local Policies\\Security Options\\System objects: Strengthen default permissions of internal system objects (e.g. Symbolic Links)",
+    "default_value": "Enabled. (The default DACL is stronger, allowing users who are not administrators to read shared objects but not allowing these users to modify shared objects that they did not create.)",
+    "references": [
+      "https://learn.microsoft.com/en-us/windows/security/threat-protection/security-",
+      "GRID: MS-00000119",
+      "1 Establish and Maintain a Secure Configuration Process",
+      "3.16 System settings"
+    ],
+    "additional_info": "",
+    "page_number": 266
+  },
+  {
+    "cis_id": "2.3.17",
+    "title": "User Account Control",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "3.17 User Account Control"
+    ],
+    "additional_info": "",
+    "page_number": 267
+  }
+]

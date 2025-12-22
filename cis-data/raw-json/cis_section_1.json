@@ -1,0 +1,146 @@
+[
+  {
+    "cis_id": "1.1",
+    "title": "Password Policy",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "1 Password Policy"
+    ],
+    "additional_info": "",
+    "page_number": 39
+  },
+  {
+    "cis_id": "1.1.1",
+    "title": "Ensure 'Enforce password history' is set to '24 or more password(s)'",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "This policy setting determines the number of renewed, unique passwords that have to be associated with a user account before you can reuse an old password. The value for this policy setting must be between 0 and 24 passwords. The default value for stand- alone systems is 0 passwords, but the default setting when joined to a domain is 24 passwords. To maintain the effectiveness of this policy setting, use the Minimum password age setting to prevent users from repeatedly changing their password. The recommended state for this setting is: 24 or more password(s). Note: Password Policy settings (section 1.1) and Account Lockout Policy settings (section 1.2) must be applied via the Default Domain Policy GPO in order to be globally in effect on domain user accounts as their default behavior. If these settings are configured in another GPO, they will only affect local user accounts on the computers that receive the GPO. However, custom exceptions to the default password policy and account lockout policy rules for specific domain users and/or groups can be defined using Password Settings Objects (PSOs), which are completely separate from Group Policy and most easily configured using Active Directory Administrative Center. Note #2: As of the publication of this benchmark, Microsoft currently has a maximum limit of 24 saved passwords. For more information, please visit Enforce password history (Windows 10) - Windows security | Microsoft Docs.",
+    "rationale": "The longer a user uses the same password, the greater the chance that an attacker can determine the password through brute force attacks. Also, any accounts that may have been compromised will remain exploitable for as long as the password is left unchanged. If password changes are required but password reuse is not prevented, or if users continually reuse a small number of passwords, the effectiveness of a good password policy is greatly reduced. If you specify a low number for this policy setting, users will be able to use the same small number of passwords repeatedly. If you do not also configure the Minimum password age setting, users might repeatedly change their passwords until they can reuse their original password. Page 39",
+    "impact": "The major impact of this configuration is that users must create a new password every time they are required to change their old one. If users are required to change their passwords to new unique values, there is an increased risk of users who write their passwords somewhere so that they do not forget them. Another risk is that users may create passwords that change incrementally (for example, password01, password02, and so on) to facilitate memorization but make them easier to guess. Also, an excessively low value for the Minimum password age setting will likely increase administrative overhead, because users who forget their passwords might ask the help desk to reset them frequently.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed.",
+    "remediation_procedure": "section and confirm it is set as prescribed.",
+    "default_value": "for stand- alone systems is 0 passwords, but the default setting when joined to a domain is 24 passwords. To maintain the effectiveness of this policy setting, use the Minimum password age setting to prevent users from repeatedly changing their password. The recommended state for this setting is: 24 or more password(s). Note: Password Policy settings (section 1.1) and Account Lockout Policy settings (section 1.2) must be applied via the Default Domain Policy GPO in order to be globally in effect on domain user accounts as their default behavior. If these settings are configured in another GPO, they will only affect local user accounts on the computers that receive the GPO. However, custom exceptions to the default password policy and account lockout policy rules for specific domain users and/or groups can be defined using Password Settings Objects (PSOs), which are completely separate from Group Policy and most easily configured using Active Directory Administrative Center. Note #2: As of the publication of this benchmark, Microsoft currently has a maximum limit of 24 saved passwords. For more information, please visit Enforce password history (Windows 10) - Windows security | Microsoft Docs.",
+    "references": [
+      "https://www.cisecurity.org/white-papers/cis-password-policy-guide/",
+      "https://learn.microsoft.com/en-us/windows/security/threat-protection/security-",
+      "GRID: MS-00000001",
+      "Level 1 (L1)"
+    ],
+    "additional_info": "",
+    "page_number": 40
+  },
+  {
+    "cis_id": "1.1.3",
+    "title": "Ensure 'Minimum password age' is set to '1 or more day(s)'",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "This policy setting determines the number of days that you must use a password before you can change it. The range of values for this policy setting is between 1 and 999 days. (You may also set the value to 0 to allow immediate password changes.) The",
+    "rationale": "Users may have favorite passwords that they like to use because they are easy to remember and they believe that their password choice is secure from compromise. Unfortunately, passwords are compromised and if an attacker is targeting a specific individual's user account, with foreknowledge of data about that user, reuse of old passwords can cause a security breach. To address password reuse a combination of security settings is required. Using this policy setting with the Enforce password history setting prevents the easy reuse of old passwords. For example, if you configure the Enforce password history setting to ensure that users cannot reuse any of their last 12 passwords, they could change their password 13 times in a few minutes and reuse the password they started with, unless you also configure the Minimum password age setting to a number that is greater than 0. You must configure this policy setting to a number that is greater than 0 for the Enforce password history setting to be effective.",
+    "impact": "If an administrator sets a password for a user but wants that user to change the password when the user first logs on, the administrator must select the User must change password at next logon check box, or the user will not be able to change the password until the next day. Page 44",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "for this setting is 0 days. The recommended state for this setting is: 1 or more day(s)). Note: Password Policy settings (section 1.1) and Account Lockout Policy settings (section 1.2) must be applied via the Default Domain Policy GPO in order to be globally in effect on domain user accounts as their default behavior. If these settings are configured in another GPO, they will only affect local user accounts on the computers that receive the GPO. However, custom exceptions to the default password policy and account lockout policy rules for specific domain users and/or groups can be defined using Password Settings Objects (PSOs), which are completely separate from Group Policy and most easily configured using Active Directory Administrative Center.",
+    "references": [
+      "Level 1 (L1)"
+    ],
+    "additional_info": "",
+    "page_number": 45
+  },
+  {
+    "cis_id": "1.1.4",
+    "title": "Ensure 'Minimum password length' is set to '14 or more character(s)'",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "This policy setting determines the least number of characters that make up a password for a user account. There are many different theories about how to determine the best password length for an organization, but perhaps \"passphrase\" is a better term than \"password.\" In Microsoft Windows 2000 or newer, passphrases can be quite long and can include spaces. Therefore, a phrase such as \"I want to drink a $5 milkshake\" is a valid passphrase; it is a considerably stronger password than an 8 or 10 character string of random numbers and letters, and yet is easier to remember. Users must be educated about the proper selection and maintenance of passwords, especially around password length. In enterprise environments, the ideal value for the Minimum password length setting is 14 characters, however you should adjust this value to meet your organization's business requirements. The recommended state for this setting is: 14 or more character(s). Note: In Windows Server 2016 and older versions of Windows Server, the GUI of the Local Security Policy (LSP), Local Group Policy Editor (LGPE) and Group Policy Management Editor (GPME) would not let you set this value higher than 14 characters. However, starting with Windows Server 2019, Microsoft changed the GUI to allow up to a 20 character minimum password length. Note #2: Password Policy settings (section 1.1) and Account Lockout Policy settings (section 1.2) must be applied via the Default Domain Policy GPO in order to be globally in effect on domain user accounts as their default behavior. If these settings are configured in another GPO, they will only affect local user accounts on the computers that receive the GPO. However, custom exceptions to the default password policy and account lockout policy rules for specific domain users and/or groups can be defined using Password Settings Objects (PSOs), which are completely separate from Group Policy and most easily configured using Active Directory Administrative Center.",
+    "rationale": "Types of password attacks include dictionary attacks (which attempt to use common words and phrases) and brute force attacks (which try every possible combination of characters). Also, attackers sometimes try to obtain the account database so they can use tools to discover the accounts and passwords. Page 46",
+    "impact": "Requirements for extremely long passwords can actually decrease the security of an organization, because users might leave the information in an insecure location or lose it. If very long passwords are required, mistyped passwords could cause account lockouts and increase the volume of help desk calls. If your organization has issues with forgotten passwords due to password length requirements, consider teaching your users about passphrases, which are often easier to remember and, due to the larger number of character combinations, much harder to discover. Note: Older versions of Windows such as Windows 98 and Windows NT 4.0 do not support passwords that are longer than 14 characters. Computers that run these older operating systems are unable to authenticate with computers or domains that use accounts that require long passwords.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed.",
+    "remediation_procedure": "section and confirm it is set as prescribed.",
+    "default_value": "7 characters on domain members. 0 characters on stand-alone servers.",
+    "references": [
+      "https://www.cisecurity.org/white-papers/cis-password-policy-guide/",
+      "https://learn.microsoft.com/en-us/windows/security/threat-protection/security-",
+      "GRID: MS-00000004",
+      "Level 1 (L1)"
+    ],
+    "additional_info": "",
+    "page_number": 47
+  },
+  {
+    "cis_id": "1.1.6",
+    "title": "Ensure 'Relax minimum password length limits' is set to 'Enabled'",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "This policy setting determines whether the minimum password length setting can be increased beyond the legacy limit of 14 characters. For more information, please see the following Microsoft Security Blog. The recommended state for this setting is: Enabled. Note: This setting only affects local accounts on the computer. Domain accounts are only affected by settings on the Domain Controllers, because that is where domain accounts are stored.",
+    "rationale": "This setting will enable the enforcement of longer and generally stronger passwords or passphrases where MFA is not in use.",
+    "impact": "The Minimum password length setting may be configured higher than 14 characters. If very long passwords are required, mistyped passwords could cause account lockouts and increase the volume of help desk calls. If your organization has issues with forgotten passwords due to password length requirements, consider teaching your users about passphrases, which are often easier to remember and, due to the larger number of character combinations, much harder to discover.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 1. HKLM\\System\\CurrentControlSet\\Control\\SAM:RelaxMinimumPasswordLengthLimits Page 52",
+    "remediation_procedure": "section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 1. HKLM\\System\\CurrentControlSet\\Control\\SAM:RelaxMinimumPasswordLengthLimits Page 52",
+    "default_value": "",
+    "references": [
+      "HKLM\\System\\CurrentControlSet\\Control\\SAM:RelaxMinimumPasswordLengthLimits",
+      "Level 1 (L1)"
+    ],
+    "additional_info": "",
+    "page_number": 53
+  },
+  {
+    "cis_id": "1.2",
+    "title": "Account Lockout Policy",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "2 Account Lockout Policy"
+    ],
+    "additional_info": "",
+    "page_number": 57
+  },
+  {
+    "cis_id": "1.2.1",
+    "title": "Ensure 'Account lockout duration' is set to '15 or more minute(s)'",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "This policy setting determines the length of time that must pass before a locked account is unlocked and a user can try to log on again. The setting does this by specifying the number of minutes a locked out account will remain unavailable. If the value for this policy setting is configured to 0, locked out accounts will remain locked out until an administrator manually unlocks them. Although it might seem like a good idea to configure the value for this policy setting to a high value, such a configuration will likely increase the number of calls that the help desk receives to unlock accounts locked by mistake. Users should be aware of the length of time a lock remains in place, so that they realize they only need to call the help desk if they have an extremely urgent need to regain access to their computer. The recommended state for this setting is: 15 or more minute(s). Note: Password Policy settings (section 1.1) and Account Lockout Policy settings (section 1.2) must be applied via the Default Domain Policy GPO in order to be globally in effect on domain user accounts as their default behavior. If these settings are configured in another GPO, they will only affect local user accounts on the computers that receive the GPO. However, custom exceptions to the default password policy and account lockout policy rules for specific domain users and/or groups can be defined using Password Settings Objects (PSOs), which are completely separate from Group Policy and most easily configured using Active Directory Administrative Center.",
+    "rationale": "A denial of service (DoS) condition can be created if an attacker abuses the Account lockout threshold and repeatedly attempts to log on with a specific account. Once you configure the Account lockout threshold setting, the account will be locked out after the specified number of failed attempts. If you configure the Account lockout duration setting to 0, then the account will remain locked out until an administrator unlocks it manually.",
+    "impact": "Although it may seem like a good idea to configure this policy setting to never automatically unlock an account, such a configuration can increase the number of requests that your organization's help desk receives to unlock accounts that were locked by mistake. Page 57",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "Level 1 (L1)"
+    ],
+    "additional_info": "",
+    "page_number": 58
+  },
+  {
+    "cis_id": "1.2.3",
+    "title": "Ensure 'Allow Administrator account lockout' is set to 'Enabled'",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "This policy setting determines whether the built-in Administrator account is subject to the following Account Lockout Policy settings: Account lockout duration, Account lockout threshold, and Reset account lockout counter. By default, this account is excluded from the account lockout controls and will never be locked out with repeated bad password attempts. The recommended state for this setting is: Enabled. Note: This setting applies only to OSes patched as of October 11, 2022 (see MS KB5020282).",
+    "rationale": "Enabling account lockout policies for the built-in Administrator account will reduce the likelihood of a successful brute force attack.",
+    "impact": "The built-in Administrator account will be subject to the policies in Section 1.2 Account Lockout Policy of this benchmark.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed.",
+    "remediation_procedure": "section and confirm it is set as prescribed.",
+    "default_value": "Disabled. (The built-in Administrator account is not subject to the account lockout policy.) Page 61",
+    "references": [
+      "2 Account",
+      "Level 1 (L1)"
+    ],
+    "additional_info": "",
+    "page_number": 62
+  }
+]

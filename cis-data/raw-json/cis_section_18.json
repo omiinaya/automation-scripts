@@ -1,0 +1,3945 @@
+[
+  {
+    "cis_id": "18.1",
+    "title": "Control Panel This section contains recommendations for Control Panel settings. This Group Policy section is provided by the Group Policy template Windows.admx/adml that is included with all versions of the Microsoft Windows Administrative Templates.",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "1 Control Panel",
+      "1.1 Personalization"
+    ],
+    "additional_info": "",
+    "page_number": 474
+  },
+  {
+    "cis_id": "18.1.1",
+    "title": "Personalization",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "1 Control Panel",
+      "1.1 Personalization"
+    ],
+    "additional_info": "",
+    "page_number": 474
+  },
+  {
+    "cis_id": "18.1.1.1",
+    "title": "Ensure 'Prevent enabling lock screen camera' is set to 'Enabled'",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "Disables the lock screen camera toggle switch in PC Settings and prevents a camera from being invoked on the lock screen. The recommended state for this setting is: Enabled.",
+    "rationale": "Disabling the lock screen camera extends the protection afforded by the lock screen to camera features.",
+    "impact": "If you enable this setting, users will no longer be able to enable or disable lock screen camera access in PC Settings, and the camera cannot be invoked on the lock screen.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 1. HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\Personalization:NoLockScreenCamera",
+    "remediation_procedure": "section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 1. HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\Personalization:NoLockScreenCamera",
+    "default_value": "Disabled. (Users can enable invocation of an available camera on the lock screen.)",
+    "references": [
+      "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\Personalization:NoLockScreenCamera",
+      "GRID: MS-00000231",
+      "Level 1 (L1)"
+    ],
+    "additional_info": "",
+    "page_number": 475
+  },
+  {
+    "cis_id": "18.1.2",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "1.2 Regional and Language Options",
+      "1.2.1 Handwriting personalization"
+    ],
+    "additional_info": "",
+    "page_number": 479
+  },
+  {
+    "cis_id": "18.1.2.1",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "1.2 Regional and Language Options",
+      "1.2.1 Handwriting personalization"
+    ],
+    "additional_info": "",
+    "page_number": 479
+  },
+  {
+    "cis_id": "18.1.3",
+    "title": "Ensure 'Allow Online Tips' is set to 'Disabled'",
+    "profile": "L2",
+    "assessment_status": "Automated",
+    "description": "This policy setting configures the retrieval of online tips and help for the Settings app. The recommended state for this setting is: Disabled.",
+    "rationale": "Due to privacy concerns, data should never be sent to any third-party since this data could contain sensitive information.",
+    "impact": "Settings will not contact Microsoft content services to retrieve tips and help content.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 0. HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer:AllowOnlineT ips",
+    "remediation_procedure": "section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 0. HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer:AllowOnlineT ips",
+    "default_value": "Enabled. (Settings will contact Microsoft content services to retrieve tips and help content.)",
+    "references": [
+      "GRID: MS-00000230",
+      "Level 2 (L2)"
+    ],
+    "additional_info": "",
+    "page_number": 482
+  },
+  {
+    "cis_id": "18.2",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "2 Desktop",
+      "0 (or newer)",
+      "3 LAPS (legacy)",
+      "4 MS Security Guide"
+    ],
+    "additional_info": "",
+    "page_number": 484
+  },
+  {
+    "cis_id": "18.3",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "2 Desktop",
+      "0 (or newer)",
+      "3 LAPS (legacy)",
+      "4 MS Security Guide"
+    ],
+    "additional_info": "",
+    "page_number": 484
+  },
+  {
+    "cis_id": "18.4",
+    "title": "MS Security Guide",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "2 Desktop",
+      "0 (or newer)",
+      "3 LAPS (legacy)",
+      "4 MS Security Guide"
+    ],
+    "additional_info": "",
+    "page_number": 484
+  },
+  {
+    "cis_id": "18.4.2",
+    "title": "Ensure 'Configure SMB v1 server' is set to 'Disabled'",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "This setting configures the server-side processing of the Server Message Block version 1 (SMBv1) protocol. The recommended state for this setting is: Disabled.",
+    "rationale": "Since September 2016, Microsoft has strongly encouraged that SMBv1 be disabled and no longer used on modern networks, as it is a 30 year old design that is much more vulnerable to attacks then much newer designs such as SMBv2 and SMBv3. More information on this can be found at the following links: Stop using SMB1 | Storage at Microsoft Disable SMB v1 in Managed Environments with Group Policy – \"Stay Safe\" Cyber Security Blog Disabling SMBv1 through Group Policy – Microsoft Security Guidance blog",
+    "impact": "Some legacy OSes (e.g. Windows XP, Server 2003 or older), applications and appliances may no longer be able to communicate with the system once SMBv1 is disabled. We recommend careful testing be performed to determine the impact prior to configuring this as a widespread control, and where possible, remediate any incompatibilities found with the vendor of the incompatible system. Microsoft is also maintaining a thorough (although not comprehensive) list of known SMBv1 incompatibilities at this link: SMB1 Product Clearinghouse | Storage at Microsoft",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 0. HKLM\\SYSTEM\\CurrentControlSet\\Services\\LanmanServer\\Parameters:SMB1 Page 487",
+    "remediation_procedure": "section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 0. HKLM\\SYSTEM\\CurrentControlSet\\Services\\LanmanServer\\Parameters:SMB1 Page 487",
+    "default_value": "",
+    "references": [
+      "More information on this can be found at the following links:",
+      "HKLM\\SYSTEM\\CurrentControlSet\\Services\\LanmanServer\\Parameters:SMB1",
+      "Level 1 (L1)"
+    ],
+    "additional_info": "",
+    "page_number": 488
+  },
+  {
+    "cis_id": "18.4.3",
+    "title": "Ensure 'Enable Certificate Padding' is set to 'Enabled'",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "This policy setting configures whether the WinVerifyTrust function performs strict Windows Authenticode signature verification for Portable Executable files (PE files). If enabled, PE files will be considered \"unsigned\" if Windows identifies content in them that does not conform to the Authenticode specification. The recommended state for this setting is: Enabled.",
+    "rationale": "A remote code execution vulnerability exists in the way that the WinVerifyTrust function handles Windows Authenticode signature verification for portable executable (PE) files. For more information on this vulnerability, visit CVE-2013-3900 - Security Update Guide - Microsoft - WinVerifyTrust Signature Validation Vulnerability.",
+    "impact": "Microsoft recommends that installers are built to only extract content from validated portions of signed files. Some installers do not follow this guidance and therefore may be negatively impacted by this setting. Page 489",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD or REG_SZ value of 1. HKLM\\SOFTWARE\\Microsoft\\Cryptography\\Wintrust\\Config:EnableCertPaddingCheck 32-bit subsystem on 64-bit OS Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD or REG_SZ value of 1. HKLM\\SOFTWARE\\Wow6432Node\\Microsoft\\Cryptography\\Wintrust\\Config:EnableCertPa ddingCheck",
+    "remediation_procedure": "section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD or REG_SZ value of 1. HKLM\\SOFTWARE\\Microsoft\\Cryptography\\Wintrust\\Config:EnableCertPaddingCheck 32-bit subsystem on 64-bit OS Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD or REG_SZ value of 1. HKLM\\SOFTWARE\\Wow6432Node\\Microsoft\\Cryptography\\Wintrust\\Config:EnableCertPa ddingCheck",
+    "default_value": "Disabled. (The WinVerifyTrust function does not perform strict Windows Authenticode signature verification for Portable Executable files (PE files).)",
+    "references": [
+      "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2013-3900",
+      "https://learn.microsoft.com/en-us/windows/win32/api/wintrust/nf-wintrust-",
+      "https://aaron-margosis.medium.com/enable-certificate-padding-check-reg-sz-or-",
+      "https://msrc.microsoft.com/update-guide/advisory/ADV2915720",
+      "GRID: MS-00000244",
+      "Level 1 (L1)"
+    ],
+    "additional_info": "",
+    "page_number": 490
+  },
+  {
+    "cis_id": "18.4.6",
+    "title": "Ensure 'WDigest Authentication' is set to 'Disabled'",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "When WDigest authentication is enabled, Lsass.exe retains a copy of the user's plaintext password in memory, where it can be at risk of theft. If this setting is not configured, WDigest authentication is disabled in Windows 8.1 and in Windows Server 2012 R2; it is enabled by default in earlier versions of Windows and Windows Server. For more information about local accounts and credential theft, review the \"Mitigating Pass-the-Hash (PtH) Attacks and Other Credential Theft Techniques\" documents. For more information about UseLogonCredential, see Microsoft Knowledge Base article 2871997: Microsoft Security Advisory Update to improve credentials protection and management May 13, 2014. The recommended state for this setting is: Disabled.",
+    "rationale": "Preventing the plaintext storage of credentials in memory may reduce opportunity for credential theft.",
+    "impact": "None - this is also the default configuration for Windows 8.1 or newer.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 0. HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\WDigest:UseLogonCrede ntial Page 497",
+    "remediation_procedure": "section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 0. HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\WDigest:UseLogonCrede ntial Page 497",
+    "default_value": "",
+    "references": [
+      "The recommended state for this setting is: Disabled",
+      "1 or newer",
+      "Level 1 (L1)"
+    ],
+    "additional_info": "",
+    "page_number": 498
+  },
+  {
+    "cis_id": "18.5",
+    "title": "MSS (Legacy)",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "5 MSS (Legacy)"
+    ],
+    "additional_info": "",
+    "page_number": 500
+  },
+  {
+    "cis_id": "18.6",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "6 Network",
+      "6.1 Background Intelligent Transfer Service (BITS)",
+      "6.2 BranchCache",
+      "6.3 DirectAccess Client Experience Settings",
+      "6.4 DNS Client"
+    ],
+    "additional_info": "",
+    "page_number": 527
+  },
+  {
+    "cis_id": "18.6.1",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "6 Network",
+      "6.1 Background Intelligent Transfer Service (BITS)",
+      "6.2 BranchCache",
+      "6.3 DirectAccess Client Experience Settings",
+      "6.4 DNS Client"
+    ],
+    "additional_info": "",
+    "page_number": 527
+  },
+  {
+    "cis_id": "18.6.2",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "6 Network",
+      "6.1 Background Intelligent Transfer Service (BITS)",
+      "6.2 BranchCache",
+      "6.3 DirectAccess Client Experience Settings",
+      "6.4 DNS Client"
+    ],
+    "additional_info": "",
+    "page_number": 527
+  },
+  {
+    "cis_id": "18.6.3",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "6 Network",
+      "6.1 Background Intelligent Transfer Service (BITS)",
+      "6.2 BranchCache",
+      "6.3 DirectAccess Client Experience Settings",
+      "6.4 DNS Client"
+    ],
+    "additional_info": "",
+    "page_number": 527
+  },
+  {
+    "cis_id": "18.6.4",
+    "title": "DNS Client",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "6 Network",
+      "6.1 Background Intelligent Transfer Service (BITS)",
+      "6.2 BranchCache",
+      "6.3 DirectAccess Client Experience Settings",
+      "6.4 DNS Client"
+    ],
+    "additional_info": "",
+    "page_number": 527
+  },
+  {
+    "cis_id": "18.6.4.2",
+    "title": "Ensure 'Turn off default IPv6 DNS Servers' is set to 'Enabled'",
+    "profile": "L2",
+    "assessment_status": "Automated",
+    "description": "This policy setting controls whether the DNS client will use the default IPv6 DNS server addresses provided by Windows. The recommended state for this setting is: Enabled.",
+    "rationale": "Since the vast majority of private enterprise managed networks have no need to utilize IPv6 (because they have access to private IPv4 addressing), disabling the use of IPv6 DNS server addresses removes a possible attack surface that is also harder to monitor the traffic on. It is not recommended to use DNS servers that are controlled by an external entity without input from the organization’s IT department.",
+    "impact": "Default IPv6 DNS server addresses will not be utilized by Windows.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 1. HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\DNSClient:DisableIPv6DefaultDnsServers",
+    "remediation_procedure": "section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 1. HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\DNSClient:DisableIPv6DefaultDnsServers",
+    "default_value": "",
+    "references": [
+      "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows",
+      "Level 2 (L2)"
+    ],
+    "additional_info": "",
+    "page_number": 530
+  },
+  {
+    "cis_id": "18.6.5",
+    "title": "CIS 18.6.5",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "6.5 Fonts"
+    ],
+    "additional_info": "",
+    "page_number": 532
+  },
+  {
+    "cis_id": "18.6.5.1",
+    "title": "Ensure 'Enable Font Providers' is set to 'Disabled'",
+    "profile": "L2",
+    "assessment_status": "Automated",
+    "description": "This policy setting determines whether Windows is allowed to download fonts and font catalog data from an online font provider. The recommended state for this setting is: Disabled.",
+    "rationale": "In an enterprise managed environment the IT department should be managing the changes to the system configuration, to ensure all changes are tested and approved.",
+    "impact": "Windows will not connect to an online font provider and will only enumerate locally- installed fonts.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 0. HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\System:EnableFontProviders",
+    "remediation_procedure": "section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 0. HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\System:EnableFontProviders",
+    "default_value": "Enabled. (Fonts that are included in Windows but that are not stored locally will be downloaded on demand from an online font provider.) Page 532",
+    "references": [
+      "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\System:EnableFontProviders",
+      "Level 2 (L2)"
+    ],
+    "additional_info": "",
+    "page_number": 533
+  },
+  {
+    "cis_id": "18.6.6",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "GRID: MS-00000265",
+      "5 Use Up-to-Date and Trusted Third-Party Software",
+      "4 Only Use Up-to-date And Trusted Third-Party",
+      "6.6 Hotspot Authentication"
+    ],
+    "additional_info": "",
+    "page_number": 534
+  },
+  {
+    "cis_id": "18.6.7",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "6.7 Lanman Server"
+    ],
+    "additional_info": "",
+    "page_number": 535
+  },
+  {
+    "cis_id": "18.6.7.2",
+    "title": "Ensure 'Audit client does not support signing' is set to 'Enabled'",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "This policy setting determines whether the Server Message Block (SMB) server will log events when the SMB client doesn't support signing. Enabling this will create event log entries in Applications and Services Logs\\Microsoft\\Windows\\SMBClient\\Audit, with Event ID 31999. The recommended state for this setting is: Enabled.",
+    "rationale": "Organizations should be aware of all unsigned SMB traffic in their environment. Older SMB protocols that do not use signing can make an environment susceptible to many types of attacks, including SMB interception attacks.",
+    "impact": "All SMB traffic that is unsigned will be logged as an event.",
+    "audit_procedure": "client does not support signing' is set to 'Enabled' (Automated) Profile Applicability: • Level 1 (L1)",
+    "remediation_procedure": "section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 1. HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\LanmanServer:AuditClientDoesNotSuppo rtSigning",
+    "default_value": "Disabled. (The SMB server will not log the event.) Page 537",
+    "references": [
+      "The recommended state for this setting is: Enabled",
+      "Level 1 (L1)"
+    ],
+    "additional_info": "",
+    "page_number": 538
+  },
+  {
+    "cis_id": "18.6.7.3",
+    "title": "Ensure 'Audit insecure guest logon' is set to 'Enabled'",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "This policy determines whether the Server Message Block (SMB) server will log events when the client is logged on as guest account. Enabling this will create event log entries in Applications and Service Logs\\Microsoft\\Windows\\SMBServer\\Security, with Event IDs 3023, 31017, 31018, and 31022. The recommended state for this setting is: Enabled.",
+    "rationale": "Insecure guest logons can be used by file servers to allow unauthenticated access to shared folders.",
+    "impact": "All insecure guest logons will be logged as an event.",
+    "audit_procedure": "insecure guest logon' is set to 'Enabled' (Automated) Profile Applicability: • Level 1 (L1)",
+    "remediation_procedure": "section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 1. HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\LanmanServer:AuditInsecureGuestLogon",
+    "default_value": "Disabled. (The SMB server will not log the event.) Page 539",
+    "references": [
+      "The recommended state for this setting is: Enabled",
+      "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\LanmanServer:AuditInsecureGuestLogon",
+      "Level 1 (L1)"
+    ],
+    "additional_info": "",
+    "page_number": 540
+  },
+  {
+    "cis_id": "18.6.7.4",
+    "title": "Ensure 'Enable authentication rate limiter' is set to 'Enabled'",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "This policy settings configures the Server Message Block (SMB) server authentication rate limiter. The authentication rate limiter is a feature of SMB that is designed to address brute force attacks. The recommended state for this setting is: Enabled.",
+    "rationale": "Authentication rate limiter considerably reduces the risk of brute force attacks by implementing a 2-second delay (default) between each failed NTLM or PKU2U-based authentication attempt. According to Microsoft, if an attacker sends 300 brute force attempts per second from a client for 5 minutes which equals 90,000 passwords, the same number of attempts would now take 50 hours or more.",
+    "impact": "None - this is the default behavior.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 1. HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\LanmanServer:EnableAuthRateLimiter",
+    "remediation_procedure": "section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 1. HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\LanmanServer:EnableAuthRateLimiter",
+    "default_value": "Enabled. (2 seconds.) Page 541",
+    "references": [
+      "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\LanmanServer:EnableAuthRateLimiter",
+      "Level 1 (L1)"
+    ],
+    "additional_info": "",
+    "page_number": 542
+  },
+  {
+    "cis_id": "18.6.7.5",
+    "title": "Ensure 'Enable remote mailslots' is set to 'Disabled'",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "This policy settings controls whether the SMB server will use remote mailslots over the computer browser service. The remote mailslots protocol is an old, simple, unreliable, and insecure inter-process communication method. The recommended state for this setting is: Disabled.",
+    "rationale": "Remote mailslots is a legacy protocol that uses SMBv1 to function. This protocol is linked to known vulnerabilities, such as denial of service, buffer overflow, and remote code execution attacks.",
+    "impact": "If the remote mailslots feature was in operation, it will no longer function.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 0. HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\Bowser:EnableMailslots",
+    "remediation_procedure": "section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 0. HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\Bowser:EnableMailslots",
+    "default_value": "Enabled. (The computer browser may still be working with remote mailslots enabled.) Page 543",
+    "references": [
+      "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\Bowser:EnableMailslots",
+      "Level 1 (L1)"
+    ],
+    "additional_info": "",
+    "page_number": 544
+  },
+  {
+    "cis_id": "18.6.8",
+    "title": "Lanman Workstation",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "6.8 Lanman Workstation"
+    ],
+    "additional_info": "",
+    "page_number": 550
+  },
+  {
+    "cis_id": "18.6.8.1",
+    "title": "Ensure 'Audit insecure guest logon' is set to 'Enabled'",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "This policy determines whether the Server Message Block (SMB) client will log events when the client is logged on as guest account. Enabling this will create event log entries in Applications and Service Logs\\Microsoft\\Windows\\SMBClient\\Security, with Event IDs 3023, 31017, 31018, and 31022. The recommended state for this setting is: Enabled.",
+    "rationale": "Insecure guest logons can be used by file servers to allow unauthenticated access to shared folders.",
+    "impact": "All insecure guest logons will be logged as an event.",
+    "audit_procedure": "insecure guest logon' is set to 'Enabled' (Automated) Profile Applicability: • Level 1 (L1)",
+    "remediation_procedure": "section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 1. HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\LanmanWorkstation:AuditInsecureGuest Logon",
+    "default_value": "Disabled. (The SMB client will not log the event.) Page 550",
+    "references": [
+      "The recommended state for this setting is: Enabled",
+      "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\LanmanWorkstation:AuditInsecureGuest",
+      "Level 1 (L1)"
+    ],
+    "additional_info": "",
+    "page_number": 551
+  },
+  {
+    "cis_id": "18.6.8.4",
+    "title": "Ensure 'Enable insecure guest logons' is set to 'Disabled'",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "This policy setting determines if the SMB client will allow insecure guest logons to an SMB server. The recommended state for this setting is: Disabled.",
+    "rationale": "Insecure guest logons are used by file servers to allow unauthenticated access to shared folders.",
+    "impact": "The SMB client will reject insecure guest logons. This was not originally the default behavior in older versions of Windows, but Microsoft changed the default behavior starting with Windows 10 R1709: Guest access in SMB2 disabled by default in Windows 10 and Windows Server 2016",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 0. HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\LanmanWorkstation:AllowInsecureGuest Auth",
+    "remediation_procedure": "section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 0. HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\LanmanWorkstation:AllowInsecureGuest Auth",
+    "default_value": "",
+    "references": [
+      "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\LanmanWorkstation:AllowInsecureGuest",
+      "Level 1 (L1)"
+    ],
+    "additional_info": "",
+    "page_number": 557
+  },
+  {
+    "cis_id": "18.6.8.5",
+    "title": "Ensure 'Enable remote mailslots' is set to 'Disabled'",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "This policy settings controls whether the SMB client will use remote mailslots over Multiple UNC Provider (MUP). The remote mailslots protocol is an old, simple, unreliable, and insecure inter-process communication method. The recommended state for this setting is: Disabled.",
+    "rationale": "Remote mailslots is a legacy protocol that uses SMBv1 to function. This protocol is linked to known vulnerabilities, such as denial of service, buffer overflow, and remote code execution attacks.",
+    "impact": "If the remote mailslots feature was in operation, it will no longer function.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 0. HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\NetworkProvider:EnableMailslots",
+    "remediation_procedure": "section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 0. HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\NetworkProvider:EnableMailslots",
+    "default_value": "Enabled. (Remote mailslots may be allowed through MUP.) Page 558",
+    "references": [
+      "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\NetworkProvider:EnableMailslots",
+      "Level 1 (L1)"
+    ],
+    "additional_info": "",
+    "page_number": 559
+  },
+  {
+    "cis_id": "18.6.8.7",
+    "title": "Ensure 'Require Encryption' is set to 'Enabled'",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "This policy setting controls whether the SMB client will require encryption. The recommended state for this setting is: Enabled. Warning: The SMB server must support and have SMB encryption enabled (requires SMB v3.0 or later).",
+    "rationale": "The newer, more modern version of SMB (v3) is supported and available on all currently supported Microsoft Windows OSes. SMBv1 is no longer enabled by default due to its security risks, and although SMBv2 is more robust than v1, it does not support encryption like its successor.",
+    "impact": "If older legacy (unsupported) Windows OSes that do not support encryption are present in the environment, this setting may affect backward compatibility with them. For example, Windows 7 and Windows Server 2008 R2 and older. This setting may also affect connecting to third-party devices and appliances that do not support SMB v3.0.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 1. HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\LanmanWorkstation:RequireEncryption",
+    "remediation_procedure": "section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 1. HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\LanmanWorkstation:RequireEncryption",
+    "default_value": "",
+    "references": [
+      "0 or later)",
+      "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\LanmanWorkstation:RequireEncryption",
+      "Level 1 (L1)"
+    ],
+    "additional_info": "",
+    "page_number": 563
+  },
+  {
+    "cis_id": "18.6.9",
+    "title": "Link-Layer Topology Discovery",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "6.9 Link-Layer Topology Discovery"
+    ],
+    "additional_info": "",
+    "page_number": 565
+  },
+  {
+    "cis_id": "18.6.9.1",
+    "title": "Ensure 'Turn on Mapper I/O (LLTDIO) driver' is set to 'Disabled'",
+    "profile": "L2",
+    "assessment_status": "Automated",
+    "description": "This policy setting changes the operational behavior of the Mapper I/O network protocol driver. LLTDIO allows a computer to discover the topology of a network it's connected to. It also allows a computer to initiate Quality-of-Service requests such as bandwidth estimation and network health analysis. The recommended state for this setting is: Disabled.",
+    "rationale": "To help protect from potentially discovering and connecting to unauthorized devices, this setting should be disabled to prevent responding to network traffic for network topology discovery.",
+    "impact": "None - this is the default behavior.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. This group policy setting is backed by the following registry locations with a REG_DWORD value of 0. HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\LLTD:AllowLLTDIOOnDomain HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\LLTD:AllowLLTDIOOnPublicNet HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\LLTD:EnableLLTDIO HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\LLTD:ProhibitLLTDIOOnPrivateNet",
+    "remediation_procedure": "section and confirm it is set as prescribed. This group policy setting is backed by the following registry locations with a REG_DWORD value of 0. HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\LLTD:AllowLLTDIOOnDomain HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\LLTD:AllowLLTDIOOnPublicNet HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\LLTD:EnableLLTDIO HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\LLTD:ProhibitLLTDIOOnPrivateNet",
+    "default_value": "",
+    "references": [
+      "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\LLTD:AllowLLTDIOOnDomain",
+      "Level 2 (L2)"
+    ],
+    "additional_info": "",
+    "page_number": 566
+  },
+  {
+    "cis_id": "18.6.10",
+    "title": "Microsoft Peer-to-Peer Networking Services",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "Disabled. (The Responder (RSPNDR) network protocol driver is turned off.)",
+    "references": [
+      "GRID: MS-00000268",
+      "6.10 Microsoft Peer-to-Peer Networking Services"
+    ],
+    "additional_info": "",
+    "page_number": 569
+  },
+  {
+    "cis_id": "18.6.10.1",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "6.10.1 Peer Name Resolution Protocol"
+    ],
+    "additional_info": "",
+    "page_number": 570
+  },
+  {
+    "cis_id": "18.6.11",
+    "title": "Network Connections",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "Disabled. (Peer-to-peer protocols are turned on.)",
+    "references": [
+      "https://learn.microsoft.com/en-us/dotnet/framework/network-programming/peer-",
+      "GRID: MS-00000269",
+      "8 Uninstall or Disable Unnecessary Services on",
+      "2 Ensure Only Approved Ports, Protocols and Services",
+      "6.11 Network Connections"
+    ],
+    "additional_info": "",
+    "page_number": 572
+  },
+  {
+    "cis_id": "18.6.11.1",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "6.11.1 Windows Defender Firewall (formerly Windows Firewall)"
+    ],
+    "additional_info": "",
+    "page_number": 573
+  },
+  {
+    "cis_id": "18.6.12",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to Enabled: Computer Configuration\\Policies\\Administrative Templates\\Network\\Network Connections\\Prohibit use of Internet Connection Sharing on your DNS domain network Note: This Group Policy path is provided by the Group Policy template NetworkConnections.admx/adml that is included with all versions of the Microsoft Windows Administrative Templates.",
+    "default_value": "Disabled. (All users are allowed to turn on Mobile Hotspot.)",
+    "references": [
+      "GRID: MS-00000271",
+      "8 Uninstall or Disable Unnecessary Services on",
+      "2 Ensure Only Approved Ports, Protocols and Services",
+      "6.12 Network Connectivity Status Indicator"
+    ],
+    "additional_info": "",
+    "page_number": 577
+  },
+  {
+    "cis_id": "18.6.13",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "6.13 Network Isolation"
+    ],
+    "additional_info": "",
+    "page_number": 578
+  },
+  {
+    "cis_id": "18.6.14",
+    "title": "Network Provider",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "6.14 Network Provider"
+    ],
+    "additional_info": "",
+    "page_number": 579
+  },
+  {
+    "cis_id": "18.6.15",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "6.15 Offline Files",
+      "6.16 QoS Packet Scheduler",
+      "6.17 SNMP",
+      "6.18 SSL Configuration Settings"
+    ],
+    "additional_info": "",
+    "page_number": 582
+  },
+  {
+    "cis_id": "18.6.16",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "6.15 Offline Files",
+      "6.16 QoS Packet Scheduler",
+      "6.17 SNMP",
+      "6.18 SSL Configuration Settings"
+    ],
+    "additional_info": "",
+    "page_number": 582
+  },
+  {
+    "cis_id": "18.6.17",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "6.15 Offline Files",
+      "6.16 QoS Packet Scheduler",
+      "6.17 SNMP",
+      "6.18 SSL Configuration Settings"
+    ],
+    "additional_info": "",
+    "page_number": 582
+  },
+  {
+    "cis_id": "18.6.18",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "6.15 Offline Files",
+      "6.16 QoS Packet Scheduler",
+      "6.17 SNMP",
+      "6.18 SSL Configuration Settings"
+    ],
+    "additional_info": "",
+    "page_number": 582
+  },
+  {
+    "cis_id": "18.6.19",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "6.19 TCPIP Settings",
+      "6.19.1 IPv6 Transition Technologies"
+    ],
+    "additional_info": "",
+    "page_number": 583
+  },
+  {
+    "cis_id": "18.6.19.1",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "6.19 TCPIP Settings",
+      "6.19.1 IPv6 Transition Technologies"
+    ],
+    "additional_info": "",
+    "page_number": 583
+  },
+  {
+    "cis_id": "18.6.19.2",
+    "title": "Parameters",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "6.19.2 Parameters"
+    ],
+    "additional_info": "",
+    "page_number": 584
+  },
+  {
+    "cis_id": "18.6.20",
+    "title": "Windows Connect Now",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "6.20 Windows Connect Now"
+    ],
+    "additional_info": "",
+    "page_number": 587
+  },
+  {
+    "cis_id": "18.6.21",
+    "title": "Windows Connection Manager",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "6.21 Windows Connection Manager",
+      "0 & Server 2012 (non-R2) Administrative"
+    ],
+    "additional_info": "",
+    "page_number": 592
+  },
+  {
+    "cis_id": "18.6.22",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "this Safeguard.",
+    "audit_procedure": "",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to Enabled: 3 = Prevent Wi-Fi when on Ethernet: Computer Configuration\\Policies\\Administrative Templates\\Network\\Windows Connection Manager\\Minimize the number of simultaneous connections to the Internet or a Windows Domain Note: This Group Policy path is provided by the Group Policy template WCM.admx/adml that is included with the Microsoft Windows 8.0 & Server 2012 (non-R2) Administrative Templates. It was updated with a new Minimize Policy Options sub-setting starting with the Windows 10 Release 1903 Administrative Templates.",
+    "default_value": "Enabled: 1 = Minimize simultaneous connections. (Any new automatic internet connection is blocked when the computer has at least one active internet connection to a preferred type of network. The order of preference (from most preferred to least preferred) is: Ethernet, WLAN, then cellular. Ethernet is always preferred when connected. Users can still manually connect to any network.)",
+    "references": [
+      "0 & Server 2012 (non-R2) Administrative",
+      "GRID: MS-00000278",
+      "1 Establish and Maintain a Secure Configuration Process",
+      "6.22 Wireless Display"
+    ],
+    "additional_info": "",
+    "page_number": 594
+  },
+  {
+    "cis_id": "18.6.23",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "6.23 WLAN Service",
+      "6.23.1 WLAN Media Cost"
+    ],
+    "additional_info": "",
+    "page_number": 595
+  },
+  {
+    "cis_id": "18.6.23.1",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "6.23 WLAN Service",
+      "6.23.1 WLAN Media Cost"
+    ],
+    "additional_info": "",
+    "page_number": 595
+  },
+  {
+    "cis_id": "18.6.23.2",
+    "title": "WLAN Settings",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "6.23.2 WLAN Settings"
+    ],
+    "additional_info": "",
+    "page_number": 596
+  },
+  {
+    "cis_id": "18.7",
+    "title": "Printers",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "7 Printers"
+    ],
+    "additional_info": "",
+    "page_number": 599
+  },
+  {
+    "cis_id": "18.7.7",
+    "title": "Ensure 'Configure RPC over TCP port' is set to 'Enabled: 0'",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "This policy setting controls which port is used for RPC over TCP for incoming connections to the print spooler and outgoing connections to remote print spoolers. The recommended state for this setting is: Enabled: 0.",
+    "rationale": "Using dynamic ports for printing makes it more difficult for an attacker to know which port is being used and therefore which port to attack.",
+    "impact": "If your current print environment is configured for a specific TCP port, this setting may require a firewall change (if applicable) for continued printing.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 0. HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Printers\\RPC:RpcTcpPort",
+    "remediation_procedure": "section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 0. HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Printers\\RPC:RpcTcpPort",
+    "default_value": "Disabled. (Dynamic TCP ports are used)",
+    "references": [
+      "Rationale:",
+      "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Printers\\RPC:RpcTcpPort",
+      "0 (or newer)",
+      "GRID: MS-00000287",
+      "Level 1 (L1)"
+    ],
+    "additional_info": "",
+    "page_number": 612
+  },
+  {
+    "cis_id": "18.7.9",
+    "title": "Ensure 'Configure Windows protected print' is set to 'Enabled'",
+    "profile": "L2",
+    "assessment_status": "Automated",
+    "description": "This policy setting controls whether Windows protected print is enabled on the system. Windows protected print uses the modern print platform and Windows protected print mode. Modern print is designed to work only with Mopria-certified printers. Mopria is a collection of printer manufacturers and software vendors that define standards for IPP printing and eSCL scanning. The recommended state for this setting is: Enabled. Note: Windows protected print will not prohibit administrators or users from installing third-party print drivers through an installation package provided by the print device manufacturer.",
+    "rationale": "In September of 2023, Microsoft announced an end of servicing plan for legacy third- party printer drivers. In July of 2025, Microsoft will not publish new printer drivers to Windows Update, and by July 2027 (except for security-related fixes), third-party printer driver updates will no longer be deployed. Windows protected print also hardens the entire print stack against attacks. According to Microsoft, Windows protected print can mitigate over half of past reported security issues for Windows print.",
+    "impact": "Only Mopria-certified print drivers will continue to be deployed via Widows Update.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 1. HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Printers\\WPP:WindowsProtectedPrintGroupPolicyState Page 615",
+    "remediation_procedure": "section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 1. HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Printers\\WPP:WindowsProtectedPrintGroupPolicyState Page 615",
+    "default_value": "",
+    "references": [
+      "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows",
+      "Level 2 (L2)"
+    ],
+    "additional_info": "",
+    "page_number": 616
+  },
+  {
+    "cis_id": "18.8",
+    "title": "Start Menu and Taskbar This section contains recommendations for Start Menu and Taskbar. This Group Policy section is provided by the Group Policy template Windows.admx/adml that is included with the Microsoft Windows 8.1 & Server 2012 R2 Administrative Templates (or newer).",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "8 Start Menu and Taskbar",
+      "1 & Server 2012 R2",
+      "8.1 Notifications"
+    ],
+    "additional_info": "",
+    "page_number": 626
+  },
+  {
+    "cis_id": "18.8.1",
+    "title": "Notifications",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "8 Start Menu and Taskbar",
+      "1 & Server 2012 R2",
+      "8.1 Notifications"
+    ],
+    "additional_info": "",
+    "page_number": 626
+  },
+  {
+    "cis_id": "18.8.1.1",
+    "title": "Ensure 'Turn off notifications network usage' is set to 'Enabled'",
+    "profile": "L2",
+    "assessment_status": "Automated",
+    "description": "This policy setting blocks applications from using the network to send notifications to update tiles, tile badges, toast, or raw notifications. This policy setting turns off the connection between Windows and the Windows Push Notification Service (WNS). This policy setting also stops applications from being able to poll application services to update tiles. The recommended state for this setting is: Enabled.",
+    "rationale": "Windows Push Notification Services (WNS) is a mechanism to receive third-party notifications and updates from the cloud/Internet. In a high security environment, external systems, especially those hosted outside the organization, should be prevented from having an impact on the secure workstations.",
+    "impact": "on the secure workstations.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 1. HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\CurrentVersion\\PushNotifications:NoC loudApplicationNotification",
+    "remediation_procedure": "section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 1. HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\CurrentVersion\\PushNotifications:NoC loudApplicationNotification",
+    "default_value": "",
+    "references": [
+      "Level 2 (L2)"
+    ],
+    "additional_info": "",
+    "page_number": 627
+  },
+  {
+    "cis_id": "18.9",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "Process Creation This section contains settings related to auditing of process creation events. This Group Policy section is provided by the Group Policy template",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "9 System",
+      "9.1 Access-Denied Assistance",
+      "0 & Server 2012 (non-",
+      "9.2 App-V",
+      "9.3 Audit Process Creation"
+    ],
+    "additional_info": "",
+    "page_number": 631
+  },
+  {
+    "cis_id": "18.9.1",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "Process Creation This section contains settings related to auditing of process creation events. This Group Policy section is provided by the Group Policy template",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "9 System",
+      "9.1 Access-Denied Assistance",
+      "0 & Server 2012 (non-",
+      "9.2 App-V",
+      "9.3 Audit Process Creation"
+    ],
+    "additional_info": "",
+    "page_number": 631
+  },
+  {
+    "cis_id": "18.9.2",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "Process Creation This section contains settings related to auditing of process creation events. This Group Policy section is provided by the Group Policy template",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "9 System",
+      "9.1 Access-Denied Assistance",
+      "0 & Server 2012 (non-",
+      "9.2 App-V",
+      "9.3 Audit Process Creation"
+    ],
+    "additional_info": "",
+    "page_number": 631
+  },
+  {
+    "cis_id": "18.9.3",
+    "title": "Audit Process Creation This section contains settings related to auditing of process creation events. This Group Policy section is provided by the Group Policy template",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "Process Creation This section contains settings related to auditing of process creation events. This Group Policy section is provided by the Group Policy template",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "9 System",
+      "9.1 Access-Denied Assistance",
+      "0 & Server 2012 (non-",
+      "9.2 App-V",
+      "9.3 Audit Process Creation"
+    ],
+    "additional_info": "",
+    "page_number": 631
+  },
+  {
+    "cis_id": "18.9.4",
+    "title": "Credentials Delegation",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "9.4 Credentials Delegation"
+    ],
+    "additional_info": "",
+    "page_number": 634
+  },
+  {
+    "cis_id": "18.9.5",
+    "title": "Device Guard",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "9.5 Device Guard"
+    ],
+    "additional_info": "",
+    "page_number": 639
+  },
+  {
+    "cis_id": "18.9.6",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "9.6 Device Health Attestation Service",
+      "9.7 Device Installation"
+    ],
+    "additional_info": "",
+    "page_number": 658
+  },
+  {
+    "cis_id": "18.9.7",
+    "title": "Device Installation",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "9.6 Device Health Attestation Service",
+      "9.7 Device Installation"
+    ],
+    "additional_info": "",
+    "page_number": 658
+  },
+  {
+    "cis_id": "18.9.7.1",
+    "title": "Device Installation Restrictions",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "9.7.1 Device Installation Restrictions"
+    ],
+    "additional_info": "",
+    "page_number": 659
+  },
+  {
+    "cis_id": "18.9.8",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to Enabled: Computer Configuration\\Policies\\Administrative Templates\\System\\Device Installation\\Prevent device metadata retrieval from the Internet Note: This Group Policy path is provided by the Group Policy template DeviceInstallation.admx/adml that is included with the Microsoft Windows 7 & Server 2008 R2 Administrative Templates, or with the Group Policy template DeviceSetup.admx/adml that is included with the Microsoft Windows 8.0 & Server 2012 (non-R2) Administrative Templates (or newer).",
+    "default_value": "Disabled. (The setting in the Device Installation Settings dialog box controls whether Windows retrieves device metadata from the Internet.)",
+    "references": [
+      "GRID: MS-00000304",
+      "9.8 Disk NV Cache"
+    ],
+    "additional_info": "",
+    "page_number": 668
+  },
+  {
+    "cis_id": "18.9.9",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "9.9 Disk Quotas",
+      "9.10 Display",
+      "9.11 Distributed COM",
+      "9.12 Driver Installation"
+    ],
+    "additional_info": "",
+    "page_number": 669
+  },
+  {
+    "cis_id": "18.9.10",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "9.9 Disk Quotas",
+      "9.10 Display",
+      "9.11 Distributed COM",
+      "9.12 Driver Installation"
+    ],
+    "additional_info": "",
+    "page_number": 669
+  },
+  {
+    "cis_id": "18.9.11",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "9.9 Disk Quotas",
+      "9.10 Display",
+      "9.11 Distributed COM",
+      "9.12 Driver Installation"
+    ],
+    "additional_info": "",
+    "page_number": 669
+  },
+  {
+    "cis_id": "18.9.12",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "9.9 Disk Quotas",
+      "9.10 Display",
+      "9.11 Distributed COM",
+      "9.12 Driver Installation"
+    ],
+    "additional_info": "",
+    "page_number": 669
+  },
+  {
+    "cis_id": "18.9.13",
+    "title": "Early Launch Antimalware",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "9.13 Early Launch Antimalware"
+    ],
+    "additional_info": "",
+    "page_number": 670
+  },
+  {
+    "cis_id": "18.9.14",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "9.14 Enhanced Storage Access",
+      "9.15 File Classification Infrastructure",
+      "0 & Server 2012 (non-",
+      "9.16 File Share Shadow Copy Provider",
+      "9.17 Filesystem (formerly NTFS Filesystem)",
+      "9.18 Folder Redirection"
+    ],
+    "additional_info": "",
+    "page_number": 673
+  },
+  {
+    "cis_id": "18.9.15",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "9.14 Enhanced Storage Access",
+      "9.15 File Classification Infrastructure",
+      "0 & Server 2012 (non-",
+      "9.16 File Share Shadow Copy Provider",
+      "9.17 Filesystem (formerly NTFS Filesystem)",
+      "9.18 Folder Redirection"
+    ],
+    "additional_info": "",
+    "page_number": 673
+  },
+  {
+    "cis_id": "18.9.16",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "9.14 Enhanced Storage Access",
+      "9.15 File Classification Infrastructure",
+      "0 & Server 2012 (non-",
+      "9.16 File Share Shadow Copy Provider",
+      "9.17 Filesystem (formerly NTFS Filesystem)",
+      "9.18 Folder Redirection"
+    ],
+    "additional_info": "",
+    "page_number": 673
+  },
+  {
+    "cis_id": "18.9.17",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "9.14 Enhanced Storage Access",
+      "9.15 File Classification Infrastructure",
+      "0 & Server 2012 (non-",
+      "9.16 File Share Shadow Copy Provider",
+      "9.17 Filesystem (formerly NTFS Filesystem)",
+      "9.18 Folder Redirection"
+    ],
+    "additional_info": "",
+    "page_number": 673
+  },
+  {
+    "cis_id": "18.9.18",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "9.14 Enhanced Storage Access",
+      "9.15 File Classification Infrastructure",
+      "0 & Server 2012 (non-",
+      "9.16 File Share Shadow Copy Provider",
+      "9.17 Filesystem (formerly NTFS Filesystem)",
+      "9.18 Folder Redirection"
+    ],
+    "additional_info": "",
+    "page_number": 673
+  },
+  {
+    "cis_id": "18.9.19",
+    "title": "Group Policy",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "9.19 Group Policy"
+    ],
+    "additional_info": "",
+    "page_number": 674
+  },
+  {
+    "cis_id": "18.9.19.1",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "9.19.1 Logging and tracing"
+    ],
+    "additional_info": "",
+    "page_number": 675
+  },
+  {
+    "cis_id": "18.9.20",
+    "title": "Internet Communication Management",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "GRID: MS-00000316",
+      "8 Uninstall or Disable Unnecessary Services on",
+      "2 Ensure Only Approved Ports, Protocols and Services",
+      "9.20 Internet Communication Management"
+    ],
+    "additional_info": "",
+    "page_number": 677
+  },
+  {
+    "cis_id": "18.9.20.1",
+    "title": "Internet Communication settings",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "9.20.1 Internet Communication settings"
+    ],
+    "additional_info": "",
+    "page_number": 678
+  },
+  {
+    "cis_id": "18.9.20.1.1",
+    "title": "Ensure 'Turn off access to the Store' is set to 'Enabled'",
+    "profile": "L2",
+    "assessment_status": "Automated",
+    "description": "This policy setting specifies whether to use the Store service for finding an application to open a file with an unhandled file type or protocol association. When a user opens a file type or protocol that is not associated with any applications on the computer, the user is given the choice to select a local application or use the Store service to find an application. The recommended state for this setting is: Enabled.",
+    "rationale": "The Store service is a retail outlet built into Windows, primarily for consumer use. In an enterprise managed environment the IT department should be managing the installation of all applications to reduce the risk of the installation of vulnerable software.",
+    "impact": "The \"Look for an app in the Store\" item in the Open With dialog is removed.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 1. HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\Explorer:NoUseStoreOpenWith",
+    "remediation_procedure": "section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 1. HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\Explorer:NoUseStoreOpenWith",
+    "default_value": "",
+    "references": [
+      "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\Explorer:NoUseStoreOpenWith",
+      "0 & Server 2012 (non-R2) Administrative",
+      "Level 2 (L2)"
+    ],
+    "additional_info": "",
+    "page_number": 679
+  },
+  {
+    "cis_id": "18.9.20.1.7",
+    "title": "Ensure 'Turn off printing over HTTP' is set to 'Enabled'",
+    "profile": "L2",
+    "assessment_status": "Automated",
+    "description": "This policy setting allows you to disable the client computer's ability to print over HTTP, which allows the computer to print to printers on the intranet as well as the Internet. The recommended state for this setting is: Enabled. Note: This control affects printing over both HTTP and HTTPS.",
+    "rationale": "Information that is transmitted over HTTP through this capability is not protected and can be intercepted by malicious users. For this reason, it is not often used in enterprise managed environments.",
+    "impact": "The client computer will not be able to print to Internet printers over HTTP or HTTPS. Note: This policy setting affects the client side of Internet printing only. Regardless of how it is configured, a computer could act as an Internet Printing server and make its shared printers available through HTTP.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 1. HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Printers:DisableHTTPPrinting",
+    "remediation_procedure": "section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 1. HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Printers:DisableHTTPPrinting",
+    "default_value": "",
+    "references": [
+      "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Printers:DisableHTTPPrinting",
+      "Level 2 (L2)"
+    ],
+    "additional_info": "",
+    "page_number": 691
+  },
+  {
+    "cis_id": "18.9.21",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "GRID: MS-00000331",
+      "8 Uninstall or Disable Unnecessary Services on",
+      "2 Ensure Only Approved Ports, Protocols and Services",
+      "9.21 iSCSI",
+      "9.22 KDC"
+    ],
+    "additional_info": "",
+    "page_number": 706
+  },
+  {
+    "cis_id": "18.9.22",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "GRID: MS-00000331",
+      "8 Uninstall or Disable Unnecessary Services on",
+      "2 Ensure Only Approved Ports, Protocols and Services",
+      "9.21 iSCSI",
+      "9.22 KDC"
+    ],
+    "additional_info": "",
+    "page_number": 706
+  },
+  {
+    "cis_id": "18.9.23",
+    "title": "Kerberos",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "9.23 Kerberos"
+    ],
+    "additional_info": "",
+    "page_number": 707
+  },
+  {
+    "cis_id": "18.9.24",
+    "title": "Kernel DMA Protection",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "9.24 Kernel DMA Protection"
+    ],
+    "additional_info": "",
+    "page_number": 710
+  },
+  {
+    "cis_id": "18.9.25",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "9.25 LAPS"
+    ],
+    "additional_info": "",
+    "page_number": 713
+  },
+  {
+    "cis_id": "18.9.26",
+    "title": "Local Security Authority",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "9.26 Local Security Authority",
+      "0 (or newer)"
+    ],
+    "additional_info": "",
+    "page_number": 714
+  },
+  {
+    "cis_id": "18.9.27",
+    "title": "Locale Services",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "9.27 Locale Services"
+    ],
+    "additional_info": "",
+    "page_number": 720
+  },
+  {
+    "cis_id": "18.9.28",
+    "title": "CIS 18.9.28",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "9.28 Logon"
+    ],
+    "additional_info": "",
+    "page_number": 723
+  },
+  {
+    "cis_id": "18.9.28.2",
+    "title": "Ensure 'Do not display network selection UI' is set to 'Enabled'",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "This policy setting allows you to control whether anyone can interact with available networks UI on the logon screen. The recommended state for this setting is: Enabled.",
+    "rationale": "An unauthorized user could disconnect the PC from the network or can connect the PC to other available networks without signing into Windows.",
+    "impact": "The PC's network connectivity state cannot be changed without signing into Windows.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 1. HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\System:DontDisplayNetworkSelectionUI",
+    "remediation_procedure": "section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 1. HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\System:DontDisplayNetworkSelectionUI",
+    "default_value": "Disabled. (Any user can disconnect the PC from the network or can connect the PC to other available networks without signing into Windows.)",
+    "references": [
+      "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\System:DontDisplayNetworkSelectionUI",
+      "1 & Server 2012 R2",
+      "GRID: MS-00000346",
+      "Level 1 (L1)"
+    ],
+    "additional_info": "",
+    "page_number": 726
+  },
+  {
+    "cis_id": "18.9.28.4",
+    "title": "Ensure 'Turn on convenience PIN sign-in' is set to 'Disabled'",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "This policy setting allows you to control whether a domain user can sign in using a convenience PIN. In Windows 10, convenience PIN was replaced with Passport, which has stronger security properties. To configure Passport for domain users, use the policies under Computer Configuration\\Administrative Templates\\Windows Components\\Microsoft Passport for Work. Note: The user's domain password will be cached in the system vault when using this feature. Note #2: If this setting is Disabled, Windows Hello will not allow Windows Hello Face or Fingerprint to be configured. An exception to this recommendation might be needed if these features are used in the environment. The recommended state for this setting is: Disabled.",
+    "rationale": "A PIN is created from a much smaller selection of characters than a password, so in most cases a PIN will be much less robust than a password.",
+    "impact": "None - this is the default behavior.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 0. HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\System:AllowDomainPINLogon Page 729",
+    "remediation_procedure": "section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 0. HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\System:AllowDomainPINLogon Page 729",
+    "default_value": "",
+    "references": [
+      "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\System:AllowDomainPINLogon",
+      "Level 1 (L1)"
+    ],
+    "additional_info": "",
+    "page_number": 730
+  },
+  {
+    "cis_id": "18.9.29",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to Disabled: Computer Configuration\\Policies\\Administrative Templates\\System\\Logon\\Turn on convenience PIN sign-in Note: This Group Policy path is provided by the Group Policy template CredentialProviders.admx/adml that is included with the Microsoft Windows 8.0 & Server 2012 (non-R2) Administrative Templates (or newer). Note #2: In older Microsoft Windows Administrative Templates, this setting was initially named Turn on PIN sign-in, but it was renamed starting with the Windows 10 Release 1511 Administrative Templates.",
+    "default_value": "Disabled. (A domain user can't set up and use a convenience PIN.)",
+    "references": [
+      "GRID: MS-00000351",
+      "8 Uninstall or Disable Unnecessary Services on",
+      "9.29 Mitigation Options"
+    ],
+    "additional_info": "",
+    "page_number": 731
+  },
+  {
+    "cis_id": "18.9.30",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "9.30 Net Logon",
+      "9.30.1 DC Locator DNS Records"
+    ],
+    "additional_info": "",
+    "page_number": 732
+  },
+  {
+    "cis_id": "18.9.30.1",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "9.30 Net Logon",
+      "9.30.1 DC Locator DNS Records"
+    ],
+    "additional_info": "",
+    "page_number": 732
+  },
+  {
+    "cis_id": "18.9.31",
+    "title": "OS Policies",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "9.31 OS Policies"
+    ],
+    "additional_info": "",
+    "page_number": 733
+  },
+  {
+    "cis_id": "18.9.31.2",
+    "title": "Ensure 'Allow upload of User Activities' is set to 'Disabled'",
+    "profile": "L2",
+    "assessment_status": "Automated",
+    "description": "This policy setting determines whether published User Activities can be uploaded to the cloud. The recommended state for this setting is: Disabled.",
+    "rationale": "Due to privacy concerns, data should never be sent to any third-party since this data could contain sensitive information.",
+    "impact": "Activities of type User Activity are not allowed to be uploaded to the cloud. The Timeline feature will not function across devices.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 0. HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\System:UploadUserActivities",
+    "remediation_procedure": "section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 0. HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\System:UploadUserActivities",
+    "default_value": "Enabled. (Activities of type User Activity are allowed to be uploaded to the cloud.)",
+    "references": [
+      "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\System:UploadUserActivities",
+      "GRID: MS-00000353",
+      "Level 2 (L2)"
+    ],
+    "additional_info": "",
+    "page_number": 736
+  },
+  {
+    "cis_id": "18.9.32",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "2 Ensure Only Approved Ports, Protocols and",
+      "9.32 PIN Complexity",
+      "9.33 Power Management",
+      "9.33.1 Button Settings",
+      "9.33.2 Energy Saver Settings"
+    ],
+    "additional_info": "",
+    "page_number": 737
+  },
+  {
+    "cis_id": "18.9.33",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "2 Ensure Only Approved Ports, Protocols and",
+      "9.32 PIN Complexity",
+      "9.33 Power Management",
+      "9.33.1 Button Settings",
+      "9.33.2 Energy Saver Settings"
+    ],
+    "additional_info": "",
+    "page_number": 737
+  },
+  {
+    "cis_id": "18.9.33.1",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "2 Ensure Only Approved Ports, Protocols and",
+      "9.32 PIN Complexity",
+      "9.33 Power Management",
+      "9.33.1 Button Settings",
+      "9.33.2 Energy Saver Settings"
+    ],
+    "additional_info": "",
+    "page_number": 737
+  },
+  {
+    "cis_id": "18.9.33.2",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "2 Ensure Only Approved Ports, Protocols and",
+      "9.32 PIN Complexity",
+      "9.33 Power Management",
+      "9.33.1 Button Settings",
+      "9.33.2 Energy Saver Settings"
+    ],
+    "additional_info": "",
+    "page_number": 737
+  },
+  {
+    "cis_id": "18.9.33.3",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "9.33.3 Hard Disk Settings",
+      "9.33.4 Notification Settings",
+      "9.33.5 Power Throttling Settings"
+    ],
+    "additional_info": "",
+    "page_number": 738
+  },
+  {
+    "cis_id": "18.9.33.4",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "9.33.3 Hard Disk Settings",
+      "9.33.4 Notification Settings",
+      "9.33.5 Power Throttling Settings"
+    ],
+    "additional_info": "",
+    "page_number": 738
+  },
+  {
+    "cis_id": "18.9.33.5",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "9.33.3 Hard Disk Settings",
+      "9.33.4 Notification Settings",
+      "9.33.5 Power Throttling Settings"
+    ],
+    "additional_info": "",
+    "page_number": 738
+  },
+  {
+    "cis_id": "18.9.33.6",
+    "title": "Sleep Settings",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "9.33.6 Sleep Settings"
+    ],
+    "additional_info": "",
+    "page_number": 739
+  },
+  {
+    "cis_id": "18.9.34",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "GRID: MS-00000358",
+      "9.34 Recovery"
+    ],
+    "additional_info": "",
+    "page_number": 751
+  },
+  {
+    "cis_id": "18.9.35",
+    "title": "Remote Assistance",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "9.35 Remote Assistance"
+    ],
+    "additional_info": "",
+    "page_number": 752
+  },
+  {
+    "cis_id": "18.9.36",
+    "title": "Remote Procedure Call",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "9.36 Remote Procedure Call"
+    ],
+    "additional_info": "",
+    "page_number": 757
+  },
+  {
+    "cis_id": "18.9.37",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "9.37 Removable Storage Access",
+      "9.38 Scripts",
+      "9.39 Security Account Manager",
+      "9.40 Server Manager",
+      "9.41 Service Control Manager Settings",
+      "9.42 Shutdown"
+    ],
+    "additional_info": "",
+    "page_number": 762
+  },
+  {
+    "cis_id": "18.9.38",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "9.37 Removable Storage Access",
+      "9.38 Scripts",
+      "9.39 Security Account Manager",
+      "9.40 Server Manager",
+      "9.41 Service Control Manager Settings",
+      "9.42 Shutdown"
+    ],
+    "additional_info": "",
+    "page_number": 762
+  },
+  {
+    "cis_id": "18.9.39",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "9.37 Removable Storage Access",
+      "9.38 Scripts",
+      "9.39 Security Account Manager",
+      "9.40 Server Manager",
+      "9.41 Service Control Manager Settings",
+      "9.42 Shutdown"
+    ],
+    "additional_info": "",
+    "page_number": 762
+  },
+  {
+    "cis_id": "18.9.40",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "9.37 Removable Storage Access",
+      "9.38 Scripts",
+      "9.39 Security Account Manager",
+      "9.40 Server Manager",
+      "9.41 Service Control Manager Settings",
+      "9.42 Shutdown"
+    ],
+    "additional_info": "",
+    "page_number": 762
+  },
+  {
+    "cis_id": "18.9.41",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "9.37 Removable Storage Access",
+      "9.38 Scripts",
+      "9.39 Security Account Manager",
+      "9.40 Server Manager",
+      "9.41 Service Control Manager Settings",
+      "9.42 Shutdown"
+    ],
+    "additional_info": "",
+    "page_number": 762
+  },
+  {
+    "cis_id": "18.9.42",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "9.37 Removable Storage Access",
+      "9.38 Scripts",
+      "9.39 Security Account Manager",
+      "9.40 Server Manager",
+      "9.41 Service Control Manager Settings",
+      "9.42 Shutdown"
+    ],
+    "additional_info": "",
+    "page_number": 762
+  },
+  {
+    "cis_id": "18.9.43",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "9.43 Shutdown Options",
+      "9.44 Storage Health",
+      "9.45 Storage Sense",
+      "9.46 System Restore",
+      "9.47 Troubleshooting and Diagnostics"
+    ],
+    "additional_info": "",
+    "page_number": 763
+  },
+  {
+    "cis_id": "18.9.44",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "9.43 Shutdown Options",
+      "9.44 Storage Health",
+      "9.45 Storage Sense",
+      "9.46 System Restore",
+      "9.47 Troubleshooting and Diagnostics"
+    ],
+    "additional_info": "",
+    "page_number": 763
+  },
+  {
+    "cis_id": "18.9.45",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "9.43 Shutdown Options",
+      "9.44 Storage Health",
+      "9.45 Storage Sense",
+      "9.46 System Restore",
+      "9.47 Troubleshooting and Diagnostics"
+    ],
+    "additional_info": "",
+    "page_number": 763
+  },
+  {
+    "cis_id": "18.9.46",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "9.43 Shutdown Options",
+      "9.44 Storage Health",
+      "9.45 Storage Sense",
+      "9.46 System Restore",
+      "9.47 Troubleshooting and Diagnostics"
+    ],
+    "additional_info": "",
+    "page_number": 763
+  },
+  {
+    "cis_id": "18.9.47",
+    "title": "Troubleshooting and Diagnostics",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "9.43 Shutdown Options",
+      "9.44 Storage Health",
+      "9.45 Storage Sense",
+      "9.46 System Restore",
+      "9.47 Troubleshooting and Diagnostics"
+    ],
+    "additional_info": "",
+    "page_number": 763
+  },
+  {
+    "cis_id": "18.9.47.1",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "9.47.1 Application Compatibility Diagnostics",
+      "9.47.2 Corrupted File Recovery",
+      "9.47.3 Disk Diagnostic",
+      "9.47.4 Fault Tolerant Heap"
+    ],
+    "additional_info": "",
+    "page_number": 764
+  },
+  {
+    "cis_id": "18.9.47.2",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "9.47.1 Application Compatibility Diagnostics",
+      "9.47.2 Corrupted File Recovery",
+      "9.47.3 Disk Diagnostic",
+      "9.47.4 Fault Tolerant Heap"
+    ],
+    "additional_info": "",
+    "page_number": 764
+  },
+  {
+    "cis_id": "18.9.47.3",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "9.47.1 Application Compatibility Diagnostics",
+      "9.47.2 Corrupted File Recovery",
+      "9.47.3 Disk Diagnostic",
+      "9.47.4 Fault Tolerant Heap"
+    ],
+    "additional_info": "",
+    "page_number": 764
+  },
+  {
+    "cis_id": "18.9.47.4",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "9.47.1 Application Compatibility Diagnostics",
+      "9.47.2 Corrupted File Recovery",
+      "9.47.3 Disk Diagnostic",
+      "9.47.4 Fault Tolerant Heap"
+    ],
+    "additional_info": "",
+    "page_number": 764
+  },
+  {
+    "cis_id": "18.9.47.5",
+    "title": "Microsoft Support Diagnostic Tool",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "9.47.5 Microsoft Support Diagnostic Tool"
+    ],
+    "additional_info": "",
+    "page_number": 765
+  },
+  {
+    "cis_id": "18.9.47.6",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "Enabled. (Users can use MSDT to collect and send diagnostic data to a support professional to resolve a problem. By default, the support provider is set to Microsoft Corporation.)",
+    "references": [
+      "GRID: MS-00000364",
+      "8 Uninstall or Disable Unnecessary Services on",
+      "2 Ensure Only Approved Ports, Protocols and Services",
+      "9.47.6 MSI Corrupted File Recovery",
+      "9.47.7 Scheduled Maintenance"
+    ],
+    "additional_info": "",
+    "page_number": 767
+  },
+  {
+    "cis_id": "18.9.47.7",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "Enabled. (Users can use MSDT to collect and send diagnostic data to a support professional to resolve a problem. By default, the support provider is set to Microsoft Corporation.)",
+    "references": [
+      "GRID: MS-00000364",
+      "8 Uninstall or Disable Unnecessary Services on",
+      "2 Ensure Only Approved Ports, Protocols and Services",
+      "9.47.6 MSI Corrupted File Recovery",
+      "9.47.7 Scheduled Maintenance"
+    ],
+    "additional_info": "",
+    "page_number": 767
+  },
+  {
+    "cis_id": "18.9.47.8",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "9.47.8 Scripted Diagnostics",
+      "9.47.9 Windows Boot Performance Diagnostics",
+      "9.47.10 Windows Memory Leak Diagnosis"
+    ],
+    "additional_info": "",
+    "page_number": 768
+  },
+  {
+    "cis_id": "18.9.47.9",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "9.47.8 Scripted Diagnostics",
+      "9.47.9 Windows Boot Performance Diagnostics",
+      "9.47.10 Windows Memory Leak Diagnosis"
+    ],
+    "additional_info": "",
+    "page_number": 768
+  },
+  {
+    "cis_id": "18.9.47.10",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "9.47.8 Scripted Diagnostics",
+      "9.47.9 Windows Boot Performance Diagnostics",
+      "9.47.10 Windows Memory Leak Diagnosis"
+    ],
+    "additional_info": "",
+    "page_number": 768
+  },
+  {
+    "cis_id": "18.9.47.11",
+    "title": "Windows Performance PerfTrack",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "9.47.11 Windows Performance PerfTrack"
+    ],
+    "additional_info": "",
+    "page_number": 769
+  },
+  {
+    "cis_id": "18.9.47.11.1",
+    "title": "Ensure 'Enable/Disable PerfTrack' is set to 'Disabled'",
+    "profile": "L2",
+    "assessment_status": "Automated",
+    "description": "This policy setting specifies whether to enable or disable tracking of responsiveness events. The recommended state for this setting is: Disabled.",
+    "rationale": "When enabled the aggregated data of a given event will be transmitted to Microsoft. The option exists to restrict this feature for a specific user, set the consent level, and designate specific programs for which error reports could be sent. However, centrally restricting the ability to execute PerfTrack to limit the potential for unauthorized or undesired usage, data leakage, or unintentional communications is highly recommended.",
+    "impact": "Responsiveness events are not processed.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 0. HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WDI\\{9c5a40da-b965-4fc3-8781- 88dd50a6299d}:ScenarioExecutionEnabled",
+    "remediation_procedure": "section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 0. HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WDI\\{9c5a40da-b965-4fc3-8781- 88dd50a6299d}:ScenarioExecutionEnabled",
+    "default_value": "",
+    "references": [
+      "Level 2 (L2)"
+    ],
+    "additional_info": "",
+    "page_number": 770
+  },
+  {
+    "cis_id": "18.9.48",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "Enabled. (Responsiveness events are processed and aggregated. The aggregated data will be transmitted to Microsoft through SQM.)",
+    "references": [
+      "GRID: MS-00000365",
+      "8 Uninstall or Disable Unnecessary Services on",
+      "2 Ensure Only Approved Ports, Protocols and Services",
+      "9.48 Trusted Platform Module Services"
+    ],
+    "additional_info": "",
+    "page_number": 771
+  },
+  {
+    "cis_id": "18.9.49",
+    "title": "User Profiles",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "9.49 User Profiles"
+    ],
+    "additional_info": "",
+    "page_number": 772
+  },
+  {
+    "cis_id": "18.9.49.1",
+    "title": "Ensure 'Turn off the advertising ID' is set to 'Enabled'",
+    "profile": "L2",
+    "assessment_status": "Automated",
+    "description": "This policy setting turns off the advertising ID, preventing apps from using the ID for experiences across apps. The recommended state for this setting is: Enabled.",
+    "rationale": "Tracking user activity for advertising purposes, even anonymously, may be a privacy concern. In an enterprise managed environment, applications should not need or require tracking for targeted advertising.",
+    "impact": "The advertising ID is turned off. Apps can't use the ID for experiences across apps.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 1. HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\AdvertisingInfo:DisabledByGroupPolic y",
+    "remediation_procedure": "section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 1. HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\AdvertisingInfo:DisabledByGroupPolic y",
+    "default_value": "Disabled. (Users can control whether apps can use the advertising ID for experiences across apps.) Page 772",
+    "references": [
+      "Level 2 (L2)"
+    ],
+    "additional_info": "",
+    "page_number": 773
+  },
+  {
+    "cis_id": "18.9.50",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "GRID: MS-00000366",
+      "8 Uninstall or Disable Unnecessary Services on",
+      "2 Ensure Only Approved Ports, Protocols and Services",
+      "9.50 Windows File Protection",
+      "9.51 Windows Time Service"
+    ],
+    "additional_info": "",
+    "page_number": 774
+  },
+  {
+    "cis_id": "18.9.51",
+    "title": "Windows Time Service",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "GRID: MS-00000366",
+      "8 Uninstall or Disable Unnecessary Services on",
+      "2 Ensure Only Approved Ports, Protocols and Services",
+      "9.50 Windows File Protection",
+      "9.51 Windows Time Service"
+    ],
+    "additional_info": "",
+    "page_number": 774
+  },
+  {
+    "cis_id": "18.9.51.1",
+    "title": "Time Providers",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "9.51.1 Time Providers"
+    ],
+    "additional_info": "",
+    "page_number": 775
+  },
+  {
+    "cis_id": "18.9.51.1.1",
+    "title": "Ensure 'Enable Windows NTP Client' is set to 'Enabled'",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "This policy setting specifies whether the Windows NTP Client is enabled. Enabling the Windows NTP Client allows synchronization from a systems computer clock to NTP server(s). The recommended state for this setting is: Enabled. Note: If a third-party time provider is used in the environment, an exception to this recommendation will be needed.",
+    "rationale": "A reliable and accurate account of time is important for a number of services and security requirements, including but not limited to distributed applications, authentication services, multi-user databases and logging services. The use of an NTP client (with secure operation) establishes functional accuracy and is a focal point when reviewing security relevant events.",
+    "impact": "System time will be synced to the configured NTP server(s).",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 1. HKLM\\SOFTWARE\\Policies\\Microsoft\\W32Time\\TimeProviders\\NtpClient:Enabled",
+    "remediation_procedure": "section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 1. HKLM\\SOFTWARE\\Policies\\Microsoft\\W32Time\\TimeProviders\\NtpClient:Enabled",
+    "default_value": "",
+    "references": [
+      "HKLM\\SOFTWARE\\Policies\\Microsoft\\W32Time\\TimeProviders\\NtpClient:Enabled",
+      "Level 1 (L1)"
+    ],
+    "additional_info": "",
+    "page_number": 776
+  },
+  {
+    "cis_id": "18.10",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "10 Windows Components",
+      "10.1 ActiveX Installer Service",
+      "10.2 Add features to Windows 10 (formerly Windows Anytime",
+      "10.3 App and Device Inventory"
+    ],
+    "additional_info": "",
+    "page_number": 780
+  },
+  {
+    "cis_id": "18.10.1",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "10 Windows Components",
+      "10.1 ActiveX Installer Service",
+      "10.2 Add features to Windows 10 (formerly Windows Anytime",
+      "10.3 App and Device Inventory"
+    ],
+    "additional_info": "",
+    "page_number": 780
+  },
+  {
+    "cis_id": "18.10.2",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "10 Windows Components",
+      "10.1 ActiveX Installer Service",
+      "10.2 Add features to Windows 10 (formerly Windows Anytime",
+      "10.3 App and Device Inventory"
+    ],
+    "additional_info": "",
+    "page_number": 780
+  },
+  {
+    "cis_id": "18.10.3",
+    "title": "App and Device Inventory",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "10 Windows Components",
+      "10.1 ActiveX Installer Service",
+      "10.2 Add features to Windows 10 (formerly Windows Anytime",
+      "10.3 App and Device Inventory"
+    ],
+    "additional_info": "",
+    "page_number": 780
+  },
+  {
+    "cis_id": "18.10.3.1",
+    "title": "Ensure 'Turn off API Sampling' is set to 'Enabled'",
+    "profile": "L2",
+    "assessment_status": "Automated",
+    "description": "This policy setting determines if API data sampling is sent to Microsoft. API sampling monitors the sampled collection of APIs used during system runtime to help diagnose compatibility problems in Windows. The recommended state for this setting is: Enabled.",
+    "rationale": "Due to privacy concerns, data should never be sent to any third-party since this data could contain sensitive information.",
+    "impact": "API data sampling will not be sent to Microsoft.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 1. HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\AppCompat:DisableAPISamping Note: The above registry value appears to have a typo (Samping instead of Sampling), however it is correct.",
+    "remediation_procedure": "section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 1. HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\AppCompat:DisableAPISamping Note: The above registry value appears to have a typo (Samping instead of Sampling), however it is correct.",
+    "default_value": "Disabled. (API Sampling will be turned on.) Page 780",
+    "references": [
+      "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\AppCompat:DisableAPISamping",
+      "Level 2 (L2)"
+    ],
+    "additional_info": "",
+    "page_number": 781
+  },
+  {
+    "cis_id": "18.10.3.2",
+    "title": "Ensure 'Turn off Application Footprint' is set to 'Enabled'",
+    "profile": "L2",
+    "assessment_status": "Automated",
+    "description": "This policy setting determines if Application Footprint data is sent to Microsoft. Application Footprint monitors a sampled collection of registry and file activity to help diagnose compatibility problems. The recommended state for this setting is: Enabled.",
+    "rationale": "Due to privacy concerns, data should never be sent to any third-party since this data could contain sensitive information.",
+    "impact": "Data from Application Footprint sampling will not be sent to Microsoft.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 1. HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\AppCompat:DisableApplicationFootprin t",
+    "remediation_procedure": "section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 1. HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\AppCompat:DisableApplicationFootprin t",
+    "default_value": "Disabled. (Application Footprint will be turned on.)",
+    "references": [
+      "GRID: MS-00000589",
+      "Level 2 (L2)"
+    ],
+    "additional_info": "",
+    "page_number": 783
+  },
+  {
+    "cis_id": "18.10.3.3",
+    "title": "Ensure 'Turn off Install Tracing' is set to 'Enabled'",
+    "profile": "L2",
+    "assessment_status": "Automated",
+    "description": "This policy setting determines if Install Tracing data is sent to Microsoft. Install Tracing tracks application installs to help diagnose compatibility problems. The recommended state for this setting is: Enabled.",
+    "rationale": "Due to privacy concerns, data should never be sent to any third-party since this data could contain sensitive information.",
+    "impact": "Data from Install Tracing sampling will not be sent to Microsoft.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 1. HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\AppCompat:DisableInstallTracing",
+    "remediation_procedure": "section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 1. HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\AppCompat:DisableInstallTracing",
+    "default_value": "Disabled. (Install Tracing will be on.)",
+    "references": [
+      "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\AppCompat:DisableInstallTracing",
+      "GRID: MS-00000590",
+      "Level 2 (L2)"
+    ],
+    "additional_info": "",
+    "page_number": 785
+  },
+  {
+    "cis_id": "18.10.4",
+    "title": "App Package Deployment",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "10.4 App Package Deployment"
+    ],
+    "additional_info": "",
+    "page_number": 787
+  },
+  {
+    "cis_id": "18.10.5",
+    "title": "App Privacy",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "10.5 App Privacy"
+    ],
+    "additional_info": "",
+    "page_number": 794
+  },
+  {
+    "cis_id": "18.10.6",
+    "title": "App runtime",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "10.6 App runtime"
+    ],
+    "additional_info": "",
+    "page_number": 797
+  },
+  {
+    "cis_id": "18.10.7",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "10.7 Application Compatibility",
+      "10.8 AutoPlay Policies"
+    ],
+    "additional_info": "",
+    "page_number": 802
+  },
+  {
+    "cis_id": "18.10.8",
+    "title": "AutoPlay Policies",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "10.7 Application Compatibility",
+      "10.8 AutoPlay Policies"
+    ],
+    "additional_info": "",
+    "page_number": 802
+  },
+  {
+    "cis_id": "18.10.8.3",
+    "title": "Ensure 'Turn off Autoplay' is set to 'Enabled: All drives'",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "Autoplay starts to read from a drive as soon as you insert media in the drive, which causes the setup file for programs or audio media to start immediately. An attacker could use this feature to launch a program to damage the computer or data on the computer. Autoplay is disabled by default on some removable drive types, such as floppy disk and network drives, but not on CD-ROM drives. Note: You cannot use this policy setting to enable Autoplay on computer drives in which it is disabled by default, such as floppy disk and network drives. The recommended state for this setting is: Enabled: All drives.",
+    "rationale": "An attacker could use this feature to launch a program to damage a client computer or data on the computer.",
+    "impact": "Autoplay will be disabled - users will have to manually launch setup or installation programs that are provided on removable media.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 255. HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer:NoDriveTypeA utoRun",
+    "remediation_procedure": "section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 255. HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer:NoDriveTypeA utoRun",
+    "default_value": "",
+    "references": [
+      "Level 1 (L1)"
+    ],
+    "additional_info": "",
+    "page_number": 807
+  },
+  {
+    "cis_id": "18.10.9",
+    "title": "Biometrics This section contains recommendations related to Biometrics. This Group Policy section is provided by the Group Policy template Biometrics.admx/adml that is included with the Microsoft Windows 7 & Server 2008 R2 Administrative Templates (or newer).",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "10.9 Biometrics",
+      "10.9.1 Facial Features"
+    ],
+    "additional_info": "",
+    "page_number": 809
+  },
+  {
+    "cis_id": "18.10.9.1",
+    "title": "Facial Features",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "10.9 Biometrics",
+      "10.9.1 Facial Features"
+    ],
+    "additional_info": "",
+    "page_number": 809
+  },
+  {
+    "cis_id": "18.10.9.1.1",
+    "title": "Ensure 'Configure enhanced anti-spoofing' is set to 'Enabled'",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "This policy setting determines whether enhanced anti-spoofing is configured for devices which support it. The recommended state for this setting is: Enabled.",
+    "rationale": "Enterprise managed environments are now supporting a wider range of mobile devices, increasing the security on these devices will help protect against unauthorized access on your network.",
+    "impact": "Windows will require all users on the device to use anti-spoofing for facial features, on devices which support it.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 1. HKLM\\SOFTWARE\\Policies\\Microsoft\\Biometrics\\FacialFeatures:EnhancedAntiSpoofi ng",
+    "remediation_procedure": "section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 1. HKLM\\SOFTWARE\\Policies\\Microsoft\\Biometrics\\FacialFeatures:EnhancedAntiSpoofi ng",
+    "default_value": "",
+    "references": [
+      "Level 1 (L1)"
+    ],
+    "additional_info": "",
+    "page_number": 810
+  },
+  {
+    "cis_id": "18.10.10",
+    "title": "BitLocker Drive Encryption This section contains recommendations for configuring BitLocker. This Group Policy section is provided by the Group Policy template VolumeEncryption.admx/adml that is included with all versions of the Microsoft Windows Administrative Templates.",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "10.10 BitLocker Drive Encryption",
+      "10.10.1 Fixed Data Drives"
+    ],
+    "additional_info": "",
+    "page_number": 812
+  },
+  {
+    "cis_id": "18.10.10.1",
+    "title": "Fixed Data Drives",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "10.10 BitLocker Drive Encryption",
+      "10.10.1 Fixed Data Drives"
+    ],
+    "additional_info": "",
+    "page_number": 812
+  },
+  {
+    "cis_id": "18.10.10.2",
+    "title": "Operating System Drives",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "10.10.2 Operating System Drives"
+    ],
+    "additional_info": "",
+    "page_number": 834
+  },
+  {
+    "cis_id": "18.10.10.2.1",
+    "title": "Ensure 'Allow enhanced PINs for startup' is set to 'Enabled'",
+    "profile": "BL",
+    "assessment_status": "Automated",
+    "description": "This policy setting allows you to configure whether or not enhanced startup PINs are used with BitLocker. Enhanced startup PINs permit the use of characters including uppercase and lowercase letters, symbols, numbers, and spaces. This policy setting is applied when you turn on BitLocker. The recommended state for this setting is: Enabled.",
+    "rationale": "A numeric-only PIN provides less entropy than a PIN that is alpha-numeric. When not using enhanced PIN for startup, BitLocker requires the use of the function keys [F1-F10] for PIN entry since the PIN is entered in the pre-OS environment before localization support is available. This limits each PIN digit to one of ten possibilities. The TPM has an anti-hammering feature that includes a mechanism to exponentially increase the delay for PIN retry attempts; however, an attacker is able to more effectively mount a brute force attack using a domain of 10 digits of the function keys.",
+    "impact": "All new BitLocker startup PINs set will be enhanced PINs. Note: Not all computers enable full keyboard support in the Pre-OS environment. Some keys may not be available. It is recommended this functionality be tested using the computers in your environment prior to it being deployed. Page 834",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "Level 1 (L1) + BitLocker (BL)",
+      "Level 2 (L2) + BitLocker (BL)",
+      "BitLocker (BL)"
+    ],
+    "additional_info": "",
+    "page_number": 835
+  },
+  {
+    "cis_id": "18.10.10.3",
+    "title": "Removable Data Drives",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "10.10.3 Removable Data Drives"
+    ],
+    "additional_info": "",
+    "page_number": 858
+  },
+  {
+    "cis_id": "18.10.11",
+    "title": "Camera",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "10.11 Camera"
+    ],
+    "additional_info": "",
+    "page_number": 886
+  },
+  {
+    "cis_id": "18.10.11.1",
+    "title": "Ensure 'Allow Use of Camera' is set to 'Disabled'",
+    "profile": "L2",
+    "assessment_status": "Automated",
+    "description": "This policy setting controls whether the use of Camera devices on the machine are permitted. The recommended state for this setting is: Disabled.",
+    "rationale": "Cameras in a high security environment can pose serious privacy and data exfiltration risks - they should be disabled to help mitigate that risk.",
+    "impact": "Users will not be able to utilize the camera on a system.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 0. HKLM\\SOFTWARE\\Policies\\Microsoft\\Camera:AllowCamera",
+    "remediation_procedure": "section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 0. HKLM\\SOFTWARE\\Policies\\Microsoft\\Camera:AllowCamera",
+    "default_value": "Enabled. (Camera devices are enabled.)",
+    "references": [
+      "HKLM\\SOFTWARE\\Policies\\Microsoft\\Camera:AllowCamera",
+      "GRID: MS-00000424",
+      "Level 2 (L2)"
+    ],
+    "additional_info": "",
+    "page_number": 887
+  },
+  {
+    "cis_id": "18.10.12",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "10.12 Chat",
+      "10.13 Cloud Content"
+    ],
+    "additional_info": "",
+    "page_number": 889
+  },
+  {
+    "cis_id": "18.10.13",
+    "title": "Cloud Content",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "10.12 Chat",
+      "10.13 Cloud Content"
+    ],
+    "additional_info": "",
+    "page_number": 889
+  },
+  {
+    "cis_id": "18.10.13.2",
+    "title": "Ensure 'Turn off cloud optimized content' is set to 'Enabled'",
+    "profile": "L2",
+    "assessment_status": "Automated",
+    "description": "This policy setting turns off cloud optimized content in all Windows experiences. The recommended state for this setting is: Enabled.",
+    "rationale": "Due to privacy concerns, data should never be sent to any third-party since this data could contain sensitive information.",
+    "impact": "Windows experiences that use the cloud optimized content client component, will present the default fallback content instead of customized content.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 1. HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\CloudContent:DisableCloudOptimizedCo ntent",
+    "remediation_procedure": "section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 1. HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\CloudContent:DisableCloudOptimizedCo ntent",
+    "default_value": "Disabled. (Windows experiences will be able to use cloud optimized content.)",
+    "references": [
+      "GRID: MS-00000426",
+      "Level 2 (L2)"
+    ],
+    "additional_info": "",
+    "page_number": 892
+  },
+  {
+    "cis_id": "18.10.14",
+    "title": "Connect",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "10.14 Connect"
+    ],
+    "additional_info": "",
+    "page_number": 896
+  },
+  {
+    "cis_id": "18.10.15",
+    "title": "Credential User Interface",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "10.15 Credential User Interface"
+    ],
+    "additional_info": "",
+    "page_number": 899
+  },
+  {
+    "cis_id": "18.10.16",
+    "title": "Data Collection and Preview Builds",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "10.16 Data Collection and Preview Builds"
+    ],
+    "additional_info": "",
+    "page_number": 906
+  },
+  {
+    "cis_id": "18.10.16.3",
+    "title": "Ensure 'Disable OneSettings Downloads' is set to 'Enabled'",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "This policy setting controls whether Windows attempts to connect with the OneSettings service to download configuration settings. The recommended state for this setting is: Enabled.",
+    "rationale": "Sending data to a third-party vendor is a security concern and should only be done on an as-needed basis.",
+    "impact": "Windows will not connect to the OneSettings service to download configuration settings.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 1. HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DataCollection:DisableOneSettingsDow nloads",
+    "remediation_procedure": "section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 1. HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DataCollection:DisableOneSettingsDow nloads",
+    "default_value": "Disabled. (Windows will periodically attempt to connect with the OneSettings service to download configuration settings.)",
+    "references": [
+      "GRID: MS-00000434",
+      "Level 1 (L1)"
+    ],
+    "additional_info": "",
+    "page_number": 912
+  },
+  {
+    "cis_id": "18.10.16.5",
+    "title": "Ensure 'Enable OneSettings Auditing' is set to 'Enabled'",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "This policy setting controls whether Windows records attempts to connect with the OneSettings service to the Event Log. The recommended state for this setting is: Enabled.",
+    "rationale": "If events are not recorded it may be difficult or impossible to determine the root cause of system problems or the unauthorized activities of malicious users.",
+    "impact": "Windows will record attempts to connect with the OneSettings service to the Applications and Services Logs\\Microsoft\\Windows\\Privacy-",
+    "audit_procedure": "ing' is set to 'Enabled' (Automated) Profile Applicability: • Level 1 (L1)",
+    "remediation_procedure": "section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 1. HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DataCollection:EnableOneSettingsAudi ting",
+    "default_value": "Disabled. (Windows will not record attempts to connect with the OneSettings service to the Event Log.) Page 915",
+    "references": [
+      "Level 1 (L1)"
+    ],
+    "additional_info": "",
+    "page_number": 916
+  },
+  {
+    "cis_id": "18.10.16.6",
+    "title": "Ensure 'Limit Diagnostic Log Collection' is set to 'Enabled'",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "This policy setting controls whether additional diagnostic logs are collected when more information is needed to troubleshoot a problem on the device. The recommended state for this setting is: Enabled. Note: Diagnostic logs are only sent when the device has been configured to send optional diagnostic data. Diagnostic data is limited when recommendation Allow Diagnostic Data is set to Enabled: Diagnostic data off (not recommended) or Enabled: Send required diagnostic data to send only basic information.",
+    "rationale": "Sending data to a third-party vendor is a security concern and should only be done on an as-needed basis.",
+    "impact": "Diagnostic logs and information such as crash dumps will not be collected for transmission to Microsoft.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 1. HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DataCollection:LimitDiagnosticLogCol lection",
+    "remediation_procedure": "section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 1. HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DataCollection:LimitDiagnosticLogCol lection",
+    "default_value": "",
+    "references": [
+      "Level 1 (L1)"
+    ],
+    "additional_info": "",
+    "page_number": 918
+  },
+  {
+    "cis_id": "18.10.16.7",
+    "title": "Ensure 'Limit Dump Collection' is set to 'Enabled'",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "This policy setting limits the type of memory dumps that can be collected when more information is needed to troubleshoot a problem. The recommended state for this setting is: Enabled. Note: Memory dumps are only sent when the device has been configured to send optional diagnostic data. Diagnostic data is limited when recommendation Allow Diagnostic Data is set to Enabled: Diagnostic data off (not recommended) or Enabled: Send required diagnostic data to send only basic information.",
+    "rationale": "Memory dumps can contain sensitive information. Sending this data to a third-party vendor is a security concern and should only be done on an as-needed basis.",
+    "impact": "Windows Error Reporting is limited to sending kernel mini and user mode triage memory dumps, reducing the risk of sending sensitive information to Microsoft.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 1. HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DataCollection:LimitDumpCollection",
+    "remediation_procedure": "section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 1. HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DataCollection:LimitDumpCollection",
+    "default_value": "",
+    "references": [
+      "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DataCollection:LimitDumpCollection",
+      "Level 1 (L1)"
+    ],
+    "additional_info": "",
+    "page_number": 920
+  },
+  {
+    "cis_id": "18.10.17",
+    "title": "Delivery Optimization",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "10.17 Delivery Optimization"
+    ],
+    "additional_info": "",
+    "page_number": 922
+  },
+  {
+    "cis_id": "18.10.17.1",
+    "title": "Ensure 'Download Mode' is NOT set to 'Enabled:",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "This policy setting specifies the download method that Delivery Optimization can use in downloads of Windows Updates, Apps and App updates. The following methods are supported: • 0 = HTTP only, no peering. • 1 = HTTP blended with peering behind the same NAT. • 2 = HTTP blended with peering across a private group. Peering occurs on devices in the same Active Directory Site (if exist) or the same domain by default. When this option is selected, peering will cross NATs. To create a custom group use Group ID in combination with Mode 2. • 3 = HTTP blended with Internet Peering. • 99 = Simple download mode with no peering. Delivery Optimization downloads using HTTP only and does not attempt to contact the Delivery Optimization cloud services. • 100 = Bypass mode. Do not use Delivery Optimization and use BITS instead. The recommended state for this setting is any value EXCEPT: Enabled: Internet (3). Note: The default on all SKUs other than Enterprise, Enterprise LTSB or Education is Enabled: Internet (3), so on other SKUs, be sure to set this to a different value. Note #2: The option 100 = Bypass mode is deprecated for Windows 11 and can cause some content downloads to fail.",
+    "rationale": "Due to privacy concerns and security risks, updates should only be downloaded directly from Microsoft, or from a trusted machine on the internal network that received its updates from a trusted source and approved by the network administrator.",
+    "impact": "Machines will not be able to download updates from peers on the Internet. If set to Enabled: HTTP only (0), Enabled: Simple (99), or Enabled: Bypass (100), machines will not be able to download updates from other machines on the same LAN. Page 922",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "10.17.1 (L1) Ensure 'Download Mode' is NOT set to 'Enabled:",
+      "Level 1 (L1)",
+      "0 = HTTP only, no peering",
+      "1 = HTTP blended with peering behind the same NAT",
+      "2 = HTTP blended with peering across a private group. Peering occurs on",
+      "3 = HTTP blended with Internet Peering",
+      "99 = Simple download mode with no peering. Delivery Optimization downloads",
+      "100 = Bypass mode. Do not use Delivery Optimization and use BITS instead"
+    ],
+    "additional_info": "",
+    "page_number": 923
+  },
+  {
+    "cis_id": "18.10.18",
+    "title": "Desktop App Installer",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "10.18 Desktop App Installer",
+      "0 (or newer)"
+    ],
+    "additional_info": "",
+    "page_number": 925
+  },
+  {
+    "cis_id": "18.10.18.1",
+    "title": "Ensure 'Enable App Installer' is set to 'Disabled'",
+    "profile": "L2",
+    "assessment_status": "Automated",
+    "description": "This policy setting controls whether standard users have access to the Windows Package Manager. Windows Package Manager is a package manager solution that consists of a command line tool and set of services for installing applications on Microsoft Windows 10 and 11. The recommended state for this setting is: Disabled.",
+    "rationale": "Windows Package Manager is a command line tool can be used to discover, install, upgrade, remove and configure applications, and it can be used as a distribution channel for software packages containing tools and applications. Users should not have access to these types of development tools.",
+    "impact": "Users will not have access to the command line tool, winget to discover, install, upgrade, remove, configure, or distribute applications.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 0. HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\AppInstaller:EnableAppInstaller",
+    "remediation_procedure": "section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 0. HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\AppInstaller:EnableAppInstaller",
+    "default_value": "Disabled. Page 925",
+    "references": [
+      "The recommended state for this setting is: Disabled",
+      "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\AppInstaller:EnableAppInstaller",
+      "0 (or newer)",
+      "Level 2 (L2)"
+    ],
+    "additional_info": "",
+    "page_number": 926
+  },
+  {
+    "cis_id": "18.10.19",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "10.19 Desktop Gadgets",
+      "10.20 Desktop Window Manager",
+      "10.21 Device and Driver Compatibility",
+      "10.22 Device Registration (formerly Workplace Join)",
+      "10.23 Digital Locker"
+    ],
+    "additional_info": "",
+    "page_number": 940
+  },
+  {
+    "cis_id": "18.10.20",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "10.19 Desktop Gadgets",
+      "10.20 Desktop Window Manager",
+      "10.21 Device and Driver Compatibility",
+      "10.22 Device Registration (formerly Workplace Join)",
+      "10.23 Digital Locker"
+    ],
+    "additional_info": "",
+    "page_number": 940
+  },
+  {
+    "cis_id": "18.10.21",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "10.19 Desktop Gadgets",
+      "10.20 Desktop Window Manager",
+      "10.21 Device and Driver Compatibility",
+      "10.22 Device Registration (formerly Workplace Join)",
+      "10.23 Digital Locker"
+    ],
+    "additional_info": "",
+    "page_number": 940
+  },
+  {
+    "cis_id": "18.10.22",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "10.19 Desktop Gadgets",
+      "10.20 Desktop Window Manager",
+      "10.21 Device and Driver Compatibility",
+      "10.22 Device Registration (formerly Workplace Join)",
+      "10.23 Digital Locker"
+    ],
+    "additional_info": "",
+    "page_number": 940
+  },
+  {
+    "cis_id": "18.10.23",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "10.19 Desktop Gadgets",
+      "10.20 Desktop Window Manager",
+      "10.21 Device and Driver Compatibility",
+      "10.22 Device Registration (formerly Workplace Join)",
+      "10.23 Digital Locker"
+    ],
+    "additional_info": "",
+    "page_number": 940
+  },
+  {
+    "cis_id": "18.10.24",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "10.24 Edge UI",
+      "1 & Server 2012 R2 Administrative",
+      "10.25 Event Forwarding",
+      "10.26 Event Log Service",
+      "10.26.1 Application"
+    ],
+    "additional_info": "",
+    "page_number": 941
+  },
+  {
+    "cis_id": "18.10.25",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "10.24 Edge UI",
+      "1 & Server 2012 R2 Administrative",
+      "10.25 Event Forwarding",
+      "10.26 Event Log Service",
+      "10.26.1 Application"
+    ],
+    "additional_info": "",
+    "page_number": 941
+  },
+  {
+    "cis_id": "18.10.26",
+    "title": "Event Log Service This section contains recommendations for configuring the Event Log Service. This Group Policy section is provided by the Group Policy template EventLog.admx/adml that is included with all versions of the Microsoft Windows Administrative Templates.",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "10.24 Edge UI",
+      "1 & Server 2012 R2 Administrative",
+      "10.25 Event Forwarding",
+      "10.26 Event Log Service",
+      "10.26.1 Application"
+    ],
+    "additional_info": "",
+    "page_number": 941
+  },
+  {
+    "cis_id": "18.10.26.1",
+    "title": "Application",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "10.24 Edge UI",
+      "1 & Server 2012 R2 Administrative",
+      "10.25 Event Forwarding",
+      "10.26 Event Log Service",
+      "10.26.1 Application"
+    ],
+    "additional_info": "",
+    "page_number": 941
+  },
+  {
+    "cis_id": "18.10.26.2",
+    "title": "Security",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "10.26.2 Security"
+    ],
+    "additional_info": "",
+    "page_number": 946
+  },
+  {
+    "cis_id": "18.10.26.3",
+    "title": "CIS 18.10.26.3",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "10.26.3 Setup"
+    ],
+    "additional_info": "",
+    "page_number": 951
+  },
+  {
+    "cis_id": "18.10.26.4",
+    "title": "System",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "10.26.4 System"
+    ],
+    "additional_info": "",
+    "page_number": 956
+  },
+  {
+    "cis_id": "18.10.27",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "10.27 Event Logging",
+      "10.28 Event Viewer",
+      "10.29 File Explorer (formerly Windows Explorer)",
+      "0 & Server 2012 (non-R2)",
+      "10.29.1 Previous Versions"
+    ],
+    "additional_info": "",
+    "page_number": 961
+  },
+  {
+    "cis_id": "18.10.28",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "10.27 Event Logging",
+      "10.28 Event Viewer",
+      "10.29 File Explorer (formerly Windows Explorer)",
+      "0 & Server 2012 (non-R2)",
+      "10.29.1 Previous Versions"
+    ],
+    "additional_info": "",
+    "page_number": 961
+  },
+  {
+    "cis_id": "18.10.29",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "10.27 Event Logging",
+      "10.28 Event Viewer",
+      "10.29 File Explorer (formerly Windows Explorer)",
+      "0 & Server 2012 (non-R2)",
+      "10.29.1 Previous Versions"
+    ],
+    "additional_info": "",
+    "page_number": 961
+  },
+  {
+    "cis_id": "18.10.29.1",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "10.27 Event Logging",
+      "10.28 Event Viewer",
+      "10.29 File Explorer (formerly Windows Explorer)",
+      "0 & Server 2012 (non-R2)",
+      "10.29.1 Previous Versions"
+    ],
+    "additional_info": "",
+    "page_number": 961
+  },
+  {
+    "cis_id": "18.10.30",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "10.30 File History",
+      "10.31 Find My Device",
+      "10.32 Handwriting",
+      "10.33 HomeGroup",
+      "10.34 Human Presence"
+    ],
+    "additional_info": "",
+    "page_number": 972
+  },
+  {
+    "cis_id": "18.10.31",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "10.30 File History",
+      "10.31 Find My Device",
+      "10.32 Handwriting",
+      "10.33 HomeGroup",
+      "10.34 Human Presence"
+    ],
+    "additional_info": "",
+    "page_number": 972
+  },
+  {
+    "cis_id": "18.10.32",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "10.30 File History",
+      "10.31 Find My Device",
+      "10.32 Handwriting",
+      "10.33 HomeGroup",
+      "10.34 Human Presence"
+    ],
+    "additional_info": "",
+    "page_number": 972
+  },
+  {
+    "cis_id": "18.10.33",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "10.30 File History",
+      "10.31 Find My Device",
+      "10.32 Handwriting",
+      "10.33 HomeGroup",
+      "10.34 Human Presence"
+    ],
+    "additional_info": "",
+    "page_number": 972
+  },
+  {
+    "cis_id": "18.10.34",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "10.30 File History",
+      "10.31 Find My Device",
+      "10.32 Handwriting",
+      "10.33 HomeGroup",
+      "10.34 Human Presence"
+    ],
+    "additional_info": "",
+    "page_number": 972
+  },
+  {
+    "cis_id": "18.10.35",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "10.35 Internet Explorer",
+      "10.36 Internet Information Services",
+      "10.37 Location and Sensors"
+    ],
+    "additional_info": "",
+    "page_number": 973
+  },
+  {
+    "cis_id": "18.10.36",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "10.35 Internet Explorer",
+      "10.36 Internet Information Services",
+      "10.37 Location and Sensors"
+    ],
+    "additional_info": "",
+    "page_number": 973
+  },
+  {
+    "cis_id": "18.10.37",
+    "title": "Location and Sensors",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "10.35 Internet Explorer",
+      "10.36 Internet Information Services",
+      "10.37 Location and Sensors"
+    ],
+    "additional_info": "",
+    "page_number": 973
+  },
+  {
+    "cis_id": "18.10.37.1",
+    "title": "Ensure 'Turn off location' is set to 'Enabled'",
+    "profile": "L2",
+    "assessment_status": "Automated",
+    "description": "This policy setting turns off the location feature for the computer. The recommended state for this setting is: Enabled.",
+    "rationale": "This setting affects the location feature (e.g. GPS or other location tracking). From a security perspective, it’s not a good idea to reveal your location to software in most cases, but there are legitimate uses, such as mapping software. However, they should not be used in high security environments.",
+    "impact": "The location feature is turned off, and all programs on the computer are prevented from using location information from the location feature.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 1. HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\LocationAndSensors:DisableLocation",
+    "remediation_procedure": "section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 1. HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\LocationAndSensors:DisableLocation",
+    "default_value": "Disabled. (Programs on the computer are permitted to use location information from the location feature.) Page 973",
+    "references": [
+      "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\LocationAndSensors:DisableLocation",
+      "Level 2 (L2)"
+    ],
+    "additional_info": "",
+    "page_number": 974
+  },
+  {
+    "cis_id": "18.10.38",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "10.38 Maintenance Scheduler",
+      "0 & Server 2012 (non-R2) Administrative",
+      "10.39 Maps",
+      "10.40 MDM",
+      "10.41 Messaging"
+    ],
+    "additional_info": "",
+    "page_number": 976
+  },
+  {
+    "cis_id": "18.10.39",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "10.38 Maintenance Scheduler",
+      "0 & Server 2012 (non-R2) Administrative",
+      "10.39 Maps",
+      "10.40 MDM",
+      "10.41 Messaging"
+    ],
+    "additional_info": "",
+    "page_number": 976
+  },
+  {
+    "cis_id": "18.10.40",
+    "title": "ensure the structure of Windows",
+    "profile": "L1",
+    "assessment_status": "Automated",
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "",
+    "default_value": "",
+    "references": [
+      "10.38 Maintenance Scheduler",
+      "0 & Server 2012 (non-R2) Administrative",
+      "10.39 Maps",
+      "10.40 MDM",
+      "10.41 Messaging"
+    ],
+    "additional_info": "",
+    "page_number": 976
+  }
+]
