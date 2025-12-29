@@ -8,14 +8,9 @@
     "rationale": "Bluetooth technology has inherent security risks - especially prior to the v2.1 standard. Wireless Bluetooth traffic is not well encrypted (if at all), so in a high-security environment, it should not be permitted, in spite of the added inconvenience of not being able to use Bluetooth devices.",
     "impact": "Already installed Bluetooth devices may fail to operate properly and new devices may be prevented from being discovered or associated. If Bluetooth devices were installed, then some Windows components, such as Devices and Printers, may fail to operate correctly - including hanging/freezing when opened. The solution, besides re-enabling this service, is to disable or delete the offending Bluetooth device(s) in Device Manager, or disable the device altogether via the system BIOS (if it is an on-board Bluetooth device).",
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 4. HKLM\\SYSTEM\\CurrentControlSet\\Services\\bthserv:Start",
-    "remediation_procedure": "section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 4. HKLM\\SYSTEM\\CurrentControlSet\\Services\\bthserv:Start",
+    "remediation_procedure": "To establish the recommended configuration, run the following PowerShell command: Set-Service -Name bthserv -StartupType Disabled",
     "default_value": "Windows 7: Manual Windows 8.0 or newer: Manual (Trigger Start) Page 286",
-    "references": [
-      "1 standard",
-      "HKLM\\SYSTEM\\CurrentControlSet\\Services\\bthserv:Start",
-      "0 or newer: Manual (Trigger Start)",
-      "Level 2 (L2)"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 287
   },
@@ -28,13 +23,10 @@
     "rationale": "GameInput API pipes input from keyboards, mice, gamepads, and other game controllers via Direct Memory Access (DMA) to decrease latency for gaming performance. This DMA use increases the risk of input data (especially keystrokes) being captured by a malicious attacker.",
     "impact": "Input devices will not be able to utilize the GameInput API.",
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 4. HKLM\\SYSTEM\\CurrentControlSet\\Services\\GameInputSvc:Start",
-    "remediation_procedure": "section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 4. HKLM\\SYSTEM\\CurrentControlSet\\Services\\GameInputSvc:Start",
+    "remediation_procedure": "To establish the recommended configuration, run the following PowerShell command: Set-Service -Name GameInputSvc -StartupType Disabled",
     "default_value": "Windows 11 Release 24H2 or newer: Manual (Trigger Start)",
     "references": [
-      "HKLM\\SYSTEM\\CurrentControlSet\\Services\\GameInputSvc:Start",
-      "https://learn.microsoft.com/en-us/gaming/gdk/_content/gc/input/overviews/input-",
-      "GRID: MS-00000607",
-      "Level 2 (L2)"
+      "https://learn.microsoft.com/en-us/gaming/gdk/_content/gc/input/overviews/input-"
     ],
     "additional_info": "",
     "page_number": 293
@@ -48,13 +40,9 @@
     "rationale": "This setting affects the location feature (e.g. GPS or other location tracking). From a security perspective, it’s not a good idea to reveal your location to software in most cases, but there are legitimate uses, such as mapping software. However, they should not be used in high security environments.",
     "impact": "Applications will be unable to use or receive notifications for geolocation or geofences.",
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 4. HKLM\\SYSTEM\\CurrentControlSet\\Services\\lfsvc:Start",
-    "remediation_procedure": "section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 4. HKLM\\SYSTEM\\CurrentControlSet\\Services\\lfsvc:Start",
+    "remediation_procedure": "To establish the recommended configuration, run the following PowerShell command: Set-Service -Name lfsvc -StartupType Disabled",
     "default_value": "Manual (Trigger Start)",
-    "references": [
-      "HKLM\\SYSTEM\\CurrentControlSet\\Services\\lfsvc:Start",
-      "GRID: MS-00000132",
-      "Level 2 (L2)"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 295
   },
@@ -67,13 +55,10 @@
     "rationale": "In a high security environment, unnecessary services especially those with known vulnerabilities should be disabled. Disabling the Print Spooler (Spooler) service mitigates the PrintNightmare vulnerability (CVE-2021-34527) and other attacks against the service.",
     "impact": "Users will not be able to print, including printing to files (such as Adobe Portable Document Format (PDF)) which uses the Print Spooler service.",
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 4. HKLM\\SYSTEM\\CurrentControlSet\\Services\\Spooler:Start",
-    "remediation_procedure": "section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 4. HKLM\\SYSTEM\\CurrentControlSet\\Services\\Spooler:Start",
-    "default_value": "Automatic References: 1. https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-34527 2. GRID: MS-00000145 Page 308",
+    "remediation_procedure": "To establish the recommended configuration, run the following PowerShell command: Set-Service -Name Spooler -StartupType Disabled",
+    "default_value": "Automatic",
     "references": [
-      "HKLM\\SYSTEM\\CurrentControlSet\\Services\\Spooler:Start",
-      "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-34527",
-      "GRID: MS-00000145",
-      "Level 2 (L2)"
+      "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-34527"
     ],
     "additional_info": "",
     "page_number": 309
@@ -87,14 +72,9 @@
     "rationale": "In a high security environment, exposing the registry to remote access is an increased security risk.",
     "impact": "The registry can be viewed and modified only by users on the computer. Note: Many remote administration tools, such as System Center Configuration Manager (SCCM), require the Remote Registry service to be operational for remote management. In addition, many vulnerability scanners use this service to access the registry remotely.",
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 4. HKLM\\SYSTEM\\CurrentControlSet\\Services\\RemoteRegistry:Start",
-    "remediation_procedure": "section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 4. HKLM\\SYSTEM\\CurrentControlSet\\Services\\RemoteRegistry:Start",
+    "remediation_procedure": "To establish the recommended configuration, run the following PowerShell command: Set-Service -Name RemoteRegistry -StartupType Disabled",
     "default_value": "Windows 7: Manual Windows 8.0 or newer: Disabled",
-    "references": [
-      "HKLM\\SYSTEM\\CurrentControlSet\\Services\\RemoteRegistry:Start",
-      "0 or newer: Disabled",
-      "GRID: MS-00000152",
-      "Level 2 (L2)"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 323
   },
@@ -107,12 +87,9 @@
     "rationale": "In a high security environment, a secure workstation should only be a client, not a server. Sharing workstation resources for remote access increases security risk as the attack surface is notably higher.",
     "impact": "File, print and named-pipe sharing functions will be unavailable from this machine over the network. Note: Many remote administration tools, such as System Center Configuration Manager (SCCM), require the Server service to be operational for remote management. In addition, many vulnerability scanners use this service to scan the file system remotely.",
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 4. HKLM\\SYSTEM\\CurrentControlSet\\Services\\LanmanServer:Start",
-    "remediation_procedure": "section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 4. HKLM\\SYSTEM\\CurrentControlSet\\Services\\LanmanServer:Start",
+    "remediation_procedure": "To establish the recommended configuration, run the following PowerShell command: Set-Service -Name LanmanServer -StartupType Disabled",
     "default_value": "Windows 7 through Windows 10 R1703: Automatic Windows 10 R1709 or newer: Automatic (Trigger Start) Page 326",
-    "references": [
-      "HKLM\\SYSTEM\\CurrentControlSet\\Services\\LanmanServer:Start",
-      "Level 2 (L2)"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 327
   },
@@ -125,12 +102,9 @@
     "rationale": "Features that enable inbound network connections increase the attack surface. In a high security environment, management of secure workstations should be handled locally.",
     "impact": "The computer will be unable to process SNMP requests.",
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 4 or that the key does not exist. HKLM\\SYSTEM\\CurrentControlSet\\Services\\SNMP:Start",
-    "remediation_procedure": "section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 4 or that the key does not exist. HKLM\\SYSTEM\\CurrentControlSet\\Services\\SNMP:Start",
+    "remediation_procedure": "To establish the recommended configuration, run the following PowerShell command or ensure the service is not installed. Set-Service -Name SNMP -StartupType Disabled",
     "default_value": "Not Installed (Automatic when installed)",
-    "references": [
-      "GRID: MS-00000156",
-      "Level 2 (L2)"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 331
   },
@@ -143,13 +117,9 @@
     "rationale": "Universal Plug n Play (UPnP) is a real security risk - it allows automatic discovery and attachment to network devices. Note that UPnP is different than regular Plug n Play (PnP). Workstations should not be advertising their services (or automatically discovering and connecting to networked services) in a security-conscious enterprise managed environment.",
     "impact": "SSDP-based devices will not be discovered.",
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 4. HKLM\\SYSTEM\\CurrentControlSet\\Services\\SSDPSRV:Start",
-    "remediation_procedure": "section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 4. HKLM\\SYSTEM\\CurrentControlSet\\Services\\SSDPSRV:Start",
-    "default_value": "Manual References: 1. GRID: MS-00000158 Page 334",
-    "references": [
-      "HKLM\\SYSTEM\\CurrentControlSet\\Services\\SSDPSRV:Start",
-      "GRID: MS-00000158",
-      "Level 1 (L1)"
-    ],
+    "remediation_procedure": "To establish the recommended configuration, run the following PowerShell command: Set-Service -Name SSDPSRV -StartupType Disabled",
+    "default_value": "Manual",
+    "references": [],
     "additional_info": "",
     "page_number": 335
   },
@@ -162,13 +132,9 @@
     "rationale": "Universal Plug n Play (UPnP) is a real security risk - it allows automatic discovery and attachment to network devices. Notes that UPnP is different than regular Plug n Play (PnP). Workstations should not be advertising their services (or automatically discovering and connecting to networked services) in a security-conscious enterprise managed environment.",
     "impact": "Any hosted UPnP devices will stop functioning and no additional hosted devices can be added.",
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 4. HKLM\\SYSTEM\\CurrentControlSet\\Services\\upnphost:Start",
-    "remediation_procedure": "section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 4. HKLM\\SYSTEM\\CurrentControlSet\\Services\\upnphost:Start",
-    "default_value": "Manual References: 1. GRID: MS-00000159 Page 336",
-    "references": [
-      "HKLM\\SYSTEM\\CurrentControlSet\\Services\\upnphost:Start",
-      "GRID: MS-00000159",
-      "Level 1 (L1)"
-    ],
+    "remediation_procedure": "To establish the recommended configuration, run the following PowerShell command: Set-Service -Name upnphost -StartupType Disabled",
+    "default_value": "Manual",
+    "references": [],
     "additional_info": "",
     "page_number": 337
   },
@@ -180,14 +146,10 @@
     "description": "This service manages persistent subscriptions to events from remote sources that support WS-Management protocol. This includes Windows Vista event logs, hardware and IPMI-enabled event sources. The service stores forwarded events in a local Event Log. The recommended state for this setting is: Disabled.",
     "rationale": "In a high security environment, remote connections to secure workstations should be minimized, and management functions should be done locally.",
     "impact": "If this service is stopped or disabled event subscriptions cannot be created and forwarded events cannot be accepted. Note: Many remote management tools and third-party security audit tools depend on this service.",
-    "audit_procedure": "tools depend on this service.",
-    "remediation_procedure": "section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 4. HKLM\\SYSTEM\\CurrentControlSet\\Services\\Wecsvc:Start",
-    "default_value": "Manual References: 1. GRID: MS-00000162 Page 342",
-    "references": [
-      "HKLM\\SYSTEM\\CurrentControlSet\\Services\\Wecsvc:Start",
-      "GRID: MS-00000162",
-      "Level 2 (L2)"
-    ],
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 4. HKLM\\SYSTEM\\CurrentControlSet\\Services\\Wecsvc:Start",
+    "remediation_procedure": "To establish the recommended configuration, run the following PowerShell command: Set-Service -Name Wecsvc -StartupType Disabled",
+    "default_value": "Manual",
+    "references": [],
     "additional_info": "",
     "page_number": 343
   },
@@ -200,13 +162,10 @@
     "rationale": "Xbox Live is a gaming service and has no place in an enterprise managed environment (perhaps unless it is a gaming company).",
     "impact": "Game save data will not upload to or download from Xbox Live.",
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 4. HKLM\\SYSTEM\\CurrentControlSet\\Services\\XblGameSave:Start",
-    "remediation_procedure": "section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 4. HKLM\\SYSTEM\\CurrentControlSet\\Services\\XblGameSave:Start",
+    "remediation_procedure": "To establish the recommended configuration, run the following PowerShell command: Set-Service -Name XblGameSave -StartupType Disabled",
     "default_value": "Windows 10 R1507 and R1511: Manual Windows 10 R1607 or newer: Manual (Trigger Start)",
     "references": [
-      "HKLM\\SYSTEM\\CurrentControlSet\\Services\\XblGameSave:Start",
-      "https://www.cisecurity.org/insights/blog/update-cis-microsoft-windows-10-",
-      "GRID: MS-00000171",
-      "Level 1 (L1)"
+      "https://www.cisecurity.org/insights/blog/update-cis-microsoft-windows-10-"
     ],
     "additional_info": "",
     "page_number": 363
@@ -219,20 +178,10 @@
     "description": "",
     "rationale": "",
     "impact": "",
-    "audit_procedure": "Incoming NTLM Traffic' is set to 'Enable auditing for all accounts' (Automated) ....................................................................... 254",
+    "audit_procedure": "'Enable auditing for all accounts' (Automated) ....................................................................... 254",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "3.11.7 (L1) Ensure 'Network security: LAN Manager authentication level' is set to 'Send",
-      "3.12 Recovery console................................................................................................................. 257",
-      "3.13 Shutdown .............................................................................................................................. 257",
-      "3.14 System cryptography .......................................................................................................... 258",
-      "3.15 System objects ..................................................................................................................... 261",
-      "3.16 System settings .................................................................................................................... 265",
-      "3.17 User Account Control .......................................................................................................... 266",
-      "3.17.1 (L1) Ensure 'User Account Control: Admin Approval Mode for the Built-in",
-      "2 (L2) Ensure 'Bluetooth Support Service (bthserv)' is set to 'Disabled' (Automated)......... 286"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 7
   },
@@ -247,18 +196,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "5 (L2) Ensure 'GameInput Service (GameInputSvc)' is set to 'Disabled' (Automated) ....... 292",
-      "6 (L2) Ensure 'Geolocation Service (lfsvc)' is set to 'Disabled' (Automated) ....................... 294",
-      "13 (L2) Ensure 'Print Spooler (Spooler)' is set to 'Disabled' (Automated) ........................... 308",
-      "20 (L2) Ensure 'Remote Registry (RemoteRegistry)' is set to 'Disabled' (Automated) ....... 322",
-      "22 (L2) Ensure 'Server (LanmanServer)' is set to 'Disabled' (Automated) .......................... 326",
-      "24 (L2) Ensure 'SNMP Service (SNMP)' is set to 'Disabled' or 'Not Installed' (Automated) 330",
-      "25 (L1) Ensure 'Special Administration Console Helper (sacsvr)' is set to 'Disabled' or 'Not",
-      "26 (L1) Ensure 'SSDP Discovery (SSDPSRV)' is set to 'Disabled' (Automated) ................ 334",
-      "27 (L1) Ensure 'UPnP Device Host (upnphost)' is set to 'Disabled' (Automated) ................ 336",
-      "30 (L2) Ensure 'Windows Event Collector (Wecsvc)' is set to 'Disabled' (Automated)........ 342"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 8
   },
@@ -273,18 +211,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "5 (L2) Ensure 'GameInput Service (GameInputSvc)' is set to 'Disabled' (Automated) ....... 292",
-      "6 (L2) Ensure 'Geolocation Service (lfsvc)' is set to 'Disabled' (Automated) ....................... 294",
-      "13 (L2) Ensure 'Print Spooler (Spooler)' is set to 'Disabled' (Automated) ........................... 308",
-      "20 (L2) Ensure 'Remote Registry (RemoteRegistry)' is set to 'Disabled' (Automated) ....... 322",
-      "22 (L2) Ensure 'Server (LanmanServer)' is set to 'Disabled' (Automated) .......................... 326",
-      "24 (L2) Ensure 'SNMP Service (SNMP)' is set to 'Disabled' or 'Not Installed' (Automated) 330",
-      "25 (L1) Ensure 'Special Administration Console Helper (sacsvr)' is set to 'Disabled' or 'Not",
-      "26 (L1) Ensure 'SSDP Discovery (SSDPSRV)' is set to 'Disabled' (Automated) ................ 334",
-      "27 (L1) Ensure 'UPnP Device Host (upnphost)' is set to 'Disabled' (Automated) ................ 336",
-      "30 (L2) Ensure 'Windows Event Collector (Wecsvc)' is set to 'Disabled' (Automated)........ 342"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 8
   },
@@ -299,18 +226,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "5 (L2) Ensure 'GameInput Service (GameInputSvc)' is set to 'Disabled' (Automated) ....... 292",
-      "6 (L2) Ensure 'Geolocation Service (lfsvc)' is set to 'Disabled' (Automated) ....................... 294",
-      "13 (L2) Ensure 'Print Spooler (Spooler)' is set to 'Disabled' (Automated) ........................... 308",
-      "20 (L2) Ensure 'Remote Registry (RemoteRegistry)' is set to 'Disabled' (Automated) ....... 322",
-      "22 (L2) Ensure 'Server (LanmanServer)' is set to 'Disabled' (Automated) .......................... 326",
-      "24 (L2) Ensure 'SNMP Service (SNMP)' is set to 'Disabled' or 'Not Installed' (Automated) 330",
-      "25 (L1) Ensure 'Special Administration Console Helper (sacsvr)' is set to 'Disabled' or 'Not",
-      "26 (L1) Ensure 'SSDP Discovery (SSDPSRV)' is set to 'Disabled' (Automated) ................ 334",
-      "27 (L1) Ensure 'UPnP Device Host (upnphost)' is set to 'Disabled' (Automated) ................ 336",
-      "30 (L2) Ensure 'Windows Event Collector (Wecsvc)' is set to 'Disabled' (Automated)........ 342"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 8
   },
@@ -325,18 +241,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "5 (L2) Ensure 'GameInput Service (GameInputSvc)' is set to 'Disabled' (Automated) ....... 292",
-      "6 (L2) Ensure 'Geolocation Service (lfsvc)' is set to 'Disabled' (Automated) ....................... 294",
-      "13 (L2) Ensure 'Print Spooler (Spooler)' is set to 'Disabled' (Automated) ........................... 308",
-      "20 (L2) Ensure 'Remote Registry (RemoteRegistry)' is set to 'Disabled' (Automated) ....... 322",
-      "22 (L2) Ensure 'Server (LanmanServer)' is set to 'Disabled' (Automated) .......................... 326",
-      "24 (L2) Ensure 'SNMP Service (SNMP)' is set to 'Disabled' or 'Not Installed' (Automated) 330",
-      "25 (L1) Ensure 'Special Administration Console Helper (sacsvr)' is set to 'Disabled' or 'Not",
-      "26 (L1) Ensure 'SSDP Discovery (SSDPSRV)' is set to 'Disabled' (Automated) ................ 334",
-      "27 (L1) Ensure 'UPnP Device Host (upnphost)' is set to 'Disabled' (Automated) ................ 336",
-      "30 (L2) Ensure 'Windows Event Collector (Wecsvc)' is set to 'Disabled' (Automated)........ 342"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 8
   },
@@ -351,18 +256,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "5 (L2) Ensure 'GameInput Service (GameInputSvc)' is set to 'Disabled' (Automated) ....... 292",
-      "6 (L2) Ensure 'Geolocation Service (lfsvc)' is set to 'Disabled' (Automated) ....................... 294",
-      "13 (L2) Ensure 'Print Spooler (Spooler)' is set to 'Disabled' (Automated) ........................... 308",
-      "20 (L2) Ensure 'Remote Registry (RemoteRegistry)' is set to 'Disabled' (Automated) ....... 322",
-      "22 (L2) Ensure 'Server (LanmanServer)' is set to 'Disabled' (Automated) .......................... 326",
-      "24 (L2) Ensure 'SNMP Service (SNMP)' is set to 'Disabled' or 'Not Installed' (Automated) 330",
-      "25 (L1) Ensure 'Special Administration Console Helper (sacsvr)' is set to 'Disabled' or 'Not",
-      "26 (L1) Ensure 'SSDP Discovery (SSDPSRV)' is set to 'Disabled' (Automated) ................ 334",
-      "27 (L1) Ensure 'UPnP Device Host (upnphost)' is set to 'Disabled' (Automated) ................ 336",
-      "30 (L2) Ensure 'Windows Event Collector (Wecsvc)' is set to 'Disabled' (Automated)........ 342"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 8
   },
@@ -377,18 +271,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "5 (L2) Ensure 'GameInput Service (GameInputSvc)' is set to 'Disabled' (Automated) ....... 292",
-      "6 (L2) Ensure 'Geolocation Service (lfsvc)' is set to 'Disabled' (Automated) ....................... 294",
-      "13 (L2) Ensure 'Print Spooler (Spooler)' is set to 'Disabled' (Automated) ........................... 308",
-      "20 (L2) Ensure 'Remote Registry (RemoteRegistry)' is set to 'Disabled' (Automated) ....... 322",
-      "22 (L2) Ensure 'Server (LanmanServer)' is set to 'Disabled' (Automated) .......................... 326",
-      "24 (L2) Ensure 'SNMP Service (SNMP)' is set to 'Disabled' or 'Not Installed' (Automated) 330",
-      "25 (L1) Ensure 'Special Administration Console Helper (sacsvr)' is set to 'Disabled' or 'Not",
-      "26 (L1) Ensure 'SSDP Discovery (SSDPSRV)' is set to 'Disabled' (Automated) ................ 334",
-      "27 (L1) Ensure 'UPnP Device Host (upnphost)' is set to 'Disabled' (Automated) ................ 336",
-      "30 (L2) Ensure 'Windows Event Collector (Wecsvc)' is set to 'Disabled' (Automated)........ 342"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 8
   },
@@ -403,18 +286,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "5 (L2) Ensure 'GameInput Service (GameInputSvc)' is set to 'Disabled' (Automated) ....... 292",
-      "6 (L2) Ensure 'Geolocation Service (lfsvc)' is set to 'Disabled' (Automated) ....................... 294",
-      "13 (L2) Ensure 'Print Spooler (Spooler)' is set to 'Disabled' (Automated) ........................... 308",
-      "20 (L2) Ensure 'Remote Registry (RemoteRegistry)' is set to 'Disabled' (Automated) ....... 322",
-      "22 (L2) Ensure 'Server (LanmanServer)' is set to 'Disabled' (Automated) .......................... 326",
-      "24 (L2) Ensure 'SNMP Service (SNMP)' is set to 'Disabled' or 'Not Installed' (Automated) 330",
-      "25 (L1) Ensure 'Special Administration Console Helper (sacsvr)' is set to 'Disabled' or 'Not",
-      "26 (L1) Ensure 'SSDP Discovery (SSDPSRV)' is set to 'Disabled' (Automated) ................ 334",
-      "27 (L1) Ensure 'UPnP Device Host (upnphost)' is set to 'Disabled' (Automated) ................ 336",
-      "30 (L2) Ensure 'Windows Event Collector (Wecsvc)' is set to 'Disabled' (Automated)........ 342"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 8
   },
@@ -429,18 +301,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "5 (L2) Ensure 'GameInput Service (GameInputSvc)' is set to 'Disabled' (Automated) ....... 292",
-      "6 (L2) Ensure 'Geolocation Service (lfsvc)' is set to 'Disabled' (Automated) ....................... 294",
-      "13 (L2) Ensure 'Print Spooler (Spooler)' is set to 'Disabled' (Automated) ........................... 308",
-      "20 (L2) Ensure 'Remote Registry (RemoteRegistry)' is set to 'Disabled' (Automated) ....... 322",
-      "22 (L2) Ensure 'Server (LanmanServer)' is set to 'Disabled' (Automated) .......................... 326",
-      "24 (L2) Ensure 'SNMP Service (SNMP)' is set to 'Disabled' or 'Not Installed' (Automated) 330",
-      "25 (L1) Ensure 'Special Administration Console Helper (sacsvr)' is set to 'Disabled' or 'Not",
-      "26 (L1) Ensure 'SSDP Discovery (SSDPSRV)' is set to 'Disabled' (Automated) ................ 334",
-      "27 (L1) Ensure 'UPnP Device Host (upnphost)' is set to 'Disabled' (Automated) ................ 336",
-      "30 (L2) Ensure 'Windows Event Collector (Wecsvc)' is set to 'Disabled' (Automated)........ 342"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 8
   },
@@ -455,18 +316,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "5 (L2) Ensure 'GameInput Service (GameInputSvc)' is set to 'Disabled' (Automated) ....... 292",
-      "6 (L2) Ensure 'Geolocation Service (lfsvc)' is set to 'Disabled' (Automated) ....................... 294",
-      "13 (L2) Ensure 'Print Spooler (Spooler)' is set to 'Disabled' (Automated) ........................... 308",
-      "20 (L2) Ensure 'Remote Registry (RemoteRegistry)' is set to 'Disabled' (Automated) ....... 322",
-      "22 (L2) Ensure 'Server (LanmanServer)' is set to 'Disabled' (Automated) .......................... 326",
-      "24 (L2) Ensure 'SNMP Service (SNMP)' is set to 'Disabled' or 'Not Installed' (Automated) 330",
-      "25 (L1) Ensure 'Special Administration Console Helper (sacsvr)' is set to 'Disabled' or 'Not",
-      "26 (L1) Ensure 'SSDP Discovery (SSDPSRV)' is set to 'Disabled' (Automated) ................ 334",
-      "27 (L1) Ensure 'UPnP Device Host (upnphost)' is set to 'Disabled' (Automated) ................ 336",
-      "30 (L2) Ensure 'Windows Event Collector (Wecsvc)' is set to 'Disabled' (Automated)........ 342"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 8
   },
@@ -481,18 +331,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "5 (L2) Ensure 'GameInput Service (GameInputSvc)' is set to 'Disabled' (Automated) ....... 292",
-      "6 (L2) Ensure 'Geolocation Service (lfsvc)' is set to 'Disabled' (Automated) ....................... 294",
-      "13 (L2) Ensure 'Print Spooler (Spooler)' is set to 'Disabled' (Automated) ........................... 308",
-      "20 (L2) Ensure 'Remote Registry (RemoteRegistry)' is set to 'Disabled' (Automated) ....... 322",
-      "22 (L2) Ensure 'Server (LanmanServer)' is set to 'Disabled' (Automated) .......................... 326",
-      "24 (L2) Ensure 'SNMP Service (SNMP)' is set to 'Disabled' or 'Not Installed' (Automated) 330",
-      "25 (L1) Ensure 'Special Administration Console Helper (sacsvr)' is set to 'Disabled' or 'Not",
-      "26 (L1) Ensure 'SSDP Discovery (SSDPSRV)' is set to 'Disabled' (Automated) ................ 334",
-      "27 (L1) Ensure 'UPnP Device Host (upnphost)' is set to 'Disabled' (Automated) ................ 336",
-      "30 (L2) Ensure 'Windows Event Collector (Wecsvc)' is set to 'Disabled' (Automated)........ 342"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 8
   },
@@ -507,18 +346,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "5 (L2) Ensure 'GameInput Service (GameInputSvc)' is set to 'Disabled' (Automated) ....... 292",
-      "6 (L2) Ensure 'Geolocation Service (lfsvc)' is set to 'Disabled' (Automated) ....................... 294",
-      "13 (L2) Ensure 'Print Spooler (Spooler)' is set to 'Disabled' (Automated) ........................... 308",
-      "20 (L2) Ensure 'Remote Registry (RemoteRegistry)' is set to 'Disabled' (Automated) ....... 322",
-      "22 (L2) Ensure 'Server (LanmanServer)' is set to 'Disabled' (Automated) .......................... 326",
-      "24 (L2) Ensure 'SNMP Service (SNMP)' is set to 'Disabled' or 'Not Installed' (Automated) 330",
-      "25 (L1) Ensure 'Special Administration Console Helper (sacsvr)' is set to 'Disabled' or 'Not",
-      "26 (L1) Ensure 'SSDP Discovery (SSDPSRV)' is set to 'Disabled' (Automated) ................ 334",
-      "27 (L1) Ensure 'UPnP Device Host (upnphost)' is set to 'Disabled' (Automated) ................ 336",
-      "30 (L2) Ensure 'Windows Event Collector (Wecsvc)' is set to 'Disabled' (Automated)........ 342"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 8
   },
@@ -533,18 +361,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "5 (L2) Ensure 'GameInput Service (GameInputSvc)' is set to 'Disabled' (Automated) ....... 292",
-      "6 (L2) Ensure 'Geolocation Service (lfsvc)' is set to 'Disabled' (Automated) ....................... 294",
-      "13 (L2) Ensure 'Print Spooler (Spooler)' is set to 'Disabled' (Automated) ........................... 308",
-      "20 (L2) Ensure 'Remote Registry (RemoteRegistry)' is set to 'Disabled' (Automated) ....... 322",
-      "22 (L2) Ensure 'Server (LanmanServer)' is set to 'Disabled' (Automated) .......................... 326",
-      "24 (L2) Ensure 'SNMP Service (SNMP)' is set to 'Disabled' or 'Not Installed' (Automated) 330",
-      "25 (L1) Ensure 'Special Administration Console Helper (sacsvr)' is set to 'Disabled' or 'Not",
-      "26 (L1) Ensure 'SSDP Discovery (SSDPSRV)' is set to 'Disabled' (Automated) ................ 334",
-      "27 (L1) Ensure 'UPnP Device Host (upnphost)' is set to 'Disabled' (Automated) ................ 336",
-      "30 (L2) Ensure 'Windows Event Collector (Wecsvc)' is set to 'Disabled' (Automated)........ 342"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 8
   },
@@ -559,18 +376,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "5 (L2) Ensure 'GameInput Service (GameInputSvc)' is set to 'Disabled' (Automated) ....... 292",
-      "6 (L2) Ensure 'Geolocation Service (lfsvc)' is set to 'Disabled' (Automated) ....................... 294",
-      "13 (L2) Ensure 'Print Spooler (Spooler)' is set to 'Disabled' (Automated) ........................... 308",
-      "20 (L2) Ensure 'Remote Registry (RemoteRegistry)' is set to 'Disabled' (Automated) ....... 322",
-      "22 (L2) Ensure 'Server (LanmanServer)' is set to 'Disabled' (Automated) .......................... 326",
-      "24 (L2) Ensure 'SNMP Service (SNMP)' is set to 'Disabled' or 'Not Installed' (Automated) 330",
-      "25 (L1) Ensure 'Special Administration Console Helper (sacsvr)' is set to 'Disabled' or 'Not",
-      "26 (L1) Ensure 'SSDP Discovery (SSDPSRV)' is set to 'Disabled' (Automated) ................ 334",
-      "27 (L1) Ensure 'UPnP Device Host (upnphost)' is set to 'Disabled' (Automated) ................ 336",
-      "30 (L2) Ensure 'Windows Event Collector (Wecsvc)' is set to 'Disabled' (Automated)........ 342"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 8
   },
@@ -585,18 +391,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "5 (L2) Ensure 'GameInput Service (GameInputSvc)' is set to 'Disabled' (Automated) ....... 292",
-      "6 (L2) Ensure 'Geolocation Service (lfsvc)' is set to 'Disabled' (Automated) ....................... 294",
-      "13 (L2) Ensure 'Print Spooler (Spooler)' is set to 'Disabled' (Automated) ........................... 308",
-      "20 (L2) Ensure 'Remote Registry (RemoteRegistry)' is set to 'Disabled' (Automated) ....... 322",
-      "22 (L2) Ensure 'Server (LanmanServer)' is set to 'Disabled' (Automated) .......................... 326",
-      "24 (L2) Ensure 'SNMP Service (SNMP)' is set to 'Disabled' or 'Not Installed' (Automated) 330",
-      "25 (L1) Ensure 'Special Administration Console Helper (sacsvr)' is set to 'Disabled' or 'Not",
-      "26 (L1) Ensure 'SSDP Discovery (SSDPSRV)' is set to 'Disabled' (Automated) ................ 334",
-      "27 (L1) Ensure 'UPnP Device Host (upnphost)' is set to 'Disabled' (Automated) ................ 336",
-      "30 (L2) Ensure 'Windows Event Collector (Wecsvc)' is set to 'Disabled' (Automated)........ 342"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 8
   },
@@ -611,18 +406,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "5 (L2) Ensure 'GameInput Service (GameInputSvc)' is set to 'Disabled' (Automated) ....... 292",
-      "6 (L2) Ensure 'Geolocation Service (lfsvc)' is set to 'Disabled' (Automated) ....................... 294",
-      "13 (L2) Ensure 'Print Spooler (Spooler)' is set to 'Disabled' (Automated) ........................... 308",
-      "20 (L2) Ensure 'Remote Registry (RemoteRegistry)' is set to 'Disabled' (Automated) ....... 322",
-      "22 (L2) Ensure 'Server (LanmanServer)' is set to 'Disabled' (Automated) .......................... 326",
-      "24 (L2) Ensure 'SNMP Service (SNMP)' is set to 'Disabled' or 'Not Installed' (Automated) 330",
-      "25 (L1) Ensure 'Special Administration Console Helper (sacsvr)' is set to 'Disabled' or 'Not",
-      "26 (L1) Ensure 'SSDP Discovery (SSDPSRV)' is set to 'Disabled' (Automated) ................ 334",
-      "27 (L1) Ensure 'UPnP Device Host (upnphost)' is set to 'Disabled' (Automated) ................ 336",
-      "30 (L2) Ensure 'Windows Event Collector (Wecsvc)' is set to 'Disabled' (Automated)........ 342"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 8
   },
@@ -637,18 +421,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "5 (L2) Ensure 'GameInput Service (GameInputSvc)' is set to 'Disabled' (Automated) ....... 292",
-      "6 (L2) Ensure 'Geolocation Service (lfsvc)' is set to 'Disabled' (Automated) ....................... 294",
-      "13 (L2) Ensure 'Print Spooler (Spooler)' is set to 'Disabled' (Automated) ........................... 308",
-      "20 (L2) Ensure 'Remote Registry (RemoteRegistry)' is set to 'Disabled' (Automated) ....... 322",
-      "22 (L2) Ensure 'Server (LanmanServer)' is set to 'Disabled' (Automated) .......................... 326",
-      "24 (L2) Ensure 'SNMP Service (SNMP)' is set to 'Disabled' or 'Not Installed' (Automated) 330",
-      "25 (L1) Ensure 'Special Administration Console Helper (sacsvr)' is set to 'Disabled' or 'Not",
-      "26 (L1) Ensure 'SSDP Discovery (SSDPSRV)' is set to 'Disabled' (Automated) ................ 334",
-      "27 (L1) Ensure 'UPnP Device Host (upnphost)' is set to 'Disabled' (Automated) ................ 336",
-      "30 (L2) Ensure 'Windows Event Collector (Wecsvc)' is set to 'Disabled' (Automated)........ 342"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 8
   },
@@ -663,18 +436,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "5 (L2) Ensure 'GameInput Service (GameInputSvc)' is set to 'Disabled' (Automated) ....... 292",
-      "6 (L2) Ensure 'Geolocation Service (lfsvc)' is set to 'Disabled' (Automated) ....................... 294",
-      "13 (L2) Ensure 'Print Spooler (Spooler)' is set to 'Disabled' (Automated) ........................... 308",
-      "20 (L2) Ensure 'Remote Registry (RemoteRegistry)' is set to 'Disabled' (Automated) ....... 322",
-      "22 (L2) Ensure 'Server (LanmanServer)' is set to 'Disabled' (Automated) .......................... 326",
-      "24 (L2) Ensure 'SNMP Service (SNMP)' is set to 'Disabled' or 'Not Installed' (Automated) 330",
-      "25 (L1) Ensure 'Special Administration Console Helper (sacsvr)' is set to 'Disabled' or 'Not",
-      "26 (L1) Ensure 'SSDP Discovery (SSDPSRV)' is set to 'Disabled' (Automated) ................ 334",
-      "27 (L1) Ensure 'UPnP Device Host (upnphost)' is set to 'Disabled' (Automated) ................ 336",
-      "30 (L2) Ensure 'Windows Event Collector (Wecsvc)' is set to 'Disabled' (Automated)........ 342"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 8
   },
@@ -689,18 +451,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "5 (L2) Ensure 'GameInput Service (GameInputSvc)' is set to 'Disabled' (Automated) ....... 292",
-      "6 (L2) Ensure 'Geolocation Service (lfsvc)' is set to 'Disabled' (Automated) ....................... 294",
-      "13 (L2) Ensure 'Print Spooler (Spooler)' is set to 'Disabled' (Automated) ........................... 308",
-      "20 (L2) Ensure 'Remote Registry (RemoteRegistry)' is set to 'Disabled' (Automated) ....... 322",
-      "22 (L2) Ensure 'Server (LanmanServer)' is set to 'Disabled' (Automated) .......................... 326",
-      "24 (L2) Ensure 'SNMP Service (SNMP)' is set to 'Disabled' or 'Not Installed' (Automated) 330",
-      "25 (L1) Ensure 'Special Administration Console Helper (sacsvr)' is set to 'Disabled' or 'Not",
-      "26 (L1) Ensure 'SSDP Discovery (SSDPSRV)' is set to 'Disabled' (Automated) ................ 334",
-      "27 (L1) Ensure 'UPnP Device Host (upnphost)' is set to 'Disabled' (Automated) ................ 336",
-      "30 (L2) Ensure 'Windows Event Collector (Wecsvc)' is set to 'Disabled' (Automated)........ 342"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 8
   },
@@ -715,18 +466,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "5 (L2) Ensure 'GameInput Service (GameInputSvc)' is set to 'Disabled' (Automated) ....... 292",
-      "6 (L2) Ensure 'Geolocation Service (lfsvc)' is set to 'Disabled' (Automated) ....................... 294",
-      "13 (L2) Ensure 'Print Spooler (Spooler)' is set to 'Disabled' (Automated) ........................... 308",
-      "20 (L2) Ensure 'Remote Registry (RemoteRegistry)' is set to 'Disabled' (Automated) ....... 322",
-      "22 (L2) Ensure 'Server (LanmanServer)' is set to 'Disabled' (Automated) .......................... 326",
-      "24 (L2) Ensure 'SNMP Service (SNMP)' is set to 'Disabled' or 'Not Installed' (Automated) 330",
-      "25 (L1) Ensure 'Special Administration Console Helper (sacsvr)' is set to 'Disabled' or 'Not",
-      "26 (L1) Ensure 'SSDP Discovery (SSDPSRV)' is set to 'Disabled' (Automated) ................ 334",
-      "27 (L1) Ensure 'UPnP Device Host (upnphost)' is set to 'Disabled' (Automated) ................ 336",
-      "30 (L2) Ensure 'Windows Event Collector (Wecsvc)' is set to 'Disabled' (Automated)........ 342"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 8
   },
@@ -741,18 +481,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "5 (L2) Ensure 'GameInput Service (GameInputSvc)' is set to 'Disabled' (Automated) ....... 292",
-      "6 (L2) Ensure 'Geolocation Service (lfsvc)' is set to 'Disabled' (Automated) ....................... 294",
-      "13 (L2) Ensure 'Print Spooler (Spooler)' is set to 'Disabled' (Automated) ........................... 308",
-      "20 (L2) Ensure 'Remote Registry (RemoteRegistry)' is set to 'Disabled' (Automated) ....... 322",
-      "22 (L2) Ensure 'Server (LanmanServer)' is set to 'Disabled' (Automated) .......................... 326",
-      "24 (L2) Ensure 'SNMP Service (SNMP)' is set to 'Disabled' or 'Not Installed' (Automated) 330",
-      "25 (L1) Ensure 'Special Administration Console Helper (sacsvr)' is set to 'Disabled' or 'Not",
-      "26 (L1) Ensure 'SSDP Discovery (SSDPSRV)' is set to 'Disabled' (Automated) ................ 334",
-      "27 (L1) Ensure 'UPnP Device Host (upnphost)' is set to 'Disabled' (Automated) ................ 336",
-      "30 (L2) Ensure 'Windows Event Collector (Wecsvc)' is set to 'Disabled' (Automated)........ 342"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 8
   },
@@ -767,18 +496,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "5 (L2) Ensure 'GameInput Service (GameInputSvc)' is set to 'Disabled' (Automated) ....... 292",
-      "6 (L2) Ensure 'Geolocation Service (lfsvc)' is set to 'Disabled' (Automated) ....................... 294",
-      "13 (L2) Ensure 'Print Spooler (Spooler)' is set to 'Disabled' (Automated) ........................... 308",
-      "20 (L2) Ensure 'Remote Registry (RemoteRegistry)' is set to 'Disabled' (Automated) ....... 322",
-      "22 (L2) Ensure 'Server (LanmanServer)' is set to 'Disabled' (Automated) .......................... 326",
-      "24 (L2) Ensure 'SNMP Service (SNMP)' is set to 'Disabled' or 'Not Installed' (Automated) 330",
-      "25 (L1) Ensure 'Special Administration Console Helper (sacsvr)' is set to 'Disabled' or 'Not",
-      "26 (L1) Ensure 'SSDP Discovery (SSDPSRV)' is set to 'Disabled' (Automated) ................ 334",
-      "27 (L1) Ensure 'UPnP Device Host (upnphost)' is set to 'Disabled' (Automated) ................ 336",
-      "30 (L2) Ensure 'Windows Event Collector (Wecsvc)' is set to 'Disabled' (Automated)........ 342"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 8
   },
@@ -793,18 +511,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "5 (L2) Ensure 'GameInput Service (GameInputSvc)' is set to 'Disabled' (Automated) ....... 292",
-      "6 (L2) Ensure 'Geolocation Service (lfsvc)' is set to 'Disabled' (Automated) ....................... 294",
-      "13 (L2) Ensure 'Print Spooler (Spooler)' is set to 'Disabled' (Automated) ........................... 308",
-      "20 (L2) Ensure 'Remote Registry (RemoteRegistry)' is set to 'Disabled' (Automated) ....... 322",
-      "22 (L2) Ensure 'Server (LanmanServer)' is set to 'Disabled' (Automated) .......................... 326",
-      "24 (L2) Ensure 'SNMP Service (SNMP)' is set to 'Disabled' or 'Not Installed' (Automated) 330",
-      "25 (L1) Ensure 'Special Administration Console Helper (sacsvr)' is set to 'Disabled' or 'Not",
-      "26 (L1) Ensure 'SSDP Discovery (SSDPSRV)' is set to 'Disabled' (Automated) ................ 334",
-      "27 (L1) Ensure 'UPnP Device Host (upnphost)' is set to 'Disabled' (Automated) ................ 336",
-      "30 (L2) Ensure 'Windows Event Collector (Wecsvc)' is set to 'Disabled' (Automated)........ 342"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 8
   },
@@ -819,18 +526,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "5 (L2) Ensure 'GameInput Service (GameInputSvc)' is set to 'Disabled' (Automated) ....... 292",
-      "6 (L2) Ensure 'Geolocation Service (lfsvc)' is set to 'Disabled' (Automated) ....................... 294",
-      "13 (L2) Ensure 'Print Spooler (Spooler)' is set to 'Disabled' (Automated) ........................... 308",
-      "20 (L2) Ensure 'Remote Registry (RemoteRegistry)' is set to 'Disabled' (Automated) ....... 322",
-      "22 (L2) Ensure 'Server (LanmanServer)' is set to 'Disabled' (Automated) .......................... 326",
-      "24 (L2) Ensure 'SNMP Service (SNMP)' is set to 'Disabled' or 'Not Installed' (Automated) 330",
-      "25 (L1) Ensure 'Special Administration Console Helper (sacsvr)' is set to 'Disabled' or 'Not",
-      "26 (L1) Ensure 'SSDP Discovery (SSDPSRV)' is set to 'Disabled' (Automated) ................ 334",
-      "27 (L1) Ensure 'UPnP Device Host (upnphost)' is set to 'Disabled' (Automated) ................ 336",
-      "30 (L2) Ensure 'Windows Event Collector (Wecsvc)' is set to 'Disabled' (Automated)........ 342"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 8
   },
@@ -845,13 +541,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "37 (L1) Ensure 'World Wide Web Publishing Service (W3SVC)' is set to 'Disabled' or 'Not",
-      "40 (L1) Ensure 'Xbox Live Game Save (XblGameSave)' is set to 'Disabled' (Automated) . 362",
-      "1 Domain Profile .............................................................................................................................. 366",
-      "2 Private Profile ............................................................................................................................... 366",
-      "3 Public Profile ................................................................................................................................ 381"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 9
   },
@@ -866,13 +556,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "37 (L1) Ensure 'World Wide Web Publishing Service (W3SVC)' is set to 'Disabled' or 'Not",
-      "40 (L1) Ensure 'Xbox Live Game Save (XblGameSave)' is set to 'Disabled' (Automated) . 362",
-      "1 Domain Profile .............................................................................................................................. 366",
-      "2 Private Profile ............................................................................................................................... 366",
-      "3 Public Profile ................................................................................................................................ 381"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 9
   },
@@ -887,13 +571,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "37 (L1) Ensure 'World Wide Web Publishing Service (W3SVC)' is set to 'Disabled' or 'Not",
-      "40 (L1) Ensure 'Xbox Live Game Save (XblGameSave)' is set to 'Disabled' (Automated) . 362",
-      "1 Domain Profile .............................................................................................................................. 366",
-      "2 Private Profile ............................................................................................................................... 366",
-      "3 Public Profile ................................................................................................................................ 381"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 9
   },
@@ -908,13 +586,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "37 (L1) Ensure 'World Wide Web Publishing Service (W3SVC)' is set to 'Disabled' or 'Not",
-      "40 (L1) Ensure 'Xbox Live Game Save (XblGameSave)' is set to 'Disabled' (Automated) . 362",
-      "1 Domain Profile .............................................................................................................................. 366",
-      "2 Private Profile ............................................................................................................................... 366",
-      "3 Public Profile ................................................................................................................................ 381"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 9
   },
@@ -929,13 +601,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "37 (L1) Ensure 'World Wide Web Publishing Service (W3SVC)' is set to 'Disabled' or 'Not",
-      "40 (L1) Ensure 'Xbox Live Game Save (XblGameSave)' is set to 'Disabled' (Automated) . 362",
-      "1 Domain Profile .............................................................................................................................. 366",
-      "2 Private Profile ............................................................................................................................... 366",
-      "3 Public Profile ................................................................................................................................ 381"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 9
   },
@@ -950,13 +616,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "37 (L1) Ensure 'World Wide Web Publishing Service (W3SVC)' is set to 'Disabled' or 'Not",
-      "40 (L1) Ensure 'Xbox Live Game Save (XblGameSave)' is set to 'Disabled' (Automated) . 362",
-      "1 Domain Profile .............................................................................................................................. 366",
-      "2 Private Profile ............................................................................................................................... 366",
-      "3 Public Profile ................................................................................................................................ 381"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 9
   }

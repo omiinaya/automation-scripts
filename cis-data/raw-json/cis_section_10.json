@@ -11,9 +11,8 @@
     "remediation_procedure": "",
     "default_value": "Disabled for 32-bit processes.",
     "references": [
-      "https://learn.microsoft.com/en-us/windows/security/threat-protection/override-",
       "GRID: MS-00000245",
-      "3 Enable Operating System Anti-Exploitation Features/"
+      "Control IG 1 IG 2 IG 3"
     ],
     "additional_info": "",
     "page_number": 494
@@ -29,9 +28,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "3 Disable Autorun and Autoplay for Removable"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 804
   },
@@ -48,7 +45,8 @@
     "default_value": "Disabled. (EDR will not run in block mode.)",
     "references": [
       "GRID: MS-00000598",
-      "https://learn.microsoft.com/en-us/defender-endpoint/edr-in-block-mode"
+      "https://learn.microsoft.com/en-us/defender-endpoint/edr-in-block-mode",
+      "Control IG 1 IG 2 IG 3"
     ],
     "additional_info": "",
     "page_number": 984
@@ -65,8 +63,8 @@
     "remediation_procedure": "",
     "default_value": "",
     "references": [
-      "https://learn.microsoft.com/en-us/windows/security/threat-protection/microsoft-",
-      "GRID: MS-00000472"
+      "GRID: MS-00000472",
+      "Control IG 1 IG 2 IG 3"
     ],
     "additional_info": "",
     "page_number": 1015
@@ -83,9 +81,8 @@
     "remediation_procedure": "",
     "default_value": "",
     "references": [
-      "https://learn.microsoft.com/en-us/microsoft-365/security/defender-",
       "GRID: MS-00000475",
-      "4 Configure Anti-Malware Scanning of Removable"
+      "Control IG 1 IG 2 IG 3"
     ],
     "additional_info": "",
     "page_number": 1033

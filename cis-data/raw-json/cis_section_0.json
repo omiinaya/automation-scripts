@@ -11,9 +11,8 @@
     "remediation_procedure": "",
     "default_value": "On Windows 7 or older: Disabled. On Windows 8.0 or newer: Enabled.",
     "references": [
-      "0 or newer: Enabled",
-      "https://learn.microsoft.com/en-us/windows/security/threat-protection/security-",
-      "GRID: MS-00000071"
+      "GRID: MS-00000071",
+      "Controls Version Control IG 1 IG 2 IG 3"
     ],
     "additional_info": "",
     "page_number": 167
@@ -29,16 +28,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "10.57.3.1 (L2) Ensure 'Set time limit for active but idle Remote  ",
-      "10.57.3.1 (L2) Ensure 'Set time limit for disconnected sessions' is  ",
-      "2 set to 'Enabled: 1 minute' (Automated)",
-      "10.57.3.1 (L1) Ensure 'Do not delete temp folders upon exit' is set  ",
-      "1 to 'Disabled' (Automated)",
-      "10.58 RSS Feeds",
-      "10.58.2 (L1) Ensure 'Turn on Basic feed authentication over  ",
-      "10.59 Search"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 1339
   }

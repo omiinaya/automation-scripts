@@ -116,7 +116,7 @@ class CISExtractor:
         toc_mapping = {}
         
         # Look for patterns like "1.1.1 ... 39" in the first few pages
-        for page_data in self.pages_text[:30]:  # TOC might span more pages - increased from 20 to 30
+        for page_data in self.pages_text[:40]:  # TOC might span more pages
             # Process lines with multi-line awareness for TOC entries
             lines = page_data['lines']
             i = 0
@@ -131,8 +131,8 @@ class CISExtractor:
                     # Look for page number on this line or subsequent lines
                     page_num = None
                     
-                    # Pattern 1: Page number on same line
-                    same_line_match = re.search(r'(\d+)\s*$', line)
+                    # Pattern 1: Page number on same line (most common)
+                    same_line_match = re.search(r'.*?(\d+)\s*$', line)
                     if same_line_match:
                         page_num = same_line_match.group(1)
                     
@@ -144,22 +144,30 @@ class CISExtractor:
                             page_num = next_line_match.group(1)
                             i += 1  # Skip the next line since we used it
                     
-                    # Pattern 3: Look for page number in the line content
+                    # Pattern 3: Look for page number in the middle of the line
                     if not page_num:
-                        content_match = re.search(r'.*?(\d+)\s*$', line)
+                        content_match = re.search(r'.*?(\d{2,3})\s*$', line)
                         if content_match:
                             page_num = content_match.group(1)
                     
                     if page_num and cis_id not in toc_mapping:
                         # Apply page offset correction: TOC page numbers are often off by 1
-                        corrected_page_num = int(page_num) + 1
-                        toc_mapping[cis_id] = corrected_page_num
+                        # But we need to be careful - test if the correction is actually needed
+                        try:
+                            page_int = int(page_num)
+                            # Check if this page number makes sense (should be > current page)
+                            if page_int > page_data['page_number']:
+                                corrected_page_num = page_int
+                            else:
+                                corrected_page_num = page_int + 1
+                            toc_mapping[cis_id] = corrected_page_num
+                        except ValueError:
+                            continue
                 
                 i += 1
         
-        # Enhanced fallback: Always use content-based extraction for sections with missing sub-recommendations
-        # This ensures we capture all recommendations regardless of TOC completeness
-        self.logger.info(f"TOC extraction found {len(toc_mapping)} entries. Augmenting with content-based extraction.")
+        # Enhanced fallback: Use content-based extraction for missing recommendations
+        self.logger.info(f"TOC extraction found {len(toc_mapping)} entries.")
         content_toc_mapping = self.extract_cis_ids_from_content()
         
         # Merge mappings, prioritizing TOC entries but adding missing ones from content
@@ -338,22 +346,39 @@ class CISExtractor:
         return f"CIS {cis_id}"
     
     def extract_section_content_enhanced(self, text: str, section_name: str) -> str:
-        """Enhanced section content extraction with multiple patterns and fallbacks"""
+        """Enhanced section content extraction with direct patterns"""
         section_header = self.patterns['section_headers'][section_name]
         
-        # Multiple patterns to handle different formatting styles
+        # Get all section headers for boundary detection
+        all_headers = list(self.patterns["section_headers"].values())
+        
+        # Escape headers for regex patterns
+        escaped_headers = [re.escape(header) for header in all_headers]
+        headers_pattern = "|".join(escaped_headers)
+        
+        # Direct patterns that work with the actual PDF structure
+        # Based on testing, the PDF has clear section boundaries
         patterns = [
-            # Pattern 1: Section header followed by content until next section
-            rf'{section_header}[\s:]*\n?(.*?)(?=\n\s*(?:{"|".join(self.patterns["section_headers"].values())})|\n\s*\d+\.\d+|$)',
-            # Pattern 2: Section header with colon
-            rf'{section_header}:\s*\n?(.*?)(?=\n\s*(?:{"|".join(self.patterns["section_headers"].values())})|\n\s*\d+\.\d+|$)',
-            # Pattern 3: Section header on its own line
-            rf'{section_header}\s*\n(.*?)(?=\n\s*(?:{"|".join(self.patterns["section_headers"].values())})|\n\s*\d+\.\d+|$)',
-            # Pattern 4: Look for content after section header in the same paragraph
-            rf'{section_header}[^\n]*(.*?)(?=\n\s*(?:{"|".join(self.patterns["section_headers"].values())})|\n\s*\d+\.\d+|$)',
-            # Pattern 5: Simple pattern for sections that might span multiple pages
-            rf'{section_header}[\s:]*\n(.*?)(?=\n\s*[A-Z][a-z]+:|$)',
-            # Pattern 6: Fallback pattern for sections without clear boundaries
+            # Pattern 1: Simple pattern for adjacent sections (e.g., Description: content Rationale:)
+            rf'{section_header}:(.*?)Rationale:',
+            rf'{section_header}:(.*?)Impact:',
+            rf'{section_header}:(.*?)Audit:',
+            rf'{section_header}:(.*?)Remediation:',
+            rf'{section_header}:(.*?)Default Value:',
+            rf'{section_header}:(.*?)References:',
+            # Pattern 2: Pattern with colon until next section header
+            rf'{section_header}:\s*\n(.*?)(?=\n\s*(?:{headers_pattern}):)',
+            # Pattern 3: Pattern with colon until next section header (no colon)
+            rf'{section_header}:\s*\n(.*?)(?=\n\s*(?:{headers_pattern}))',
+            # Pattern 4: Pattern with colon until next CIS ID
+            rf'{section_header}:\s*\n(.*?)(?=\n\s*\d+\.\d+)',
+            # Pattern 5: Pattern without colon for adjacent sections
+            rf'{section_header}\s*\n(.*?)(?=\n\s*(?:{headers_pattern}):)',
+            # Pattern 6: Pattern without colon until next section header
+            rf'{section_header}\s*\n(.*?)(?=\n\s*(?:{headers_pattern}))',
+            # Pattern 7: Pattern without colon until next CIS ID
+            rf'{section_header}\s*\n(.*?)(?=\n\s*\d+\.\d+)',
+            # Pattern 8: Simple pattern - everything after header until end
             rf'{section_header}[\s:]*\n(.*)',
         ]
         
@@ -361,13 +386,13 @@ class CISExtractor:
             match = re.search(pattern, text, re.DOTALL | re.IGNORECASE)
             if match:
                 content = match.group(1).strip()
-                if content and len(content) > 10:  # Basic validation - content should be meaningful
+                if content:
                     # Clean up the content
                     content = re.sub(r'\n+', ' ', content)  # Replace multiple newlines with space
                     content = re.sub(r'\s+', ' ', content)  # Normalize whitespace
                     
-                    # Additional validation: content should not be just placeholder text
-                    if not re.match(r'^[\.\s]*$', content) and not re.match(r'^Statement\s*$', content, re.IGNORECASE):
+                    # Further reduce validation threshold - some sections might be very short
+                    if len(content) > 3:  # Reduced from 5 to 3
                         return content
         
         # Final fallback: Try to extract content using line-based approach
@@ -376,16 +401,21 @@ class CISExtractor:
             if section_header.lower() in line.lower():
                 # Look for content in subsequent lines
                 content_lines = []
-                for j in range(i + 1, min(i + 20, len(lines))):  # Check next 20 lines
+                for j in range(i + 1, min(i + 15, len(lines))):  # Increased from 10 to 15 lines
                     next_line = lines[j].strip()
-                    if next_line and not any(header.lower() in next_line.lower() for header in self.patterns["section_headers"].values() if header != section_header):
+                    if next_line:
+                        # Stop if we hit another section header or CIS ID
+                        if any(header.lower() in next_line.lower() for header in self.patterns["section_headers"].values() if header != section_header):
+                            break
+                        if re.match(r'^\d+\.\d+', next_line):  # Stop at next CIS ID
+                            break
                         content_lines.append(next_line)
                     else:
                         break
                 
                 if content_lines:
                     content = ' '.join(content_lines)
-                    if len(content) > 10:
+                    if len(content) > 3:  # Reduced threshold
                         return content
         
         return ""
@@ -394,25 +424,41 @@ class CISExtractor:
         """Enhanced reference extraction"""
         references = []
         
-        # Pattern 1: Numbered references like "1. http://example.com"
-        pattern1 = r'\d+\.\s*(https?://[^\s]+|[^\n]+?(?=\n\s*\d+\.|\n\s*[A-Z]|\n\s*$))'
-        # Pattern 2: Bullet points or other reference formats
-        pattern2 = r'•\s*(https?://[^\s]+|[^\n]+)'
-        # Pattern 3: Lines that look like references (contain URLs or specific patterns)
-        pattern3 = r'(https?://[^\s]+)'
+        # Look for the References section specifically
+        references_pattern = r'References[\s:]*\n(.*?)(?=\n\s*(?:Description|Rationale|Impact|Audit|Remediation|Default Value|\d+\.\d+|$))'
+        references_match = re.search(references_pattern, text, re.DOTALL | re.IGNORECASE)
         
-        # Try each pattern
-        for pattern in [pattern1, pattern2, pattern3]:
-            matches = re.findall(pattern, text)
-            for match in matches:
-                ref = match.strip()
-                # Basic validation
-                if ref and len(ref) > 5 and not ref.startswith('Page'):
-                    # Remove trailing punctuation and page numbers
-                    ref = re.sub(r'[.,;]\s*Page\s+\d+.*$', '', ref)
-                    ref = re.sub(r'[.,;]\s*$', '', ref)
-                    if ref not in references:
-                        references.append(ref)
+        if references_match:
+            references_text = references_match.group(1)
+            
+            # Pattern 1: Numbered references like "1. http://example.com"
+            pattern1 = r'\d+\.\s*(.*?)(?=\n\s*\d+\.|\n\s*[A-Z]|\n\s*$)'
+            # Pattern 2: Simple lines that look like references
+            pattern2 = r'•\s*(.*)'
+            # Pattern 3: Lines starting with common reference indicators
+            pattern3 = r'^\s*(https?://[^\s]+|[A-Z][a-z]+.*)'
+            
+            # Try each pattern
+            for pattern in [pattern1, pattern2, pattern3]:
+                matches = re.findall(pattern, references_text, re.MULTILINE)
+                for match in matches:
+                    ref = match.strip()
+                    # Basic validation - should be meaningful content
+                    if ref and len(ref) > 10 and not ref.startswith('Page'):
+                        # Remove trailing punctuation and page numbers
+                        ref = re.sub(r'[.,;]\s*Page\s+\d+.*$', '', ref)
+                        ref = re.sub(r'[.,;]\s*$', '', ref)
+                        # Additional validation: should not be just numbers or short text
+                        if not re.match(r'^\d+$', ref) and ref not in references:
+                            references.append(ref)
+        
+        # If no references found in References section, try to find URLs anywhere
+        if not references:
+            url_pattern = r'https?://[^\s]+'
+            url_matches = re.findall(url_pattern, text)
+            for url in url_matches:
+                if url not in references:
+                    references.append(url)
         
         return references
     
@@ -423,10 +469,13 @@ class CISExtractor:
         # Look for section header and extract content until next section
         # Handle various formats: "Description:", "Description", "Description\n"
         section_headers_list = list(self.patterns["section_headers"].values())
+        escaped_headers = [re.escape(header) for header in section_headers_list]
+        headers_pattern = "|".join(escaped_headers)
+        
         patterns = [
-            rf'{section_header}[\s:]*\n?(.*?)(?=\n\s*(?:{"|".join(section_headers_list)})|\n\s*\d+\.\d+|$)',
-            rf'{section_header}:\s*\n?(.*?)(?=\n\s*(?:{"|".join(section_headers_list)})|\n\s*\d+\.\d+|$)',
-            rf'{section_header}\s*\n?(.*?)(?=\n\s*(?:{"|".join(section_headers_list)})|\n\s*\d+\.\d+|$)'
+            rf'{section_header}[\s:]*\n?(.*?)(?=\n\s*(?:{headers_pattern})|\n\s*\d+\.\d+|$)',
+            rf'{section_header}:\s*\n?(.*?)(?=\n\s*(?:{headers_pattern})|\n\s*\d+\.\d+|$)',
+            rf'{section_header}\s*\n?(.*?)(?=\n\s*(?:{headers_pattern})|\n\s*\d+\.\d+|$)'
         ]
         
         for pattern in patterns:

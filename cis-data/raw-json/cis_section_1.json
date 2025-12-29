@@ -10,9 +10,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "1 Password Policy"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 39
   },
@@ -25,13 +23,11 @@
     "rationale": "The longer a user uses the same password, the greater the chance that an attacker can determine the password through brute force attacks. Also, any accounts that may have been compromised will remain exploitable for as long as the password is left unchanged. If password changes are required but password reuse is not prevented, or if users continually reuse a small number of passwords, the effectiveness of a good password policy is greatly reduced. If you specify a low number for this policy setting, users will be able to use the same small number of passwords repeatedly. If you do not also configure the Minimum password age setting, users might repeatedly change their passwords until they can reuse their original password. Page 39",
     "impact": "The major impact of this configuration is that users must create a new password every time they are required to change their old one. If users are required to change their passwords to new unique values, there is an increased risk of users who write their passwords somewhere so that they do not forget them. Another risk is that users may create passwords that change incrementally (for example, password01, password02, and so on) to facilitate memorization but make them easier to guess. Also, an excessively low value for the Minimum password age setting will likely increase administrative overhead, because users who forget their passwords might ask the help desk to reset them frequently.",
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed.",
-    "remediation_procedure": "section and confirm it is set as prescribed.",
-    "default_value": "for stand- alone systems is 0 passwords, but the default setting when joined to a domain is 24 passwords. To maintain the effectiveness of this policy setting, use the Minimum password age setting to prevent users from repeatedly changing their password. The recommended state for this setting is: 24 or more password(s). Note: Password Policy settings (section 1.1) and Account Lockout Policy settings (section 1.2) must be applied via the Default Domain Policy GPO in order to be globally in effect on domain user accounts as their default behavior. If these settings are configured in another GPO, they will only affect local user accounts on the computers that receive the GPO. However, custom exceptions to the default password policy and account lockout policy rules for specific domain users and/or groups can be defined using Password Settings Objects (PSOs), which are completely separate from Group Policy and most easily configured using Active Directory Administrative Center. Note #2: As of the publication of this benchmark, Microsoft currently has a maximum limit of 24 saved passwords. For more information, please visit Enforce password history (Windows 10) - Windows security | Microsoft Docs.",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to 24 or more password(s): Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Account Policies\\Password Policy\\Enforce password history",
+    "default_value": "24 passwords remembered on domain members. 0 passwords remembered on stand- alone workstations.",
     "references": [
       "https://www.cisecurity.org/white-papers/cis-password-policy-guide/",
-      "https://learn.microsoft.com/en-us/windows/security/threat-protection/security-",
-      "GRID: MS-00000001",
-      "Level 1 (L1)"
+      "https://learn.microsoft.com/en-us/windows/security/threat-protection/security-"
     ],
     "additional_info": "",
     "page_number": 40
@@ -41,15 +37,13 @@
     "title": "Ensure 'Minimum password age' is set to '1 or more day(s)'",
     "profile": "L1",
     "assessment_status": "Automated",
-    "description": "This policy setting determines the number of days that you must use a password before you can change it. The range of values for this policy setting is between 1 and 999 days. (You may also set the value to 0 to allow immediate password changes.) The",
+    "description": "This policy setting determines the number of days that you must use a password before you can change it. The range of values for this policy setting is between 1 and 999 days. (You may also set the value to 0 to allow immediate password changes.) The default value for this setting is 0 days. The recommended state for this setting is: 1 or more day(s)). Note: Password Policy settings (section 1.1) and Account Lockout Policy settings (section 1.2) must be applied via the Default Domain Policy GPO in order to be globally in effect on domain user accounts as their default behavior. If these settings are configured in another GPO, they will only affect local user accounts on the computers that receive the GPO. However, custom exceptions to the default password policy and account lockout policy rules for specific domain users and/or groups can be defined using Password Settings Objects (PSOs), which are completely separate from Group Policy and most easily configured using Active Directory Administrative Center.",
     "rationale": "Users may have favorite passwords that they like to use because they are easy to remember and they believe that their password choice is secure from compromise. Unfortunately, passwords are compromised and if an attacker is targeting a specific individual's user account, with foreknowledge of data about that user, reuse of old passwords can cause a security breach. To address password reuse a combination of security settings is required. Using this policy setting with the Enforce password history setting prevents the easy reuse of old passwords. For example, if you configure the Enforce password history setting to ensure that users cannot reuse any of their last 12 passwords, they could change their password 13 times in a few minutes and reuse the password they started with, unless you also configure the Minimum password age setting to a number that is greater than 0. You must configure this policy setting to a number that is greater than 0 for the Enforce password history setting to be effective.",
     "impact": "If an administrator sets a password for a user but wants that user to change the password when the user first logs on, the administrator must select the User must change password at next logon check box, or the user will not be able to change the password until the next day. Page 44",
     "audit_procedure": "",
     "remediation_procedure": "",
-    "default_value": "for this setting is 0 days. The recommended state for this setting is: 1 or more day(s)). Note: Password Policy settings (section 1.1) and Account Lockout Policy settings (section 1.2) must be applied via the Default Domain Policy GPO in order to be globally in effect on domain user accounts as their default behavior. If these settings are configured in another GPO, they will only affect local user accounts on the computers that receive the GPO. However, custom exceptions to the default password policy and account lockout policy rules for specific domain users and/or groups can be defined using Password Settings Objects (PSOs), which are completely separate from Group Policy and most easily configured using Active Directory Administrative Center.",
-    "references": [
-      "Level 1 (L1)"
-    ],
+    "default_value": "The recommended state for this setting is: 1 or more day(s)). Note: Password Policy settings (section 1.1) and Account Lockout Policy settings (section 1.2) must be applied via the Default Domain Policy GPO in order to be globally in effect on domain user accounts as their default behavior. If these settings are configured in another GPO, they will only affect local user accounts on the computers that receive the GPO. However, custom exceptions to the default password policy and account lockout policy rules for specific domain users and/or groups can be defined using Password Settings Objects (PSOs), which are completely separate from Group Policy and most easily configured using Active Directory Administrative Center.",
+    "references": [],
     "additional_info": "",
     "page_number": 45
   },
@@ -62,13 +56,11 @@
     "rationale": "Types of password attacks include dictionary attacks (which attempt to use common words and phrases) and brute force attacks (which try every possible combination of characters). Also, attackers sometimes try to obtain the account database so they can use tools to discover the accounts and passwords. Page 46",
     "impact": "Requirements for extremely long passwords can actually decrease the security of an organization, because users might leave the information in an insecure location or lose it. If very long passwords are required, mistyped passwords could cause account lockouts and increase the volume of help desk calls. If your organization has issues with forgotten passwords due to password length requirements, consider teaching your users about passphrases, which are often easier to remember and, due to the larger number of character combinations, much harder to discover. Note: Older versions of Windows such as Windows 98 and Windows NT 4.0 do not support passwords that are longer than 14 characters. Computers that run these older operating systems are unable to authenticate with computers or domains that use accounts that require long passwords.",
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed.",
-    "remediation_procedure": "section and confirm it is set as prescribed.",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to 14 or more character(s): Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Account Policies\\Password Policy\\Minimum password length",
     "default_value": "7 characters on domain members. 0 characters on stand-alone servers.",
     "references": [
       "https://www.cisecurity.org/white-papers/cis-password-policy-guide/",
-      "https://learn.microsoft.com/en-us/windows/security/threat-protection/security-",
-      "GRID: MS-00000004",
-      "Level 1 (L1)"
+      "https://learn.microsoft.com/en-us/windows/security/threat-protection/security-"
     ],
     "additional_info": "",
     "page_number": 47
@@ -82,12 +74,9 @@
     "rationale": "This setting will enable the enforcement of longer and generally stronger passwords or passphrases where MFA is not in use.",
     "impact": "The Minimum password length setting may be configured higher than 14 characters. If very long passwords are required, mistyped passwords could cause account lockouts and increase the volume of help desk calls. If your organization has issues with forgotten passwords due to password length requirements, consider teaching your users about passphrases, which are often easier to remember and, due to the larger number of character combinations, much harder to discover.",
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 1. HKLM\\System\\CurrentControlSet\\Control\\SAM:RelaxMinimumPasswordLengthLimits Page 52",
-    "remediation_procedure": "section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 1. HKLM\\System\\CurrentControlSet\\Control\\SAM:RelaxMinimumPasswordLengthLimits Page 52",
+    "remediation_procedure": "prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 1. HKLM\\System\\CurrentControlSet\\Control\\SAM:RelaxMinimumPasswordLengthLimits Page 52",
     "default_value": "",
-    "references": [
-      "HKLM\\System\\CurrentControlSet\\Control\\SAM:RelaxMinimumPasswordLengthLimits",
-      "Level 1 (L1)"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 53
   },
@@ -102,9 +91,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "2 Account Lockout Policy"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 57
   },
@@ -119,9 +106,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "Level 1 (L1)"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 58
   },
@@ -134,12 +119,9 @@
     "rationale": "Enabling account lockout policies for the built-in Administrator account will reduce the likelihood of a successful brute force attack.",
     "impact": "The built-in Administrator account will be subject to the policies in Section 1.2 Account Lockout Policy of this benchmark.",
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed.",
-    "remediation_procedure": "section and confirm it is set as prescribed.",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to Enabled: Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Account Policies\\Account Lockout Policies\\Allow Administrator account lockout",
     "default_value": "Disabled. (The built-in Administrator account is not subject to the account lockout policy.) Page 61",
-    "references": [
-      "2 Account",
-      "Level 1 (L1)"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 62
   },
@@ -148,16 +130,13 @@
     "title": "Ensure 'Maximum password age' is set to '365 or fewer days, but not 0'",
     "profile": "L1",
     "assessment_status": "Automated",
-    "description": "............................................................................................................................33",
-    "rationale": "Statement .............................................................................................................33",
-    "impact": "Statement ..................................................................................................................34",
-    "audit_procedure": "Procedure ....................................................................................................................34",
-    "remediation_procedure": "......................................................................................................................................... 29 Summary ............................................................................................................................................... 29 Target Technology Details ...................................................................................................30 Intended Audience ................................................................................................................30 Consensus Guidance ...........................................................................................................31 Typographical Conventions .................................................................................................32 Recommendation Definitions ..................................................................................... 33 Title ........................................................................................................................................33 Assessment Status ...............................................................................................................33 Automated ............................................................................................................................................ 33 Manual ................................................................................................................................................... 33 Profile ....................................................................................................................................33",
-    "default_value": ".........................................................................................................................34",
-    "references": [
-      "1 Password Policy ............................................................................................................................ 38",
-      "1.1 (L1) Ensure 'Enforce password history' is set to '24 or more password(s)' (Automated) 39"
-    ],
+    "description": "",
+    "rationale": "",
+    "impact": "",
+    "audit_procedure": "",
+    "remediation_procedure": "Summary ............................................................................................................................................... 29 Target Technology Details ...................................................................................................30 Intended Audience ................................................................................................................30 Consensus Guidance ...........................................................................................................31 Typographical Conventions .................................................................................................32 Recommendation Definitions ..................................................................................... 33 Title ........................................................................................................................................33 Assessment Status ...............................................................................................................33 Automated ............................................................................................................................................ 33 Manual ................................................................................................................................................... 33 Profile ....................................................................................................................................33",
+    "default_value": "",
+    "references": [],
     "additional_info": "",
     "page_number": 3
   },
@@ -169,36 +148,10 @@
     "description": "",
     "rationale": "",
     "impact": "",
-    "audit_procedure": "Policy .................................................................................................................................... 66",
+    "audit_procedure": "SERVICE' (Automated) ........................................................................................................... 113",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "1.3 (L1) Ensure 'Minimum password age' is set to '1 or more day(s)' (Automated) .............. 44",
-      "1.4 (L1) Ensure 'Minimum password length' is set to '14 or more character(s)' (Automated)46",
-      "1.6 (L1) Ensure 'Relax minimum password length limits' is set to 'Enabled' (Automated) .... 52",
-      "2 Account Lockout Policy ................................................................................................................ 56",
-      "2.1 (L1) Ensure 'Account lockout duration' is set to '15 or more minute(s)' (Automated) ...... 57",
-      "2.3 (L1) Ensure 'Allow Administrator account lockout' is set to 'Enabled' (Manual) .............. 61",
-      "1 Audit Policy .................................................................................................................................... 66",
-      "2 User Rights Assignment ............................................................................................................... 66",
-      "2.2 (L1) Ensure 'Access this computer from the network' is set to 'Administrators, Remote",
-      "2.3 (L1) Ensure 'Act as part of the operating system' is set to 'No One' (Automated) .......... 72",
-      "2.4 (L1) Ensure 'Adjust memory quotas for a process' is set to 'Administrators, LOCAL",
-      "2.5 (L1) Ensure 'Allow log on locally' is set to 'Administrators, Users' (Automated) .............. 76",
-      "2.6 (L1) Ensure 'Allow log on through Remote Desktop Services' is set to 'Administrators",
-      "2.7 (L1) Ensure 'Back up files and directories' is set to 'Administrators' (Automated)........... 80",
-      "2.10 (L1) Ensure 'Create a pagefile' is set to 'Administrators' (Automated) .......................... 87",
-      "2.11 (L1) Ensure 'Create a token object' is set to 'No One' (Automated) .............................. 89",
-      "2.12 (L1) Ensure 'Create global objects' is set to 'Administrators, LOCAL SERVICE",
-      "2.13 (L1) Ensure 'Create permanent shared objects' is set to 'No One' (Automated) ........... 93",
-      "2.14 (L1) Ensure 'Create symbolic links' is set to 'Administrators' (Automated) .................... 95",
-      "2.15 (L1) Ensure 'Debug programs' is set to 'Administrators' (Automated) ........................... 97",
-      "2.17 (L1) Ensure 'Deny log on as a batch job' to include 'Guests' (Automated) .................. 101",
-      "2.18 (L1) Ensure 'Deny log on as a service' to include 'Guests' (Automated) ..................... 103",
-      "2.19 (L1) Ensure 'Deny log on locally' to include 'Guests' (Automated) .............................. 105",
-      "2.23 (L1) Ensure 'Generate security audits' is set to 'LOCAL SERVICE, NETWORK",
-      "2.24 (L1) Ensure 'Impersonate a client after authentication' is set to 'Administrators, LOCAL"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 4
   },
@@ -210,36 +163,10 @@
     "description": "",
     "rationale": "",
     "impact": "",
-    "audit_procedure": "Policy .................................................................................................................................... 66",
+    "audit_procedure": "SERVICE' (Automated) ........................................................................................................... 113",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "1.3 (L1) Ensure 'Minimum password age' is set to '1 or more day(s)' (Automated) .............. 44",
-      "1.4 (L1) Ensure 'Minimum password length' is set to '14 or more character(s)' (Automated)46",
-      "1.6 (L1) Ensure 'Relax minimum password length limits' is set to 'Enabled' (Automated) .... 52",
-      "2 Account Lockout Policy ................................................................................................................ 56",
-      "2.1 (L1) Ensure 'Account lockout duration' is set to '15 or more minute(s)' (Automated) ...... 57",
-      "2.3 (L1) Ensure 'Allow Administrator account lockout' is set to 'Enabled' (Manual) .............. 61",
-      "1 Audit Policy .................................................................................................................................... 66",
-      "2 User Rights Assignment ............................................................................................................... 66",
-      "2.2 (L1) Ensure 'Access this computer from the network' is set to 'Administrators, Remote",
-      "2.3 (L1) Ensure 'Act as part of the operating system' is set to 'No One' (Automated) .......... 72",
-      "2.4 (L1) Ensure 'Adjust memory quotas for a process' is set to 'Administrators, LOCAL",
-      "2.5 (L1) Ensure 'Allow log on locally' is set to 'Administrators, Users' (Automated) .............. 76",
-      "2.6 (L1) Ensure 'Allow log on through Remote Desktop Services' is set to 'Administrators",
-      "2.7 (L1) Ensure 'Back up files and directories' is set to 'Administrators' (Automated)........... 80",
-      "2.10 (L1) Ensure 'Create a pagefile' is set to 'Administrators' (Automated) .......................... 87",
-      "2.11 (L1) Ensure 'Create a token object' is set to 'No One' (Automated) .............................. 89",
-      "2.12 (L1) Ensure 'Create global objects' is set to 'Administrators, LOCAL SERVICE",
-      "2.13 (L1) Ensure 'Create permanent shared objects' is set to 'No One' (Automated) ........... 93",
-      "2.14 (L1) Ensure 'Create symbolic links' is set to 'Administrators' (Automated) .................... 95",
-      "2.15 (L1) Ensure 'Debug programs' is set to 'Administrators' (Automated) ........................... 97",
-      "2.17 (L1) Ensure 'Deny log on as a batch job' to include 'Guests' (Automated) .................. 101",
-      "2.18 (L1) Ensure 'Deny log on as a service' to include 'Guests' (Automated) ..................... 103",
-      "2.19 (L1) Ensure 'Deny log on locally' to include 'Guests' (Automated) .............................. 105",
-      "2.23 (L1) Ensure 'Generate security audits' is set to 'LOCAL SERVICE, NETWORK",
-      "2.24 (L1) Ensure 'Impersonate a client after authentication' is set to 'Administrators, LOCAL"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 4
   },
@@ -251,36 +178,10 @@
     "description": "",
     "rationale": "",
     "impact": "",
-    "audit_procedure": "Policy .................................................................................................................................... 66",
+    "audit_procedure": "SERVICE' (Automated) ........................................................................................................... 113",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "1.3 (L1) Ensure 'Minimum password age' is set to '1 or more day(s)' (Automated) .............. 44",
-      "1.4 (L1) Ensure 'Minimum password length' is set to '14 or more character(s)' (Automated)46",
-      "1.6 (L1) Ensure 'Relax minimum password length limits' is set to 'Enabled' (Automated) .... 52",
-      "2 Account Lockout Policy ................................................................................................................ 56",
-      "2.1 (L1) Ensure 'Account lockout duration' is set to '15 or more minute(s)' (Automated) ...... 57",
-      "2.3 (L1) Ensure 'Allow Administrator account lockout' is set to 'Enabled' (Manual) .............. 61",
-      "1 Audit Policy .................................................................................................................................... 66",
-      "2 User Rights Assignment ............................................................................................................... 66",
-      "2.2 (L1) Ensure 'Access this computer from the network' is set to 'Administrators, Remote",
-      "2.3 (L1) Ensure 'Act as part of the operating system' is set to 'No One' (Automated) .......... 72",
-      "2.4 (L1) Ensure 'Adjust memory quotas for a process' is set to 'Administrators, LOCAL",
-      "2.5 (L1) Ensure 'Allow log on locally' is set to 'Administrators, Users' (Automated) .............. 76",
-      "2.6 (L1) Ensure 'Allow log on through Remote Desktop Services' is set to 'Administrators",
-      "2.7 (L1) Ensure 'Back up files and directories' is set to 'Administrators' (Automated)........... 80",
-      "2.10 (L1) Ensure 'Create a pagefile' is set to 'Administrators' (Automated) .......................... 87",
-      "2.11 (L1) Ensure 'Create a token object' is set to 'No One' (Automated) .............................. 89",
-      "2.12 (L1) Ensure 'Create global objects' is set to 'Administrators, LOCAL SERVICE",
-      "2.13 (L1) Ensure 'Create permanent shared objects' is set to 'No One' (Automated) ........... 93",
-      "2.14 (L1) Ensure 'Create symbolic links' is set to 'Administrators' (Automated) .................... 95",
-      "2.15 (L1) Ensure 'Debug programs' is set to 'Administrators' (Automated) ........................... 97",
-      "2.17 (L1) Ensure 'Deny log on as a batch job' to include 'Guests' (Automated) .................. 101",
-      "2.18 (L1) Ensure 'Deny log on as a service' to include 'Guests' (Automated) ..................... 103",
-      "2.19 (L1) Ensure 'Deny log on locally' to include 'Guests' (Automated) .............................. 105",
-      "2.23 (L1) Ensure 'Generate security audits' is set to 'LOCAL SERVICE, NETWORK",
-      "2.24 (L1) Ensure 'Impersonate a client after authentication' is set to 'Administrators, LOCAL"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 4
   },
@@ -292,36 +193,10 @@
     "description": "",
     "rationale": "",
     "impact": "",
-    "audit_procedure": "Policy .................................................................................................................................... 66",
+    "audit_procedure": "SERVICE' (Automated) ........................................................................................................... 113",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "1.3 (L1) Ensure 'Minimum password age' is set to '1 or more day(s)' (Automated) .............. 44",
-      "1.4 (L1) Ensure 'Minimum password length' is set to '14 or more character(s)' (Automated)46",
-      "1.6 (L1) Ensure 'Relax minimum password length limits' is set to 'Enabled' (Automated) .... 52",
-      "2 Account Lockout Policy ................................................................................................................ 56",
-      "2.1 (L1) Ensure 'Account lockout duration' is set to '15 or more minute(s)' (Automated) ...... 57",
-      "2.3 (L1) Ensure 'Allow Administrator account lockout' is set to 'Enabled' (Manual) .............. 61",
-      "1 Audit Policy .................................................................................................................................... 66",
-      "2 User Rights Assignment ............................................................................................................... 66",
-      "2.2 (L1) Ensure 'Access this computer from the network' is set to 'Administrators, Remote",
-      "2.3 (L1) Ensure 'Act as part of the operating system' is set to 'No One' (Automated) .......... 72",
-      "2.4 (L1) Ensure 'Adjust memory quotas for a process' is set to 'Administrators, LOCAL",
-      "2.5 (L1) Ensure 'Allow log on locally' is set to 'Administrators, Users' (Automated) .............. 76",
-      "2.6 (L1) Ensure 'Allow log on through Remote Desktop Services' is set to 'Administrators",
-      "2.7 (L1) Ensure 'Back up files and directories' is set to 'Administrators' (Automated)........... 80",
-      "2.10 (L1) Ensure 'Create a pagefile' is set to 'Administrators' (Automated) .......................... 87",
-      "2.11 (L1) Ensure 'Create a token object' is set to 'No One' (Automated) .............................. 89",
-      "2.12 (L1) Ensure 'Create global objects' is set to 'Administrators, LOCAL SERVICE",
-      "2.13 (L1) Ensure 'Create permanent shared objects' is set to 'No One' (Automated) ........... 93",
-      "2.14 (L1) Ensure 'Create symbolic links' is set to 'Administrators' (Automated) .................... 95",
-      "2.15 (L1) Ensure 'Debug programs' is set to 'Administrators' (Automated) ........................... 97",
-      "2.17 (L1) Ensure 'Deny log on as a batch job' to include 'Guests' (Automated) .................. 101",
-      "2.18 (L1) Ensure 'Deny log on as a service' to include 'Guests' (Automated) ..................... 103",
-      "2.19 (L1) Ensure 'Deny log on locally' to include 'Guests' (Automated) .............................. 105",
-      "2.23 (L1) Ensure 'Generate security audits' is set to 'LOCAL SERVICE, NETWORK",
-      "2.24 (L1) Ensure 'Impersonate a client after authentication' is set to 'Administrators, LOCAL"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 4
   },
@@ -338,7 +213,7 @@
     "default_value": "Automatic. (Devices will attempt to authenticate using their certificate. If the DC does not support computer account authentication using certificates then authentication with password will be attempted.)",
     "references": [
       "GRID: MS-00000332",
-      "8 Utilize Client Certificates to Authenticate Hardware"
+      "Control IG 1 IG 2 IG 3"
     ],
     "additional_info": "",
     "page_number": 709
@@ -356,7 +231,7 @@
     "default_value": "Automatic. (Devices will attempt to authenticate using their certificate. If the DC does not support computer account authentication using certificates then authentication with password will be attempted.)",
     "references": [
       "GRID: MS-00000332",
-      "8 Utilize Client Certificates to Authenticate Hardware"
+      "Control IG 1 IG 2 IG 3"
     ],
     "additional_info": "",
     "page_number": 709
@@ -370,11 +245,11 @@
     "rationale": "",
     "impact": "",
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 0. HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\Kernel DMA Protection:DeviceEnumerationPolicy",
-    "remediation_procedure": "section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 0. HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\Kernel DMA Protection:DeviceEnumerationPolicy",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to Enabled: Block All: Computer Configuration\\Policies\\Administrative Templates\\System\\Kernel DMA Protection\\Enumeration policy for external devices incompatible with Kernel DMA Protection Note: This Group Policy path is provided by the Group Policy template DmaGuard.admx/adml that is included with the Microsoft Windows 10 Release 1809 & Server 2019 Administrative Templates (or newer).",
     "default_value": "Windows 10 R1803 or newer: Enabled if UEFI BIOS is present. Disabled if using legacy BIOS. Older OSes: Not supported (i.e. Disabled).",
     "references": [
-      "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\Kernel DMA",
-      "GRID: MS-00000333"
+      "GRID: MS-00000333",
+      "Control IG 1 IG 2 IG 3"
     ],
     "additional_info": "",
     "page_number": 712

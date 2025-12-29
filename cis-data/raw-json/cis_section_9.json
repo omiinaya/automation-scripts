@@ -10,17 +10,13 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "3) Policies",
-      "9.1 Domain Profile",
-      "2 Private Profile"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 367
   },
   {
     "cis_id": "9.2",
-    "title": "Private Profile",
+    "title": "Ensure Only Approved Ports, Protocols and Services",
     "profile": "L1",
     "assessment_status": "Automated",
     "description": "",
@@ -29,13 +25,9 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "3) Policies",
-      "9.1 Domain Profile",
-      "2 Private Profile"
-    ],
+    "references": [],
     "additional_info": "",
-    "page_number": 367
+    "page_number": 366
   },
   {
     "cis_id": "9.3",
@@ -48,9 +40,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "3 Public Profile"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 382
   },
@@ -65,13 +55,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "37 (L1) Ensure 'World Wide Web Publishing Service (W3SVC)' is set to 'Disabled' or 'Not",
-      "40 (L1) Ensure 'Xbox Live Game Save (XblGameSave)' is set to 'Disabled' (Automated) . 362",
-      "1 Domain Profile .............................................................................................................................. 366",
-      "2 Private Profile ............................................................................................................................... 366",
-      "3 Public Profile ................................................................................................................................ 381"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 9
   },
@@ -86,13 +70,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "37 (L1) Ensure 'World Wide Web Publishing Service (W3SVC)' is set to 'Disabled' or 'Not",
-      "40 (L1) Ensure 'Xbox Live Game Save (XblGameSave)' is set to 'Disabled' (Automated) . 362",
-      "1 Domain Profile .............................................................................................................................. 366",
-      "2 Private Profile ............................................................................................................................... 366",
-      "3 Public Profile ................................................................................................................................ 381"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 9
   },
@@ -107,13 +85,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "37 (L1) Ensure 'World Wide Web Publishing Service (W3SVC)' is set to 'Disabled' or 'Not",
-      "40 (L1) Ensure 'Xbox Live Game Save (XblGameSave)' is set to 'Disabled' (Automated) . 362",
-      "1 Domain Profile .............................................................................................................................. 366",
-      "2 Private Profile ............................................................................................................................... 366",
-      "3 Public Profile ................................................................................................................................ 381"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 9
   },
@@ -128,13 +100,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "37 (L1) Ensure 'World Wide Web Publishing Service (W3SVC)' is set to 'Disabled' or 'Not",
-      "40 (L1) Ensure 'Xbox Live Game Save (XblGameSave)' is set to 'Disabled' (Automated) . 362",
-      "1 Domain Profile .............................................................................................................................. 366",
-      "2 Private Profile ............................................................................................................................... 366",
-      "3 Public Profile ................................................................................................................................ 381"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 9
   },
@@ -149,13 +115,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "37 (L1) Ensure 'World Wide Web Publishing Service (W3SVC)' is set to 'Disabled' or 'Not",
-      "40 (L1) Ensure 'Xbox Live Game Save (XblGameSave)' is set to 'Disabled' (Automated) . 362",
-      "1 Domain Profile .............................................................................................................................. 366",
-      "2 Private Profile ............................................................................................................................... 366",
-      "3 Public Profile ................................................................................................................................ 381"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 9
   },
@@ -170,13 +130,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "37 (L1) Ensure 'World Wide Web Publishing Service (W3SVC)' is set to 'Disabled' or 'Not",
-      "40 (L1) Ensure 'Xbox Live Game Save (XblGameSave)' is set to 'Disabled' (Automated) . 362",
-      "1 Domain Profile .............................................................................................................................. 366",
-      "2 Private Profile ............................................................................................................................... 366",
-      "3 Public Profile ................................................................................................................................ 381"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 9
   },
@@ -191,13 +145,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "37 (L1) Ensure 'World Wide Web Publishing Service (W3SVC)' is set to 'Disabled' or 'Not",
-      "40 (L1) Ensure 'Xbox Live Game Save (XblGameSave)' is set to 'Disabled' (Automated) . 362",
-      "1 Domain Profile .............................................................................................................................. 366",
-      "2 Private Profile ............................................................................................................................... 366",
-      "3 Public Profile ................................................................................................................................ 381"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 9
   },
@@ -212,13 +160,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "37 (L1) Ensure 'World Wide Web Publishing Service (W3SVC)' is set to 'Disabled' or 'Not",
-      "40 (L1) Ensure 'Xbox Live Game Save (XblGameSave)' is set to 'Disabled' (Automated) . 362",
-      "1 Domain Profile .............................................................................................................................. 366",
-      "2 Private Profile ............................................................................................................................... 366",
-      "3 Public Profile ................................................................................................................................ 381"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 9
   },
@@ -233,13 +175,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "37 (L1) Ensure 'World Wide Web Publishing Service (W3SVC)' is set to 'Disabled' or 'Not",
-      "40 (L1) Ensure 'Xbox Live Game Save (XblGameSave)' is set to 'Disabled' (Automated) . 362",
-      "1 Domain Profile .............................................................................................................................. 366",
-      "2 Private Profile ............................................................................................................................... 366",
-      "3 Public Profile ................................................................................................................................ 381"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 9
   },
@@ -254,13 +190,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "37 (L1) Ensure 'World Wide Web Publishing Service (W3SVC)' is set to 'Disabled' or 'Not",
-      "40 (L1) Ensure 'Xbox Live Game Save (XblGameSave)' is set to 'Disabled' (Automated) . 362",
-      "1 Domain Profile .............................................................................................................................. 366",
-      "2 Private Profile ............................................................................................................................... 366",
-      "3 Public Profile ................................................................................................................................ 381"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 9
   },
@@ -275,13 +205,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "37 (L1) Ensure 'World Wide Web Publishing Service (W3SVC)' is set to 'Disabled' or 'Not",
-      "40 (L1) Ensure 'Xbox Live Game Save (XblGameSave)' is set to 'Disabled' (Automated) . 362",
-      "1 Domain Profile .............................................................................................................................. 366",
-      "2 Private Profile ............................................................................................................................... 366",
-      "3 Public Profile ................................................................................................................................ 381"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 9
   },
@@ -296,13 +220,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "37 (L1) Ensure 'World Wide Web Publishing Service (W3SVC)' is set to 'Disabled' or 'Not",
-      "40 (L1) Ensure 'Xbox Live Game Save (XblGameSave)' is set to 'Disabled' (Automated) . 362",
-      "1 Domain Profile .............................................................................................................................. 366",
-      "2 Private Profile ............................................................................................................................... 366",
-      "3 Public Profile ................................................................................................................................ 381"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 9
   },
@@ -317,13 +235,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "37 (L1) Ensure 'World Wide Web Publishing Service (W3SVC)' is set to 'Disabled' or 'Not",
-      "40 (L1) Ensure 'Xbox Live Game Save (XblGameSave)' is set to 'Disabled' (Automated) . 362",
-      "1 Domain Profile .............................................................................................................................. 366",
-      "2 Private Profile ............................................................................................................................... 366",
-      "3 Public Profile ................................................................................................................................ 381"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 9
   },
@@ -338,13 +250,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "37 (L1) Ensure 'World Wide Web Publishing Service (W3SVC)' is set to 'Disabled' or 'Not",
-      "40 (L1) Ensure 'Xbox Live Game Save (XblGameSave)' is set to 'Disabled' (Automated) . 362",
-      "1 Domain Profile .............................................................................................................................. 366",
-      "2 Private Profile ............................................................................................................................... 366",
-      "3 Public Profile ................................................................................................................................ 381"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 9
   },
@@ -359,13 +265,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "37 (L1) Ensure 'World Wide Web Publishing Service (W3SVC)' is set to 'Disabled' or 'Not",
-      "40 (L1) Ensure 'Xbox Live Game Save (XblGameSave)' is set to 'Disabled' (Automated) . 362",
-      "1 Domain Profile .............................................................................................................................. 366",
-      "2 Private Profile ............................................................................................................................... 366",
-      "3 Public Profile ................................................................................................................................ 381"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 9
   },
@@ -380,13 +280,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "37 (L1) Ensure 'World Wide Web Publishing Service (W3SVC)' is set to 'Disabled' or 'Not",
-      "40 (L1) Ensure 'Xbox Live Game Save (XblGameSave)' is set to 'Disabled' (Automated) . 362",
-      "1 Domain Profile .............................................................................................................................. 366",
-      "2 Private Profile ............................................................................................................................... 366",
-      "3 Public Profile ................................................................................................................................ 381"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 9
   },
@@ -402,9 +296,8 @@
     "remediation_procedure": "",
     "default_value": "",
     "references": [
-      "https://learn.microsoft.com/en-us/windows/security/threat-protection/windows-",
       "GRID: MS-00000180",
-      "5 Implement and Manage a Firewall on End-User"
+      "Control IG 1 IG 2 IG 3"
     ],
     "additional_info": "",
     "page_number": 369

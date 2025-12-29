@@ -9,12 +9,11 @@
     "impact": "",
     "audit_procedure": "",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to Disabled: Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Account Policies\\Password Policy\\Store passwords using reversible encryption",
-    "default_value": "Disabled. References: 1. https://www.cisecurity.org/white-papers/cis-password-policy-guide/ 2. https://learn.microsoft.com/en-us/windows/security/threat-protection/security- policy-settings/password-policy 3. GRID: MS-00000007 CIS Controls: Controls Control IG 1 IG 2 IG 3 Version 3.11 Encrypt Sensitive Data at Rest Encrypt sensitive data at rest on servers, applications, and databases containing v8 sensitive data. Storage-layer encryption, also known as server-side encryption, ● ● meets the minimum requirement of this Safeguard. Additional encryption methods may include application-layer encryption, also known as client-side encryption, where access to the data storage device(s) does not permit access to the plain-text data. 16.4 Encrypt or Hash all Authentication Credentials v7 ● ● Encrypt or hash with a salt all authentication credentials when stored. Page 55",
+    "default_value": "Disabled.",
     "references": [
       "https://www.cisecurity.org/white-papers/cis-password-policy-guide/",
-      "https://learn.microsoft.com/en-us/windows/security/threat-protection/security-",
       "GRID: MS-00000007",
-      "11 Encrypt Sensitive Data at Rest"
+      "Control IG 1 IG 2 IG 3"
     ],
     "additional_info": "",
     "page_number": 56
@@ -31,8 +30,8 @@
     "remediation_procedure": "",
     "default_value": "",
     "references": [
-      "https://learn.microsoft.com/en-us/windows/security/threat-protection/security-",
-      "GRID: MS-00000081"
+      "GRID: MS-00000081",
+      "Control IG 1 IG 2 IG 3"
     ],
     "additional_info": "",
     "page_number": 185
@@ -49,9 +48,8 @@
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to Enabled: Force Updated Clients: Computer Configuration\\Policies\\Administrative Templates\\System\\Credentials Delegation\\Encryption Oracle Remediation Note: This Group Policy path is provided by the Group Policy template CredSsp.admx/adml that is included with the Microsoft Windows 10 Release 1803 Administrative Templates (or newer).",
     "default_value": "Without the May 2018 security update: Enabled: Vulnerable (Client applications which use CredSSP will expose the remote servers to attacks by supporting fall back to the insecure versions and services using CredSSP will accept unpatched clients.) With the May 2018 security update: Enabled: Mitigated (Client applications which use CredSSP will not be able to fall back to the insecure version but services using CredSSP will accept unpatched clients.)",
     "references": [
-      "https://learn.microsoft.com/en-us/windows/win32/secauthn/credential-security-",
       "GRID: MS-00000295",
-      "4 Deploy Automated Operating System Patch"
+      "Control IG 1 IG 2 IG 3"
     ],
     "additional_info": "",
     "page_number": 636

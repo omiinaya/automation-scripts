@@ -8,12 +8,11 @@
     "rationale": "",
     "impact": "",
     "audit_procedure": "Force audit policy subcategory settings (Windows Vista or later) to override audit policy category settings",
-    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to Enabled: Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Local Policies\\Security Options\\Audit: Force audit policy subcategory settings (Windows Vista or later) to override audit policy category settings",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to Enabled: Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Local Policies\\Security Options\\",
     "default_value": "Enabled. (Advanced Audit Policy Configuration settings will be used for auditing configuration, and legacy Audit Policy configuration settings will be ignored.)",
     "references": [
-      "https://learn.microsoft.com/en-us/windows/security/threat-protection/security-",
-      "https://learn.microsoft.com/en-us/windows-server/identity/ad-",
-      "GRID: MS-00000058"
+      "GRID: MS-00000058",
+      "Control IG 1 IG 2 IG 3"
     ],
     "additional_info": "",
     "page_number": 159
@@ -26,14 +25,11 @@
     "description": "",
     "rationale": "",
     "impact": "",
-    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 0. HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa:CrashOnAuditFail",
-    "remediation_procedure": "section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 0. HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa:CrashOnAuditFail",
-    "default_value": "Disabled. References: 1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security- policy-settings/audit-shut-down-system-immediately-if-unable-to-log-security- audits 2. GRID: MS-00000059 CIS Controls: Controls Control IG 1 IG 2 IG 3 Version 8.3 Ensure Adequate Audit Log Storage v8 ● ● ● Ensure that logging destinations maintain adequate storage to comply with the enterprise’s audit log management process. 6.4 Ensure adequate storage for logs v7 ● ● Ensure that all systems that store logs have adequate storage space for the logs generated. 2.3.3 DCOM This section is intentionally blank and exists to ensure the structure of Windows benchmarks is consistent. Page 160",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 0. HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa:CrashOnAuditFail Remediation: To establish the recommended configuration via GP, set the following UI path to Disabled: Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Local Policies\\Security Options\\",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to Disabled: Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Local Policies\\Security Options\\",
+    "default_value": "Disabled.",
     "references": [
-      "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa:CrashOnAuditFail",
-      "https://learn.microsoft.com/en-us/windows/security/threat-protection/security-",
-      "GRID: MS-00000059",
-      "3.3 DCOM"
+      "https://learn.microsoft.com/en-us/windows/security/threat-protection/security-"
     ],
     "additional_info": "",
     "page_number": 161
@@ -46,12 +42,12 @@
     "description": "",
     "rationale": "",
     "impact": "",
-    "audit_procedure": "Logs v8 ● ● ● Collect audit logs. Ensure that logging, per the enterprise’s audit log management process, has been enabled across enterprise assets.",
+    "audit_procedure": "v8 ● ● ● Collect audit logs. Ensure that logging, per the enterprise’s audit log management process, has been enabled across enterprise assets.",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to %SystemRoot%\\System32\\logfiles\\firewall\\privatefw.log: Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Windows Defender Firewall with Advanced Security\\Windows Defender Firewall with Advanced Security\\Windows Defender Firewall Properties\\Private Profile\\Logging Customize\\Name",
     "default_value": "%SystemRoot%\\System32\\logfiles\\firewall\\pfirewall.log",
     "references": [
-      "https://learn.microsoft.com/en-us/windows/security/threat-protection/windows-",
-      "GRID: MS-00000183"
+      "GRID: MS-00000183",
+      "Control IG 1 IG 2 IG 3"
     ],
     "additional_info": "",
     "page_number": 375
@@ -64,13 +60,13 @@
     "description": "",
     "rationale": "",
     "impact": "",
-    "audit_procedure": "Process Creation\\Include command line in process creation events Note: This Group Policy path is provided by the Group Policy template",
-    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to Enabled: Computer Configuration\\Policies\\Administrative Templates\\System\\Audit Process Creation\\Include command line in process creation events Note: This Group Policy path is provided by the Group Policy template",
+    "audit_procedure": "Creation\\Include command line in process creation events Note: This Group Policy path is provided by the Group Policy template AuditSettings.admx/adml that is included with the Microsoft Windows 8.1 & Server 2012 R2 Administrative Templates (or newer).",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to Enabled: Computer Configuration\\Policies\\Administrative Templates\\System\\Audit Process Creation\\Include command line in process creation events Note: This Group Policy path is provided by the Group Policy template AuditSettings.admx/adml that is included with the Microsoft Windows 8.1 & Server 2012 R2 Administrative Templates (or newer).",
     "default_value": "Disabled. (Process command line information will not be included in Audit Process Creation events.)",
     "references": [
-      "https://learn.microsoft.com/en-",
       "2#protected-event-logging",
-      "GRID: MS-00000294"
+      "GRID: MS-00000294",
+      "Control IG 1 IG 2 IG 3"
     ],
     "additional_info": "",
     "page_number": 633
@@ -87,7 +83,8 @@
     "remediation_procedure": "",
     "default_value": "Disabled. (The local computer clock does not synchronize time with NTP servers.)",
     "references": [
-      "GRID: MS-00000367"
+      "GRID: MS-00000367",
+      "Control IG 1 IG 2 IG 3"
     ],
     "additional_info": "",
     "page_number": 777
@@ -105,7 +102,8 @@
     "default_value": "Disabled. (EDR will not run in block mode.)",
     "references": [
       "GRID: MS-00000598",
-      "https://learn.microsoft.com/en-us/defender-endpoint/edr-in-block-mode"
+      "https://learn.microsoft.com/en-us/defender-endpoint/edr-in-block-mode",
+      "Control IG 1 IG 2 IG 3"
     ],
     "additional_info": "",
     "page_number": 984

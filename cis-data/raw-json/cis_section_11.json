@@ -11,9 +11,8 @@
     "remediation_procedure": "",
     "default_value": "",
     "references": [
-      "https://learn.microsoft.com/en-us/windows/security/threat-protection/windows-",
       "GRID: MS-00000181",
-      "5 Implement and Manage a Firewall on End-User"
+      "Control IG 1 IG 2 IG 3"
     ],
     "additional_info": "",
     "page_number": 371
@@ -31,8 +30,7 @@
     "default_value": "",
     "references": [
       "GRID: MS-00000190",
-      "5 Implement and Manage a Firewall on End-User",
-      "3 Use Automated Tools to Verify Standard Device"
+      "Control IG 1 IG 2 IG 3"
     ],
     "additional_info": "",
     "page_number": 390
@@ -44,15 +42,13 @@
     "assessment_status": "Automated",
     "description": "",
     "rationale": "",
-    "impact": "this Safeguard.",
+    "impact": "",
     "audit_procedure": "",
     "remediation_procedure": "",
-    "default_value": "5 times. References: 1. https://techcommunity.microsoft.com/t5/microsoft-security-baselines/the-mss- settings/ba-p/701055 2. GRID: MS-00000259 CIS Controls: Controls Control IG 1 IG 2 IG 3 Version 4.2 Establish and Maintain a Secure Configuration Process for Network Infrastructure v8 ● ● ● Establish and maintain a secure configuration process for network devices. Review and update documentation annually, or when significant enterprise changes occur that could impact this Safeguard. 11.1 Maintain Standard Security Configurations for Network Devices v7 ● ● Maintain standard, documented security configuration standards for all authorized network devices. Page 521",
+    "default_value": "5 times.",
     "references": [
-      "https://techcommunity.microsoft.com/t5/microsoft-security-baselines/the-mss-",
       "GRID: MS-00000259",
-      "2 Establish and Maintain a Secure Configuration",
-      "1 Maintain Standard Security Configurations for"
+      "Control IG 1 IG 2 IG 3"
     ],
     "additional_info": "",
     "page_number": 522

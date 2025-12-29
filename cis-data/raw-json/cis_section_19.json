@@ -10,13 +10,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "1 Control Panel",
-      "2 Desktop",
-      "3 Network",
-      "4 Shared Folders",
-      "5 Start Menu and Taskbar"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 1248
   },
@@ -31,13 +25,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "1 Control Panel",
-      "2 Desktop",
-      "3 Network",
-      "4 Shared Folders",
-      "5 Start Menu and Taskbar"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 1248
   },
@@ -52,13 +40,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "1 Control Panel",
-      "2 Desktop",
-      "3 Network",
-      "4 Shared Folders",
-      "5 Start Menu and Taskbar"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 1248
   },
@@ -73,13 +55,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "1 Control Panel",
-      "2 Desktop",
-      "3 Network",
-      "4 Shared Folders",
-      "5 Start Menu and Taskbar"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 1248
   },
@@ -94,13 +70,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "1 Control Panel",
-      "2 Desktop",
-      "3 Network",
-      "4 Shared Folders",
-      "5 Start Menu and Taskbar"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 1248
   },
@@ -115,10 +85,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "5.1 Notifications",
-      "0 & Server 2012 (non-R2) Administrative"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 1249
   },
@@ -133,13 +100,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "6 System",
-      "6.1 Ctrl+Alt+Del Options",
-      "6.2 Display",
-      "6.3 Driver Installation",
-      "6.4 Folder Redirection"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 1252
   },
@@ -154,13 +115,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "6 System",
-      "6.1 Ctrl+Alt+Del Options",
-      "6.2 Display",
-      "6.3 Driver Installation",
-      "6.4 Folder Redirection"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 1252
   },
@@ -175,13 +130,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "6 System",
-      "6.1 Ctrl+Alt+Del Options",
-      "6.2 Display",
-      "6.3 Driver Installation",
-      "6.4 Folder Redirection"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 1252
   },
@@ -196,13 +145,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "6 System",
-      "6.1 Ctrl+Alt+Del Options",
-      "6.2 Display",
-      "6.3 Driver Installation",
-      "6.4 Folder Redirection"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 1252
   },
@@ -217,13 +160,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "6 System",
-      "6.1 Ctrl+Alt+Del Options",
-      "6.2 Display",
-      "6.3 Driver Installation",
-      "6.4 Folder Redirection"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 1252
   },
@@ -238,11 +175,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "6.5 Group Policy",
-      "6.6 Internet Communication Management",
-      "6.6.1 Internet Communication settings"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 1253
   },
@@ -257,11 +190,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "6.5 Group Policy",
-      "6.6 Internet Communication Management",
-      "6.6.1 Internet Communication settings"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 1253
   },
@@ -276,11 +205,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "6.5 Group Policy",
-      "6.6 Internet Communication Management",
-      "6.6.1 Internet Communication settings"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 1253
   },
@@ -295,14 +220,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "7 Windows Components",
-      "7.1 Account Notifications",
-      "0 (or newer)",
-      "7.2 Add features to Windows 8 / 8.1 / 10 (formerly Windows",
-      "7.3 App runtime",
-      "7.4 Application Compatibility"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 1256
   },
@@ -317,14 +235,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "7 Windows Components",
-      "7.1 Account Notifications",
-      "0 (or newer)",
-      "7.2 Add features to Windows 8 / 8.1 / 10 (formerly Windows",
-      "7.3 App runtime",
-      "7.4 Application Compatibility"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 1256
   },
@@ -339,14 +250,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "7 Windows Components",
-      "7.1 Account Notifications",
-      "0 (or newer)",
-      "7.2 Add features to Windows 8 / 8.1 / 10 (formerly Windows",
-      "7.3 App runtime",
-      "7.4 Application Compatibility"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 1256
   },
@@ -361,14 +265,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "7 Windows Components",
-      "7.1 Account Notifications",
-      "0 (or newer)",
-      "7.2 Add features to Windows 8 / 8.1 / 10 (formerly Windows",
-      "7.3 App runtime",
-      "7.4 Application Compatibility"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 1256
   },
@@ -383,14 +280,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "7 Windows Components",
-      "7.1 Account Notifications",
-      "0 (or newer)",
-      "7.2 Add features to Windows 8 / 8.1 / 10 (formerly Windows",
-      "7.3 App runtime",
-      "7.4 Application Compatibility"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 1256
   },
@@ -405,9 +295,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "7.5 Attachment Manager"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 1257
   },
@@ -422,11 +310,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "7.6 AutoPlay Policies",
-      "7.7 Calculator",
-      "7.8 Cloud Content"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 1262
   },
@@ -441,11 +325,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "7.6 AutoPlay Policies",
-      "7.7 Calculator",
-      "7.8 Cloud Content"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 1262
   },
@@ -460,11 +340,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "7.6 AutoPlay Policies",
-      "7.7 Calculator",
-      "7.8 Cloud Content"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 1262
   },
@@ -479,13 +355,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "7.9 Credential User Interface",
-      "7.10 Data Collection and Preview Builds",
-      "7.11 Desktop Gadgets",
-      "7.12 Desktop Window Manager",
-      "7.13 Digital Locker"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 1273
   },
@@ -500,13 +370,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "7.9 Credential User Interface",
-      "7.10 Data Collection and Preview Builds",
-      "7.11 Desktop Gadgets",
-      "7.12 Desktop Window Manager",
-      "7.13 Digital Locker"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 1273
   },
@@ -521,13 +385,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "7.9 Credential User Interface",
-      "7.10 Data Collection and Preview Builds",
-      "7.11 Desktop Gadgets",
-      "7.12 Desktop Window Manager",
-      "7.13 Digital Locker"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 1273
   },
@@ -542,13 +400,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "7.9 Credential User Interface",
-      "7.10 Data Collection and Preview Builds",
-      "7.11 Desktop Gadgets",
-      "7.12 Desktop Window Manager",
-      "7.13 Digital Locker"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 1273
   },
@@ -563,13 +415,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "7.9 Credential User Interface",
-      "7.10 Data Collection and Preview Builds",
-      "7.11 Desktop Gadgets",
-      "7.12 Desktop Window Manager",
-      "7.13 Digital Locker"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 1273
   },
@@ -584,15 +430,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "7.14 Edge UI",
-      "0 & Server 2012 (non-R2) Administrative",
-      "7.15 File Explorer (formerly Windows Explorer)",
-      "0 & Server 2012 (non-R2)",
-      "7.16 File Revocation",
-      "7.17 IME",
-      "7.18 Instant Search"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 1274
   },
@@ -607,15 +445,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "7.14 Edge UI",
-      "0 & Server 2012 (non-R2) Administrative",
-      "7.15 File Explorer (formerly Windows Explorer)",
-      "0 & Server 2012 (non-R2)",
-      "7.16 File Revocation",
-      "7.17 IME",
-      "7.18 Instant Search"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 1274
   },
@@ -630,15 +460,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "7.14 Edge UI",
-      "0 & Server 2012 (non-R2) Administrative",
-      "7.15 File Explorer (formerly Windows Explorer)",
-      "0 & Server 2012 (non-R2)",
-      "7.16 File Revocation",
-      "7.17 IME",
-      "7.18 Instant Search"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 1274
   },
@@ -653,15 +475,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "7.14 Edge UI",
-      "0 & Server 2012 (non-R2) Administrative",
-      "7.15 File Explorer (formerly Windows Explorer)",
-      "0 & Server 2012 (non-R2)",
-      "7.16 File Revocation",
-      "7.17 IME",
-      "7.18 Instant Search"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 1274
   },
@@ -676,15 +490,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "7.14 Edge UI",
-      "0 & Server 2012 (non-R2) Administrative",
-      "7.15 File Explorer (formerly Windows Explorer)",
-      "0 & Server 2012 (non-R2)",
-      "7.16 File Revocation",
-      "7.17 IME",
-      "7.18 Instant Search"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 1274
   },
@@ -699,13 +505,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "7.19 Internet Explorer",
-      "7.20 Location and Sensors",
-      "7.21 Microsoft Edge",
-      "7.22 Microsoft Management Console",
-      "7.23 Microsoft User Experience Virtualization"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 1275
   },
@@ -720,13 +520,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "7.19 Internet Explorer",
-      "7.20 Location and Sensors",
-      "7.21 Microsoft Edge",
-      "7.22 Microsoft Management Console",
-      "7.23 Microsoft User Experience Virtualization"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 1275
   },
@@ -741,13 +535,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "7.19 Internet Explorer",
-      "7.20 Location and Sensors",
-      "7.21 Microsoft Edge",
-      "7.22 Microsoft Management Console",
-      "7.23 Microsoft User Experience Virtualization"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 1275
   },
@@ -762,13 +550,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "7.19 Internet Explorer",
-      "7.20 Location and Sensors",
-      "7.21 Microsoft Edge",
-      "7.22 Microsoft Management Console",
-      "7.23 Microsoft User Experience Virtualization"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 1275
   },
@@ -783,13 +565,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "7.19 Internet Explorer",
-      "7.20 Location and Sensors",
-      "7.21 Microsoft Edge",
-      "7.22 Microsoft Management Console",
-      "7.23 Microsoft User Experience Virtualization"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 1275
   },
@@ -804,11 +580,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "7.24 Multitasking",
-      "7.25 NetMeeting",
-      "7.26 Network Sharing"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 1276
   },
@@ -823,11 +595,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "7.24 Multitasking",
-      "7.25 NetMeeting",
-      "7.26 Network Sharing"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 1276
   },
@@ -842,11 +610,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "7.24 Multitasking",
-      "7.25 NetMeeting",
-      "7.26 Network Sharing"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 1276
   },
@@ -861,13 +625,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "7.27 OOBE",
-      "7.28 Presentation Settings",
-      "7.29 Remote Desktop Services (formerly Terminal Services)",
-      "7.30 RSS Feeds",
-      "7.31 Search"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 1279
   },
@@ -882,13 +640,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "7.27 OOBE",
-      "7.28 Presentation Settings",
-      "7.29 Remote Desktop Services (formerly Terminal Services)",
-      "7.30 RSS Feeds",
-      "7.31 Search"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 1279
   },
@@ -903,13 +655,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "7.27 OOBE",
-      "7.28 Presentation Settings",
-      "7.29 Remote Desktop Services (formerly Terminal Services)",
-      "7.30 RSS Feeds",
-      "7.31 Search"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 1279
   },
@@ -924,13 +670,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "7.27 OOBE",
-      "7.28 Presentation Settings",
-      "7.29 Remote Desktop Services (formerly Terminal Services)",
-      "7.30 RSS Feeds",
-      "7.31 Search"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 1279
   },
@@ -945,13 +685,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "7.27 OOBE",
-      "7.28 Presentation Settings",
-      "7.29 Remote Desktop Services (formerly Terminal Services)",
-      "7.30 RSS Feeds",
-      "7.31 Search"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 1279
   },
@@ -966,15 +700,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "7.32 Snipping Tool",
-      "0 Administrative Templates (or newer)",
-      "7.33 Sound Recorder",
-      "7.34 Store",
-      "1 & Server 2012 R2",
-      "7.35 Tablet PC",
-      "7.36 Task Scheduler"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 1280
   },
@@ -989,15 +715,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "7.32 Snipping Tool",
-      "0 Administrative Templates (or newer)",
-      "7.33 Sound Recorder",
-      "7.34 Store",
-      "1 & Server 2012 R2",
-      "7.35 Tablet PC",
-      "7.36 Task Scheduler"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 1280
   },
@@ -1012,15 +730,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "7.32 Snipping Tool",
-      "0 Administrative Templates (or newer)",
-      "7.33 Sound Recorder",
-      "7.34 Store",
-      "1 & Server 2012 R2",
-      "7.35 Tablet PC",
-      "7.36 Task Scheduler"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 1280
   },
@@ -1035,15 +745,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "7.32 Snipping Tool",
-      "0 Administrative Templates (or newer)",
-      "7.33 Sound Recorder",
-      "7.34 Store",
-      "1 & Server 2012 R2",
-      "7.35 Tablet PC",
-      "7.36 Task Scheduler"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 1280
   },
@@ -1058,15 +760,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "7.32 Snipping Tool",
-      "0 Administrative Templates (or newer)",
-      "7.33 Sound Recorder",
-      "7.34 Store",
-      "1 & Server 2012 R2",
-      "7.35 Tablet PC",
-      "7.36 Task Scheduler"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 1280
   },
@@ -1081,12 +775,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "7.37 Windows AI",
-      "7.38 Windows Calendar",
-      "7.39 Windows Color System",
-      "7.40 Windows Copilot"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 1281
   },
@@ -1101,12 +790,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "7.37 Windows AI",
-      "7.38 Windows Calendar",
-      "7.39 Windows Color System",
-      "7.40 Windows Copilot"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 1281
   },
@@ -1121,12 +805,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "7.37 Windows AI",
-      "7.38 Windows Calendar",
-      "7.39 Windows Color System",
-      "7.40 Windows Copilot"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 1281
   },
@@ -1141,12 +820,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "7.37 Windows AI",
-      "7.38 Windows Calendar",
-      "7.39 Windows Color System",
-      "7.40 Windows Copilot"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 1281
   },
@@ -1159,13 +833,9 @@
     "rationale": "While AI can be an exciting new technology, it also carries its own risks, including the possibility of users accidentally uploading or typing personal or organization-sensitive data into it, with no real way to “undo” or get that data back.",
     "impact": "Users will not be able to use Windows Copilot and its icon will not appear on the taskbar.",
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 1. HKU\\[USER SID]\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsCopilot:TurnOffWindowsCopilot",
-    "remediation_procedure": "section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 1. HKU\\[USER SID]\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsCopilot:TurnOffWindowsCopilot",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to Enabled: User Configuration\\Policies\\Administrative Templates\\Windows Components\\Windows Copilot\\Turn off Windows Copilot Note: This Group Policy path may not exist by default. It is provided by the Group Policy template WindowsCopilot.admx/adml that is included with the Microsoft Windows 11 Release 23H2 Administrative Templates (or newer).",
     "default_value": "Disabled. (Windows Copilot is enabled.) Page 1281",
-    "references": [
-      "The recommended state for this setting is: Enabled",
-      "HKU\\[USER",
-      "Level 1 (L1)"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 1282
   },
@@ -1180,12 +850,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "7.41 Windows Defender SmartScreen",
-      "7.42 Windows Error Reporting",
-      "7.43 Windows Hello for Business (formerly Microsoft Passport for",
-      "7.44 Windows Installer"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 1284
   },
@@ -1200,12 +865,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "7.41 Windows Defender SmartScreen",
-      "7.42 Windows Error Reporting",
-      "7.43 Windows Hello for Business (formerly Microsoft Passport for",
-      "7.44 Windows Installer"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 1284
   },
@@ -1220,12 +880,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "7.41 Windows Defender SmartScreen",
-      "7.42 Windows Error Reporting",
-      "7.43 Windows Hello for Business (formerly Microsoft Passport for",
-      "7.44 Windows Installer"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 1284
   },
@@ -1240,12 +895,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "7.41 Windows Defender SmartScreen",
-      "7.42 Windows Error Reporting",
-      "7.43 Windows Hello for Business (formerly Microsoft Passport for",
-      "7.44 Windows Installer"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 1284
   },
@@ -1260,12 +910,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "7.45 Windows Logon Options",
-      "7.46 Windows Media Player",
-      "7.46.1 Networking",
-      "7.46.2 Playback"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 1287
   },
@@ -1280,12 +925,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "7.45 Windows Logon Options",
-      "7.46 Windows Media Player",
-      "7.46.1 Networking",
-      "7.46.2 Playback"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 1287
   },
@@ -1300,12 +940,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "7.45 Windows Logon Options",
-      "7.46 Windows Media Player",
-      "7.46.1 Networking",
-      "7.46.2 Playback"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 1287
   },
@@ -1320,12 +955,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "7.45 Windows Logon Options",
-      "7.46 Windows Media Player",
-      "7.46.1 Networking",
-      "7.46.2 Playback"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 1287
   },
@@ -1338,12 +968,9 @@
     "rationale": "This has some potential for risk if a malicious data file is opened in Media Player that requires an additional codec to be installed. If a special codec is required for a necessary job function, then that codec should first be tested to ensure it is legitimate, and it should be supplied by the IT department in the organization.",
     "impact": "Windows Media Player is prevented from automatically downloading codecs to your computer. In addition, the Download codecs automatically check box on the Player tab in the Player is not available.",
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 1. HKU\\[USER SID]\\Software\\Policies\\Microsoft\\WindowsMediaPlayer:PreventCodecDownload",
-    "remediation_procedure": "section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 1. HKU\\[USER SID]\\Software\\Policies\\Microsoft\\WindowsMediaPlayer:PreventCodecDownload",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to Enabled: User Configuration\\Policies\\Administrative Templates\\Windows Components\\Windows Media Player\\Playback\\Prevent Codec Download Note: This Group Policy path is provided by the Group Policy template WindowsMediaPlayer.admx/adml that is included with all versions of the Microsoft Windows Administrative Templates.",
     "default_value": "Users can change the setting for the Download codecs automatically check box. Page 1287",
-    "references": [
-      "HKU\\[USER",
-      "Level 2 (L2)"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 1288
   },
@@ -1358,41 +985,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "1 Control Panel ............................................................................................................................ 1247",
-      "2 Desktop ..................................................................................................................................... 1247",
-      "3 Network ..................................................................................................................................... 1247",
-      "4 Shared Folders ......................................................................................................................... 1247",
-      "5 Start Menu and Taskbar .......................................................................................................... 1247",
-      "5.1 Notifications ........................................................................................................................ 1248",
-      "6 System ...................................................................................................................................... 1251",
-      "6.1 Ctrl+Alt+Del Options .......................................................................................................... 1251",
-      "6.2 Display ................................................................................................................................. 1251",
-      "6.3 Driver Installation ............................................................................................................... 1251",
-      "6.4 Folder Redirection.............................................................................................................. 1251",
-      "6.5 Group Policy ....................................................................................................................... 1252",
-      "6.6 Internet Communication Management ............................................................................. 1252",
-      "6.6.1 Internet Communication settings ............................................................................... 1252",
-      "7 Windows Components ............................................................................................................ 1255",
-      "7.1 Account Notifications ........................................................................................................ 1255",
-      "7.2 Add features to Windows 8 / 8.1 / 10 (formerly Windows Anytime Upgrade) .............. 1255",
-      "7.3 App runtime ........................................................................................................................ 1255",
-      "7.4 Application Compatibility .................................................................................................. 1255",
-      "7.5 Attachment Manager .......................................................................................................... 1256",
-      "7.6 AutoPlay Policies ............................................................................................................... 1261",
-      "7.7 Calculator ............................................................................................................................ 1261",
-      "7.8 Cloud Content ..................................................................................................................... 1261",
-      "7.9 Credential User Interface ................................................................................................... 1272",
-      "7.10 Data Collection and Preview Builds ............................................................................... 1272",
-      "7.11 Desktop Gadgets .............................................................................................................. 1272",
-      "7.12 Desktop Window Manager .............................................................................................. 1272",
-      "7.13 Digital Locker .................................................................................................................... 1272",
-      "7.14 Edge UI .............................................................................................................................. 1273",
-      "7.15 File Explorer (formerly Windows Explorer) ................................................................... 1273",
-      "7.16 File Revocation ................................................................................................................. 1273",
-      "7.17 IME ..................................................................................................................................... 1273",
-      "7.18 Instant Search................................................................................................................... 1273"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 26
   },
@@ -1407,41 +1000,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "1 Control Panel ............................................................................................................................ 1247",
-      "2 Desktop ..................................................................................................................................... 1247",
-      "3 Network ..................................................................................................................................... 1247",
-      "4 Shared Folders ......................................................................................................................... 1247",
-      "5 Start Menu and Taskbar .......................................................................................................... 1247",
-      "5.1 Notifications ........................................................................................................................ 1248",
-      "6 System ...................................................................................................................................... 1251",
-      "6.1 Ctrl+Alt+Del Options .......................................................................................................... 1251",
-      "6.2 Display ................................................................................................................................. 1251",
-      "6.3 Driver Installation ............................................................................................................... 1251",
-      "6.4 Folder Redirection.............................................................................................................. 1251",
-      "6.5 Group Policy ....................................................................................................................... 1252",
-      "6.6 Internet Communication Management ............................................................................. 1252",
-      "6.6.1 Internet Communication settings ............................................................................... 1252",
-      "7 Windows Components ............................................................................................................ 1255",
-      "7.1 Account Notifications ........................................................................................................ 1255",
-      "7.2 Add features to Windows 8 / 8.1 / 10 (formerly Windows Anytime Upgrade) .............. 1255",
-      "7.3 App runtime ........................................................................................................................ 1255",
-      "7.4 Application Compatibility .................................................................................................. 1255",
-      "7.5 Attachment Manager .......................................................................................................... 1256",
-      "7.6 AutoPlay Policies ............................................................................................................... 1261",
-      "7.7 Calculator ............................................................................................................................ 1261",
-      "7.8 Cloud Content ..................................................................................................................... 1261",
-      "7.9 Credential User Interface ................................................................................................... 1272",
-      "7.10 Data Collection and Preview Builds ............................................................................... 1272",
-      "7.11 Desktop Gadgets .............................................................................................................. 1272",
-      "7.12 Desktop Window Manager .............................................................................................. 1272",
-      "7.13 Digital Locker .................................................................................................................... 1272",
-      "7.14 Edge UI .............................................................................................................................. 1273",
-      "7.15 File Explorer (formerly Windows Explorer) ................................................................... 1273",
-      "7.16 File Revocation ................................................................................................................. 1273",
-      "7.17 IME ..................................................................................................................................... 1273",
-      "7.18 Instant Search................................................................................................................... 1273"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 26
   },
@@ -1456,41 +1015,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "1 Control Panel ............................................................................................................................ 1247",
-      "2 Desktop ..................................................................................................................................... 1247",
-      "3 Network ..................................................................................................................................... 1247",
-      "4 Shared Folders ......................................................................................................................... 1247",
-      "5 Start Menu and Taskbar .......................................................................................................... 1247",
-      "5.1 Notifications ........................................................................................................................ 1248",
-      "6 System ...................................................................................................................................... 1251",
-      "6.1 Ctrl+Alt+Del Options .......................................................................................................... 1251",
-      "6.2 Display ................................................................................................................................. 1251",
-      "6.3 Driver Installation ............................................................................................................... 1251",
-      "6.4 Folder Redirection.............................................................................................................. 1251",
-      "6.5 Group Policy ....................................................................................................................... 1252",
-      "6.6 Internet Communication Management ............................................................................. 1252",
-      "6.6.1 Internet Communication settings ............................................................................... 1252",
-      "7 Windows Components ............................................................................................................ 1255",
-      "7.1 Account Notifications ........................................................................................................ 1255",
-      "7.2 Add features to Windows 8 / 8.1 / 10 (formerly Windows Anytime Upgrade) .............. 1255",
-      "7.3 App runtime ........................................................................................................................ 1255",
-      "7.4 Application Compatibility .................................................................................................. 1255",
-      "7.5 Attachment Manager .......................................................................................................... 1256",
-      "7.6 AutoPlay Policies ............................................................................................................... 1261",
-      "7.7 Calculator ............................................................................................................................ 1261",
-      "7.8 Cloud Content ..................................................................................................................... 1261",
-      "7.9 Credential User Interface ................................................................................................... 1272",
-      "7.10 Data Collection and Preview Builds ............................................................................... 1272",
-      "7.11 Desktop Gadgets .............................................................................................................. 1272",
-      "7.12 Desktop Window Manager .............................................................................................. 1272",
-      "7.13 Digital Locker .................................................................................................................... 1272",
-      "7.14 Edge UI .............................................................................................................................. 1273",
-      "7.15 File Explorer (formerly Windows Explorer) ................................................................... 1273",
-      "7.16 File Revocation ................................................................................................................. 1273",
-      "7.17 IME ..................................................................................................................................... 1273",
-      "7.18 Instant Search................................................................................................................... 1273"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 26
   },
@@ -1505,41 +1030,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "1 Control Panel ............................................................................................................................ 1247",
-      "2 Desktop ..................................................................................................................................... 1247",
-      "3 Network ..................................................................................................................................... 1247",
-      "4 Shared Folders ......................................................................................................................... 1247",
-      "5 Start Menu and Taskbar .......................................................................................................... 1247",
-      "5.1 Notifications ........................................................................................................................ 1248",
-      "6 System ...................................................................................................................................... 1251",
-      "6.1 Ctrl+Alt+Del Options .......................................................................................................... 1251",
-      "6.2 Display ................................................................................................................................. 1251",
-      "6.3 Driver Installation ............................................................................................................... 1251",
-      "6.4 Folder Redirection.............................................................................................................. 1251",
-      "6.5 Group Policy ....................................................................................................................... 1252",
-      "6.6 Internet Communication Management ............................................................................. 1252",
-      "6.6.1 Internet Communication settings ............................................................................... 1252",
-      "7 Windows Components ............................................................................................................ 1255",
-      "7.1 Account Notifications ........................................................................................................ 1255",
-      "7.2 Add features to Windows 8 / 8.1 / 10 (formerly Windows Anytime Upgrade) .............. 1255",
-      "7.3 App runtime ........................................................................................................................ 1255",
-      "7.4 Application Compatibility .................................................................................................. 1255",
-      "7.5 Attachment Manager .......................................................................................................... 1256",
-      "7.6 AutoPlay Policies ............................................................................................................... 1261",
-      "7.7 Calculator ............................................................................................................................ 1261",
-      "7.8 Cloud Content ..................................................................................................................... 1261",
-      "7.9 Credential User Interface ................................................................................................... 1272",
-      "7.10 Data Collection and Preview Builds ............................................................................... 1272",
-      "7.11 Desktop Gadgets .............................................................................................................. 1272",
-      "7.12 Desktop Window Manager .............................................................................................. 1272",
-      "7.13 Digital Locker .................................................................................................................... 1272",
-      "7.14 Edge UI .............................................................................................................................. 1273",
-      "7.15 File Explorer (formerly Windows Explorer) ................................................................... 1273",
-      "7.16 File Revocation ................................................................................................................. 1273",
-      "7.17 IME ..................................................................................................................................... 1273",
-      "7.18 Instant Search................................................................................................................... 1273"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 26
   },
@@ -1554,41 +1045,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "1 Control Panel ............................................................................................................................ 1247",
-      "2 Desktop ..................................................................................................................................... 1247",
-      "3 Network ..................................................................................................................................... 1247",
-      "4 Shared Folders ......................................................................................................................... 1247",
-      "5 Start Menu and Taskbar .......................................................................................................... 1247",
-      "5.1 Notifications ........................................................................................................................ 1248",
-      "6 System ...................................................................................................................................... 1251",
-      "6.1 Ctrl+Alt+Del Options .......................................................................................................... 1251",
-      "6.2 Display ................................................................................................................................. 1251",
-      "6.3 Driver Installation ............................................................................................................... 1251",
-      "6.4 Folder Redirection.............................................................................................................. 1251",
-      "6.5 Group Policy ....................................................................................................................... 1252",
-      "6.6 Internet Communication Management ............................................................................. 1252",
-      "6.6.1 Internet Communication settings ............................................................................... 1252",
-      "7 Windows Components ............................................................................................................ 1255",
-      "7.1 Account Notifications ........................................................................................................ 1255",
-      "7.2 Add features to Windows 8 / 8.1 / 10 (formerly Windows Anytime Upgrade) .............. 1255",
-      "7.3 App runtime ........................................................................................................................ 1255",
-      "7.4 Application Compatibility .................................................................................................. 1255",
-      "7.5 Attachment Manager .......................................................................................................... 1256",
-      "7.6 AutoPlay Policies ............................................................................................................... 1261",
-      "7.7 Calculator ............................................................................................................................ 1261",
-      "7.8 Cloud Content ..................................................................................................................... 1261",
-      "7.9 Credential User Interface ................................................................................................... 1272",
-      "7.10 Data Collection and Preview Builds ............................................................................... 1272",
-      "7.11 Desktop Gadgets .............................................................................................................. 1272",
-      "7.12 Desktop Window Manager .............................................................................................. 1272",
-      "7.13 Digital Locker .................................................................................................................... 1272",
-      "7.14 Edge UI .............................................................................................................................. 1273",
-      "7.15 File Explorer (formerly Windows Explorer) ................................................................... 1273",
-      "7.16 File Revocation ................................................................................................................. 1273",
-      "7.17 IME ..................................................................................................................................... 1273",
-      "7.18 Instant Search................................................................................................................... 1273"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 26
   },
@@ -1603,41 +1060,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "1 Control Panel ............................................................................................................................ 1247",
-      "2 Desktop ..................................................................................................................................... 1247",
-      "3 Network ..................................................................................................................................... 1247",
-      "4 Shared Folders ......................................................................................................................... 1247",
-      "5 Start Menu and Taskbar .......................................................................................................... 1247",
-      "5.1 Notifications ........................................................................................................................ 1248",
-      "6 System ...................................................................................................................................... 1251",
-      "6.1 Ctrl+Alt+Del Options .......................................................................................................... 1251",
-      "6.2 Display ................................................................................................................................. 1251",
-      "6.3 Driver Installation ............................................................................................................... 1251",
-      "6.4 Folder Redirection.............................................................................................................. 1251",
-      "6.5 Group Policy ....................................................................................................................... 1252",
-      "6.6 Internet Communication Management ............................................................................. 1252",
-      "6.6.1 Internet Communication settings ............................................................................... 1252",
-      "7 Windows Components ............................................................................................................ 1255",
-      "7.1 Account Notifications ........................................................................................................ 1255",
-      "7.2 Add features to Windows 8 / 8.1 / 10 (formerly Windows Anytime Upgrade) .............. 1255",
-      "7.3 App runtime ........................................................................................................................ 1255",
-      "7.4 Application Compatibility .................................................................................................. 1255",
-      "7.5 Attachment Manager .......................................................................................................... 1256",
-      "7.6 AutoPlay Policies ............................................................................................................... 1261",
-      "7.7 Calculator ............................................................................................................................ 1261",
-      "7.8 Cloud Content ..................................................................................................................... 1261",
-      "7.9 Credential User Interface ................................................................................................... 1272",
-      "7.10 Data Collection and Preview Builds ............................................................................... 1272",
-      "7.11 Desktop Gadgets .............................................................................................................. 1272",
-      "7.12 Desktop Window Manager .............................................................................................. 1272",
-      "7.13 Digital Locker .................................................................................................................... 1272",
-      "7.14 Edge UI .............................................................................................................................. 1273",
-      "7.15 File Explorer (formerly Windows Explorer) ................................................................... 1273",
-      "7.16 File Revocation ................................................................................................................. 1273",
-      "7.17 IME ..................................................................................................................................... 1273",
-      "7.18 Instant Search................................................................................................................... 1273"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 26
   },
@@ -1652,41 +1075,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "1 Control Panel ............................................................................................................................ 1247",
-      "2 Desktop ..................................................................................................................................... 1247",
-      "3 Network ..................................................................................................................................... 1247",
-      "4 Shared Folders ......................................................................................................................... 1247",
-      "5 Start Menu and Taskbar .......................................................................................................... 1247",
-      "5.1 Notifications ........................................................................................................................ 1248",
-      "6 System ...................................................................................................................................... 1251",
-      "6.1 Ctrl+Alt+Del Options .......................................................................................................... 1251",
-      "6.2 Display ................................................................................................................................. 1251",
-      "6.3 Driver Installation ............................................................................................................... 1251",
-      "6.4 Folder Redirection.............................................................................................................. 1251",
-      "6.5 Group Policy ....................................................................................................................... 1252",
-      "6.6 Internet Communication Management ............................................................................. 1252",
-      "6.6.1 Internet Communication settings ............................................................................... 1252",
-      "7 Windows Components ............................................................................................................ 1255",
-      "7.1 Account Notifications ........................................................................................................ 1255",
-      "7.2 Add features to Windows 8 / 8.1 / 10 (formerly Windows Anytime Upgrade) .............. 1255",
-      "7.3 App runtime ........................................................................................................................ 1255",
-      "7.4 Application Compatibility .................................................................................................. 1255",
-      "7.5 Attachment Manager .......................................................................................................... 1256",
-      "7.6 AutoPlay Policies ............................................................................................................... 1261",
-      "7.7 Calculator ............................................................................................................................ 1261",
-      "7.8 Cloud Content ..................................................................................................................... 1261",
-      "7.9 Credential User Interface ................................................................................................... 1272",
-      "7.10 Data Collection and Preview Builds ............................................................................... 1272",
-      "7.11 Desktop Gadgets .............................................................................................................. 1272",
-      "7.12 Desktop Window Manager .............................................................................................. 1272",
-      "7.13 Digital Locker .................................................................................................................... 1272",
-      "7.14 Edge UI .............................................................................................................................. 1273",
-      "7.15 File Explorer (formerly Windows Explorer) ................................................................... 1273",
-      "7.16 File Revocation ................................................................................................................. 1273",
-      "7.17 IME ..................................................................................................................................... 1273",
-      "7.18 Instant Search................................................................................................................... 1273"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 26
   },
@@ -1701,41 +1090,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "1 Control Panel ............................................................................................................................ 1247",
-      "2 Desktop ..................................................................................................................................... 1247",
-      "3 Network ..................................................................................................................................... 1247",
-      "4 Shared Folders ......................................................................................................................... 1247",
-      "5 Start Menu and Taskbar .......................................................................................................... 1247",
-      "5.1 Notifications ........................................................................................................................ 1248",
-      "6 System ...................................................................................................................................... 1251",
-      "6.1 Ctrl+Alt+Del Options .......................................................................................................... 1251",
-      "6.2 Display ................................................................................................................................. 1251",
-      "6.3 Driver Installation ............................................................................................................... 1251",
-      "6.4 Folder Redirection.............................................................................................................. 1251",
-      "6.5 Group Policy ....................................................................................................................... 1252",
-      "6.6 Internet Communication Management ............................................................................. 1252",
-      "6.6.1 Internet Communication settings ............................................................................... 1252",
-      "7 Windows Components ............................................................................................................ 1255",
-      "7.1 Account Notifications ........................................................................................................ 1255",
-      "7.2 Add features to Windows 8 / 8.1 / 10 (formerly Windows Anytime Upgrade) .............. 1255",
-      "7.3 App runtime ........................................................................................................................ 1255",
-      "7.4 Application Compatibility .................................................................................................. 1255",
-      "7.5 Attachment Manager .......................................................................................................... 1256",
-      "7.6 AutoPlay Policies ............................................................................................................... 1261",
-      "7.7 Calculator ............................................................................................................................ 1261",
-      "7.8 Cloud Content ..................................................................................................................... 1261",
-      "7.9 Credential User Interface ................................................................................................... 1272",
-      "7.10 Data Collection and Preview Builds ............................................................................... 1272",
-      "7.11 Desktop Gadgets .............................................................................................................. 1272",
-      "7.12 Desktop Window Manager .............................................................................................. 1272",
-      "7.13 Digital Locker .................................................................................................................... 1272",
-      "7.14 Edge UI .............................................................................................................................. 1273",
-      "7.15 File Explorer (formerly Windows Explorer) ................................................................... 1273",
-      "7.16 File Revocation ................................................................................................................. 1273",
-      "7.17 IME ..................................................................................................................................... 1273",
-      "7.18 Instant Search................................................................................................................... 1273"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 26
   },
@@ -1750,41 +1105,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "1 Control Panel ............................................................................................................................ 1247",
-      "2 Desktop ..................................................................................................................................... 1247",
-      "3 Network ..................................................................................................................................... 1247",
-      "4 Shared Folders ......................................................................................................................... 1247",
-      "5 Start Menu and Taskbar .......................................................................................................... 1247",
-      "5.1 Notifications ........................................................................................................................ 1248",
-      "6 System ...................................................................................................................................... 1251",
-      "6.1 Ctrl+Alt+Del Options .......................................................................................................... 1251",
-      "6.2 Display ................................................................................................................................. 1251",
-      "6.3 Driver Installation ............................................................................................................... 1251",
-      "6.4 Folder Redirection.............................................................................................................. 1251",
-      "6.5 Group Policy ....................................................................................................................... 1252",
-      "6.6 Internet Communication Management ............................................................................. 1252",
-      "6.6.1 Internet Communication settings ............................................................................... 1252",
-      "7 Windows Components ............................................................................................................ 1255",
-      "7.1 Account Notifications ........................................................................................................ 1255",
-      "7.2 Add features to Windows 8 / 8.1 / 10 (formerly Windows Anytime Upgrade) .............. 1255",
-      "7.3 App runtime ........................................................................................................................ 1255",
-      "7.4 Application Compatibility .................................................................................................. 1255",
-      "7.5 Attachment Manager .......................................................................................................... 1256",
-      "7.6 AutoPlay Policies ............................................................................................................... 1261",
-      "7.7 Calculator ............................................................................................................................ 1261",
-      "7.8 Cloud Content ..................................................................................................................... 1261",
-      "7.9 Credential User Interface ................................................................................................... 1272",
-      "7.10 Data Collection and Preview Builds ............................................................................... 1272",
-      "7.11 Desktop Gadgets .............................................................................................................. 1272",
-      "7.12 Desktop Window Manager .............................................................................................. 1272",
-      "7.13 Digital Locker .................................................................................................................... 1272",
-      "7.14 Edge UI .............................................................................................................................. 1273",
-      "7.15 File Explorer (formerly Windows Explorer) ................................................................... 1273",
-      "7.16 File Revocation ................................................................................................................. 1273",
-      "7.17 IME ..................................................................................................................................... 1273",
-      "7.18 Instant Search................................................................................................................... 1273"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 26
   },
@@ -1795,56 +1116,11 @@
     "assessment_status": "Automated",
     "description": "",
     "rationale": "",
-    "impact": "section of each Recommendation. In addition, organizational, system specific requirements, or local site policy may require changes as well, or an exception to a Recommendation or group of Recommendations (e.g. A Benchmark could Recommend that a Web server not be installed on the system, but if a system's primary purpose is to function as a Webserver, there should be a documented exception to this Recommendation for that specific server). In the end, exceptions to some Benchmark Recommendations are common and acceptable, and should be handled as follows: • The reasons for the exception should be reviewed cross-functionally and be well documented for audit purposes. • A plan should be developed for mitigating, or eliminating, the exception in the future, if applicable. • If the organization decides to accept the risk of this exception (not work toward mitigation or elimination), this should be documented for audit purposes. It is the responsibility of the organization to determine their overall security policy, and which settings are applicable to their unique needs based on the overall risk profile for the organization. Page 28",
-    "audit_procedure": "s. Key Stakeholders Cybersecurity is a collaborative effort, and cross functional cooperation is imperative within an organization to discuss, test, and deploy Benchmarks in an effective and efficient way. The Benchmarks are developed to be best practice configuration guidelines applicable to a wide range of use cases. In some organizations, exceptions to specific Recommendations will be needed, and this team should work to prioritize the problematic Recommendations based on several factors like risk, time, cost, and labor. These exceptions should be properly categorized and documented for auditing purposes. Page 27 Apply the Correct Version of a Benchmark Benchmarks are developed and tested for a specific set of products and versions and applying an incorrect Benchmark to a system can cause the resulting pass/fail score to be incorrect. This is due to the assessment of settings that do not apply to the target systems. To assure the correct Benchmark is being assessed: • Deploy the Benchmark applicable to the way settings are managed in the environment: An example of this is the Microsoft Windows family of Benchmarks, which have separate Benchmarks for Group Policy, Intune, and Stand-alone systems based upon how system management is deployed. Applying the wrong Benchmark in this case will give invalid results. • Use the most recent version of a Benchmark: This is true for all Benchmarks, but especially true for cloud technologies. Cloud technologies change frequently and using an older version of a Benchmark may have invalid methods for",
-    "remediation_procedure": ", there are several tools available to assist with assessment: • CIS Configuration Assessment Tool (CIS-CAT® Pro Assessor) • CIS Benchmarks™ Certified 3rd Party Tooling These tools make the hardening process much more scalable for large numbers of systems and applications. NOTE: Some tooling focuses only on the Benchmark Recommendations that can be fully automated (skipping ones marked Manual). It is important that ALL Recommendations (Automated and Manual) be addressed since all are important for properly securing systems and are typically in scope for audits. Key Stakeholders Cybersecurity is a collaborative effort, and cross functional cooperation is imperative within an organization to discuss, test, and deploy Benchmarks in an effective and efficient way. The Benchmarks are developed to be best practice configuration guidelines applicable to a wide range of use cases. In some organizations, exceptions to specific Recommendations will be needed, and this team should work to prioritize the problematic Recommendations based on several factors like risk, time, cost, and labor. These exceptions should be properly categorized and documented for auditing purposes. Page 27 Apply the Correct Version of a Benchmark Benchmarks are developed and tested for a specific set of products and versions and applying an incorrect Benchmark to a system can cause the resulting pass/fail score to be incorrect. This is due to the assessment of settings that do not apply to the target systems. To assure the correct Benchmark is being assessed: • Deploy the Benchmark applicable to the way settings are managed in the environment: An example of this is the Microsoft Windows family of Benchmarks, which have separate Benchmarks for Group Policy, Intune, and Stand-alone systems based upon how system management is deployed. Applying the wrong Benchmark in this case will give invalid results. • Use the most recent version of a Benchmark: This is true for all Benchmarks, but especially true for cloud technologies. Cloud technologies change frequently and using an older version of a Benchmark may have invalid methods for",
+    "impact": "requirements, or local site policy may require changes as well, or an exception to a Recommendation or group of Recommendations (e.g. A Benchmark could Recommend that a Web server not be installed on the system, but if a system's primary purpose is to function as a Webserver, there should be a documented exception to this Recommendation for that specific server). In the end, exceptions to some Benchmark Recommendations are common and acceptable, and should be handled as follows: • The reasons for the exception should be reviewed cross-functionally and be well",
+    "audit_procedure": "Key Stakeholders Cybersecurity is a collaborative effort, and cross functional cooperation is imperative within an organization to discuss, test, and deploy Benchmarks in an effective and efficient way. The Benchmarks are developed to be best practice configuration guidelines applicable to a wide range of use cases. In some organizations, exceptions to specific Recommendations will be needed, and this team should work to prioritize the problematic Recommendations based on several factors like risk, time, cost, and labor. These exceptions should be properly categorized and documented for auditing purposes. Page 27 Apply the Correct Version of a Benchmark Benchmarks are developed and tested for a specific set of products and versions and applying an incorrect Benchmark to a system can cause the resulting pass/fail score to be incorrect. This is due to the assessment of settings that do not apply to the target",
+    "remediation_procedure": "CIS has developed Build Kits for many technologies to assist in the automation of hardening systems. Build Kits are designed to correspond to Benchmark's “Remediation” section, which provides the manual remediation steps necessary to make that Recommendation compliant to the Benchmark. When remediating systems (changing configuration settings on deployed systems as per the Benchmark's Recommendations), please approach this with caution and test thoroughly. The following is a reasonable remediation approach to follow: • CIS Build Kits, or internally developed remediation methods should never be applied to production systems without proper testing. • Proper testing consists of the following: o Understand the configuration (including installed applications) of the targeted systems. Various parts of the organization may need different configurations (e.g., software developers vs standard office workers). o Read the Impact section of the given Recommendation to help determine if there might be an issue with the targeted systems. o Test the configuration changes with representative lab system(s). If issues arise during testing, they can be resolved prior to deploying to any production systems. o When testing is complete, initially deploy to a small sub-set of production systems and monitor closely for issues. If there are issues, they can be resolved prior to deploying more broadly. o When the initial deployment above is completes successfully, iteratively deploy to additional systems and monitor closely for issues. Repeat this process until the full deployment is complete. Summary Using the Benchmarks Certified tools, working as a team with key stakeholders, being selective with exceptions, and being careful with remediation deployment, it is possible to harden large numbers of deployed systems in a cost effective, efficient, and safe manner. NOTE: As previously stated, the PDF versions of the CIS Benchmarks™ are available for free, non-commercial use on the CIS Website. All other formats of the CIS Benchmarks™ (MS Word, Excel, and Build Kits) are available for CIS SecureSuite® members. CIS-CAT® Pro is also available to CIS SecureSuite® members. Page 29",
     "default_value": "",
-    "references": [
-      "7.19 Internet Explorer............................................................................................................... 1274",
-      "7.20 Location and Sensors ...................................................................................................... 1274",
-      "7.21 Microsoft Edge ................................................................................................................. 1274",
-      "7.22 Microsoft Management Console ..................................................................................... 1274",
-      "7.23 Microsoft User Experience Virtualization ...................................................................... 1274",
-      "7.24 Multitasking ...................................................................................................................... 1275",
-      "7.25 NetMeeting ........................................................................................................................ 1275",
-      "7.26 Network Sharing ............................................................................................................... 1275",
-      "7.27 OOBE ................................................................................................................................. 1278",
-      "7.28 Presentation Settings ...................................................................................................... 1278",
-      "7.29 Remote Desktop Services (formerly Terminal Services) ............................................. 1278",
-      "7.30 RSS Feeds ......................................................................................................................... 1278",
-      "7.31 Search ............................................................................................................................... 1278",
-      "7.32 Snipping Tool ................................................................................................................... 1279",
-      "7.33 Sound Recorder ............................................................................................................... 1279",
-      "7.34 Store .................................................................................................................................. 1279",
-      "7.35 Tablet PC ........................................................................................................................... 1279",
-      "7.36 Task Scheduler ................................................................................................................. 1279",
-      "7.37 Windows AI ....................................................................................................................... 1280",
-      "7.38 Windows Calendar ........................................................................................................... 1280",
-      "7.39 Windows Color System ................................................................................................... 1280",
-      "7.40 Windows Copilot .............................................................................................................. 1280",
-      "7.40.1 (L1) Ensure 'Turn off Windows Copilot' is set to 'Enabled' (Automated) .............. 1281",
-      "7.41 Windows Defender SmartScreen.................................................................................... 1283",
-      "7.42 Windows Error Reporting ................................................................................................ 1283",
-      "7.43 Windows Hello for Business (formerly Microsoft Passport for Work) ....................... 1283",
-      "7.44 Windows Installer ............................................................................................................. 1283",
-      "7.45 Windows Logon Options ................................................................................................. 1286",
-      "7.46 Windows Media Player .................................................................................................... 1286",
-      "7.46.1 Networking .................................................................................................................. 1286",
-      "7.46.2 Playback ...................................................................................................................... 1286",
-      "7.46.2.1 (L2) Ensure 'Prevent Codec Download' is set to 'Enabled' (Automated) .......... 1287",
-      "Monitoring the base operating system and applications for vulnerabilities and",
-      "End-point protection (Antivirus software, Endpoint Detection and Response",
-      "Logging and monitoring user and system activity",
-      "CIS Configuration Assessment Tool (CIS-CAT® Pro Assessor)",
-      "CIS Benchmarks™ Certified 3rd Party Tooling",
-      "Deploy the Benchmark applicable to the way settings are managed in the",
-      "Use the most recent version of a Benchmark: This is true for all Benchmarks",
-      "The reasons for the exception should be reviewed cross-functionally and be well",
-      "A plan should be developed for mitigating, or eliminating, the exception in the",
-      "If the organization decides to accept the risk of this exception (not work toward",
-      "CIS Build Kits, or internally developed remediation methods should never be",
-      "Proper testing consists of the following:"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 27
   },
@@ -1855,56 +1131,11 @@
     "assessment_status": "Automated",
     "description": "",
     "rationale": "",
-    "impact": "section of each Recommendation. In addition, organizational, system specific requirements, or local site policy may require changes as well, or an exception to a Recommendation or group of Recommendations (e.g. A Benchmark could Recommend that a Web server not be installed on the system, but if a system's primary purpose is to function as a Webserver, there should be a documented exception to this Recommendation for that specific server). In the end, exceptions to some Benchmark Recommendations are common and acceptable, and should be handled as follows: • The reasons for the exception should be reviewed cross-functionally and be well documented for audit purposes. • A plan should be developed for mitigating, or eliminating, the exception in the future, if applicable. • If the organization decides to accept the risk of this exception (not work toward mitigation or elimination), this should be documented for audit purposes. It is the responsibility of the organization to determine their overall security policy, and which settings are applicable to their unique needs based on the overall risk profile for the organization. Page 28",
-    "audit_procedure": "s. Key Stakeholders Cybersecurity is a collaborative effort, and cross functional cooperation is imperative within an organization to discuss, test, and deploy Benchmarks in an effective and efficient way. The Benchmarks are developed to be best practice configuration guidelines applicable to a wide range of use cases. In some organizations, exceptions to specific Recommendations will be needed, and this team should work to prioritize the problematic Recommendations based on several factors like risk, time, cost, and labor. These exceptions should be properly categorized and documented for auditing purposes. Page 27 Apply the Correct Version of a Benchmark Benchmarks are developed and tested for a specific set of products and versions and applying an incorrect Benchmark to a system can cause the resulting pass/fail score to be incorrect. This is due to the assessment of settings that do not apply to the target systems. To assure the correct Benchmark is being assessed: • Deploy the Benchmark applicable to the way settings are managed in the environment: An example of this is the Microsoft Windows family of Benchmarks, which have separate Benchmarks for Group Policy, Intune, and Stand-alone systems based upon how system management is deployed. Applying the wrong Benchmark in this case will give invalid results. • Use the most recent version of a Benchmark: This is true for all Benchmarks, but especially true for cloud technologies. Cloud technologies change frequently and using an older version of a Benchmark may have invalid methods for",
-    "remediation_procedure": ", there are several tools available to assist with assessment: • CIS Configuration Assessment Tool (CIS-CAT® Pro Assessor) • CIS Benchmarks™ Certified 3rd Party Tooling These tools make the hardening process much more scalable for large numbers of systems and applications. NOTE: Some tooling focuses only on the Benchmark Recommendations that can be fully automated (skipping ones marked Manual). It is important that ALL Recommendations (Automated and Manual) be addressed since all are important for properly securing systems and are typically in scope for audits. Key Stakeholders Cybersecurity is a collaborative effort, and cross functional cooperation is imperative within an organization to discuss, test, and deploy Benchmarks in an effective and efficient way. The Benchmarks are developed to be best practice configuration guidelines applicable to a wide range of use cases. In some organizations, exceptions to specific Recommendations will be needed, and this team should work to prioritize the problematic Recommendations based on several factors like risk, time, cost, and labor. These exceptions should be properly categorized and documented for auditing purposes. Page 27 Apply the Correct Version of a Benchmark Benchmarks are developed and tested for a specific set of products and versions and applying an incorrect Benchmark to a system can cause the resulting pass/fail score to be incorrect. This is due to the assessment of settings that do not apply to the target systems. To assure the correct Benchmark is being assessed: • Deploy the Benchmark applicable to the way settings are managed in the environment: An example of this is the Microsoft Windows family of Benchmarks, which have separate Benchmarks for Group Policy, Intune, and Stand-alone systems based upon how system management is deployed. Applying the wrong Benchmark in this case will give invalid results. • Use the most recent version of a Benchmark: This is true for all Benchmarks, but especially true for cloud technologies. Cloud technologies change frequently and using an older version of a Benchmark may have invalid methods for",
+    "impact": "requirements, or local site policy may require changes as well, or an exception to a Recommendation or group of Recommendations (e.g. A Benchmark could Recommend that a Web server not be installed on the system, but if a system's primary purpose is to function as a Webserver, there should be a documented exception to this Recommendation for that specific server). In the end, exceptions to some Benchmark Recommendations are common and acceptable, and should be handled as follows: • The reasons for the exception should be reviewed cross-functionally and be well",
+    "audit_procedure": "Key Stakeholders Cybersecurity is a collaborative effort, and cross functional cooperation is imperative within an organization to discuss, test, and deploy Benchmarks in an effective and efficient way. The Benchmarks are developed to be best practice configuration guidelines applicable to a wide range of use cases. In some organizations, exceptions to specific Recommendations will be needed, and this team should work to prioritize the problematic Recommendations based on several factors like risk, time, cost, and labor. These exceptions should be properly categorized and documented for auditing purposes. Page 27 Apply the Correct Version of a Benchmark Benchmarks are developed and tested for a specific set of products and versions and applying an incorrect Benchmark to a system can cause the resulting pass/fail score to be incorrect. This is due to the assessment of settings that do not apply to the target",
+    "remediation_procedure": "CIS has developed Build Kits for many technologies to assist in the automation of hardening systems. Build Kits are designed to correspond to Benchmark's “Remediation” section, which provides the manual remediation steps necessary to make that Recommendation compliant to the Benchmark. When remediating systems (changing configuration settings on deployed systems as per the Benchmark's Recommendations), please approach this with caution and test thoroughly. The following is a reasonable remediation approach to follow: • CIS Build Kits, or internally developed remediation methods should never be applied to production systems without proper testing. • Proper testing consists of the following: o Understand the configuration (including installed applications) of the targeted systems. Various parts of the organization may need different configurations (e.g., software developers vs standard office workers). o Read the Impact section of the given Recommendation to help determine if there might be an issue with the targeted systems. o Test the configuration changes with representative lab system(s). If issues arise during testing, they can be resolved prior to deploying to any production systems. o When testing is complete, initially deploy to a small sub-set of production systems and monitor closely for issues. If there are issues, they can be resolved prior to deploying more broadly. o When the initial deployment above is completes successfully, iteratively deploy to additional systems and monitor closely for issues. Repeat this process until the full deployment is complete. Summary Using the Benchmarks Certified tools, working as a team with key stakeholders, being selective with exceptions, and being careful with remediation deployment, it is possible to harden large numbers of deployed systems in a cost effective, efficient, and safe manner. NOTE: As previously stated, the PDF versions of the CIS Benchmarks™ are available for free, non-commercial use on the CIS Website. All other formats of the CIS Benchmarks™ (MS Word, Excel, and Build Kits) are available for CIS SecureSuite® members. CIS-CAT® Pro is also available to CIS SecureSuite® members. Page 29",
     "default_value": "",
-    "references": [
-      "7.19 Internet Explorer............................................................................................................... 1274",
-      "7.20 Location and Sensors ...................................................................................................... 1274",
-      "7.21 Microsoft Edge ................................................................................................................. 1274",
-      "7.22 Microsoft Management Console ..................................................................................... 1274",
-      "7.23 Microsoft User Experience Virtualization ...................................................................... 1274",
-      "7.24 Multitasking ...................................................................................................................... 1275",
-      "7.25 NetMeeting ........................................................................................................................ 1275",
-      "7.26 Network Sharing ............................................................................................................... 1275",
-      "7.27 OOBE ................................................................................................................................. 1278",
-      "7.28 Presentation Settings ...................................................................................................... 1278",
-      "7.29 Remote Desktop Services (formerly Terminal Services) ............................................. 1278",
-      "7.30 RSS Feeds ......................................................................................................................... 1278",
-      "7.31 Search ............................................................................................................................... 1278",
-      "7.32 Snipping Tool ................................................................................................................... 1279",
-      "7.33 Sound Recorder ............................................................................................................... 1279",
-      "7.34 Store .................................................................................................................................. 1279",
-      "7.35 Tablet PC ........................................................................................................................... 1279",
-      "7.36 Task Scheduler ................................................................................................................. 1279",
-      "7.37 Windows AI ....................................................................................................................... 1280",
-      "7.38 Windows Calendar ........................................................................................................... 1280",
-      "7.39 Windows Color System ................................................................................................... 1280",
-      "7.40 Windows Copilot .............................................................................................................. 1280",
-      "7.40.1 (L1) Ensure 'Turn off Windows Copilot' is set to 'Enabled' (Automated) .............. 1281",
-      "7.41 Windows Defender SmartScreen.................................................................................... 1283",
-      "7.42 Windows Error Reporting ................................................................................................ 1283",
-      "7.43 Windows Hello for Business (formerly Microsoft Passport for Work) ....................... 1283",
-      "7.44 Windows Installer ............................................................................................................. 1283",
-      "7.45 Windows Logon Options ................................................................................................. 1286",
-      "7.46 Windows Media Player .................................................................................................... 1286",
-      "7.46.1 Networking .................................................................................................................. 1286",
-      "7.46.2 Playback ...................................................................................................................... 1286",
-      "7.46.2.1 (L2) Ensure 'Prevent Codec Download' is set to 'Enabled' (Automated) .......... 1287",
-      "Monitoring the base operating system and applications for vulnerabilities and",
-      "End-point protection (Antivirus software, Endpoint Detection and Response",
-      "Logging and monitoring user and system activity",
-      "CIS Configuration Assessment Tool (CIS-CAT® Pro Assessor)",
-      "CIS Benchmarks™ Certified 3rd Party Tooling",
-      "Deploy the Benchmark applicable to the way settings are managed in the",
-      "Use the most recent version of a Benchmark: This is true for all Benchmarks",
-      "The reasons for the exception should be reviewed cross-functionally and be well",
-      "A plan should be developed for mitigating, or eliminating, the exception in the",
-      "If the organization decides to accept the risk of this exception (not work toward",
-      "CIS Build Kits, or internally developed remediation methods should never be",
-      "Proper testing consists of the following:"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 27
   }

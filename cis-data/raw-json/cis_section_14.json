@@ -11,9 +11,8 @@
     "remediation_procedure": "",
     "default_value": "",
     "references": [
-      "https://learn.microsoft.com/en-us/windows/security/threat-protection/security-",
       "GRID: MS-00000101",
-      "6 Protect Information through Access Control Lists"
+      "Control IG 1 IG 2 IG 3"
     ],
     "additional_info": "",
     "page_number": 228
@@ -27,11 +26,11 @@
     "rationale": "",
     "impact": "",
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 2147483640. HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\Kerberos\\Param eters:SupportedEncryptionTypes",
-    "remediation_procedure": "section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 2147483640. HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\Kerberos\\Param eters:SupportedEncryptionTypes",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to AES128_HMAC_SHA1, AES256_HMAC_SHA1, Future encryption types: Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Local Policies\\Security Options\\Network security: Configure encryption types allowed for Kerberos",
     "default_value": "RC4_HMAC_MD5, AES128_HMAC_SHA1, AES256_HMAC_SHA1, Future encryption types.",
     "references": [
-      "https://learn.microsoft.com/en-us/windows/security/threat-protection/security-",
-      "GRID: MS-00000106"
+      "GRID: MS-00000106",
+      "Control IG 1 IG 2 IG 3"
     ],
     "additional_info": "",
     "page_number": 239
@@ -47,10 +46,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "8 Uninstall or Disable Unnecessary Services on",
-      "2 Ensure Only Approved Ports, Protocols and Services"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 487
   },
@@ -67,7 +63,7 @@
     "default_value": "",
     "references": [
       "GRID: MS-00000511",
-      "8 Uninstall or Disable Unnecessary Services on"
+      "Control IG 1 IG 2 IG 3"
     ],
     "additional_info": "",
     "page_number": 1132

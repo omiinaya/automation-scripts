@@ -9,10 +9,10 @@
     "Automated": 906
   },
   "sections_with_content": {
-    "description": 132,
-    "rationale": 132,
-    "impact": 139,
-    "audit_procedure": 318,
-    "remediation_procedure": 187
+    "description": 131,
+    "rationale": 131,
+    "impact": 133,
+    "audit_procedure": 269,
+    "remediation_procedure": 173
   }
 }

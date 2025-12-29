@@ -10,10 +10,7 @@
     "audit_procedure": "",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "8 Define and Maintain Role-Based Access Control",
-      "8 Log and Alert on Changes to Administrative Group"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 69
   },
@@ -25,12 +22,10 @@
     "description": "",
     "rationale": "",
     "impact": "",
-    "audit_procedure": "logging v7 ● ● ● Ensure that local logging has been enabled on all systems and networking devices. Page 114",
+    "audit_procedure": "v7 ● ● ● Ensure that local logging has been enabled on all systems and networking devices. Page 114",
     "remediation_procedure": "",
     "default_value": "",
-    "references": [
-      "8 Define and Maintain Role-Based Access Control"
-    ],
+    "references": [],
     "additional_info": "",
     "page_number": 115
   },
@@ -43,12 +38,11 @@
     "rationale": "",
     "impact": "",
     "audit_procedure": "Force audit policy subcategory settings (Windows Vista or later) to override audit policy category settings",
-    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to Enabled: Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Local Policies\\Security Options\\Audit: Force audit policy subcategory settings (Windows Vista or later) to override audit policy category settings",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to Enabled: Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Local Policies\\Security Options\\",
     "default_value": "Enabled. (Advanced Audit Policy Configuration settings will be used for auditing configuration, and legacy Audit Policy configuration settings will be ignored.)",
     "references": [
-      "https://learn.microsoft.com/en-us/windows/security/threat-protection/security-",
-      "https://learn.microsoft.com/en-us/windows-server/identity/ad-",
-      "GRID: MS-00000058"
+      "GRID: MS-00000058",
+      "Control IG 1 IG 2 IG 3"
     ],
     "additional_info": "",
     "page_number": 159
@@ -61,14 +55,11 @@
     "description": "",
     "rationale": "",
     "impact": "",
-    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 0. HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa:CrashOnAuditFail",
-    "remediation_procedure": "section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 0. HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa:CrashOnAuditFail",
-    "default_value": "Disabled. References: 1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security- policy-settings/audit-shut-down-system-immediately-if-unable-to-log-security- audits 2. GRID: MS-00000059 CIS Controls: Controls Control IG 1 IG 2 IG 3 Version 8.3 Ensure Adequate Audit Log Storage v8 ● ● ● Ensure that logging destinations maintain adequate storage to comply with the enterprise’s audit log management process. 6.4 Ensure adequate storage for logs v7 ● ● Ensure that all systems that store logs have adequate storage space for the logs generated. 2.3.3 DCOM This section is intentionally blank and exists to ensure the structure of Windows benchmarks is consistent. Page 160",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as prescribed. This group policy setting is backed by the following registry location with a REG_DWORD value of 0. HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa:CrashOnAuditFail Remediation: To establish the recommended configuration via GP, set the following UI path to Disabled: Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Local Policies\\Security Options\\",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to Disabled: Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Local Policies\\Security Options\\",
+    "default_value": "Disabled.",
     "references": [
-      "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa:CrashOnAuditFail",
-      "https://learn.microsoft.com/en-us/windows/security/threat-protection/security-",
-      "GRID: MS-00000059",
-      "3.3 DCOM"
+      "https://learn.microsoft.com/en-us/windows/security/threat-protection/security-"
     ],
     "additional_info": "",
     "page_number": 161
@@ -85,7 +76,8 @@
     "remediation_procedure": "",
     "default_value": "Disabled. (The local computer clock does not synchronize time with NTP servers.)",
     "references": [
-      "GRID: MS-00000367"
+      "GRID: MS-00000367",
+      "Control IG 1 IG 2 IG 3"
     ],
     "additional_info": "",
     "page_number": 777
