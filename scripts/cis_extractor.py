@@ -89,7 +89,7 @@ class CISExtractor:
         self.logger = logging.getLogger(__name__)
     
     def extract_text_from_pdf(self) -> List[Dict]:
-        """Extract text from PDF using pdfplumber with page numbers"""
+        """Extract text, words, and tables from PDF using pdfplumber with layout detection"""
         self.logger.info(f"Extracting text from PDF: {self.pdf_path}")
         
         try:
@@ -97,11 +97,28 @@ class CISExtractor:
             with pdfplumber.open(self.pdf_path) as pdf:
                 for page_num, page in enumerate(pdf.pages, 1):
                     text = page.extract_text()
+                    words = page.extract_words()
+                    tables = page.extract_tables()
                     if text:
                         pages_data.append({
                             'page_number': page_num,
                             'text': text,
-                            'lines': text.split('\n')
+                            'lines': text.split('\n'),
+                            'words': words,
+                            'tables': tables,
+                            'height': page.height,
+                            'width': page.width
+                        })
+                    else:
+                        # Even if no text, store empty data to keep page numbering consistent
+                        pages_data.append({
+                            'page_number': page_num,
+                            'text': '',
+                            'lines': [],
+                            'words': [],
+                            'tables': [],
+                            'height': page.height,
+                            'width': page.width
                         })
             
             self.pages_text = pages_data
@@ -112,59 +129,58 @@ class CISExtractor:
             raise
     
     def extract_table_of_contents(self) -> Dict[str, int]:
-        """Extract CIS IDs and their page numbers from table of contents"""
+        """Extract CIS IDs and their page numbers from table of contents with validation"""
         toc_mapping = {}
         
         # Look for patterns like "1.1.1 ... 39" in the first few pages
         for page_data in self.pages_text[:40]:  # TOC might span more pages
-            # Process lines with multi-line awareness for TOC entries
-            lines = page_data['lines']
-            i = 0
-            while i < len(lines):
-                line = lines[i].strip()
-                
-                # Check if this line starts with a CIS ID pattern
-                cis_id_match = re.match(r'^(\d+\.\d+(?:\.\d+)*)', line)
-                if cis_id_match:
-                    cis_id = cis_id_match.group(1)
+            # Skip pages that are clearly TOC pages (contain "Table of Contents" or similar)
+            page_text = page_data['text']
+            if re.search(r'Table\s+of\s+Contents|Contents|TOC', page_text, re.IGNORECASE):
+                # Process lines with multi-line awareness for TOC entries
+                lines = page_data['lines']
+                i = 0
+                while i < len(lines):
+                    line = lines[i].strip()
                     
-                    # Look for page number on this line or subsequent lines
-                    page_num = None
-                    
-                    # Pattern 1: Page number on same line (most common)
-                    same_line_match = re.search(r'.*?(\d+)\s*$', line)
-                    if same_line_match:
-                        page_num = same_line_match.group(1)
-                    
-                    # Pattern 2: Page number on next line (for multi-line TOC entries)
-                    if not page_num and i + 1 < len(lines):
-                        next_line = lines[i + 1].strip()
-                        next_line_match = re.search(r'^(\d+)\s*$', next_line)
-                        if next_line_match:
-                            page_num = next_line_match.group(1)
-                            i += 1  # Skip the next line since we used it
-                    
-                    # Pattern 3: Look for page number in the middle of the line
-                    if not page_num:
-                        content_match = re.search(r'.*?(\d{2,3})\s*$', line)
-                        if content_match:
-                            page_num = content_match.group(1)
-                    
-                    if page_num and cis_id not in toc_mapping:
-                        # Apply page offset correction: TOC page numbers are often off by 1
-                        # But we need to be careful - test if the correction is actually needed
-                        try:
-                            page_int = int(page_num)
-                            # Check if this page number makes sense (should be > current page)
-                            if page_int > page_data['page_number']:
-                                corrected_page_num = page_int
-                            else:
+                    # Check if this line starts with a CIS ID pattern
+                    cis_id_match = re.match(r'^(\d+\.\d+(?:\.\d+)*)', line)
+                    if cis_id_match:
+                        cis_id = cis_id_match.group(1)
+                        
+                        # Look for page number on this line or subsequent lines
+                        page_num = None
+                        
+                        # Pattern 1: Page number on same line (most common)
+                        same_line_match = re.search(r'.*?(\d+)\s*$', line)
+                        if same_line_match:
+                            page_num = same_line_match.group(1)
+                        
+                        # Pattern 2: Page number on next line (for multi-line TOC entries)
+                        if not page_num and i + 1 < len(lines):
+                            next_line = lines[i + 1].strip()
+                            next_line_match = re.search(r'^(\d+)\s*$', next_line)
+                            if next_line_match:
+                                page_num = next_line_match.group(1)
+                                i += 1  # Skip the next line since we used it
+                        
+                        # Pattern 3: Look for page number in the middle of the line
+                        if not page_num:
+                            content_match = re.search(r'.*?(\d{2,3})\s*$', line)
+                            if content_match:
+                                page_num = content_match.group(1)
+                        
+                        if page_num and cis_id not in toc_mapping:
+                            try:
+                                page_int = int(page_num)
+                                # Apply page offset correction for TOC entries
+                                # TOC page numbers often need +1 correction
                                 corrected_page_num = page_int + 1
-                            toc_mapping[cis_id] = corrected_page_num
-                        except ValueError:
-                            continue
-                
-                i += 1
+                                toc_mapping[cis_id] = corrected_page_num
+                            except ValueError:
+                                continue
+                    
+                    i += 1
         
         # Enhanced fallback: Use content-based extraction for missing recommendations
         self.logger.info(f"TOC extraction found {len(toc_mapping)} entries.")
@@ -176,8 +192,45 @@ class CISExtractor:
                 toc_mapping[cis_id] = page_num
                 self.logger.info(f"Added missing recommendation {cis_id} from content extraction")
         
-        self.logger.info(f"Final CIS ID to page mappings: {len(toc_mapping)}")
-        return toc_mapping
+        # Validate mappings by checking if CIS ID appears on the mapped page
+        validated_mapping = self.validate_toc_mapping(toc_mapping)
+        
+        self.logger.info(f"Final CIS ID to page mappings: {len(validated_mapping)}")
+        return validated_mapping
+    
+    def validate_toc_mapping(self, toc_mapping: Dict[str, int]) -> Dict[str, int]:
+        """Validate TOC mapping by ensuring CIS ID appears on the mapped page (or nearby)"""
+        validated = {}
+        for cis_id, page_num in toc_mapping.items():
+            # Check if CIS ID appears on the mapped page
+            target_page = None
+            for page_data in self.pages_text:
+                if page_data['page_number'] == page_num:
+                    target_page = page_data
+                    break
+            
+            if target_page and re.search(rf'{re.escape(cis_id)}\s+', target_page['text']):
+                validated[cis_id] = page_num
+                continue
+            
+            # If not found, search nearby pages (±2)
+            found = False
+            for offset in [-2, -1, 1, 2]:
+                search_page_num = page_num + offset
+                if 1 <= search_page_num <= len(self.pages_text):
+                    search_page = self.pages_text[search_page_num - 1]
+                    if re.search(rf'{re.escape(cis_id)}\s+', search_page['text']):
+                        validated[cis_id] = search_page_num
+                        self.logger.info(f"Adjusted page for {cis_id} from {page_num} to {search_page_num}")
+                        found = True
+                        break
+            
+            if not found:
+                # Keep original mapping but log warning
+                validated[cis_id] = page_num
+                self.logger.warning(f"CIS ID {cis_id} not found on page {page_num} or nearby")
+        
+        return validated
     
     def extract_cis_ids_from_content(self) -> Dict[str, int]:
         """Extract CIS IDs directly from content pages as fallback when TOC is incomplete"""
@@ -208,12 +261,28 @@ class CISExtractor:
         self.logger.info(f"Extracted {len(content_mapping)} CIS IDs from content pages as fallback")
         return content_mapping
     
+    def is_likely_recommendation_start(self, text: str, cis_id: str) -> bool:
+        """Determine if a CIS ID in text is likely the start of a recommendation (vs a reference)"""
+        # Look for the line containing the CIS ID
+        lines = text.split('\n')
+        for line in lines:
+            if cis_id in line:
+                # Check if line contains recommendation indicators
+                if re.search(rf'{re.escape(cis_id)}.*\(L\d\)', line) or \
+                   re.search(rf'{re.escape(cis_id)}.*Ensure', line, re.IGNORECASE):
+                    return True
+                # If line is short and only contains CIS ID and page number, it's likely a TOC entry
+                if re.search(rf'{re.escape(cis_id)}.*\d+$', line):
+                    return False
+        return False
+
     def extract_recommendation_from_pages(self, start_page_data: Dict, cis_id: str) -> Optional[CISRecommendation]:
         """Extract a single recommendation spanning multiple pages"""
         try:
             # Start with the page from TOC mapping
             current_page_num = start_page_data['page_number']
             full_text = start_page_data['text']
+            collected_pages = [current_page_num]  # Track pages we've collected
             
             # Validate that we're on the correct page by checking for the CIS ID
             # Sometimes TOC mapping can be off, so we need to verify
@@ -230,8 +299,21 @@ class CISExtractor:
                         if re.search(rf'{re.escape(cis_id)}\s+', search_page_data['text']):
                             current_page_num = search_page_num
                             full_text = search_page_data['text']
+                            collected_pages = [current_page_num]
                             found_correct_page = True
                             self.logger.info(f"Found correct page for {cis_id} at page {current_page_num}")
+                            break
+                
+                # If still not found, search the entire document for this CIS ID
+                if not found_correct_page:
+                    self.logger.warning(f"Could not find correct page for {cis_id} in nearby pages. Searching entire document...")
+                    for page_data in self.pages_text:
+                        if re.search(rf'{re.escape(cis_id)}\s+', page_data['text']):
+                            current_page_num = page_data['page_number']
+                            full_text = page_data['text']
+                            collected_pages = [current_page_num]
+                            found_correct_page = True
+                            self.logger.info(f"Found correct page for {cis_id} at page {current_page_num} after full search")
                             break
                 
                 if not found_correct_page:
@@ -240,7 +322,7 @@ class CISExtractor:
             # Check if the recommendation continues on subsequent pages
             # Look for patterns that indicate continuation across multiple pages
             next_page_num = current_page_num + 1
-            max_pages_to_check = 3  # Check up to 3 subsequent pages
+            max_pages_to_check = 5  # Increased from 3 to 5 pages
             
             for i in range(max_pages_to_check):
                 if next_page_num + i <= len(self.pages_text):
@@ -250,20 +332,20 @@ class CISExtractor:
                     # Check if next page continues the same recommendation
                     # Look for section headers or continuation patterns
                     
-                    # If we find a new CIS ID, stop collecting
-                    if re.search(rf'^\s*{re.escape(cis_id)}\s+',
-                               next_text, re.MULTILINE):
-                        break
-                    
-                    # If we find the next CIS recommendation, stop
+                    # If we find a new CIS ID, check if it's likely a recommendation start
+                    # If it's a reference (like "5.2") we should ignore and continue
                     next_cis_pattern = r'^\s*(\d+\.\d+(?:\.\d+)*)\s+'
                     next_cis_match = re.search(next_cis_pattern,
                                              next_text, re.MULTILINE)
-                    if next_cis_match and next_cis_match.group(1) != cis_id:
-                        break
+                    if next_cis_match:
+                        next_cis_id = next_cis_match.group(1)
+                        if next_cis_id != cis_id and self.is_likely_recommendation_start(next_text, next_cis_id):
+                            # This is a new recommendation, stop collecting
+                            break
                     
                     # Add the page content if it appears to continue
                     full_text += "\n" + next_text
+                    collected_pages.append(next_page_num + i)
             
             # Extract profile and assessment status with improved patterns
             profile_match = re.search(rf'{re.escape(cis_id)}.*?\((L1|L2|BL)\)',
@@ -291,6 +373,15 @@ class CISExtractor:
             default_value = self.extract_section_content_enhanced(
                 full_text, 'default')
             references = self.extract_references_enhanced(full_text)
+            
+            # Extract additional data from tables
+            table_data = self.extract_from_tables(collected_pages, cis_id)
+            if table_data['default_value']:
+                default_value = table_data['default_value']
+            if table_data['additional_references']:
+                references.extend(table_data['additional_references'])
+                # Deduplicate references
+                references = list(dict.fromkeys(references))
             
             # Create recommendation object
             recommendation = CISRecommendation(
@@ -461,6 +552,39 @@ class CISExtractor:
                     references.append(url)
         
         return references
+
+    def extract_from_tables(self, page_nums: List[int], cis_id: str) -> Dict[str, str]:
+        """Extract default value and references from tables on given pages"""
+        result = {
+            'default_value': '',
+            'additional_references': []
+        }
+        
+        for page_num in page_nums:
+            if page_num < 1 or page_num > len(self.pages_text):
+                continue
+            page_data = self.pages_text[page_num - 1]
+            tables = page_data.get('tables', [])
+            for table in tables:
+                # Each table is a list of rows (list of cells)
+                for row in table:
+                    # Flatten row to a string for searching
+                    row_text = ' '.join([str(cell) if cell else '' for cell in row])
+                    # Look for default value patterns
+                    if 'Default' in row_text and 'Value' in row_text:
+                        # Assume the value is in the second column
+                        if len(row) >= 2:
+                            value = str(row[1]).strip()
+                            if value:
+                                result['default_value'] = value
+                    # Look for reference patterns (GRID, Control, etc.)
+                    if 'GRID' in row_text or 'Control' in row_text:
+                        # Add the whole row as a reference
+                        ref = ' '.join([str(cell).strip() for cell in row if cell])
+                        if ref and ref not in result['additional_references']:
+                            result['additional_references'].append(ref)
+        
+        return result
     
     def extract_section_content(self, text: str, section_name: str) -> str:
         """Extract content for a specific section using improved patterns"""
@@ -520,6 +644,34 @@ class CISExtractor:
         
         return True
     
+    def recommendation_score(self, rec: CISRecommendation) -> int:
+        """Calculate a confidence score for a recommendation based on completeness"""
+        score = 0
+        if rec.description and len(rec.description) > 10:
+            score += 1
+        if rec.rationale and len(rec.rationale) > 10:
+            score += 1
+        if rec.impact and len(rec.impact) > 10:
+            score += 1
+        if rec.audit_procedure and len(rec.audit_procedure) > 10:
+            score += 1
+        if rec.remediation_procedure and len(rec.remediation_procedure) > 10:
+            score += 1
+        if rec.default_value:
+            score += 1
+        if rec.references:
+            score += 1
+        return score
+
+    def deduplicate_recommendations(self, recommendations: List[CISRecommendation]) -> List[CISRecommendation]:
+        """Remove duplicate recommendations, keeping the highest scoring one for each CIS ID"""
+        deduped = {}
+        for rec in recommendations:
+            existing = deduped.get(rec.cis_id)
+            if existing is None or self.recommendation_score(rec) > self.recommendation_score(existing):
+                deduped[rec.cis_id] = rec
+        return list(deduped.values())
+
     def process_pdf(self):
         """Main method to process the PDF and extract recommendations"""
         self.logger.info("Starting PDF processing")
@@ -546,8 +698,10 @@ class CISExtractor:
                     if recommendation and self.validate_recommendation(recommendation):
                         valid_recommendations.append(recommendation)
             
-            self.recommendations = valid_recommendations
-            self.logger.info(f"Successfully processed {len(valid_recommendations)} recommendations")
+            # Deduplicate recommendations
+            deduplicated = self.deduplicate_recommendations(valid_recommendations)
+            self.recommendations = deduplicated
+            self.logger.info(f"Successfully processed {len(deduplicated)} recommendations (after deduplication)")
             
         except Exception as e:
             self.logger.error(f"Error processing PDF: {e}")

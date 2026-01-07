@@ -1,26 +1,13 @@
 {
-  "total_recommendations": 906,
+  "total_recommendations": 513,
   "sections": {
-    "1": 16,
-    "2": 121,
+    "1": 11,
+    "2": 94,
     "5": 41,
-    "9": 20,
-    "17": 36,
-    "18": 538,
-    "19": 76,
-    "16": 10,
-    "4": 8,
-    "3": 5,
-    "6": 5,
-    "8": 6,
-    "0": 2,
-    "14": 4,
-    "12": 1,
-    "11": 3,
-    "10": 5,
-    "15": 2,
-    "7": 3,
-    "13": 4
+    "9": 16,
+    "17": 27,
+    "18": 311,
+    "19": 13
   },
   "section_files": [
     "cis_section_1.json",
@@ -29,19 +16,6 @@
     "cis_section_9.json",
     "cis_section_17.json",
     "cis_section_18.json",
-    "cis_section_19.json",
-    "cis_section_16.json",
-    "cis_section_4.json",
-    "cis_section_3.json",
-    "cis_section_6.json",
-    "cis_section_8.json",
-    "cis_section_0.json",
-    "cis_section_14.json",
-    "cis_section_12.json",
-    "cis_section_11.json",
-    "cis_section_10.json",
-    "cis_section_15.json",
-    "cis_section_7.json",
-    "cis_section_13.json"
+    "cis_section_19.json"
   ]
 }

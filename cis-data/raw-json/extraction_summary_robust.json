@@ -1,0 +1,19 @@
+{
+  "total_recommendations": 513,
+  "profiles": {
+    "L1": 364,
+    "L2": 108,
+    "BL": 41
+  },
+  "assessment_status": {
+    "Automated": 511,
+    "Manual": 2
+  },
+  "sections_with_content": {
+    "description": 513,
+    "rationale": 513,
+    "impact": 498,
+    "audit_procedure": 471,
+    "remediation_procedure": 435
+  }
+}
