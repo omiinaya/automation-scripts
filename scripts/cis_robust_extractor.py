@@ -56,9 +56,7 @@ class CISRobustExtractor:
         "Impact:",
         "Audit:",
         "Remediation:",
-        "Default Value:",
-        "References:",
-        "Additional Information:"
+        "Default Value:"
     ]
     
     # Regex pattern for recommendation start
@@ -235,7 +233,7 @@ class CISRobustExtractor:
                 # If the page contains section headers (Audit, Remediation, etc.)
                 # it's likely still part of the current recommendation
                 # (e.g., CIS Controls section)
-                section_headers = ["Audit:", "Remediation:", "Default Value:", "References:", "CIS Controls:"]
+                section_headers = ["Audit:", "Remediation:", "Default Value:", "CIS Controls:"]
                 header_found = any(header in next_text for header in section_headers)
                 if not header_found:
                     # Could be a new recommendation without "Ensure"? Unlikely, but we'll break
@@ -283,9 +281,7 @@ class CISRobustExtractor:
             'impact': '',
             'audit': '',
             'remediation': '',
-            'default_value': '',
-            'references': '',
-            'additional_info': ''
+            'default_value': ''
         }
         
         # Map header variations to section keys
@@ -295,9 +291,7 @@ class CISRobustExtractor:
             'impact': ['Impact:'],
             'audit': ['Audit:'],
             'remediation': ['Remediation:'],
-            'default_value': ['Default Value:'],
-            'references': ['References:'],
-            'additional_info': ['Additional Information:']
+            'default_value': ['Default Value:']
         }
         
         # Normalize newlines and split into lines
@@ -344,34 +338,24 @@ class CISRobustExtractor:
             section_patterns = {
                 'description': (
                     r'Description:\s*\n(.*?)(?=\n\s*(?:Rationale:|Impact:|Audit:|'
-                    r'Remediation:|Default Value:|References:|Additional '
-                    r'Information:|$))'
+                    r'Remediation:|Default Value:|$))'
                 ),
                 'rationale': (
                     r'Rationale:\s*\n(.*?)(?=\n\s*(?:Impact:|Audit:|Remediation:|'
-                    r'Default Value:|References:|Additional Information:|$))'
+                    r'Default Value:|$))'
                 ),
                 'impact': (
                     r'Impact:\s*\n(.*?)(?=\n\s*(?:Audit:|Remediation:|Default '
-                    r'Value:|References:|Additional Information:|$))'
+                    r'Value:|$))'
                 ),
                 'audit': (
-                    r'Audit:\s*\n(.*?)(?=\n\s*(?:Remediation:|Default Value:|'
-                    r'References:|Additional Information:|$))'
+                    r'Audit:\s*\n(.*?)(?=\n\s*(?:Remediation:|Default Value:|$))'
                 ),
                 'remediation': (
-                    r'Remediation:\s*\n(.*?)(?=\n\s*(?:Default Value:|References:|'
-                    r'Additional Information:|$))'
+                    r'Remediation:\s*\n(.*?)(?=\n\s*(?:Default Value:|$))'
                 ),
                 'default_value': (
-                    r'Default Value:\s*\n(.*?)(?=\n\s*(?:References:|Additional '
-                    r'Information:|$))'
-                ),
-                'references': (
-                    r'References:\s*\n(.*?)(?=\n\s*(?:Additional Information:|$))'
-                ),
-                'additional_info': (
-                    r'Additional Information:\s*\n(.*?)(?=\n\s*$)'
+                    r'Default Value:\s*\n(.*?)(?=\n\s*(?:References:|Additional Information:|$))'
                 )
             }
             
@@ -383,24 +367,6 @@ class CISRobustExtractor:
                         content = re.sub(r'\s+', ' ', content)
                         sections[section_name] = content
         
-        # Special handling for references: split into list
-        ref_text = sections.get('references', '')
-        if ref_text:
-            # Split by numbered items (1., 2., etc.) or bullet points (•)
-            ref_lines = []
-            lines = ref_text.split('\n')
-            for line in lines:
-                line = line.strip()
-                if line:
-                    # Remove leading numbers/bullets
-                    line = re.sub(r'^\d+\.\s*', '', line)
-                    line = re.sub(r'^[•\-]\s*', '', line)
-                    if line and len(line) > 5:  # Minimal length
-                        ref_lines.append(line)
-            sections['references'] = ref_lines
-        else:
-            sections['references'] = []
-        
         return sections
     
     def extract_recommendation(
@@ -409,14 +375,6 @@ class CISRobustExtractor:
         """Convert block data to CISRecommendation object"""
         try:
             sections = self.parse_sections(block_data)
-            
-            # Extract references from text if not found in References section
-            references = sections['references']
-            if not references:
-                # Look for URLs in the full text
-                url_pattern = r'https?://[^\s]+'
-                urls = re.findall(url_pattern, block_data['full_text'])
-                references.extend(urls)
             
             # Create recommendation object
             recommendation = CISRecommendation(
@@ -430,8 +388,8 @@ class CISRobustExtractor:
                 audit_procedure=sections.get('audit', ''),
                 remediation_procedure=sections.get('remediation', ''),
                 default_value=sections.get('default_value', ''),
-                references=references,
-                additional_info=sections.get('additional_info', ''),
+                references=[],          # empty list
+                additional_info='',     # empty string
                 page_number=block_data['start_page']
             )
             

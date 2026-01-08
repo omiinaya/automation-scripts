@@ -143,6 +143,31 @@ For scheduled tasks or startup scripts:
 - Use Task Scheduler with "Run with highest privileges"
 - Set proper execution policy for system account
 
+## 🐍 Python Extraction Script
+
+For CIS benchmark extraction (optional), a Python script is provided in `scripts/`.
+
+### Dependencies
+Install Python dependencies:
+```bash
+pip install -r scripts/requirements.txt
+```
+
+### Usage
+```bash
+python scripts/cis_robust_extractor.py
+```
+
+### Log Files
+Extraction logs are saved to `cis_extraction_robust.log` (already excluded via `.gitignore`).
+
+### Git Large File Storage (LFS)
+Large files (e.g., PDF benchmarks) should be managed with Git LFS. If you have Git LFS installed, run:
+```bash
+git lfs track "*.pdf"
+git add .gitattributes
+```
+
 ## 🆘 Getting Help
 
 ### Common Issues
