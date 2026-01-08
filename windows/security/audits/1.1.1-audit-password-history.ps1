@@ -24,7 +24,6 @@ Import-Module $modulePath -Force
 # Check admin rights and handle elevation
 if (-not (Test-AdminRights)) {
     Request-Elevation
-    exit
 }
 
 try {

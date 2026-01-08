@@ -34,6 +34,7 @@ function Request-Elevation {
     .DESCRIPTION
         Restarts the current script with elevated privileges if needed.
         Preserves working directory and command line arguments.
+        Captures the output of the elevated script and returns it.
     .EXAMPLE
         Request-Elevation
     #>
@@ -65,12 +66,18 @@ function Request-Elevation {
         # Get original command line arguments
         $originalArgs = $MyInvocation.UnboundArguments -join " "
         
-        # Build the command to execute the original script with proper context
+        # Create a temporary file to store the output of the elevated script
+        $resultFile = [System.IO.Path]::Combine([System.IO.Path]::GetTempPath(), "elevated_result_$(Get-Date -Format 'yyyyMMddHHmmss').txt")
+        
+        # Build the command to execute the original script with proper context and capture output
         $command = @"
-# Simple elevation wrapper that preserves context
+# Simple elevation wrapper that preserves context and captures output
 Set-Location '$currentDirectory'
 try {
-    & '$scriptPath' $originalArgs
+    # Run the original script and capture its output
+    `$output = & '$scriptPath' $originalArgs
+    # Write the output to the result file
+    `$output | Out-File -FilePath '$resultFile' -Encoding UTF8
     `$exitCode = `$LASTEXITCODE
     if (`$exitCode -eq 0 -or `$exitCode -eq `$null -or `$exitCode -eq '') {
         Write-Host "Script completed successfully!" -ForegroundColor Green
@@ -81,7 +88,7 @@ try {
         Read-Host
     }
 } catch {
-    Write-Host "ERROR: `$($_.Exception.Message)" -ForegroundColor Red
+    Write-Host "ERROR: `$(`$_.Exception.Message)" -ForegroundColor Red
     Write-Host "Press Enter to close..." -ForegroundColor Yellow
     Read-Host
 }
@@ -104,16 +111,38 @@ try {
             $psi.UseShellExecute = $true
             $psi.WorkingDirectory = $currentDirectory
             
-            # Start the elevated process
+            # Start the elevated process and wait for it to exit
             $process = [System.Diagnostics.Process]::Start($psi)
-            
-            if ($process -ne $null) {
-                Write-Host "Elevation request sent. The script will continue in the elevated window." -ForegroundColor Green
-                exit
-            } else {
+            if ($process -eq $null) {
                 Write-Host "ERROR: Failed to start elevated process." -ForegroundColor Red
                 exit 1
             }
+            $process.WaitForExit()
+            
+            # Read the result file if it exists
+            if (Test-Path $resultFile) {
+                $result = Get-Content $resultFile -Raw
+                # Trim whitespace and convert to boolean if possible
+                $trimmed = $result.Trim()
+                # Try to convert to boolean (handles "True"/"False" strings)
+                if ($trimmed -eq "True" -or $trimmed -eq "False") {
+                    [bool]::Parse($trimmed)
+                } else {
+                    # If not a boolean string, output as-is
+                    $trimmed
+                }
+            } else {
+                Write-Host "ERROR: Elevated script did not produce a result file." -ForegroundColor Red
+                exit 1
+            }
+            
+            # Clean up temporary files
+            Remove-Item $tempScript -ErrorAction SilentlyContinue
+            Remove-Item $resultFile -ErrorAction SilentlyContinue
+            
+            # Exit the script with the result as output (the script will exit after this function returns)
+            # The caller should capture this output.
+            exit
         }
         catch {
             Write-Host "ERROR: Failed to request elevation: $_" -ForegroundColor Red
@@ -122,6 +151,9 @@ try {
             # Clean up temp file if it exists
             if (Test-Path $tempScript) {
                 Remove-Item $tempScript -ErrorAction SilentlyContinue
+            }
+            if (Test-Path $resultFile) {
+                Remove-Item $resultFile -ErrorAction SilentlyContinue
             }
             exit 1
         }
