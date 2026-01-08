@@ -65,7 +65,7 @@ Provides administrative utilities and system information.
 
 **Key Functions:**
 - `Test-AdminRights` - Check if running with admin privileges
-- `Request-Elevation` - Request elevation if needed
+- `Invoke-Elevation` - Request elevation if needed
 - `Get-SystemInfo` - Get basic system information
 - `Get-CurrentUserInfo` - Get current user information
 - `Test-ServiceExists` - Check if a Windows service exists
@@ -211,7 +211,7 @@ Import-Module .\windows\modules\ModuleIndex.psm1 -Force
 Test-AdminRights
 
 # Request elevation if needed
-Request-Elevation
+Invoke-Elevation
 ```
 
 ### Power Settings Not Applying

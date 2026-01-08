@@ -37,7 +37,7 @@ foreach ($module in $modulesToImport) {
     if (Test-Path -Path $modulePath) {
         try {
             Write-Verbose "Importing module: $module"
-            Import-Module -Name $modulePath -Force -ErrorAction Stop
+            Import-Module -Name $modulePath -Force -ErrorAction Stop -WarningAction SilentlyContinue
         }
         catch {
             Write-Warning "Failed to import module $module : $_"
@@ -66,7 +66,7 @@ function Get-WindowsModuleInfo {
             Description = "Administrative privilege checks, elevation, and common utilities"
             Commands = @(
                 "Test-AdminRights",
-                "Request-Elevation",
+                "Invoke-Elevation",
                 "Get-SystemInfo",
                 "Get-CurrentUserInfo",
                 "Test-ServiceExists",
@@ -89,7 +89,10 @@ function Get-WindowsModuleInfo {
                 "Disable-ScreenTimeout",
                 "Enable-ScreenTimeout",
                 "Set-LidCloseAction",
-                "Get-BatteryInfo"
+                "Get-BatteryInfo",
+                "Get-Windows11PowerMode",
+                "Set-Windows11PowerMode",
+                "Switch-Windows11PowerMode"
             )
         },
         @{

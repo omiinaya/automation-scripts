@@ -27,7 +27,7 @@ function Test-AdminRights {
 }
 
 # Function to elevate the current script if not running as admin
-function Request-Elevation {
+function Invoke-Elevation {
     <#
     .SYNOPSIS
         Prompts for elevation if not running as administrator.
@@ -36,7 +36,7 @@ function Request-Elevation {
         Preserves working directory and command line arguments.
         Captures the output of the elevated script and returns it.
     .EXAMPLE
-        Request-Elevation
+        Invoke-Elevation
     #>
     if (-not (Test-AdminRights)) {
         Write-Host "Administrator rights required. Requesting elevation..." -ForegroundColor Yellow
@@ -318,4 +318,4 @@ param(
 }
 
 # Export the module members
-Export-ModuleMember -Function Test-AdminRights, Request-Elevation, Get-SystemInfo, Get-CurrentUserInfo, Test-ServiceExists, Restart-ServiceSafely, Wait-ProcessExit
+Export-ModuleMember -Function Test-AdminRights, Invoke-Elevation, Get-SystemInfo, Get-CurrentUserInfo, Test-ServiceExists, Restart-ServiceSafely, Wait-ProcessExit
