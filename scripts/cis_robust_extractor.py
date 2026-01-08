@@ -90,15 +90,26 @@ class CISRobustExtractor:
     
     def setup_logging(self):
         """Setup logging configuration"""
-        logging.basicConfig(
-            level=logging.INFO,
-            format='%(asctime)s - %(levelname)s - %(message)s',
-            handlers=[
-                logging.FileHandler('cis_extraction_robust.log'),
-                logging.StreamHandler()
-            ]
-        )
+        # Disable pdfminer debug logging (it's extremely verbose)
+        logging.getLogger('pdfminer').setLevel(logging.WARNING)
+        logging.getLogger('pdfplumber').setLevel(logging.WARNING)
+        
+        # Configure our own logger
         self.logger = logging.getLogger(__name__)
+        self.logger.setLevel(logging.INFO)
+        
+        # Remove any existing handlers
+        self.logger.handlers.clear()
+        
+        # File handler only (no console)
+        file_handler = logging.FileHandler('cis_extraction_robust.log')
+        file_handler.setLevel(logging.INFO)
+        formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+        file_handler.setFormatter(formatter)
+        self.logger.addHandler(file_handler)
+        
+        # Ensure no propagation to root logger (to avoid console output)
+        self.logger.propagate = False
     
     def extract_text_from_pdf(self) -> List[Dict]:
         """Extract text from PDF within the remediation range"""
@@ -197,8 +208,8 @@ class CISRobustExtractor:
         pages = [start_page_num]
         full_text = start_page_data['text']
         
-        # Look ahead up to 5 pages for continuation
-        max_lookahead = 5
+        # Look ahead up to 10 pages for continuation (some recommendations span many pages)
+        max_lookahead = 10
         for offset in range(1, max_lookahead + 1):
             next_idx = start_index + offset
             if next_idx >= len(self.pages_text):
@@ -216,13 +227,30 @@ class CISRobustExtractor:
             # (like "5.2"). If it's a reference, we should still include it as
             # part of the current recommendation unless it's clearly a new
             # recommendation start. We'll use a heuristic: if the page contains
-            # a CIS ID pattern but not "Ensure", treat as reference.
+            # section headers (Audit, Remediation, etc.) it's likely still part
+            # of the current recommendation.
             cis_id_pattern = r'^\s*(\d+\.\d+(?:\.\d+)*)\s+'
             cis_match = re.search(cis_id_pattern, next_text, re.MULTILINE)
             if cis_match and cis_match.group(1) != cis_id:
-                # Check if it's likely a new recommendation
-                if "Ensure" in next_text or "(L" in next_text:
+                # If the page contains section headers (Audit, Remediation, etc.)
+                # it's likely still part of the current recommendation
+                # (e.g., CIS Controls section)
+                section_headers = ["Audit:", "Remediation:", "Default Value:", "References:", "CIS Controls:"]
+                header_found = any(header in next_text for header in section_headers)
+                if not header_found:
+                    # Could be a new recommendation without "Ensure"? Unlikely, but we'll break
+                    # to avoid merging unrelated content.
+                    self.logger.warning(
+                        f"Page {next_page_num} contains CIS ID {cis_match.group(1)} "
+                        f"but no section headers; breaking continuation."
+                    )
                     break
+                else:
+                    # Still part of current recommendation, do not break
+                    self.logger.debug(
+                        f"Page {next_page_num} contains CIS ID {cis_match.group(1)} "
+                        f"but also section headers -> continuing."
+                    )
             
             # Add the page to the block
             pages.append(next_page_num)
@@ -244,62 +272,123 @@ class CISRobustExtractor:
     
     def parse_sections(self, block_data: Dict[str, Any]) -> Dict[str, Any]:
         """
-        Parse sections from the recommendation block text.
+        Parse sections from the recommendation block text using a robust
+        line-by-line parser that detects section headers.
         Returns dict with extracted fields.
         """
         text = block_data['full_text']
-        sections: Dict[str, Any] = {}
-        
-        # Define section patterns
-        section_patterns = {
-            'description': (
-                r'Description:\s*\n(.*?)(?=\n\s*(?:Rationale:|Impact:|Audit:|'
-                r'Remediation:|Default Value:|References:|Additional '
-                r'Information:|$))'
-            ),
-            'rationale': (
-                r'Rationale:\s*\n(.*?)(?=\n\s*(?:Impact:|Audit:|Remediation:|'
-                r'Default Value:|References:|Additional Information:|$))'
-            ),
-            'impact': (
-                r'Impact:\s*\n(.*?)(?=\n\s*(?:Audit:|Remediation:|Default '
-                r'Value:|References:|Additional Information:|$))'
-            ),
-            'audit': (
-                r'Audit:\s*\n(.*?)(?=\n\s*(?:Remediation:|Default Value:|'
-                r'References:|Additional Information:|$))'
-            ),
-            'remediation': (
-                r'Remediation:\s*\n(.*?)(?=\n\s*(?:Default Value:|References:|'
-                r'Additional Information:|$))'
-            ),
-            'default_value': (
-                r'Default Value:\s*\n(.*?)(?=\n\s*(?:References:|Additional '
-                r'Information:|$))'
-            ),
-            'references': (
-                r'References:\s*\n(.*?)(?=\n\s*(?:Additional Information:|$))'
-            ),
-            'additional_info': (
-                r'Additional Information:\s*\n(.*?)(?=\n\s*$)'
-            )
+        sections: Dict[str, Any] = {
+            'description': '',
+            'rationale': '',
+            'impact': '',
+            'audit': '',
+            'remediation': '',
+            'default_value': '',
+            'references': '',
+            'additional_info': ''
         }
         
-        for section_name, pattern in section_patterns.items():
-            match = re.search(pattern, text, re.DOTALL | re.IGNORECASE)
-            if match:
-                content = match.group(1).strip()
-                # Clean up content: normalize whitespace
-                content = re.sub(r'\s+', ' ', content)
-                sections[section_name] = content
-            else:
-                sections[section_name] = ""
+        # Map header variations to section keys
+        header_map = {
+            'description': ['Description:'],
+            'rationale': ['Rationale:'],
+            'impact': ['Impact:'],
+            'audit': ['Audit:'],
+            'remediation': ['Remediation:'],
+            'default_value': ['Default Value:'],
+            'references': ['References:'],
+            'additional_info': ['Additional Information:']
+        }
+        
+        # Normalize newlines and split into lines
+        lines = text.split('\n')
+        current_section = None
+        current_content = []
+        
+        for line in lines:
+            line_stripped = line.strip()
+            
+            # Check if line contains a section header
+            found = False
+            for section_key, headers in header_map.items():
+                for header in headers:
+                    if line_stripped.startswith(header):
+                        # Save previous section content
+                        if current_section is not None:
+                            content = '\n'.join(current_content).strip()
+                            sections[current_section] = content
+                        
+                        # Start new section
+                        current_section = section_key
+                        # Remove header from line to capture inline content
+                        remaining = line_stripped[len(header):].strip()
+                        current_content = [remaining] if remaining else []
+                        found = True
+                        break
+                if found:
+                    break
+            
+            if not found and current_section is not None:
+                # Continue accumulating content for current section
+                current_content.append(line_stripped)
+        
+        # Save the last section
+        if current_section is not None:
+            content = '\n'.join(current_content).strip()
+            sections[current_section] = content
+        
+        # Fallback: if regex detection missed something, try regex as backup
+        # (only for sections that are still empty)
+        if not sections['description'] or not sections['audit']:
+            # Use regex patterns as fallback
+            section_patterns = {
+                'description': (
+                    r'Description:\s*\n(.*?)(?=\n\s*(?:Rationale:|Impact:|Audit:|'
+                    r'Remediation:|Default Value:|References:|Additional '
+                    r'Information:|$))'
+                ),
+                'rationale': (
+                    r'Rationale:\s*\n(.*?)(?=\n\s*(?:Impact:|Audit:|Remediation:|'
+                    r'Default Value:|References:|Additional Information:|$))'
+                ),
+                'impact': (
+                    r'Impact:\s*\n(.*?)(?=\n\s*(?:Audit:|Remediation:|Default '
+                    r'Value:|References:|Additional Information:|$))'
+                ),
+                'audit': (
+                    r'Audit:\s*\n(.*?)(?=\n\s*(?:Remediation:|Default Value:|'
+                    r'References:|Additional Information:|$))'
+                ),
+                'remediation': (
+                    r'Remediation:\s*\n(.*?)(?=\n\s*(?:Default Value:|References:|'
+                    r'Additional Information:|$))'
+                ),
+                'default_value': (
+                    r'Default Value:\s*\n(.*?)(?=\n\s*(?:References:|Additional '
+                    r'Information:|$))'
+                ),
+                'references': (
+                    r'References:\s*\n(.*?)(?=\n\s*(?:Additional Information:|$))'
+                ),
+                'additional_info': (
+                    r'Additional Information:\s*\n(.*?)(?=\n\s*$)'
+                )
+            }
+            
+            for section_name, pattern in section_patterns.items():
+                if not sections[section_name]:
+                    match = re.search(pattern, text, re.DOTALL | re.IGNORECASE)
+                    if match:
+                        content = match.group(1).strip()
+                        content = re.sub(r'\s+', ' ', content)
+                        sections[section_name] = content
         
         # Special handling for references: split into list
-        if sections.get('references'):
+        ref_text = sections.get('references', '')
+        if ref_text:
             # Split by numbered items (1., 2., etc.) or bullet points (•)
             ref_lines = []
-            lines = str(sections['references']).split('\n')
+            lines = ref_text.split('\n')
             for line in lines:
                 line = line.strip()
                 if line:
