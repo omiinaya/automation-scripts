@@ -29,7 +29,6 @@ class CISRecommendation:
     cis_id: str
     title: str
     profile: str
-    assessment_status: str
     description: str
     rationale: str
     impact: str
@@ -146,23 +145,23 @@ class CISRobustExtractor:
     
     def is_recommendation_start(
         self, text: str
-    ) -> Optional[Tuple[str, str, str, str]]:
+    ) -> Optional[Tuple[str, str, str]]:
         """
         Check if text starts with a recommendation pattern.
-        Returns tuple (cis_id, profile, title, assessment_status) if match,
+        Returns tuple (cis_id, profile, title) if match,
         else None.
         """
         # Try primary pattern
         match = self.REC_START_PATTERN.search(text)
         if match:
-            cis_id, profile, title, assessment_status = match.groups()
-            return cis_id, profile, title, assessment_status
+            cis_id, profile, title, _ = match.groups()
+            return cis_id, profile, title
         
         # Try fallback pattern (missing profile)
         match = self.REC_START_FALLBACK.search(text)
         if match:
-            cis_id, title, assessment_status = match.groups()
-            return cis_id, "L1", title, assessment_status
+            cis_id, title, _ = match.groups()
+            return cis_id, "L1", title
         
         return None
     
@@ -183,7 +182,7 @@ class CISRobustExtractor:
         """
         Extract a recommendation block starting at page index start_index.
         Returns (block_data, next_start_index) where block_data contains:
-        - cis_id, profile, title, assessment_status
+        - cis_id, profile, title
         - pages: list of page numbers
         - full_text: concatenated text
         - start_page: starting page number
@@ -198,7 +197,7 @@ class CISRobustExtractor:
                 f"Page {start_page_num} does not start with a recommendation"
             )
         
-        cis_id, profile, title, assessment_status = rec_info
+        cis_id, profile, title = rec_info
         
         # Collect pages until next recommendation start
         pages = [start_page_num]
@@ -256,7 +255,6 @@ class CISRobustExtractor:
             'cis_id': cis_id,
             'profile': profile,
             'title': title,
-            'assessment_status': assessment_status,
             'pages': pages,
             'full_text': full_text,
             'start_page': start_page_num
@@ -379,7 +377,6 @@ class CISRobustExtractor:
                 cis_id=block_data['cis_id'],
                 title=block_data['title'],
                 profile=block_data['profile'],
-                assessment_status=block_data['assessment_status'],
                 description=sections.get('description', ''),
                 rationale=sections.get('rationale', ''),
                 impact=sections.get('impact', ''),
@@ -478,7 +475,6 @@ class CISRobustExtractor:
         summary = {
             "total_recommendations": len(self.recommendations),
             "profiles": {},
-            "assessment_status": {},
             "sections_with_content": {
                 "description": 0,
                 "rationale": 0,
@@ -492,11 +488,6 @@ class CISRobustExtractor:
             # Count profiles
             summary["profiles"][rec.profile] = (
                 summary["profiles"].get(rec.profile, 0) + 1
-            )
-            
-            # Count assessment status
-            summary["assessment_status"][rec.assessment_status] = (
-                summary["assessment_status"].get(rec.assessment_status, 0) + 1
             )
             
             # Count sections with content
@@ -536,7 +527,6 @@ def main():
         print("\n=== Robust Extraction Summary ===")
         print(f"Total recommendations: {summary['total_recommendations']}")
         print(f"Profiles: {summary['profiles']}")
-        print(f"Assessment status: {summary['assessment_status']}")
         print(f"Sections with content: {summary['sections_with_content']}")
         
         
