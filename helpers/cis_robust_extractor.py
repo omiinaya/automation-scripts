@@ -96,14 +96,21 @@ class CISRobustExtractor:
         # Remove any existing handlers
         self.logger.handlers.clear()
         
-        # File handler only (no console)
+        # File handler for warnings and errors only
         file_handler = logging.FileHandler('cis_extraction_robust.log')
-        file_handler.setLevel(logging.INFO)
-        formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
-        file_handler.setFormatter(formatter)
+        file_handler.setLevel(logging.WARNING)
+        file_formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+        file_handler.setFormatter(file_formatter)
         self.logger.addHandler(file_handler)
         
-        # Ensure no propagation to root logger (to avoid console output)
+        # Console handler for info and above (user visibility)
+        console_handler = logging.StreamHandler()
+        console_handler.setLevel(logging.INFO)
+        console_formatter = logging.Formatter('%(levelname)s - %(message)s')
+        console_handler.setFormatter(console_formatter)
+        self.logger.addHandler(console_handler)
+        
+        # Ensure no propagation to root logger
         self.logger.propagate = False
     
     def extract_text_from_pdf(self) -> List[Dict]:
