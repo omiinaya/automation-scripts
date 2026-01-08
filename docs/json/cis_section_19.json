@@ -10,8 +10,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKU\\[USER\nSID]\\Software\\Policies\\Microsoft\\Windows\\CurrentVersion\\PushNotifications:NoT\noastApplicationNotificationOnLockScreen",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nUser Configuration\\Policies\\Administrative Templates\\Start Menu and\nTaskbar\\Notifications\\Turn off toast notifications on the lock screen\nNote: This Group Policy path may not exist by default. It is provided by the Group Policy\ntemplate WPN.admx/adml that is included with the Microsoft Windows 8.0 & Server 2012\n(non-R2) Administrative Templates (or newer).",
     "default_value": "Disabled. (Toast notifications on the lock screen are enabled and can be turned off by\nthe administrator or user.)\nReferences:\n1. GRID: MS-00000557\nPage 1249\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8 ● ●\nUninstall or disable unnecessary services on enterprise assets and software,\nsuch as an unused file sharing service, web application module, or service\nfunction.\n16.11 Lock Workstation Sessions After Inactivity\nv7 ● ● ●\nAutomatically lock workstation sessions after a standard period of inactivity.\nPage 1250",
-    "references": [],
-    "additional_info": "",
     "page_number": 1250
   },
   {
@@ -25,8 +23,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKU\\[USER\nSID]\\Software\\Policies\\Microsoft\\Assistance\\Client\\1.0:NoImplicitFeedback",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nUser Configuration\\Policies\\Administrative Templates\\System\\Internet\nCommunication Management\\Internet Communication Settings\\Turn off Help\nExperience Improvement Program\nNote: This Group Policy path is provided by the Group Policy template\nHelpAndSupport.admx/adml that is included with all versions of the Microsoft Windows\nAdministrative Templates.",
     "default_value": "Disabled. (Users can turn on the Help Experience Improvement program feature from\nthe Help and Support settings page.)\nPage 1253\nReferences:\n1. GRID: MS-00000558\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8 ● ●\nUninstall or disable unnecessary services on enterprise assets and software,\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nAre Running\nv7 ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 1254",
-    "references": [],
-    "additional_info": "",
     "page_number": 1254
   },
   {
@@ -40,8 +36,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 2.\nHKU\\[USER\nSID]\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Attachments:SaveZoneI\nnformation\nPage 1257",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nDisabled:\nUser Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\Attachment Manager\\Do not preserve zone information in file\nattachments\nNote: This Group Policy path is provided by the Group Policy template\nAttachmentManager.admx/adml that is included with all versions of the Microsoft\nWindows Administrative Templates.",
     "default_value": "Disabled. (Windows marks file attachments with their zone information.)\nReferences:\n1. GRID: MS-00000559\nCIS Controls:\nControls Version Control IG 1 IG 2 IG 3\n0.0 Explicitly Not Mapped\nv8\nExplicitly Not Mapped\n0.0 Explicitly Not Mapped\nv7\nExplicitly Not Mapped\nPage 1258",
-    "references": [],
-    "additional_info": "",
     "page_number": 1258
   },
   {
@@ -55,8 +49,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 3.\nHKU\\[USER\nSID]\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Attachments:ScanWithA\nntiVirus",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nUser Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\Attachment Manager\\Notify antivirus programs when opening\nattachments\nNote: This Group Policy path is provided by the Group Policy template\nAttachmentManager.admx/adml that is included with all versions of the Microsoft\nWindows Administrative Templates.\nPage 1259",
     "default_value": "Disabled. (Windows does not call the registered antivirus program(s) when file\nattachments are opened.)\nReferences:\n1. GRID: MS-00000560\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n10.1 Deploy and Maintain Anti-Malware Software\nv8 ● ● ●\nDeploy and maintain anti-malware software on all enterprise assets.\n8.1 Utilize Centrally Managed Anti-malware Software\nv7 ● ●\nUtilize centrally managed anti-malware software to continuously monitor and\ndefend each of the organization's workstations and servers.\nPage 1260",
-    "references": [],
-    "additional_info": "",
     "page_number": 1260
   },
   {
@@ -70,8 +62,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 2.\nHKU\\[USER\nSID]\\Software\\Policies\\Microsoft\\Windows\\CloudContent:ConfigureWindowsSpotlig\nht",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nDisabled:\nUser Configuration\\Policies\\Administrative Templates\\Windows Components\\Cloud\nContent\\Configure Windows spotlight on lock screen\nNote: This Group Policy path may not exist by default. It is provided by the Group Policy\ntemplate CloudContent.admx/adml that is included with the Microsoft Windows 10\nRelease 1607 & Server 2016 Administrative Templates (or newer).",
     "default_value": "Enabled. (Windows Spotlight is set as the lock screen provider.)\nPage 1262\nReferences:\n1. https://learn.microsoft.com/en-us/windows/configuration/windows-spotlight#how-\ndo-you-disable-windows-spotlight-for-managed-devices\n2. GRID: MS-00000561\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n0.0 Explicitly Not Mapped\nv8\nExplicitly Not Mapped\n16.11 Lock Workstation Sessions After Inactivity\nv7 ● ● ●\nAutomatically lock workstation sessions after a standard period of\ninactivity.\nPage 1263",
-    "references": [],
-    "additional_info": "",
     "page_number": 1263
   },
   {
@@ -85,8 +75,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKU\\[USER\nSID]\\Software\\Policies\\Microsoft\\Windows\\CloudContent:DisableThirdPartySugges\ntions",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nUser Configuration\\Policies\\Administrative Templates\\Windows Components\\Cloud\nContent\\Do not suggest third-party content in Windows spotlight\nNote: This Group Policy path may not exist by default. It is provided by the Group Policy\ntemplate CloudContent.admx/adml that is included with the Microsoft Windows 10\nRelease 1607 & Server 2016 Administrative Templates (or newer).\nPage 1264",
     "default_value": "Disabled. (Apps and content from third-party software publishers will be suggested in\naddition to Microsoft apps and content.)\nReferences:\n1. GRID: MS-00000562\nCIS Controls:\nControls Version Control IG 1 IG 2 IG 3\n0.0 Explicitly Not Mapped\nv8\nExplicitly Not Mapped\n0.0 Explicitly Not Mapped\nv7\nExplicitly Not Mapped\nPage 1265",
-    "references": [],
-    "additional_info": "",
     "page_number": 1265
   },
   {
@@ -100,8 +88,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKU\\[USER\nSID]\\Software\\Policies\\Microsoft\\Windows\\CloudContent:DisableTailoredExperien\ncesWithDiagnosticData",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nUser Configuration\\Policies\\Administrative Templates\\Windows Components\\Cloud\nContent\\Do not use diagnostic data for tailored experiences\nNote: This Group Policy path may not exist by default. It is provided by the Group Policy\ntemplate CloudContent.admx/adml that is included with the Microsoft Windows 10\nRelease 1703 Administrative Templates (or newer).\nPage 1266",
     "default_value": "Disabled. (Microsoft will use diagnostic data to provide personalized recommendations,\ntips and offers.)\nReferences:\n1. GRID: MS-00000563\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n0.0 Explicitly Not Mapped\nv8\nExplicitly Not Mapped\n9.2 Ensure Only Approved Ports, Protocols and\nServices Are Running\nv7 ● ●\nEnsure that only network ports, protocols, and services listening on a\nsystem with validated business needs, are running on each system.\nPage 1267",
-    "references": [],
-    "additional_info": "",
     "page_number": 1267
   },
   {
@@ -115,8 +101,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKU\\[USER\nSID]\\Software\\Policies\\Microsoft\\Windows\\CloudContent:DisableWindowsSpotlight\nFeatures",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nUser Configuration\\Policies\\Administrative Templates\\Windows Components\\Cloud\nContent\\Turn off all Windows spotlight features\nNote: This Group Policy path may not exist by default. It is provided by the Group Policy\ntemplate CloudContent.admx/adml that is included with the Microsoft Windows 10\nRelease 1607 & Server 2016 Administrative Templates (or newer).\nPage 1268",
     "default_value": "Disabled. (Windows Spotlight features are allowed.)\nReferences:\n1. GRID: MS-00000564\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8 ● ●\nUninstall or disable unnecessary services on enterprise assets and software,\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nAre Running\nv7 ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 1269",
-    "references": [],
-    "additional_info": "",
     "page_number": 1269
   },
   {
@@ -130,8 +114,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKU\\[USER\nSID]\\SOFTWARE\\Policies\\Microsoft\\Windows\\CloudContent:DisableSpotlightCollect\nionOnDesktop",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nUser Configuration\\Policies\\Administrative Templates\\Windows Components\\Cloud\nContent\\Turn off Spotlight collection on Desktop\nNote: This Group Policy path may not exist by default. It is provided by the Group Policy\ntemplate CloudContent.admx/adml that is included with the Microsoft Windows 11\nRelease 21H2 Administrative Templates (or newer).\nPage 1270",
     "default_value": "Disabled. (Spotlight collection will appear as an option in Personalization settings,\nallowing the user to select Spotlight collection as the Desktop provider and display\ndaily images from Microsoft on the desktop.)\nReferences:\n1. https://learn.microsoft.com/en-us/windows/configuration/windows-spotlight\n2. GRID: MS-00000565\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8 ● ●\nUninstall or disable unnecessary services on enterprise assets and software,\nsuch as an unused file sharing service, web application module, or service\nfunction.\nPage 1271",
-    "references": [],
-    "additional_info": "",
     "page_number": 1271
   },
   {
@@ -145,8 +127,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKU\\[USER\nSID]\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer:NoInplaceSha\nring",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nUser Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\Network Sharing\\Prevent users from sharing files within their\nprofile.\nNote: This Group Policy path is provided by the Group Policy template\nSharing.admx/adml that is included with all versions of the Microsoft Windows\nAdministrative Templates.\nPage 1276",
     "default_value": "Disabled. (Users can share files out of their user profile after an administrator has opted\nin the computer.)\nReferences:\n1. GRID: MS-00000566\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n0.0 Explicitly Not Mapped\nv8\nExplicitly Not Mapped\n14.6 Protect Information through Access Control Lists\nProtect all information stored on systems with file system, network share,\nv7 claims, application, or database specific access control lists. These controls will ● ● ●\nenforce the principle that only authorized individuals should have access to the\ninformation based on their need to access the information as a part of their\nresponsibilities.\nPage 1277",
-    "references": [],
-    "additional_info": "",
     "page_number": 1277
   },
   {
@@ -160,8 +140,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKU\\[USER\nSID]\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsCopilot:TurnOffWindowsCopilot",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nUser Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\Windows Copilot\\Turn off Windows Copilot\nNote: This Group Policy path may not exist by default. It is provided by the Group Policy\ntemplate WindowsCopilot.admx/adml that is included with the Microsoft Windows 11\nRelease 23H2 Administrative Templates (or newer).",
     "default_value": "Disabled. (Windows Copilot is enabled.)\nPage 1281\nReferences:\n1. GRID: MS-00000567\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8 ● ●\nUninstall or disable unnecessary services on enterprise assets and software,\nsuch as an unused file sharing service, web application module, or service\nfunction.\nPage 1282",
-    "references": [],
-    "additional_info": "",
     "page_number": 1282
   },
   {
@@ -175,8 +153,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 0.\nHKU\\[USER\nSID]\\Software\\Policies\\Microsoft\\Windows\\Installer:AlwaysInstallElevated",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nDisabled:\nUser Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\Windows Installer\\Always install with elevated privileges\nNote: This Group Policy path is provided by the Group Policy template MSI.admx/adml\nthat is included with all versions of the Microsoft Windows Administrative Templates.\nPage 1284",
     "default_value": "Disabled. (Windows Installer will apply the current user's permissions when it installs\nprograms that a system administrator does not distribute or offer. This will prevent\nstandard users from installing applications that affect system-wide configuration items.)\nReferences:\n1. https://learn.microsoft.com/en-us/windows/win32/msi/alwaysinstallelevated\n2. GRID: MS-00000568\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n0.0 Explicitly Not Mapped\nv8\nExplicitly Not Mapped\n4.3 Ensure the Use of Dedicated Administrative Accounts\nv7 Ensure that all users with administrative account access use a dedicated or ● ● ●\nsecondary account for elevated activities. This account should only be used for\nadministrative activities and not internet browsing, email, or similar activities.\nPage 1285",
-    "references": [],
-    "additional_info": "",
     "page_number": 1285
   },
   {
@@ -190,8 +166,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKU\\[USER\nSID]\\Software\\Policies\\Microsoft\\WindowsMediaPlayer:PreventCodecDownload",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nUser Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\Windows Media Player\\Playback\\Prevent Codec Download\nNote: This Group Policy path is provided by the Group Policy template\nWindowsMediaPlayer.admx/adml that is included with all versions of the Microsoft\nWindows Administrative Templates.",
     "default_value": "Users can change the setting for the Download codecs automatically check box.\nPage 1287",
-    "references": [],
-    "additional_info": "",
     "page_number": 1288
   }
 ]

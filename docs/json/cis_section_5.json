@@ -10,8 +10,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 4.\nHKLM\\SYSTEM\\CurrentControlSet\\Services\\BTAGService:Start",
     "remediation_procedure": "To establish the recommended configuration, run the following PowerShell command:\nSet-Service -Name BTAGService -StartupType Disabled\nNote: This service was first introduced in Windows 10 Release 1803. It appears to have\nreplaced the older Bluetooth Handsfree Service (BthHFSrv), which was removed from\nWindows in that release (it is not simply a rename, but a different service).",
     "default_value": "Manual (Trigger Start)\nReferences:\n1. GRID: MS-00000128\nPage 284\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8\nUninstall or disable unnecessary services on enterprise assets and software,\n● ●\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nv7 Are Running ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 285",
-    "references": [],
-    "additional_info": "",
     "page_number": 285
   },
   {
@@ -25,8 +23,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 4.\nHKLM\\SYSTEM\\CurrentControlSet\\Services\\bthserv:Start",
     "remediation_procedure": "To establish the recommended configuration, run the following PowerShell command:\nSet-Service -Name bthserv -StartupType Disabled",
     "default_value": "Windows 7: Manual\nWindows 8.0 or newer: Manual (Trigger Start)\nPage 286\nReferences:\n1. GRID: MS-00000129\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8\nUninstall or disable unnecessary services on enterprise assets and software,\n● ●\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nv7 Are Running ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 287",
-    "references": [],
-    "additional_info": "",
     "page_number": 287
   },
   {
@@ -40,8 +36,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 4 or that the key does not exist.\nHKLM\\SYSTEM\\CurrentControlSet\\Services\\Browser:Start\nPage 288",
     "remediation_procedure": "To establish the recommended configuration, run the following PowerShell command or\nensure the service is not installed.\nSet-Service -Name Browser -StartupType Disabled",
     "default_value": "Windows 7: Manual\nWindows 8.0 through Windows 10 R1703: Manual (Trigger Start)\nWindows 10 R1709 or newer: Not Installed (Manual (Trigger Start) when installed)\nReferences:\n1. https://blogs.technet.microsoft.com/filecab/2016/09/16/stop-using-smb1/\n2. GRID: MS-00000130\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8\nUninstall or disable unnecessary services on enterprise assets and software,\n● ●\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nv7 Are Running ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 289",
-    "references": [],
-    "additional_info": "",
     "page_number": 289
   },
   {
@@ -55,8 +49,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 4.\nHKLM\\SYSTEM\\CurrentControlSet\\Services\\MapsBroker:Start",
     "remediation_procedure": "To establish the recommended configuration, run the following PowerShell command:\nSet-Service -Name MapsBroker -StartupType Disabled",
     "default_value": "Automatic (Delayed Start)\nReferences:\n1. GRID: MS-00000131\nPage 290\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8\nUninstall or disable unnecessary services on enterprise assets and software,\n● ●\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nv7 Are Running ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 291",
-    "references": [],
-    "additional_info": "",
     "page_number": 291
   },
   {
@@ -70,8 +62,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 4.\nHKLM\\SYSTEM\\CurrentControlSet\\Services\\GameInputSvc:Start",
     "remediation_procedure": "To establish the recommended configuration, run the following PowerShell command:\nSet-Service -Name GameInputSvc -StartupType Disabled",
     "default_value": "Windows 11 Release 24H2 or newer: Manual (Trigger Start)\nReferences:\n1. https://learn.microsoft.com/en-us/gaming/gdk/_content/gc/input/overviews/input-\noverview\n2. GRID: MS-00000607\nPage 292\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8\nUninstall or disable unnecessary services on enterprise assets and software,\n● ●\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nv7 Are Running ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 293",
-    "references": [],
-    "additional_info": "",
     "page_number": 293
   },
   {
@@ -85,8 +75,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 4.\nHKLM\\SYSTEM\\CurrentControlSet\\Services\\lfsvc:Start",
     "remediation_procedure": "To establish the recommended configuration, run the following PowerShell command:\nSet-Service -Name lfsvc -StartupType Disabled",
     "default_value": "Manual (Trigger Start)\nReferences:\n1. GRID: MS-00000132\nPage 294\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8\nUninstall or disable unnecessary services on enterprise assets and software,\n● ●\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nv7 Are Running ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 295",
-    "references": [],
-    "additional_info": "",
     "page_number": 295
   },
   {
@@ -100,8 +88,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 4 or that the key does not exist.\nHKLM\\SYSTEM\\CurrentControlSet\\Services\\IISADMIN:Start\nPage 296",
     "remediation_procedure": "To establish the recommended configuration, run the following PowerShell command or\nensure the service is not installed.\nSet-Service -Name IISADMIN -StartupType Disabled",
     "default_value": "Not Installed (Automatic when installed)\nReferences:\n1. GRID: MS-00000133\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8\nUninstall or disable unnecessary services on enterprise assets and software,\n● ●\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nv7 Are Running ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 297",
-    "references": [],
-    "additional_info": "",
     "page_number": 297
   },
   {
@@ -115,8 +101,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 4 or that the key does not exist.\nHKLM\\SYSTEM\\CurrentControlSet\\Services\\irmon:Start",
     "remediation_procedure": "To establish the recommended configuration, run the following PowerShell command or\nensure the service is not installed.\nSet-Service -Name irmon -StartupType Disabled",
     "default_value": "Windows 10 R1607 through Windows 10 R1809: Manual\nWindows 10 R1903 or newer: Not Installed (Manual when installed)\nReferences:\n1. GRID: MS-00000134\nPage 298\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8\nUninstall or disable unnecessary services on enterprise assets and software,\n● ●\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nv7 Are Running ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 299",
-    "references": [],
-    "additional_info": "",
     "page_number": 299
   },
   {
@@ -130,8 +114,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 4.\nHKLM\\SYSTEM\\CurrentControlSet\\Services\\lltdsvc:Start",
     "remediation_procedure": "To establish the recommended configuration, run the following PowerShell command:\nSet-Service -Name lltdsvc -StartupType Disabled",
     "default_value": "Manual\nReferences:\n1. GRID: MS-00000136\nPage 300\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8\nUninstall or disable unnecessary services on enterprise assets and software,\n● ●\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nv7 Are Running ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 301",
-    "references": [],
-    "additional_info": "",
     "page_number": 301
   },
   {
@@ -145,8 +127,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 4 or that the key does not exist.\nHKLM\\SYSTEM\\CurrentControlSet\\Services\\FTPSVC:Start",
     "remediation_procedure": "To establish the recommended configuration, run the following PowerShell command or\nensure the service is not installed.\nSet-Service -Name FTPSVC -StartupType Disabled",
     "default_value": "Not Installed (Automatic when installed)\nReferences:\n1. GRID: MS-00000138\nPage 302\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8\nUninstall or disable unnecessary services on enterprise assets and software,\n● ●\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nv7 Are Running ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 303",
-    "references": [],
-    "additional_info": "",
     "page_number": 303
   },
   {
@@ -160,8 +140,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 4.\nHKLM\\SYSTEM\\CurrentControlSet\\Services\\MSiSCSI:Start",
     "remediation_procedure": "To establish the recommended configuration, run the following PowerShell command:\nSet-Service -Name MSiSCSI -StartupType Disabled",
     "default_value": "Manual\nReferences:\n1. GRID: MS-00000139\nPage 304\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8\nUninstall or disable unnecessary services on enterprise assets and software,\n● ●\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nv7 Are Running ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 305",
-    "references": [],
-    "additional_info": "",
     "page_number": 305
   },
   {
@@ -175,8 +153,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 4 or that the key does not exist.\nHKLM\\SYSTEM\\CurrentControlSet\\Services\\sshd:Start",
     "remediation_procedure": "To establish the recommended configuration, run the following PowerShell command or\nensure the service is not installed.\nSet-Service -Name sshd -StartupType Disabled",
     "default_value": "Not Installed (Manual when installed)\nReferences:\n1. GRID: MS-00000140\nPage 306\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8\nUninstall or disable unnecessary services on enterprise assets and software,\n● ●\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nv7 Are Running ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 307",
-    "references": [],
-    "additional_info": "",
     "page_number": 307
   },
   {
@@ -190,8 +166,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 4.\nHKLM\\SYSTEM\\CurrentControlSet\\Services\\Spooler:Start",
     "remediation_procedure": "To establish the recommended configuration, run the following PowerShell command:\nSet-Service -Name Spooler -StartupType Disabled",
     "default_value": "Automatic\nReferences:\n1. https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-34527\n2. GRID: MS-00000145\nPage 308\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8\nUninstall or disable unnecessary services on enterprise assets and software,\n● ●\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nv7 Are Running ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 309",
-    "references": [],
-    "additional_info": "",
     "page_number": 309
   },
   {
@@ -205,8 +179,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 4.\nHKLM\\SYSTEM\\CurrentControlSet\\Services\\wercplsupport:Start",
     "remediation_procedure": "To establish the recommended configuration, run the following PowerShell command:\nSet-Service -Name wercplsupport -StartupType Disabled",
     "default_value": "Manual\nReferences:\n1. GRID: MS-00000146\nPage 310\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8\nUninstall or disable unnecessary services on enterprise assets and software,\n● ●\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nv7 Are Running ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 311",
-    "references": [],
-    "additional_info": "",
     "page_number": 311
   },
   {
@@ -220,8 +192,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 4.\nHKLM\\SYSTEM\\CurrentControlSet\\Services\\RasAuto:Start",
     "remediation_procedure": "To establish the recommended configuration, run the following PowerShell command:\nSet-Service -Name RasAuto -StartupType Disabled",
     "default_value": "Manual\nReferences:\n1. GRID: MS-00000147\nPage 312\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8\nUninstall or disable unnecessary services on enterprise assets and software,\n● ●\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nv7 Are Running ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 313",
-    "references": [],
-    "additional_info": "",
     "page_number": 313
   },
   {
@@ -235,8 +205,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 4.\nHKLM\\SYSTEM\\CurrentControlSet\\Services\\SessionEnv:Start",
     "remediation_procedure": "To establish the recommended configuration, run the following PowerShell command:\nSet-Service -Name SessionEnv -StartupType Disabled",
     "default_value": "Manual\nReferences:\n1. GRID: MS-00000148\nPage 314\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8\nUninstall or disable unnecessary services on enterprise assets and software,\n● ●\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nv7 Are Running ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 315",
-    "references": [],
-    "additional_info": "",
     "page_number": 315
   },
   {
@@ -250,8 +218,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 4.\nHKLM\\SYSTEM\\CurrentControlSet\\Services\\TermService:Start",
     "remediation_procedure": "To establish the recommended configuration, run the following PowerShell command:\nSet-Service -Name TermService -StartupType Disabled",
     "default_value": "Manual\nReferences:\n1. GRID: MS-00000149\nPage 316\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8\nUninstall or disable unnecessary services on enterprise assets and software,\n● ●\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nv7 Are Running ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 317",
-    "references": [],
-    "additional_info": "",
     "page_number": 317
   },
   {
@@ -265,8 +231,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 4.\nHKLM\\SYSTEM\\CurrentControlSet\\Services\\UmRdpService:Start",
     "remediation_procedure": "To establish the recommended configuration, run the following PowerShell command:\nSet-Service -Name UmRdpService -StartupType Disabled",
     "default_value": "Manual\nReferences:\n1. GRID: MS-00000150\nPage 318\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8\nUninstall or disable unnecessary services on enterprise assets and software,\n● ●\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nv7 Are Running ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 319",
-    "references": [],
-    "additional_info": "",
     "page_number": 319
   },
   {
@@ -280,8 +244,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 4.\nHKLM\\SYSTEM\\CurrentControlSet\\Services\\RpcLocator:Start",
     "remediation_procedure": "To establish the recommended configuration, run the following PowerShell command:\nSet-Service -Name RpcLocator -StartupType Disabled",
     "default_value": "Manual\nReferences:\n1. GRID: MS-00000151\nPage 320\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8\nUninstall or disable unnecessary services on enterprise assets and software,\n● ●\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nv7 Are Running ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 321",
-    "references": [],
-    "additional_info": "",
     "page_number": 321
   },
   {
@@ -295,8 +257,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 4.\nHKLM\\SYSTEM\\CurrentControlSet\\Services\\RemoteRegistry:Start",
     "remediation_procedure": "To establish the recommended configuration, run the following PowerShell command:\nSet-Service -Name RemoteRegistry -StartupType Disabled",
     "default_value": "Windows 7: Manual\nWindows 8.0 or newer: Disabled\nReferences:\n1. GRID: MS-00000152\nPage 322\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8\nUninstall or disable unnecessary services on enterprise assets and software,\n● ●\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nv7 Are Running ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 323",
-    "references": [],
-    "additional_info": "",
     "page_number": 323
   },
   {
@@ -310,8 +270,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 4.\nHKLM\\SYSTEM\\CurrentControlSet\\Services\\RemoteAccess:Start",
     "remediation_procedure": "To establish the recommended configuration, run the following PowerShell command:\nSet-Service -Name RemoteAccess -StartupType Disabled",
     "default_value": "Disabled\nReferences:\n1. GRID: MS-00000153\nPage 324\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8\nUninstall or disable unnecessary services on enterprise assets and software,\n● ●\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nv7 Are Running ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 325",
-    "references": [],
-    "additional_info": "",
     "page_number": 325
   },
   {
@@ -325,8 +283,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 4.\nHKLM\\SYSTEM\\CurrentControlSet\\Services\\LanmanServer:Start",
     "remediation_procedure": "To establish the recommended configuration, run the following PowerShell command:\nSet-Service -Name LanmanServer -StartupType Disabled",
     "default_value": "Windows 7 through Windows 10 R1703: Automatic\nWindows 10 R1709 or newer: Automatic (Trigger Start)\nPage 326\nReferences:\n1. GRID: MS-00000154\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8\nUninstall or disable unnecessary services on enterprise assets and software,\n● ●\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nv7 Are Running ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 327",
-    "references": [],
-    "additional_info": "",
     "page_number": 327
   },
   {
@@ -340,8 +296,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 4 or that the key does not exist.\nHKLM\\SYSTEM\\CurrentControlSet\\Services\\simptcp:Start",
     "remediation_procedure": "To establish the recommended configuration, run the following PowerShell command or\nensure the service is not installed.\nSet-Service -Name simptcp -StartupType Disabled",
     "default_value": "Not Installed (Automatic when installed)\nPage 328\nReferences:\n1. https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-\nserver-2008-r2-and-2008/cc725973(v=ws.10)\n2. GRID: MS-00000155\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8\nUninstall or disable unnecessary services on enterprise assets and software,\n● ●\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nv7 Are Running ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 329",
-    "references": [],
-    "additional_info": "",
     "page_number": 329
   },
   {
@@ -355,8 +309,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 4 or that the key does not exist.\nHKLM\\SYSTEM\\CurrentControlSet\\Services\\SNMP:Start",
     "remediation_procedure": "To establish the recommended configuration, run the following PowerShell command or\nensure the service is not installed.\nSet-Service -Name SNMP -StartupType Disabled",
     "default_value": "Not Installed (Automatic when installed)\nReferences:\n1. GRID: MS-00000156\nPage 330\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8\nUninstall or disable unnecessary services on enterprise assets and software,\n● ●\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nv7 Are Running ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 331",
-    "references": [],
-    "additional_info": "",
     "page_number": 331
   },
   {
@@ -370,8 +322,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 4 or that the key does not exist.\nHKLM\\SYSTEM\\CurrentControlSet\\Services\\sacsvr:Start",
     "remediation_procedure": "To establish the recommended configuration, run the following PowerShell command or\nensure the service is not installed.\nSet-Service -Name sacsvr -StartupType Disabled",
     "default_value": "Not Installed (Manual when installed)\nReferences:\n1. GRID: MS-00000157\nPage 332\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8\nUninstall or disable unnecessary services on enterprise assets and software,\n● ●\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nv7 Are Running ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 333",
-    "references": [],
-    "additional_info": "",
     "page_number": 333
   },
   {
@@ -385,8 +335,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 4.\nHKLM\\SYSTEM\\CurrentControlSet\\Services\\SSDPSRV:Start",
     "remediation_procedure": "To establish the recommended configuration, run the following PowerShell command:\nSet-Service -Name SSDPSRV -StartupType Disabled",
     "default_value": "Manual\nReferences:\n1. GRID: MS-00000158\nPage 334\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8\nUninstall or disable unnecessary services on enterprise assets and software,\n● ●\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nv7 Are Running ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 335",
-    "references": [],
-    "additional_info": "",
     "page_number": 335
   },
   {
@@ -400,8 +348,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 4.\nHKLM\\SYSTEM\\CurrentControlSet\\Services\\upnphost:Start",
     "remediation_procedure": "To establish the recommended configuration, run the following PowerShell command:\nSet-Service -Name upnphost -StartupType Disabled",
     "default_value": "Manual\nReferences:\n1. GRID: MS-00000159\nPage 336\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8\nUninstall or disable unnecessary services on enterprise assets and software,\n● ●\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nv7 Are Running ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 337",
-    "references": [],
-    "additional_info": "",
     "page_number": 337
   },
   {
@@ -415,8 +361,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 4 or that the key does not exist.\nHKLM\\SYSTEM\\CurrentControlSet\\Services\\WMSvc:Start",
     "remediation_procedure": "To establish the recommended configuration, run the following PowerShell command or\nensure the service is not installed.\nSet-Service -Name WMSvc -StartupType Disabled",
     "default_value": "Not Installed (Manual when installed)\nReferences:\n1. GRID: MS-00000160\nPage 338\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8\nUninstall or disable unnecessary services on enterprise assets and software,\n● ●\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nv7 Are Running ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 339",
-    "references": [],
-    "additional_info": "",
     "page_number": 339
   },
   {
@@ -430,8 +374,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 4.\nHKLM\\SYSTEM\\CurrentControlSet\\Services\\WerSvc:Start",
     "remediation_procedure": "To establish the recommended configuration, run the following PowerShell command:\nSet-Service -Name WerSvc -StartupType Disabled",
     "default_value": "Windows 7: Manual\nWindows 8.0 or newer: Manual (Trigger Start)\nReferences:\n1. GRID: MS-00000161\nPage 340\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8\nUninstall or disable unnecessary services on enterprise assets and software,\n● ●\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nv7 Are Running ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 341",
-    "references": [],
-    "additional_info": "",
     "page_number": 341
   },
   {
@@ -445,8 +387,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 4.\nHKLM\\SYSTEM\\CurrentControlSet\\Services\\Wecsvc:Start",
     "remediation_procedure": "To establish the recommended configuration, run the following PowerShell command:\nSet-Service -Name Wecsvc -StartupType Disabled",
     "default_value": "Manual\nReferences:\n1. GRID: MS-00000162\nPage 342\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8\nUninstall or disable unnecessary services on enterprise assets and software,\n● ●\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nv7 Are Running ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 343",
-    "references": [],
-    "additional_info": "",
     "page_number": 343
   },
   {
@@ -460,8 +400,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 4 or that the key does not exist.\nHKLM\\SYSTEM\\CurrentControlSet\\Services\\WMPNetworkSvc:Start",
     "remediation_procedure": "To establish the recommended configuration, run the following PowerShell command or\nensure the service is not installed.\nSet-Service -Name WMPNetworkSvc -StartupType Disabled",
     "default_value": "Manual\nReferences:\n1. GRID: MS-00000163\nPage 344\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8\nUninstall or disable unnecessary services on enterprise assets and software,\n● ●\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nv7 Are Running ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 345",
-    "references": [],
-    "additional_info": "",
     "page_number": 345
   },
   {
@@ -475,8 +413,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 4.\nHKLM\\SYSTEM\\CurrentControlSet\\Services\\icssvc:Start",
     "remediation_procedure": "To establish the recommended configuration, run the following PowerShell command:\nSet-Service -Name icssvc -StartupType Disabled",
     "default_value": "Manual (Trigger Start)\nReferences:\n1. GRID: MS-00000164\nPage 346\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8\nUninstall or disable unnecessary services on enterprise assets and software,\n● ●\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nv7 Are Running ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 347",
-    "references": [],
-    "additional_info": "",
     "page_number": 347
   },
   {
@@ -490,8 +426,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 4.\nHKLM\\SYSTEM\\CurrentControlSet\\Services\\WpnService:Start",
     "remediation_procedure": "To establish the recommended configuration, run the following PowerShell command:\nSet-Service -Name WpnService -StartupType Disabled",
     "default_value": "Automatic\nReferences:\n1. GRID: MS-00000165\nPage 348\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8\nUninstall or disable unnecessary services on enterprise assets and software,\n● ●\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nv7 Are Running ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 349",
-    "references": [],
-    "additional_info": "",
     "page_number": 349
   },
   {
@@ -505,8 +439,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 4.\nHKLM\\SYSTEM\\CurrentControlSet\\Services\\PushToInstall:Start",
     "remediation_procedure": "To establish the recommended configuration, run the following PowerShell command:\nSet-Service -Name PushToInstall -StartupType Disabled",
     "default_value": "Manual (Trigger Start)\nReferences:\n1. GRID: MS-00000166\nPage 350\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8\nUninstall or disable unnecessary services on enterprise assets and software,\n● ●\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nv7 Are Running ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 351",
-    "references": [],
-    "additional_info": "",
     "page_number": 351
   },
   {
@@ -520,8 +452,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 4.\nHKLM\\SYSTEM\\CurrentControlSet\\Services\\WinRM:Start",
     "remediation_procedure": "To establish the recommended configuration, run the following PowerShell command:\nSet-Service -Name WinRM -StartupType Disabled",
     "default_value": "Manual\nReferences:\n1. GRID: MS-00000167\nPage 352\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8\nUninstall or disable unnecessary services on enterprise assets and software,\n● ●\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nv7 Are Running ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 353",
-    "references": [],
-    "additional_info": "",
     "page_number": 353
   },
   {
@@ -535,8 +465,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 4.\nHKLM\\SYSTEM\\CurrentControlSet\\Services\\WinHttpAutoProxySvc:Start",
     "remediation_procedure": "To establish the recommended configuration, run the following PowerShell command:\nSet-Service -Name WinHttpAutoProxySvc -StartupType Disabled",
     "default_value": "Manual\nReferences:\n1. GRID: MS-00000573\n2. https://learn.microsoft.com/en-us/windows/win32/winhttp/winhttp-autoproxy-\nsupport\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8\nUninstall or disable unnecessary services on enterprise assets and software,\n● ●\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nv7 Are Running ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 355",
-    "references": [],
-    "additional_info": "",
     "page_number": 355
   },
   {
@@ -550,8 +478,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 4 or that the key does not exist.\nHKLM\\SYSTEM\\CurrentControlSet\\Services\\W3SVC:Start\nPage 356",
     "remediation_procedure": "To establish the recommended configuration, run the following PowerShell command or\nensure the service is not installed.\nSet-Service -Name W3SVC -StartupType Disabled",
     "default_value": "Not Installed (Automatic when installed)\nReferences:\n1. GRID: MS-00000168\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8\nUninstall or disable unnecessary services on enterprise assets and software,\n● ●\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nv7 Are Running ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 357",
-    "references": [],
-    "additional_info": "",
     "page_number": 357
   },
   {
@@ -565,8 +491,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 4.\nHKLM\\SYSTEM\\CurrentControlSet\\Services\\XboxGipSvc:Start",
     "remediation_procedure": "To establish the recommended configuration, run the following PowerShell command:\nSet-Service -Name XboxGipSvc -StartupType Disabled",
     "default_value": "Windows 10 R1703: Manual\nWindows 10 R1709 or newer: Manual (Trigger Start)\nReferences:\n1. https://www.cisecurity.org/insights/blog/update-cis-microsoft-windows-10-\nenterprise-release-1703-benchmark-v1-0-0\n2. GRID: MS-00000169\nPage 358\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8\nUninstall or disable unnecessary services on enterprise assets and software,\n● ●\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nv7 Are Running ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 359",
-    "references": [],
-    "additional_info": "",
     "page_number": 359
   },
   {
@@ -580,8 +504,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 4.\nHKLM\\SYSTEM\\CurrentControlSet\\Services\\XblAuthManager:Start",
     "remediation_procedure": "To establish the recommended configuration, run the following PowerShell command:\nSet-Service -Name XblAuthManager -StartupType Disabled",
     "default_value": "Manual\nReferences:\n1. https://www.cisecurity.org/insights/blog/update-cis-microsoft-windows-10-\nenterprise-release-1703-benchmark-v1-0-0\n2. GRID: MS-00000170\nPage 360\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8\nUninstall or disable unnecessary services on enterprise assets and software,\n● ●\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nv7 Are Running ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 361",
-    "references": [],
-    "additional_info": "",
     "page_number": 361
   },
   {
@@ -595,8 +517,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 4.\nHKLM\\SYSTEM\\CurrentControlSet\\Services\\XblGameSave:Start",
     "remediation_procedure": "To establish the recommended configuration, run the following PowerShell command:\nSet-Service -Name XblGameSave -StartupType Disabled",
     "default_value": "Windows 10 R1507 and R1511: Manual\nWindows 10 R1607 or newer: Manual (Trigger Start)\nReferences:\n1. https://www.cisecurity.org/insights/blog/update-cis-microsoft-windows-10-\nenterprise-release-1703-benchmark-v1-0-0\n2. GRID: MS-00000171\nPage 362\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8\nUninstall or disable unnecessary services on enterprise assets and software,\n● ●\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nv7 Are Running ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 363",
-    "references": [],
-    "additional_info": "",
     "page_number": 363
   },
   {
@@ -610,8 +530,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 4.\nHKLM\\SYSTEM\\CurrentControlSet\\Services\\XboxNetApiSvc:Start",
     "remediation_procedure": "To establish the recommended configuration, run the following PowerShell command:\nSet-Service -Name XboxNetApiSvc -StartupType Disabled",
     "default_value": "Manual\nReferences:\n1. https://www.cisecurity.org/insights/blog/update-cis-microsoft-windows-10-\nenterprise-release-1703-benchmark-v1-0-0\n2. GRID: MS-00000172\nPage 364\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8\nUninstall or disable unnecessary services on enterprise assets and software,\n● ●\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nv7 Are Running ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 365",
-    "references": [],
-    "additional_info": "",
     "page_number": 365
   }
 ]

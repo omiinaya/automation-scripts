@@ -10,8 +10,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed.",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to No\nOne:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\User Rights Assignment\\Access Credential Manager as a trusted caller",
     "default_value": "No one.\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/access-credential-manager-as-a-trusted-caller\n2. GRID: MS-00000012\nPage 67\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n6.8 Define and Maintain Role-Based Access Control\nDefine and maintain role-based access control, through determining and\nv8 documenting the access rights necessary for each role within the enterprise to ●\nsuccessfully carry out its assigned duties. Perform access control reviews of\nenterprise assets to validate that all privileges are authorized, on a recurring\nschedule at a minimum annually, or more frequently.\n4.8 Log and Alert on Changes to Administrative Group\nMembership\nv7 ● ●\nConfigure systems to issue a log entry and alert when an account is added to or\nremoved from any group assigned administrative privileges.\nPage 68",
-    "references": [],
-    "additional_info": "",
     "page_number": 68
   },
   {
@@ -25,8 +23,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed.",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nAdministrators, Remote Desktop Users:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\User Rights Assignment\\Access this computer from the network",
     "default_value": "Administrators, Backup Operators, Everyone, Users.\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/access-this-computer-from-the-network\n2. GRID: MS-00000013\nPage 70\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n6.8 Define and Maintain Role-Based Access Control\nDefine and maintain role-based access control, through determining and\nv8 documenting the access rights necessary for each role within the enterprise to ●\nsuccessfully carry out its assigned duties. Perform access control reviews of\nenterprise assets to validate that all privileges are authorized, on a recurring\nschedule at a minimum annually, or more frequently.\n9.2 Ensure Only Approved Ports, Protocols and Services\nAre Running\nv7 ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 71",
-    "references": [],
-    "additional_info": "",
     "page_number": 70
   },
   {
@@ -40,8 +36,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed.",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to No\nOne:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\User Rights Assignment\\Act as part of the operating system",
     "default_value": "No one.\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/act-as-part-of-the-operating-system\n2. GRID: MS-00000014\nPage 72\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n6.8 Define and Maintain Role-Based Access Control\nDefine and maintain role-based access control, through determining and\nv8 documenting the access rights necessary for each role within the enterprise to ●\nsuccessfully carry out its assigned duties. Perform access control reviews of\nenterprise assets to validate that all privileges are authorized, on a recurring\nschedule at a minimum annually, or more frequently.\nPage 73",
-    "references": [],
-    "additional_info": "",
     "page_number": 73
   },
   {
@@ -55,8 +49,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed.\nPage 74",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nAdministrators, LOCAL SERVICE, NETWORK SERVICE:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\User Rights Assignment\\Adjust memory quotas for a process",
     "default_value": "Administrators, LOCAL SERVICE, NETWORK SERVICE.\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/adjust-memory-quotas-for-a-process\n2. GRID: MS-00000016\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n6.8 Define and Maintain Role-Based Access Control\nDefine and maintain role-based access control, through determining and\nv8 documenting the access rights necessary for each role within the enterprise to ●\nsuccessfully carry out its assigned duties. Perform access control reviews of\nenterprise assets to validate that all privileges are authorized, on a recurring\nschedule at a minimum annually, or more frequently.\nPage 75",
-    "references": [],
-    "additional_info": "",
     "page_number": 75
   },
   {
@@ -70,8 +62,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed.\nPage 76",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nAdministrators, Users:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\User Rights Assignment\\Allow log on locally",
     "default_value": "Administrators, Backup Operators, Guest, Users.\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/allow-log-on-locally\n2. GRID: MS-00000017\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n6.8 Define and Maintain Role-Based Access Control\nDefine and maintain role-based access control, through determining and\nv8 documenting the access rights necessary for each role within the enterprise to ●\nsuccessfully carry out its assigned duties. Perform access control reviews of\nenterprise assets to validate that all privileges are authorized, on a recurring\nschedule at a minimum annually, or more frequently.\nPage 77",
-    "references": [],
-    "additional_info": "",
     "page_number": 77
   },
   {
@@ -85,8 +75,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed.\nPage 78",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nAdministrators, Remote Desktop Users:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\User Rights Assignment\\Allow log on through Remote Desktop Services",
     "default_value": "Administrators, Remote Desktop Users.\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/allow-log-on-through-remote-desktop-services\n2. GRID: MS-00000018\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n6.8 Define and Maintain Role-Based Access Control\nDefine and maintain role-based access control, through determining and\nv8 documenting the access rights necessary for each role within the enterprise to ●\nsuccessfully carry out its assigned duties. Perform access control reviews of\nenterprise assets to validate that all privileges are authorized, on a recurring\nschedule at a minimum annually, or more frequently.\n4.3 Ensure the Use of Dedicated Administrative Accounts\nv7 Ensure that all users with administrative account access use a dedicated or ● ● ●\nsecondary account for elevated activities. This account should only be used for\nadministrative activities and not internet browsing, email, or similar activities.\nPage 79",
-    "references": [],
-    "additional_info": "",
     "page_number": 79
   },
   {
@@ -100,8 +88,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed.",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nAdministrators.\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\User Rights Assignment\\Back up files and directories",
     "default_value": "Administrators, Backup Operators.\nPage 80\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/back-up-files-and-directories\n2. GRID: MS-00000019\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n6.8 Define and Maintain Role-Based Access Control\nDefine and maintain role-based access control, through determining and\nv8 documenting the access rights necessary for each role within the enterprise to ●\nsuccessfully carry out its assigned duties. Perform access control reviews of\nenterprise assets to validate that all privileges are authorized, on a recurring\nschedule at a minimum annually, or more frequently.\nPage 81",
-    "references": [],
-    "additional_info": "",
     "page_number": 81
   },
   {
@@ -115,8 +101,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed.\nPage 83",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nAdministrators, LOCAL SERVICE:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\User Rights Assignment\\Change the system time",
     "default_value": "Administrators, LOCAL SERVICE.\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/change-the-system-time\n2. GRID: MS-00000020\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n6.8 Define and Maintain Role-Based Access Control\nDefine and maintain role-based access control, through determining and\nv8 documenting the access rights necessary for each role within the enterprise to ●\nsuccessfully carry out its assigned duties. Perform access control reviews of\nenterprise assets to validate that all privileges are authorized, on a recurring\nschedule at a minimum annually, or more frequently.\nPage 84",
-    "references": [],
-    "additional_info": "",
     "page_number": 83
   },
   {
@@ -130,8 +114,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed.",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nAdministrators, LOCAL SERVICE, Users:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\User Rights Assignment\\Change the time zone",
     "default_value": "Administrators, LOCAL SERVICE, Users.\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/change-the-time-zone\n2. GRID: MS-00000021\nPage 85\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n6.8 Define and Maintain Role-Based Access Control\nDefine and maintain role-based access control, through determining and\nv8 documenting the access rights necessary for each role within the enterprise to ●\nsuccessfully carry out its assigned duties. Perform access control reviews of\nenterprise assets to validate that all privileges are authorized, on a recurring\nschedule at a minimum annually, or more frequently.\nPage 86",
-    "references": [],
-    "additional_info": "",
     "page_number": 86
   },
   {
@@ -145,8 +127,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed.",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nAdministrators:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\User Rights Assignment\\Create a pagefile",
     "default_value": "Administrators.\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/create-a-pagefile\n2. GRID: MS-00000022\nPage 87\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n6.8 Define and Maintain Role-Based Access Control\nDefine and maintain role-based access control, through determining and\nv8 documenting the access rights necessary for each role within the enterprise to ●\nsuccessfully carry out its assigned duties. Perform access control reviews of\nenterprise assets to validate that all privileges are authorized, on a recurring\nschedule at a minimum annually, or more frequently.\nPage 88",
-    "references": [],
-    "additional_info": "",
     "page_number": 88
   },
   {
@@ -160,8 +140,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed.",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to No\nOne:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\User Rights Assignment\\Create a token object",
     "default_value": "No one.\nPage 89\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/create-a-token-object\n2. GRID: MS-00000023\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n6.8 Define and Maintain Role-Based Access Control\nDefine and maintain role-based access control, through determining and\nv8 documenting the access rights necessary for each role within the enterprise to ●\nsuccessfully carry out its assigned duties. Perform access control reviews of\nenterprise assets to validate that all privileges are authorized, on a recurring\nschedule at a minimum annually, or more frequently.\nPage 90",
-    "references": [],
-    "additional_info": "",
     "page_number": 90
   },
   {
@@ -175,8 +153,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed.",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nAdministrators, LOCAL SERVICE, NETWORK SERVICE, SERVICE:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\User Rights Assignment\\Create global objects",
     "default_value": "Administrators, LOCAL SERVICE, NETWORK SERVICE, SERVICE.\nPage 91\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/create-global-objects\n2. GRID: MS-00000024\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n6.8 Define and Maintain Role-Based Access Control\nDefine and maintain role-based access control, through determining and\nv8 documenting the access rights necessary for each role within the enterprise to ●\nsuccessfully carry out its assigned duties. Perform access control reviews of\nenterprise assets to validate that all privileges are authorized, on a recurring\nschedule at a minimum annually, or more frequently.\nPage 92",
-    "references": [],
-    "additional_info": "",
     "page_number": 92
   },
   {
@@ -190,8 +166,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed.",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to No\nOne:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\User Rights Assignment\\Create permanent shared objects",
     "default_value": "No one.\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/create-permanent-shared-objects\n2. GRID: MS-00000025\nPage 93\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n6.8 Define and Maintain Role-Based Access Control\nDefine and maintain role-based access control, through determining and\nv8 documenting the access rights necessary for each role within the enterprise to ●\nsuccessfully carry out its assigned duties. Perform access control reviews of\nenterprise assets to validate that all privileges are authorized, on a recurring\nschedule at a minimum annually, or more frequently.\nPage 94",
-    "references": [],
-    "additional_info": "",
     "page_number": 94
   },
   {
@@ -205,8 +179,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed.\nPage 95",
     "remediation_procedure": "To implement the recommended configuration state, configure the following UI path to\nAdministrators and (when the Hyper-V feature is installed) NT VIRTUAL\nMACHINE\\Virtual Machines:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\User Rights Assignment\\Create symbolic links",
     "default_value": "Administrators.\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/create-symbolic-links\n2. GRID: MS-00000026\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n6.8 Define and Maintain Role-Based Access Control\nDefine and maintain role-based access control, through determining and\nv8 documenting the access rights necessary for each role within the enterprise to ●\nsuccessfully carry out its assigned duties. Perform access control reviews of\nenterprise assets to validate that all privileges are authorized, on a recurring\nschedule at a minimum annually, or more frequently.\nPage 96",
-    "references": [],
-    "additional_info": "",
     "page_number": 96
   },
   {
@@ -220,8 +192,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed.\nPage 97",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nAdministrators:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\User Rights Assignment\\Debug programs",
     "default_value": "Administrators.\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/debug-programs\n2. GRID: MS-00000027\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n6.8 Define and Maintain Role-Based Access Control\nDefine and maintain role-based access control, through determining and\nv8 documenting the access rights necessary for each role within the enterprise to ●\nsuccessfully carry out its assigned duties. Perform access control reviews of\nenterprise assets to validate that all privileges are authorized, on a recurring\nschedule at a minimum annually, or more frequently.\n18.2 Ensure Explicit Error Checking is Performed for All In-\nhouse Developed Software\nv7 ● ●\nFor in-house developed software, ensure that explicit error checking is\nperformed and documented for all input, including for size, data type, and\nacceptable ranges or formats.\nPage 98",
-    "references": [],
-    "additional_info": "",
     "page_number": 98
   },
   {
@@ -235,8 +205,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed.\nPage 99",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to include\nGuests:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\User Rights Assignment\\Deny access to this computer from the network",
     "default_value": "Guest.\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/deny-access-to-this-computer-from-the-network\n2. GRID: MS-00000028\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n6.8 Define and Maintain Role-Based Access Control\nDefine and maintain role-based access control, through determining and\nv8 documenting the access rights necessary for each role within the enterprise to ●\nsuccessfully carry out its assigned duties. Perform access control reviews of\nenterprise assets to validate that all privileges are authorized, on a recurring\nschedule at a minimum annually, or more frequently.\nPage 100",
-    "references": [],
-    "additional_info": "",
     "page_number": 100
   },
   {
@@ -250,8 +218,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed.\nPage 101",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to include\nGuests:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\User Rights Assignment\\Deny log on as a batch job",
     "default_value": "No one.\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/deny-log-on-as-a-batch-job\n2. GRID: MS-00000029\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n6.8 Define and Maintain Role-Based Access Control\nDefine and maintain role-based access control, through determining and\nv8 documenting the access rights necessary for each role within the enterprise to ●\nsuccessfully carry out its assigned duties. Perform access control reviews of\nenterprise assets to validate that all privileges are authorized, on a recurring\nschedule at a minimum annually, or more frequently.\nPage 102",
-    "references": [],
-    "additional_info": "",
     "page_number": 102
   },
   {
@@ -265,8 +231,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed.",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to include\nGuests:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\User Rights Assignment\\Deny log on as a service",
     "default_value": "No one.\nPage 103\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/deny-log-on-as-a-service\n2. GRID: MS-00000030\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n6.8 Define and Maintain Role-Based Access Control\nDefine and maintain role-based access control, through determining and\nv8 documenting the access rights necessary for each role within the enterprise to ●\nsuccessfully carry out its assigned duties. Perform access control reviews of\nenterprise assets to validate that all privileges are authorized, on a recurring\nschedule at a minimum annually, or more frequently.\nPage 104",
-    "references": [],
-    "additional_info": "",
     "page_number": 104
   },
   {
@@ -280,8 +244,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed.",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to include\nGuests:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\User Rights Assignment\\Deny log on locally",
     "default_value": "Guest.\nPage 105\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/deny-log-on-locally\n2. GRID: MS-00000031\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n6.8 Define and Maintain Role-Based Access Control\nDefine and maintain role-based access control, through determining and\nv8 documenting the access rights necessary for each role within the enterprise to ●\nsuccessfully carry out its assigned duties. Perform access control reviews of\nenterprise assets to validate that all privileges are authorized, on a recurring\nschedule at a minimum annually, or more frequently.\nPage 106",
-    "references": [],
-    "additional_info": "",
     "page_number": 106
   },
   {
@@ -295,8 +257,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed.\nPage 107",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to include\nGuests:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\User Rights Assignment\\Deny log on through Remote Desktop Services",
     "default_value": "No one.\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/deny-log-on-through-remote-desktop-services\n2. GRID: MS-00000032\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n6.8 Define and Maintain Role-Based Access Control\nDefine and maintain role-based access control, through determining and\nv8 documenting the access rights necessary for each role within the enterprise to ●\nsuccessfully carry out its assigned duties. Perform access control reviews of\nenterprise assets to validate that all privileges are authorized, on a recurring\nschedule at a minimum annually, or more frequently.\nPage 108",
-    "references": [],
-    "additional_info": "",
     "page_number": 108
   },
   {
@@ -310,8 +270,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed.",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to No\nOne:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\User Rights Assignment\\Enable computer and user accounts to be\ntrusted for delegation",
     "default_value": "No one.\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/enable-computer-and-user-accounts-to-be-trusted-for-delegation\n2. GRID: MS-00000033\nPage 109\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n6.8 Define and Maintain Role-Based Access Control\nDefine and maintain role-based access control, through determining and\nv8 documenting the access rights necessary for each role within the enterprise to ●\nsuccessfully carry out its assigned duties. Perform access control reviews of\nenterprise assets to validate that all privileges are authorized, on a recurring\nschedule at a minimum annually, or more frequently.\nPage 110",
-    "references": [],
-    "additional_info": "",
     "page_number": 110
   },
   {
@@ -325,8 +283,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed.",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nAdministrators:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\User Rights Assignment\\Force shutdown from a remote system",
     "default_value": "Administrators.\nPage 111\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/force-shutdown-from-a-remote-system\n2. GRID: MS-00000034\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n6.8 Define and Maintain Role-Based Access Control\nDefine and maintain role-based access control, through determining and\nv8 documenting the access rights necessary for each role within the enterprise to ●\nsuccessfully carry out its assigned duties. Perform access control reviews of\nenterprise assets to validate that all privileges are authorized, on a recurring\nschedule at a minimum annually, or more frequently.\nPage 112",
-    "references": [],
-    "additional_info": "",
     "page_number": 112
   },
   {
@@ -340,8 +296,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed.",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to LOCAL\nSERVICE, NETWORK SERVICE:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\User Rights Assignment\\Generate security audits",
     "default_value": "LOCAL SERVICE, NETWORK SERVICE.\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/generate-security-audits\n2. GRID: MS-00000035\nPage 113\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n6.8 Define and Maintain Role-Based Access Control\nDefine and maintain role-based access control, through determining and\nv8 documenting the access rights necessary for each role within the enterprise to ●\nsuccessfully carry out its assigned duties. Perform access control reviews of\nenterprise assets to validate that all privileges are authorized, on a recurring\nschedule at a minimum annually, or more frequently.\n6.2 Activate audit logging\nv7 ● ● ●\nEnsure that local logging has been enabled on all systems and networking\ndevices.\nPage 114",
-    "references": [],
-    "additional_info": "",
     "page_number": 114
   },
   {
@@ -355,8 +309,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed.",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nAdministrators, LOCAL SERVICE, NETWORK SERVICE, SERVICE:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\User Rights Assignment\\Impersonate a client after authentication",
     "default_value": "Administrators, LOCAL SERVICE, NETWORK SERVICE, SERVICE.\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/impersonate-a-client-after-authentication\n2. GRID: MS-00000036\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n6.8 Define and Maintain Role-Based Access Control\nDefine and maintain role-based access control, through determining and\nv8 documenting the access rights necessary for each role within the enterprise to ●\nsuccessfully carry out its assigned duties. Perform access control reviews of\nenterprise assets to validate that all privileges are authorized, on a recurring\nschedule at a minimum annually, or more frequently.\nPage 116",
-    "references": [],
-    "additional_info": "",
     "page_number": 116
   },
   {
@@ -370,8 +322,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed.",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nAdministrators, Window Manager\\Window Manager Group:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\User Rights Assignment\\Increase scheduling priority",
     "default_value": "On Windows 10 R1607 or older: Administrators.\nOn Windows 10 R1703 or newer: Administrators, Window Manager\\Window Manager\nGroup.\nPage 117\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/increase-scheduling-priority\n2. GRID: MS-00000037\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n6.8 Define and Maintain Role-Based Access Control\nDefine and maintain role-based access control, through determining and\nv8 documenting the access rights necessary for each role within the enterprise to ●\nsuccessfully carry out its assigned duties. Perform access control reviews of\nenterprise assets to validate that all privileges are authorized, on a recurring\nschedule at a minimum annually, or more frequently.\nPage 118",
-    "references": [],
-    "additional_info": "",
     "page_number": 118
   },
   {
@@ -385,8 +335,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed.",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nAdministrators:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\User Rights Assignment\\Load and unload device drivers",
     "default_value": "Administrators.\nPage 119\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/load-and-unload-device-drivers\n2. GRID: MS-00000038\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n6.8 Define and Maintain Role-Based Access Control\nDefine and maintain role-based access control, through determining and\nv8 documenting the access rights necessary for each role within the enterprise to ●\nsuccessfully carry out its assigned duties. Perform access control reviews of\nenterprise assets to validate that all privileges are authorized, on a recurring\nschedule at a minimum annually, or more frequently.\nPage 120",
-    "references": [],
-    "additional_info": "",
     "page_number": 120
   },
   {
@@ -400,8 +348,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed.",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to No\nOne:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\User Rights Assignment\\Lock pages in memory",
     "default_value": "No one.\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/lock-pages-in-memory\n2. GRID: MS-00000039\nPage 121\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n6.8 Define and Maintain Role-Based Access Control\nDefine and maintain role-based access control, through determining and\nv8 documenting the access rights necessary for each role within the enterprise to ●\nsuccessfully carry out its assigned duties. Perform access control reviews of\nenterprise assets to validate that all privileges are authorized, on a recurring\nschedule at a minimum annually, or more frequently.\nPage 122",
-    "references": [],
-    "additional_info": "",
     "page_number": 122
   },
   {
@@ -415,8 +361,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed.",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nAdministrators:\nComputer Configuration\\Windows Settings\\Security Settings\\Local Policies\\User\nRights Assignment\\Log on as a batch job",
     "default_value": "Administrators, Backup Operators, Performance Log Users.\nPage 123\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/log-on-as-a-batch-job\n2. GRID: MS-00000040\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n6.8 Define and Maintain Role-Based Access Control\nDefine and maintain role-based access control, through determining and\nv8 documenting the access rights necessary for each role within the enterprise to ●\nsuccessfully carry out its assigned duties. Perform access control reviews of\nenterprise assets to validate that all privileges are authorized, on a recurring\nschedule at a minimum annually, or more frequently.\nPage 124",
-    "references": [],
-    "additional_info": "",
     "page_number": 124
   },
   {
@@ -430,8 +374,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed.",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to No One\nor (when the Hyper-V feature is installed) NT VIRTUAL MACHINE\\Virtual Machines or\n(when using Windows Defender Application Guard, such as in the Next Generation\nWindows Security profile) WDAGUtilityAccount:\nComputer Configuration\\Windows Settings\\Security Settings\\Local Policies\\User\nRights Assignment\\Log on as a service",
     "default_value": "NT SERVICE\\ALL SERVICES\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/log-on-as-a-service\n2. https://learn.microsoft.com/en-us/windows/security/threat-protection/microsoft-\ndefender-application-guard/faq-md-app-guard#what-is-the-wdagutilityaccount-\nlocal-account-\n3. GRID: MS-00000041\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n6.8 Define and Maintain Role-Based Access Control\nDefine and maintain role-based access control, through determining and\nv8 documenting the access rights necessary for each role within the enterprise to ●\nsuccessfully carry out its assigned duties. Perform access control reviews of\nenterprise assets to validate that all privileges are authorized, on a recurring\nschedule at a minimum annually, or more frequently.\n9.2 Ensure Only Approved Ports, Protocols and Services\nAre Running\nv7 ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 126",
-    "references": [],
-    "additional_info": "",
     "page_number": 126
   },
   {
@@ -445,8 +387,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed.",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nAdministrators:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\User Rights Assignment\\Manage auditing and security log",
     "default_value": "Administrators.\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/manage-auditing-and-security-log\n2. GRID: MS-00000042\nPage 127\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n6.8 Define and Maintain Role-Based Access Control\nDefine and maintain role-based access control, through determining and\nv8 documenting the access rights necessary for each role within the enterprise to ●\nsuccessfully carry out its assigned duties. Perform access control reviews of\nenterprise assets to validate that all privileges are authorized, on a recurring\nschedule at a minimum annually, or more frequently.\nPage 128",
-    "references": [],
-    "additional_info": "",
     "page_number": 128
   },
   {
@@ -460,8 +400,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed.",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to No\nOne:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\User Rights Assignment\\Modify an object label",
     "default_value": "No one.\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/modify-an-object-label\n2. GRID: MS-00000043\nPage 129\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n6.8 Define and Maintain Role-Based Access Control\nDefine and maintain role-based access control, through determining and\nv8 documenting the access rights necessary for each role within the enterprise to ●\nsuccessfully carry out its assigned duties. Perform access control reviews of\nenterprise assets to validate that all privileges are authorized, on a recurring\nschedule at a minimum annually, or more frequently.\nPage 130",
-    "references": [],
-    "additional_info": "",
     "page_number": 130
   },
   {
@@ -475,8 +413,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed.",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nAdministrators:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\User Rights Assignment\\Modify firmware environment values",
     "default_value": "Administrators.\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/modify-firmware-environment-values\n2. GRID: MS-00000044\nPage 131\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n6.8 Define and Maintain Role-Based Access Control\nDefine and maintain role-based access control, through determining and\nv8 documenting the access rights necessary for each role within the enterprise to ●\nsuccessfully carry out its assigned duties. Perform access control reviews of\nenterprise assets to validate that all privileges are authorized, on a recurring\nschedule at a minimum annually, or more frequently.\nPage 132",
-    "references": [],
-    "additional_info": "",
     "page_number": 132
   },
   {
@@ -490,8 +426,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed.",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nAdministrators:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\User Rights Assignment\\Perform volume maintenance tasks",
     "default_value": "Administrators.\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/perform-volume-maintenance-tasks\n2. GRID: MS-00000045\nPage 133\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n6.8 Define and Maintain Role-Based Access Control\nDefine and maintain role-based access control, through determining and\nv8 documenting the access rights necessary for each role within the enterprise to ●\nsuccessfully carry out its assigned duties. Perform access control reviews of\nenterprise assets to validate that all privileges are authorized, on a recurring\nschedule at a minimum annually, or more frequently.\nPage 134",
-    "references": [],
-    "additional_info": "",
     "page_number": 134
   },
   {
@@ -505,8 +439,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed.",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nAdministrators:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\User Rights Assignment\\Profile single process",
     "default_value": "Administrators.\nPage 135\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/profile-single-process\n2. GRID: MS-00000046\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n6.8 Define and Maintain Role-Based Access Control\nDefine and maintain role-based access control, through determining and\nv8 documenting the access rights necessary for each role within the enterprise to ●\nsuccessfully carry out its assigned duties. Perform access control reviews of\nenterprise assets to validate that all privileges are authorized, on a recurring\nschedule at a minimum annually, or more frequently.\nPage 136",
-    "references": [],
-    "additional_info": "",
     "page_number": 136
   },
   {
@@ -520,8 +452,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed.",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nAdministrators, NT SERVICE\\WdiServiceHost:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\User Rights Assignment\\Profile system performance",
     "default_value": "Windows Vista: Administrators.\nWindows 7 or newer: Administrators, NT SERVICE\\WdiServiceHost.\nPage 137\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/profile-system-performance\n2. GRID: MS-00000047\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n6.8 Define and Maintain Role-Based Access Control\nDefine and maintain role-based access control, through determining and\nv8 documenting the access rights necessary for each role within the enterprise to ●\nsuccessfully carry out its assigned duties. Perform access control reviews of\nenterprise assets to validate that all privileges are authorized, on a recurring\nschedule at a minimum annually, or more frequently.\nPage 138",
-    "references": [],
-    "additional_info": "",
     "page_number": 138
   },
   {
@@ -535,8 +465,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed.",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to LOCAL\nSERVICE, NETWORK SERVICE:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\User Rights Assignment\\Replace a process level token",
     "default_value": "LOCAL SERVICE, NETWORK SERVICE.\nPage 139\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/replace-a-process-level-token\n2. GRID: MS-00000048\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n6.8 Define and Maintain Role-Based Access Control\nDefine and maintain role-based access control, through determining and\nv8 documenting the access rights necessary for each role within the enterprise to ●\nsuccessfully carry out its assigned duties. Perform access control reviews of\nenterprise assets to validate that all privileges are authorized, on a recurring\nschedule at a minimum annually, or more frequently.\nPage 140",
-    "references": [],
-    "additional_info": "",
     "page_number": 140
   },
   {
@@ -550,8 +478,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed.\nPage 141",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nAdministrators:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\User Rights Assignment\\Restore files and directories",
     "default_value": "Administrators, Backup Operators.\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/restore-files-and-directories\n2. GRID: MS-00000049\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n6.8 Define and Maintain Role-Based Access Control\nDefine and maintain role-based access control, through determining and\nv8 documenting the access rights necessary for each role within the enterprise to ●\nsuccessfully carry out its assigned duties. Perform access control reviews of\nenterprise assets to validate that all privileges are authorized, on a recurring\nschedule at a minimum annually, or more frequently.\nPage 142",
-    "references": [],
-    "additional_info": "",
     "page_number": 142
   },
   {
@@ -565,8 +491,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed.",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nAdministrators, Users:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\User Rights Assignment\\Shut down the system",
     "default_value": "Administrators, Backup Operators, Users.\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/shut-down-the-system\n2. GRID: MS-00000050\nPage 143\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n6.8 Define and Maintain Role-Based Access Control\nDefine and maintain role-based access control, through determining and\nv8 documenting the access rights necessary for each role within the enterprise to ●\nsuccessfully carry out its assigned duties. Perform access control reviews of\nenterprise assets to validate that all privileges are authorized, on a recurring\nschedule at a minimum annually, or more frequently.\nPage 144",
-    "references": [],
-    "additional_info": "",
     "page_number": 144
   },
   {
@@ -580,8 +504,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed.",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nAdministrators:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\User Rights Assignment\\Take ownership of files or other objects",
     "default_value": "Administrators.\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/take-ownership-of-files-or-other-objects\n2. GRID: MS-00000052\nPage 145\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n6.8 Define and Maintain Role-Based Access Control\nDefine and maintain role-based access control, through determining and\nv8 documenting the access rights necessary for each role within the enterprise to ●\nsuccessfully carry out its assigned duties. Perform access control reviews of\nenterprise assets to validate that all privileges are authorized, on a recurring\nschedule at a minimum annually, or more frequently.\nPage 146",
-    "references": [],
-    "additional_info": "",
     "page_number": 146
   },
   {
@@ -595,8 +517,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed.\nPage 148",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nDisabled:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\Security Options\\Accounts: Guest account status",
     "default_value": "Disabled.\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/accounts-guest-account-status\n2. GRID: MS-00000054\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.7 Manage Default Accounts on Enterprise Assets and\nSoftware\nv8 ● ● ●\nManage default accounts on enterprise assets and software, such as root,\nadministrator, and other pre-configured vendor accounts. Example\nimplementations can include: disabling default accounts or making them unusable.\n16.8 Disable Any Unassociated Accounts\nv7 ● ● ●\nDisable any account that cannot be associated with a business process or\nbusiness owner.\nPage 149",
-    "references": [],
-    "additional_info": "",
     "page_number": 149
   },
   {
@@ -610,8 +530,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed.",
     "remediation_procedure": "To establish the recommended configuration via GP, configure the following UI path:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\Security Options\\Accounts: Rename guest account",
     "default_value": "Guest.\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/accounts-rename-guest-account\n2. GRID: MS-00000057\nPage 154\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.7 Manage Default Accounts on Enterprise Assets and\nSoftware\nv8\nManage default accounts on enterprise assets and software, such as root,\n● ● ●\nadministrator, and other pre-configured vendor accounts. Example\nimplementations can include: disabling default accounts or making them\nunusable.\nPage 155",
-    "references": [],
-    "additional_info": "",
     "page_number": 151
   },
   {
@@ -625,8 +543,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa:SCENoApplyLegacyAuditPolicy\nPage 157",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\Security Options\\Audit: Force audit policy subcategory settings\n(Windows Vista or later) to override audit policy category settings",
     "default_value": "Enabled. (Advanced Audit Policy Configuration settings will be used for auditing\nconfiguration, and legacy Audit Policy configuration settings will be ignored.)\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/audit-force-audit-policy-subcategory-settings-to-override\n2. https://learn.microsoft.com/en-us/windows-server/identity/ad-\nds/manage/component-updates/command-line-process-auditing#to-ensure-that-\nadvanced-audit-policy-configuration-settings-are-not-overwritten\n3. GRID: MS-00000058\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n8.5 Collect Detailed Audit Logs\nv8 Configure detailed audit logging for enterprise assets containing sensitive data. ● ●\nInclude event source, date, username, timestamp, source addresses, destination\naddresses, and other useful elements that could assist in a forensic investigation.\n6.2 Activate audit logging\nv7 ● ● ●\nEnsure that local logging has been enabled on all systems and networking\ndevices.\n6.3 Enable Detailed Logging\nv7 Enable system logging to include detailed information such as an event source, ● ●\ndate, user, timestamp, source addresses, destination addresses, and other useful\nelements.\nPage 158",
-    "references": [],
-    "additional_info": "",
     "page_number": 158
   },
   {
@@ -640,8 +556,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 0.\nHKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa:CrashOnAuditFail",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nDisabled:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\Security Options\\Audit: Shut down system immediately if unable to\nlog security audits",
     "default_value": "Disabled.\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/audit-shut-down-system-immediately-if-unable-to-log-security-\naudits\n2. GRID: MS-00000059\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n8.3 Ensure Adequate Audit Log Storage\nv8 ● ● ●\nEnsure that logging destinations maintain adequate storage to comply with\nthe enterprise’s audit log management process.\n6.4 Ensure adequate storage for logs\nv7 ● ●\nEnsure that all systems that store logs have adequate storage space for the\nlogs generated.\n2.3.3 DCOM\nThis section is intentionally blank and exists to ensure the structure of Windows\nbenchmarks is consistent.\nPage 160",
-    "references": [],
-    "additional_info": "",
     "page_number": 160
   },
   {
@@ -655,8 +569,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKLM\\SYSTEM\\CurrentControlSet\\Control\\Print\\Providers\\LanMan Print\nServices\\Servers:AddPrinterDrivers\nPage 162",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\Security Options\\Devices: Prevent users from installing printer\ndrivers",
     "default_value": "Disabled. (Any user can install a printer driver as part of connecting to a shared printer.)\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/devices-prevent-users-from-installing-printer-drivers\n2. GRID: MS-00000060\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n6.8 Define and Maintain Role-Based Access Control\nDefine and maintain role-based access control, through determining and\nv8 documenting the access rights necessary for each role within the enterprise to ●\nsuccessfully carry out its assigned duties. Perform access control reviews of\nenterprise assets to validate that all privileges are authorized, on a recurring\nschedule at a minimum annually, or more frequently.\n2.3.5 Domain controller\nThis section is intentionally blank and exists to ensure the structure of Windows\nbenchmarks is consistent.\n2.3.6 Domain member\nThis section is intentionally blank and exists to ensure the structure of Windows\nbenchmarks is consistent.\nPage 163",
-    "references": [],
-    "additional_info": "",
     "page_number": 163
   },
   {
@@ -670,8 +582,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of `0.\nHKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System:DisableCAD",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nDisabled:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\Security Options\\Interactive logon: Do not require CTRL+ALT+DEL\nPage 165",
     "default_value": "On Windows 7 or older: Disabled.\nOn Windows 8.0 or newer: Enabled.\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/interactive-logon-do-not-require-ctrl-alt-del\n2. GRID: MS-00000071\nCIS Controls:\nControls Version Control IG 1 IG 2 IG 3\n0.0 Explicitly Not Mapped\nv8\nExplicitly Not Mapped\n0.0 Explicitly Not Mapped\nv7\nExplicitly Not Mapped\nPage 166",
-    "references": [],
-    "additional_info": "",
     "page_number": 166
   },
   {
@@ -685,8 +595,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System:DontDisplayLas\ntUserName",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\Security Options\\Interactive logon: Don't display last signed-in\nNote: In older versions of Microsoft Windows, this setting was named Interactive logon:\nDo not display last user name, but it was renamed starting with Windows 10 Release\n1703.\nPage 167",
     "default_value": "Disabled. (The name of the last user to log on is displayed in the Windows logon\nscreen.)\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/interactive-logon-do-not-display-last-user-name\n2. GRID: MS-00000072\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.1 Establish and Maintain a Secure Configuration Process\nEstablish and maintain a secure configuration process for enterprise assets\nv8 (end-user devices, including portable and mobile, non-computing/IoT devices, and ● ● ●\nservers) and software (operating systems and applications). Review and update\ndocumentation annually, or when significant enterprise changes occur that could\nimpact this Safeguard.\n5.1 Establish Secure Configurations\nv7 ● ● ●\nMaintain documented, standard security configuration standards for all\nauthorized operating systems and software.\nPage 168",
-    "references": [],
-    "additional_info": "",
     "page_number": 168
   },
   {
@@ -700,8 +608,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 10 or less, but not 0.\nHKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System:MaxDevicePassw\nordFailedAttempts",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to 10 or\nfewer invalid logon attempts, but not 0:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\Security Options\\Interactive logon: Machine account lockout\nthreshold",
     "default_value": "0 invalid logon attempts. (The machine will never lock out.)\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/interactive-logon-machine-account-lockout-threshold\n2. GRID: MS-00000073\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.10 Enforce Automatic Device Lockout on Portable End-\nUser Devices\nv8\nEnforce automatic device lockout following a predetermined threshold of local\n● ●\nfailed authentication attempts on portable end-user devices, where supported. For\nlaptops, do not allow more than 20 failed authentication attempts; for tablets and\nsmartphones, no more than 10 failed authentication attempts. Example\nimplementations include Microsoft® InTune Device Lock and Apple® Configuration\nProfile maxFailedAttempts.\nPage 170",
-    "references": [],
-    "additional_info": "",
     "page_number": 170
   },
   {
@@ -715,8 +621,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_SZ value of text.\nHKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System:LegalNoticeCap\ntion",
     "remediation_procedure": "To establish the recommended configuration via GP, configure the following UI path to a\nvalue that is consistent with the security and operational requirements of your\norganization:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\Security Options\\Interactive logon: Message title for users\nattempting to log on",
     "default_value": "No message.\nPage 175\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/interactive-logon-message-title-for-users-attempting-to-log-on\n2. GRID: MS-00000076\nCIS Controls:\nControls Version Control IG 1 IG 2 IG 3\n0.0 Explicitly Not Mapped\nv8\nExplicitly Not Mapped\n0.0 Explicitly Not Mapped\nv7\nExplicitly Not Mapped\nPage 176",
-    "references": [],
-    "additional_info": "",
     "page_number": 172
   },
   {
@@ -730,8 +634,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value between 5 and 14.\nHKLM\\SOFTWARE\\Microsoft\\Windows\nNT\\CurrentVersion\\Winlogon:PasswordExpiryWarning",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to a value\nbetween 5 and 14 days:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\Security Options\\Interactive logon: Prompt user to change password\nbefore expiration",
     "default_value": "5 days.\nPage 177\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/interactive-logon-prompt-user-to-change-password-before-\nexpiration\n2. GRID: MS-00000078\nCIS Controls:\nControls Version Control IG 1 IG 2 IG 3\n0.0 Explicitly Not Mapped\nv8\nExplicitly Not Mapped\n0.0 Explicitly Not Mapped\nv7\nExplicitly Not Mapped\nPage 178",
-    "references": [],
-    "additional_info": "",
     "page_number": 178
   },
   {
@@ -745,8 +647,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_SZ value of 1, 2 or 3.\nHKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon:ScRemoveOption",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to Lock\nWorkstation (or, if applicable for your environment, Force Logoff or Disconnect if\na Remote Desktop Services session):\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\Security Options\\Interactive logon: Smart card removal behavior",
     "default_value": "No action.\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/interactive-logon-smart-card-removal-behavior\n2. GRID: MS-00000080\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.3 Configure Automatic Session Locking on Enterprise\nAssets\nv8 ● ● ●\nConfigure automatic session locking on enterprise assets after a defined period\nof inactivity. For general purpose operating systems, the period must not exceed\n15 minutes. For mobile end-user devices, the period must not exceed 2 minutes.\n16.11 Lock Workstation Sessions After Inactivity\nv7 ● ● ●\nAutomatically lock workstation sessions after a standard period of inactivity.\nPage 180",
-    "references": [],
-    "additional_info": "",
     "page_number": 180
   },
   {
@@ -760,8 +660,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKLM\\SYSTEM\\CurrentControlSet\\Services\\LanmanWorkstation\\Parameters:RequireSe\ncuritySignature",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\Security Options\\Microsoft network client: Digitally sign\ncommunications (always)",
     "default_value": "Disabled. (SMB packet signing is negotiated between the client and server.)\nPage 183\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/microsoft-network-client-digitally-sign-communications-always\n2. GRID: MS-00000081\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n3.10 Encrypt Sensitive Data in Transit\nv8 ● ●\nEncrypt sensitive data in transit. Example implementations can include:\nTransport Layer Security (TLS) and Open Secure Shell (OpenSSH).\nPage 184",
-    "references": [],
-    "additional_info": "",
     "page_number": 183
   },
   {
@@ -775,8 +673,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKLM\\SYSTEM\\CurrentControlSet\\Services\\LanmanWorkstation\\Parameters:EnableSec\nuritySignature",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\Security Options\\Microsoft network client: Digitally sign\ncommunications (if server agrees)",
     "default_value": "Enabled. (The Microsoft network client will ask the server to perform SMB packet\nsigning upon session setup. If packet signing has been enabled on the server, packet\nsigning will be negotiated.)\nPage 186\nReferences:\n1. https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-\nserver-2012-R2-and-2012/jj852251(v=ws.11)\n2. GRID: MS-00000082\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n3.10 Encrypt Sensitive Data in Transit\nv8 ● ●\nEncrypt sensitive data in transit. Example implementations can include:\nTransport Layer Security (TLS) and Open Secure Shell (OpenSSH).\nPage 187",
-    "references": [],
-    "additional_info": "",
     "page_number": 186
   },
   {
@@ -790,8 +686,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 0.\nHKLM\\SYSTEM\\CurrentControlSet\\Services\\LanmanWorkstation\\Parameters:EnablePla\ninTextPassword\nPage 188",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nDisabled:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\Security Options\\Microsoft network client: Send unencrypted password\nto third-party SMB servers",
     "default_value": "Disabled. (Plaintext passwords will not be sent during authentication to third-party SMB\nservers that do not support password encryption.)\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/microsoft-network-client-send-unencrypted-password-to-third-\nparty-smb-servers\n2. GRID: MS-00000083\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n3.10 Encrypt Sensitive Data in Transit\nv8 ● ●\nEncrypt sensitive data in transit. Example implementations can include:\nTransport Layer Security (TLS) and Open Secure Shell (OpenSSH).\n16.4 Encrypt or Hash all Authentication Credentials\nv7 ● ●\nEncrypt or hash with a salt all authentication credentials when stored.\nPage 189",
-    "references": [],
-    "additional_info": "",
     "page_number": 189
   },
   {
@@ -805,8 +699,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 15 or less.\nHKLM\\SYSTEM\\CurrentControlSet\\Services\\LanManServer\\Parameters:AutoDisconnect\nPage 191",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to 15 or\nfewer minute(s):\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\Security Options\\Microsoft network server: Amount of idle time\nrequired before suspending session",
     "default_value": "15 minutes.\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/microsoft-network-server-amount-of-idle-time-required-before-\nsuspending-session\n2. GRID: MS-00000084\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n0.0 Explicitly Not Mapped\nv8\nExplicitly Not Mapped\n16.11 Lock Workstation Sessions After Inactivity\nv7 ● ● ●\nAutomatically lock workstation sessions after a standard period of\ninactivity.\nPage 192",
-    "references": [],
-    "additional_info": "",
     "page_number": 192
   },
   {
@@ -820,8 +712,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKLM\\SYSTEM\\CurrentControlSet\\Services\\LanManServer\\Parameters:RequireSecurit\nySignature",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\Security Options\\Microsoft network server: Digitally sign\ncommunications (always)",
     "default_value": "Disabled. (SMB packet signing is negotiated between the client and server.)\nPage 194\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/microsoft-network-server-digitally-sign-communications-always\n2. GRID: MS-00000085\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n3.10 Encrypt Sensitive Data in Transit\nv8 ● ●\nEncrypt sensitive data in transit. Example implementations can include:\nTransport Layer Security (TLS) and Open Secure Shell (OpenSSH).\nPage 195",
-    "references": [],
-    "additional_info": "",
     "page_number": 194
   },
   {
@@ -835,8 +725,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKLM\\SYSTEM\\CurrentControlSet\\Services\\LanManServer\\Parameters:EnableSecurity\nSignature",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\Security Options\\Microsoft network server: Digitally sign\ncommunications (if client agrees)",
     "default_value": "Disabled. (The SMB client will never negotiate SMB packet signing.)\nPage 197\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/smbv1-microsoft-network-server-digitally-sign-communications-if-\nclient-agrees\n2. GRID: MS-00000086\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n3.10 Encrypt Sensitive Data in Transit\nv8 ● ●\nEncrypt sensitive data in transit. Example implementations can include:\nTransport Layer Security (TLS) and Open Secure Shell (OpenSSH).\nPage 198",
-    "references": [],
-    "additional_info": "",
     "page_number": 197
   },
   {
@@ -850,8 +738,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKLM\\SYSTEM\\CurrentControlSet\\Services\\LanManServer\\Parameters:enableforcedlo\ngoff\nPage 199",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\Security Options\\Microsoft network server: Disconnect clients when\nlogon hours expire",
     "default_value": "Enabled. (Client sessions with the SMB service are forcibly disconnected when the\nclient's logon hours expire.)\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/microsoft-network-server-disconnect-clients-when-logon-hours-\nexpire\n2. GRID: MS-00000087\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n0.0 Explicitly Not Mapped\nv8\nExplicitly Not Mapped\n16.13 Alert on Account Login Behavior Deviation\nv7 ●\nAlert when users deviate from normal login behavior, such as time-of-day,\nworkstation location and duration.\nPage 200",
-    "references": [],
-    "additional_info": "",
     "page_number": 200
   },
   {
@@ -865,8 +751,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1 or 2.\nHKLM\\SYSTEM\\CurrentControlSet\\Services\\LanManServer\\Parameters:SMBServerNameH\nardeningLevel",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to Accept\nif provided by client (configuring to Required from client also conforms to the\nbenchmark):\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\Security Options\\Microsoft network server: Server SPN target name\nvalidation level",
     "default_value": "Off. (The SPN is not required or validated by the SMB server from a SMB client.)\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/microsoft-network-server-server-spn-target-name-validation-level\n2. GRID: MS-00000088\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.1 Establish and Maintain a Secure Configuration Process\nEstablish and maintain a secure configuration process for enterprise assets\nv8 (end-user devices, including portable and mobile, non-computing/IoT devices, and ● ● ●\nservers) and software (operating systems and applications). Review and update\ndocumentation annually, or when significant enterprise changes occur that could\nimpact this Safeguard.\n5.1 Establish Secure Configurations\nv7 ● ● ●\nMaintain documented, standard security configuration standards for all\nauthorized operating systems and software.\nPage 202",
-    "references": [],
-    "additional_info": "",
     "page_number": 202
   },
   {
@@ -880,8 +764,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed.",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nDisabled:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\Security Options\\Network access: Allow anonymous SID/Name\ntranslation",
     "default_value": "Disabled. (An anonymous user cannot request the SID attribute for another user.)\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/network-access-allow-anonymous-sidname-translation\n2. GRID: MS-00000091\nPage 204\nCIS Controls:\nControls Version Control IG 1 IG 2 IG 3\n0.0 Explicitly Not Mapped\nv8\nExplicitly Not Mapped\n0.0 Explicitly Not Mapped\nv7\nExplicitly Not Mapped\nPage 205",
-    "references": [],
-    "additional_info": "",
     "page_number": 205
   },
   {
@@ -895,8 +777,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa:RestrictAnonymousSAM\nPage 206",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\Security Options\\Network access: Do not allow anonymous enumeration\nof SAM accounts",
     "default_value": "Enabled. (Do not allow anonymous enumeration of SAM accounts. This option replaces\nEveryone with Authenticated Users in the security permissions for resources.)\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/network-access-do-not-allow-anonymous-enumeration-of-sam-\naccounts\n2. GRID: MS-00000093\nCIS Controls:\nControls Version Control IG 1 IG 2 IG 3\n0.0 Explicitly Not Mapped\nv8\nExplicitly Not Mapped\n0.0 Explicitly Not Mapped\nv7\nExplicitly Not Mapped\nPage 207",
-    "references": [],
-    "additional_info": "",
     "page_number": 207
   },
   {
@@ -910,8 +790,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa:RestrictAnonymous\nPage 208",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\Security Options\\Network access: Do not allow anonymous enumeration\nof SAM accounts and shares",
     "default_value": "Disabled. (Allow anonymous enumeration of SAM accounts and shares. No additional\npermissions can be assigned by the administrator for anonymous connections to the\ncomputer. Anonymous connections will rely on default permissions.)\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/network-access-do-not-allow-anonymous-enumeration-of-sam-\naccounts-and-shares\n2. GRID: MS-00000092\nCIS Controls:\nControls Version Control IG 1 IG 2 IG 3\n0.0 Explicitly Not Mapped\nv8\nExplicitly Not Mapped\n0.0 Explicitly Not Mapped\nv7\nExplicitly Not Mapped\nPage 209",
-    "references": [],
-    "additional_info": "",
     "page_number": 209
   },
   {
@@ -925,8 +803,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa:DisableDomainCreds",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\Security Options\\Network access: Do not allow storage of passwords\nand credentials for network authentication",
     "default_value": "Disabled. (Credential Manager will store passwords and credentials on the computer for\nlater use for domain authentication.)\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/network-access-do-not-allow-storage-of-passwords-and-\ncredentials-for-network-authentication\n2. GRID: MS-00000094\nCIS Controls:\nControls Version Control IG 1 IG 2 IG 3\n0.0 Explicitly Not Mapped\nv8\nExplicitly Not Mapped\n0.0 Explicitly Not Mapped\nv7\nExplicitly Not Mapped\nPage 211",
-    "references": [],
-    "additional_info": "",
     "page_number": 211
   },
   {
@@ -940,8 +816,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 0.\nHKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa:EveryoneIncludesAnonymous",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nDisabled:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\Security Options\\Network access: Let Everyone permissions apply to\nanonymous users",
     "default_value": "Disabled. (Anonymous users can only access those resources for which the built-in\ngroup ANONYMOUS LOGON has been explicitly given permission.)\nPage 212\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/network-access-let-everyone-permissions-apply-to-anonymous-\nusers\n2. GRID: MS-00000095\nCIS Controls:\nControls Version Control IG 1 IG 2 IG 3\n0.0 Explicitly Not Mapped\nv8\nExplicitly Not Mapped\n0.0 Explicitly Not Mapped\nv7\nExplicitly Not Mapped\nPage 213",
-    "references": [],
-    "additional_info": "",
     "page_number": 213
   },
   {
@@ -955,8 +829,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_MULTI_SZ value that is blank i.e. no value in key.\nHKLM\\SYSTEM\\CurrentControlSet\\Services\\LanManServer\\Parameters:NullSessionPip\nes",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\n<blank> (i.e. None):\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\Security Options\\Network access: Named Pipes that can be accessed\nanonymously",
     "default_value": "None.\nPage 214\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/network-access-named-pipes-that-can-be-accessed-anonymously\n2. GRID: MS-00000096\nCIS Controls:\nControls Version Control IG 1 IG 2 IG 3\n0.0 Explicitly Not Mapped\nv8\nExplicitly Not Mapped\n0.0 Explicitly Not Mapped\nv7\nExplicitly Not Mapped\nPage 215",
-    "references": [],
-    "additional_info": "",
     "page_number": 215
   },
   {
@@ -970,8 +842,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_MULTI_SZ value of System\\CurrentControlSet\\Control\\ProductOptions,\nSystem\\CurrentControlSet\\Control\\Server Applications and\nSoftware\\Microsoft\\Windows NT\\CurrentVersion.\nHKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurePipeServers\\Winreg\\AllowedExactPa\nths:Machine",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to:\nSystem\\CurrentControlSet\\Control\\ProductOptions\nSystem\\CurrentControlSet\\Control\\Server Applications\nSOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\Security Options\\Network access: Remotely accessible registry paths",
     "default_value": "System\\CurrentControlSet\\Control\\ProductOptions\nSystem\\CurrentControlSet\\Control\\Server Applications Software\\Microsoft\\Windows\nNT\\CurrentVersion\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/network-access-remotely-accessible-registry-paths\n2. GRID: MS-00000098\nCIS Controls:\nControls Version Control IG 1 IG 2 IG 3\n0.0 Explicitly Not Mapped\nv8\nExplicitly Not Mapped\n0.0 Explicitly Not Mapped\nv7\nExplicitly Not Mapped\nPage 217",
-    "references": [],
-    "additional_info": "",
     "page_number": 217
   },
   {
@@ -985,8 +855,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of System\\CurrentControlSet\\Control\\Print\\Printers,\nSystem\\CurrentControlSet\\Services\\Eventlog, Software\\Microsoft\\OLAP\nServer, Software\\Microsoft\\Windows NT\\CurrentVersion\\Print,\nSoftware\\Microsoft\\Windows NT\\CurrentVersion\\Windows,\nSystem\\CurrentControlSet\\Control\\ContentIndex,\nSystem\\CurrentControlSet\\Control\\Terminal Server,\nSystem\\CurrentControlSet\\Control\\Terminal Server\\UserConfig,\nSystem\\CurrentControlSet\\Control\\Terminal\nServer\\DefaultUserConfiguration, Software\\Microsoft\\Windows\nNT\\CurrentVersion\\Perflib and\nSystem\\CurrentControlSet\\Services\\SysmonLog.\nHKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurePipeServers\\Winreg\\AllowedPaths:M\nachine\nPage 219",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to:\nSystem\\CurrentControlSet\\Control\\Print\\Printers\nSystem\\CurrentControlSet\\Services\\Eventlog SOFTWARE\\Microsoft\\OLAP\nServer SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Print\nSOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Windows\nSystem\\CurrentControlSet\\Control\\ContentIndex\nSystem\\CurrentControlSet\\Control\\Terminal Server\nSystem\\CurrentControlSet\\Control\\Terminal Server\\UserConfig\nSystem\\CurrentControlSet\\Control\\Terminal\nServer\\DefaultUserConfiguration SOFTWARE\\Microsoft\\Windows\nNT\\CurrentVersion\\Perflib System\\CurrentControlSet\\Services\\SysmonLog\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\Security Options\\Network access: Remotely accessible registry paths\nand sub-paths",
     "default_value": "System\\CurrentControlSet\\Control\\Print\\Printers\nSystem\\CurrentControlSet\\Services\\Eventlog Software\\Microsoft\\OLAP Server\nSoftware\\Microsoft\\Windows NT\\CurrentVersion\\Print Software\\Microsoft\\Windows\nNT\\CurrentVersion\\Windows System\\CurrentControlSet\\Control\\ContentIndex\nSystem\\CurrentControlSet\\Control\\Terminal Server\nSystem\\CurrentControlSet\\Control\\Terminal Server\\UserConfig\nSystem\\CurrentControlSet\\Control\\Terminal Server\\DefaultUserConfiguration\nSoftware\\Microsoft\\Windows NT\\CurrentVersion\\Perflib\nSystem\\CurrentControlSet\\Services\\SysmonLog\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/network-access-remotely-accessible-registry-paths-and-subpaths\n2. GRID: MS-00000097\nCIS Controls:\nControls Version Control IG 1 IG 2 IG 3\n0.0 Explicitly Not Mapped\nv8\nExplicitly Not Mapped\n0.0 Explicitly Not Mapped\nv7\nExplicitly Not Mapped\nPage 220",
-    "references": [],
-    "additional_info": "",
     "page_number": 219
   },
   {
@@ -1000,8 +868,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKLM\\SYSTEM\\CurrentControlSet\\Services\\LanManServer\\Parameters:RestrictNullSe\nssAccess",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\Security Options\\Network access: Restrict anonymous access to Named\nPipes and Shares",
     "default_value": "Enabled. (Anonymous access is restricted to shares and pipes listed in the Network\naccess: Named pipes that can be accessed anonymously and Network\naccess: Shares that can be accessed anonymously settings.)\nPage 222\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/network-access-restrict-anonymous-access-to-named-pipes-and-\nshares\n2. GRID: MS-00000099\nCIS Controls:\nControls Version Control IG 1 IG 2 IG 3\n0.0 Explicitly Not Mapped\nv8\nExplicitly Not Mapped\n0.0 Explicitly Not Mapped\nv7\nExplicitly Not Mapped\nPage 223",
-    "references": [],
-    "additional_info": "",
     "page_number": 222
   },
   {
@@ -1015,8 +881,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_SZ value of O:BAG:BAD:(A;;RC;;;BA).\nHKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa:restrictremotesam",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nAdministrators: Remote Access: Allow:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\Security Options\\Network access: Restrict clients allowed to make\nremote calls to SAM",
     "default_value": "Administrators: Remote Access: Allow.\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/network-access-restrict-clients-allowed-to-make-remote-sam-calls\n2. GRID: MS-00000100\nCIS Controls:\nControls Version Control IG 1 IG 2 IG 3\n0.0 Explicitly Not Mapped\nv8\nExplicitly Not Mapped\n0.0 Explicitly Not Mapped\nv7\nExplicitly Not Mapped\nPage 225",
-    "references": [],
-    "additional_info": "",
     "page_number": 225
   },
   {
@@ -1030,8 +894,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_MULTI_SZ value that is blank i.e. no value in key.\nHKLM\\SYSTEM\\CurrentControlSet\\Services\\LanManServer\\Parameters:NullSessionSha\nres",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\n<blank> (i.e. None):\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\Security Options\\Network access: Shares that can be accessed\nanonymously",
     "default_value": "None. (Only authenticated users will have access to all shared resources on the server.)\nPage 226\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/network-access-shares-that-can-be-accessed-anonymously\n2. GRID: MS-00000101\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n0.0 Explicitly Not Mapped\nv8\nExplicitly Not Mapped\n14.6 Protect Information through Access Control Lists\nProtect all information stored on systems with file system, network share,\nv7 claims, application, or database specific access control lists. These controls will ● ● ●\nenforce the principle that only authorized individuals should have access to the\ninformation based on their need to access the information as a part of their\nresponsibilities.\nPage 227",
-    "references": [],
-    "additional_info": "",
     "page_number": 227
   },
   {
@@ -1045,8 +907,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 0.\nHKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa:ForceGuest",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nClassic - local users authenticate as themselves:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\Security Options\\Network access: Sharing and security model for\nlocal accounts",
     "default_value": "On domain-joined computers: Classic - local users authenticate as themselves.\n(Network logons that use local account credentials authenticate by using those\ncredentials.)\nOn stand-alone computers: Guest only - local users authenticate as Guest. (Network\nlogons that use local accounts are automatically mapped to the Guest account.)\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/network-access-sharing-and-security-model-for-local-accounts\n2. GRID: MS-00000102\nCIS Controls:\nControls Version Control IG 1 IG 2 IG 3\n0.0 Explicitly Not Mapped\nv8\nExplicitly Not Mapped\n0.0 Explicitly Not Mapped\nv7\nExplicitly Not Mapped\nPage 229",
-    "references": [],
-    "additional_info": "",
     "page_number": 229
   },
   {
@@ -1060,8 +920,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa:UseMachineId\nPage 231",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\Security Options\\Network security: Allow Local System to use\ncomputer identity for NTLM",
     "default_value": "Disabled. (Services running as Local System that use Negotiate when reverting to\nNTLM authentication will authenticate anonymously.)\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/network-security-allow-local-system-to-use-computer-identity-for-\nntlm\n2. GRID: MS-00000103\nCIS Controls:\nControls Version Control IG 1 IG 2 IG 3\n0.0 Explicitly Not Mapped\nv8\nExplicitly Not Mapped\n0.0 Explicitly Not Mapped\nv7\nExplicitly Not Mapped\nPage 232",
-    "references": [],
-    "additional_info": "",
     "page_number": 232
   },
   {
@@ -1075,8 +933,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 0.\nHKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa\\MSV1_0:AllowNullSessionFallback",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nDisabled:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\Security Options\\Network security: Allow LocalSystem NULL session\nfallback",
     "default_value": "Disabled. (NTLM will not be permitted to fall back to a NULL session when used with\nLocalSystem.)\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/network-security-allow-localsystem-null-session-fallback\n2. GRID: MS-00000104\nPage 233\nCIS Controls:\nControls Version Control IG 1 IG 2 IG 3\n0.0 Explicitly Not Mapped\nv8\nExplicitly Not Mapped\n0.0 Explicitly Not Mapped\nv7\nExplicitly Not Mapped\nPage 234",
-    "references": [],
-    "additional_info": "",
     "page_number": 234
   },
   {
@@ -1090,8 +946,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 0.\nHKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa\\pku2u:AllowOnlineID",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nDisabled:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\Security Options\\Network Security: Allow PKU2U authentication\nrequests to this computer to use online identities",
     "default_value": "Disabled. (Online identities will not to be allowed to authenticate to a domain-joined\nmachine.)\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/network-security-allow-pku2u-authentication-requests-to-this-\ncomputer-to-use-online-identities\n2. GRID: MS-00000105\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.1 Establish and Maintain a Secure Configuration Process\nEstablish and maintain a secure configuration process for enterprise assets\nv8 (end-user devices, including portable and mobile, non-computing/IoT devices, and ● ● ●\nservers) and software (operating systems and applications). Review and update\ndocumentation annually, or when significant enterprise changes occur that could\nimpact this Safeguard.\n9.2 Ensure Only Approved Ports, Protocols and Services\nAre Running\nv7 ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 236",
-    "references": [],
-    "additional_info": "",
     "page_number": 236
   },
   {
@@ -1105,8 +959,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 2147483640.\nHKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\Kerberos\\Param\neters:SupportedEncryptionTypes",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nAES128_HMAC_SHA1, AES256_HMAC_SHA1, Future encryption types:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\Security Options\\Network security: Configure encryption types\nallowed for Kerberos",
     "default_value": "RC4_HMAC_MD5, AES128_HMAC_SHA1, AES256_HMAC_SHA1, Future encryption\ntypes.\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/network-security-configure-encryption-types-allowed-for-kerberos\n2. GRID: MS-00000106\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n3.10 Encrypt Sensitive Data in Transit\nv8 ● ●\nEncrypt sensitive data in transit. Example implementations can include:\nTransport Layer Security (TLS) and Open Secure Shell (OpenSSH).\n14.4 Encrypt All Sensitive Information in Transit\nv7 ● ●\nEncrypt all sensitive information in transit.\n18.5 Use Only Standardized and Extensively Reviewed\nv7 Encryption Algorithms ● ●\nUse only standardized and extensively reviewed encryption algorithms.\nPage 238",
-    "references": [],
-    "additional_info": "",
     "page_number": 238
   },
   {
@@ -1120,8 +972,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa:NoLMHash\nPage 239",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\Security Options\\Network security: Do not store LAN Manager hash\nvalue on next password change",
     "default_value": "Enabled. (LAN Manager hash values are not stored when passwords are changed.)\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/network-security-do-not-store-lan-manager-hash-value-on-next-\npassword-change\n2. GRID: MS-00000107\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n3.11 Encrypt Sensitive Data at Rest\nEncrypt sensitive data at rest on servers, applications, and databases containing\nv8 sensitive data. Storage-layer encryption, also known as server-side encryption, ● ●\nmeets the minimum requirement of this Safeguard. Additional encryption methods\nmay include application-layer encryption, also known as client-side encryption,\nwhere access to the data storage device(s) does not permit access to the plain-text\ndata.\n16.4 Encrypt or Hash all Authentication Credentials\nv7 ● ●\nEncrypt or hash with a salt all authentication credentials when stored.\nPage 240",
-    "references": [],
-    "additional_info": "",
     "page_number": 240
   },
   {
@@ -1135,8 +985,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed.",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled.\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\Security Options\\Network security: Force logoff when logon hours\nexpire",
     "default_value": "Enabled. (When a user's logon time expires, client sessions with the SMB server will be\nforcibly disconnected. The user will be unable to log on to the computer until their next\nscheduled access time commences.)\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/network-security-force-logoff-when-logon-hours-expire\n2. GRID: MS-00000108\nPage 241\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n0.0 Explicitly Not Mapped\nv8\nExplicitly Not Mapped\n16.13 Alert on Account Login Behavior Deviation\nv7 ●\nAlert when users deviate from normal login behavior, such as time-of-day,\nworkstation location and duration.\nPage 242",
-    "references": [],
-    "additional_info": "",
     "page_number": 242
   },
   {
@@ -1150,8 +998,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 5.\nHKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa:LmCompatibilityLevel",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to: Send\nNTLMv2 response only. Refuse LM & NTLM:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\Security Options\\Network security: LAN Manager authentication level",
     "default_value": "Send NTLMv2 response only. (Clients use NTLMv2 authentication only and use\nNTLMv2 session security if the server supports it; Domain Controllers accept LM, NTLM\n& NTLMv2 authentication.)\nPage 244\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/network-security-lan-manager-authentication-level\n2. GRID: MS-00000109\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n3.10 Encrypt Sensitive Data in Transit\nv8 ● ●\nEncrypt sensitive data in transit. Example implementations can include:\nTransport Layer Security (TLS) and Open Secure Shell (OpenSSH).\n9.2 Ensure Only Approved Ports, Protocols and\nServices Are Running\nv7 ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 245",
-    "references": [],
-    "additional_info": "",
     "page_number": 244
   },
   {
@@ -1165,8 +1011,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1 or 2.\nHKLM\\SYSTEM\\CurrentControlSet\\Services\\LDAP:LDAPClientConfidentiality",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nNegotiate sealing or higher:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\Security Options\\Network security: LDAP client encryption\nrequirements",
     "default_value": "Enabled: Negotiate encryption (sealing).\nReferences:\n1. GRID: MS-00000572\nCIS Controls:\nControls Version Control IG 1 IG 2 IG 3\n0.0 Explicitly Not Mapped\nv8\nExplicitly Not Mapped\n0.0 Explicitly Not Mapped\nv7\nExplicitly Not Mapped\nPage 247",
-    "references": [],
-    "additional_info": "",
     "page_number": 247
   },
   {
@@ -1180,8 +1024,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKLM\\SYSTEM\\CurrentControlSet\\Services\\LDAP:LDAPClientIntegrity",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nNegotiate signing (configuring to Require signing also conforms to the\nbenchmark):\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\Security Options\\Network security: LDAP client signing requirements",
     "default_value": "Negotiate signing. (If Transport Layer Security/Secure Sockets Layer (TLS/SSL) has not\nbeen started, the LDAP BIND request is initiated with the LDAP data signing option set\nin addition to the caller-specified options. If TLS/SSL has been started, the LDAP BIND\nrequest is initiated with the caller-specified options.)\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/network-security-ldap-client-signing-requirements\n2. GRID: MS-00000110\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n3.10 Encrypt Sensitive Data in Transit\nv8 ● ●\nEncrypt sensitive data in transit. Example implementations can include:\nTransport Layer Security (TLS) and Open Secure Shell (OpenSSH).\n12.5 Configure Monitoring Systems to Record Network\nPackets\nv7 ● ●\nConfigure monitoring systems to record network packets passing through\nthe boundary at each of the organization's network boundaries.\nPage 249",
-    "references": [],
-    "additional_info": "",
     "page_number": 249
   },
   {
@@ -1195,8 +1037,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 537395200.\nHKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa\\MSV1_0:NTLMMinClientSec\nPage 250",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nRequire NTLMv2 session security, Require 128-bit encryption:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\Security Options\\Network security: Minimum session security for NTLM\nSSP based (including secure RPC) clients",
     "default_value": "Require 128-bit encryption. (NTLM connections will fail if strong encryption (128-bit) is\nnot negotiated.)\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/network-security-minimum-session-security-for-ntlm-ssp-based-\nincluding-secure-rpc-clients\n2. GRID: MS-00000111\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n3.10 Encrypt Sensitive Data in Transit\nv8 ● ●\nEncrypt sensitive data in transit. Example implementations can include:\nTransport Layer Security (TLS) and Open Secure Shell (OpenSSH).\n12.5 Configure Monitoring Systems to Record Network\nPackets\nv7 ● ●\nConfigure monitoring systems to record network packets passing through\nthe boundary at each of the organization's network boundaries.\nPage 251",
-    "references": [],
-    "additional_info": "",
     "page_number": 251
   },
   {
@@ -1210,8 +1050,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 537395200.\nHKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa\\MSV1_0:NTLMMinServerSec\nPage 252",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nRequire NTLMv2 session security, Require 128-bit encryption:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\Security Options\\Network security: Minimum session security for NTLM\nSSP based (including secure RPC) servers",
     "default_value": "Require 128-bit encryption. (NTLM connections will fail if strong encryption (128-bit) is\nnot negotiated.)\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/network-security-minimum-session-security-for-ntlm-ssp-based-\nincluding-secure-rpc-servers\n2. GRID: MS-00000112\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n3.10 Encrypt Sensitive Data in Transit\nv8 ● ●\nEncrypt sensitive data in transit. Example implementations can include:\nTransport Layer Security (TLS) and Open Secure Shell (OpenSSH).\n12.5 Configure Monitoring Systems to Record Network\nPackets\nv7 ● ●\nConfigure monitoring systems to record network packets passing through\nthe boundary at each of the organization's network boundaries.\nPage 253",
-    "references": [],
-    "additional_info": "",
     "page_number": 253
   },
   {
@@ -1225,8 +1063,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 2.\nHKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa\\MSV1_0:AuditReceivingNTLMTraffic\nPage 254",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to Enable\nauditing for all accounts:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\Security Options\\Network security: Restrict NTLM: Audit Incoming\nNTLM Traffic",
     "default_value": "Disabled. (Incoming NTLM traffic is not logged.)\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/network-security-restrict-ntlm-audit-incoming-ntlm-traffic\n2. https://learn.microsoft.com/en-us/defender-for-identity/configure-windows-event-\ncollection#event-id-8004\n3. GRID: MS-00000113\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n8.5 Collect Detailed Audit Logs\nv8 Configure detailed audit logging for enterprise assets containing sensitive data. ● ●\nInclude event source, date, username, timestamp, source addresses, destination\naddresses, and other useful elements that could assist in a forensic investigation.\n6.3 Enable Detailed Logging\nv7 Enable system logging to include detailed information such as an event source, ● ●\ndate, user, timestamp, source addresses, destination addresses, and other useful\nelements.\nPage 255",
-    "references": [],
-    "additional_info": "",
     "page_number": 255
   },
   {
@@ -1240,8 +1076,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1 or 2.\nHKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa\\MSV1_0:RestrictSendingNTLMTraffic\nPage 256",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to Audit\nall or higher:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\Security Options\\Network security: Restrict NTLM: Outgoing NTLM\ntraffic to remote servers",
     "default_value": "Allow all. (The client can authenticate to remote servers by using NTLM authentication.)\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/network-security-restrict-ntlm-audit-incoming-ntlm-traffic\n2. https://learn.microsoft.com/en-us/defender-for-identity/configure-windows-event-\ncollection#event-id-8004\n3. GRID: MS-00000115\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n8.5 Collect Detailed Audit Logs\nv8 Configure detailed audit logging for enterprise assets containing sensitive data. ● ●\nInclude event source, date, username, timestamp, source addresses, destination\naddresses, and other useful elements that could assist in a forensic investigation.\n6.3 Enable Detailed Logging\nv7 Enable system logging to include detailed information such as an event source, ● ●\ndate, user, timestamp, source addresses, destination addresses, and other useful\nelements.\n2.3.12 Recovery console\nThis section is intentionally blank and exists to ensure the structure of Windows\nbenchmarks is consistent.\n2.3.13 Shutdown\nThis section is intentionally blank and exists to ensure the structure of Windows\nbenchmarks is consistent.\nPage 257",
-    "references": [],
-    "additional_info": "",
     "page_number": 257
   },
   {
@@ -1255,8 +1089,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1 or 2.\nHKLM\\SOFTWARE\\Policies\\Microsoft\\Cryptography:ForceKeyProtection",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to User\nis prompted when the key is first used or User must enter a password\neach time they use a key:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\Security Options\\System cryptography: Force strong key protection\nfor user keys stored on the computer",
     "default_value": "User input is not required when new keys are stored and used.\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/system-cryptography-force-strong-key-protection-for-user-keys-\nstored-on-the-computer\n2. GRID: MS-00000117\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n3.11 Encrypt Sensitive Data at Rest\nEncrypt sensitive data at rest on servers, applications, and databases containing\nv8 sensitive data. Storage-layer encryption, also known as server-side encryption, ● ●\nmeets the minimum requirement of this Safeguard. Additional encryption methods\nmay include application-layer encryption, also known as client-side encryption,\nwhere access to the data storage device(s) does not permit access to the plain-text\ndata.\n16.4 Encrypt or Hash all Authentication Credentials\nv7 ● ●\nEncrypt or hash with a salt all authentication credentials when stored.\nPage 260",
-    "references": [],
-    "additional_info": "",
     "page_number": 260
   },
   {
@@ -1270,8 +1102,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKLM\\SYSTEM\\CurrentControlSet\\Control\\Session\nManager\\Kernel:ObCaseInsensitive\nPage 262",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\Security Options\\System objects: Require case insensitivity for non-\nWindows subsystems",
     "default_value": "Enabled. (All subsystems will be forced to observe case insensitivity. This configuration\nmay confuse users who are familiar with any UNIX-based operating systems that is\ncase-sensitive.)\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/system-objects-require-case-insensitivity-for-non-windows-\nsubsystems\n2. GRID: MS-00000118\nCIS Controls:\nControls Version Control IG 1 IG 2 IG 3\n0.0 Explicitly Not Mapped\nv8\nExplicitly Not Mapped\n0.0 Explicitly Not Mapped\nv7\nExplicitly Not Mapped\nPage 263",
-    "references": [],
-    "additional_info": "",
     "page_number": 263
   },
   {
@@ -1285,8 +1115,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKLM\\SYSTEM\\CurrentControlSet\\Control\\Session Manager:ProtectionMode\nPage 264",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\Security Options\\System objects: Strengthen default permissions of\ninternal system objects (e.g. Symbolic Links)",
     "default_value": "Enabled. (The default DACL is stronger, allowing users who are not administrators to\nread shared objects but not allowing these users to modify shared objects that they did\nnot create.)\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/system-objects-strengthen-default-permissions-of-internal-system-\nobjects\n2. GRID: MS-00000119\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.1 Establish and Maintain a Secure Configuration Process\nEstablish and maintain a secure configuration process for enterprise assets\nv8 (end-user devices, including portable and mobile, non-computing/IoT devices, and ● ● ●\nservers) and software (operating systems and applications). Review and update\ndocumentation annually, or when significant enterprise changes occur that could\nimpact this Safeguard.\n5.1 Establish Secure Configurations\nv7 ● ● ●\nMaintain documented, standard security configuration standards for all\nauthorized operating systems and software.\n2.3.16 System settings\nThis section is intentionally blank and exists to ensure the structure of Windows\nbenchmarks is consistent.\nPage 265",
-    "references": [],
-    "additional_info": "",
     "page_number": 265
   },
   {
@@ -1300,8 +1128,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System:FilterAdminist\nratorToken",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\Security Options\\User Account Control: Admin Approval Mode for the\nBuilt-in Administrator account",
     "default_value": "Disabled. (The built-in Administrator account runs all applications with full administrative\nprivilege.)\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/user-account-control-admin-approval-mode-for-the-built-in-\nadministrator-account\n2. GRID: MS-00000120\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n0.0 Explicitly Not Mapped\nv8\nExplicitly Not Mapped\n4.4 Use Unique Passwords\nv7 Where multi-factor authentication is not supported (such as local ● ●\nadministrator, root, or service accounts), accounts will use passwords that are\nunique to that system.\nPage 268",
-    "references": [],
-    "additional_info": "",
     "page_number": 268
   },
   {
@@ -1315,8 +1141,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1 or 2.\nHKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System:ConsentPromptB\nehaviorAdmin\nPage 269",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to Prompt\nfor consent on the secure desktop or Prompt for credentials on the\nsecure desktop:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\Security Options\\User Account Control: Behavior of the elevation\nprompt for administrators in Admin Approval Mode",
     "default_value": "Prompt for consent for non-Windows binaries. (When an operation for a non-Microsoft\napplication requires elevation of privilege, the user is prompted on the secure desktop to\nselect either Permit or Deny. If the user selects Permit, the operation continues with the\nuser's highest available privilege.)\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/user-account-control-behavior-of-the-elevation-prompt-for-\nadministrators-in-admin-approval-mode\n2. GRID: MS-00000121\nCIS Controls:\nControls Version Control IG 1 IG 2 IG 3\n0.0 Explicitly Not Mapped\nv8\nExplicitly Not Mapped\n0.0 Explicitly Not Mapped\nv7\nExplicitly Not Mapped\nPage 270",
-    "references": [],
-    "additional_info": "",
     "page_number": 270
   },
   {
@@ -1330,8 +1154,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 0.\nHKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System:ConsentPromptB\nehaviorUser",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nAutomatically deny elevation requests:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\Security Options\\User Account Control: Behavior of the elevation\nprompt for standard users",
     "default_value": "Prompt for credentials. (When an operation requires elevation of privilege, the user is\nprompted to enter an administrative user name and password. If the user enters valid\ncredentials, the operation continues with the applicable privilege.)\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/user-account-control-behavior-of-the-elevation-prompt-for-\nstandard-users\n2. GRID: MS-00000122\nCIS Controls:\nControls Version Control IG 1 IG 2 IG 3\n0.0 Explicitly Not Mapped\nv8\nExplicitly Not Mapped\n0.0 Explicitly Not Mapped\nv7\nExplicitly Not Mapped\nPage 272",
-    "references": [],
-    "additional_info": "",
     "page_number": 272
   },
   {
@@ -1345,8 +1167,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System:EnableInstalle\nrDetection\nPage 273",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\Security Options\\User Account Control: Detect application\ninstallations and prompt for elevation",
     "default_value": "Disabled. (Default for enterprise. Application installation packages are not detected and\nprompted for elevation.)\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/user-account-control-detect-application-installations-and-prompt-\nfor-elevation\n2. GRID: MS-00000123\nCIS Controls:\nControls Version Control IG 1 IG 2 IG 3\n0.0 Explicitly Not Mapped\nv8\nExplicitly Not Mapped\n0.0 Explicitly Not Mapped\nv7\nExplicitly Not Mapped\nPage 274",
-    "references": [],
-    "additional_info": "",
     "page_number": 274
   },
   {
@@ -1360,8 +1180,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System:EnableSecureUI\nAPaths",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\Security Options\\User Account Control: Only elevate UIAccess\napplications that are installed in secure locations",
     "default_value": "Enabled. (If an application resides in a secure location in the file system, it runs only\nwith UIAccess integrity.)\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/user-account-control-only-elevate-uiaccess-applications-that-are-\ninstalled-in-secure-locations\n2. GRID: MS-00000124\nCIS Controls:\nControls Version Control IG 1 IG 2 IG 3\n0.0 Explicitly Not Mapped\nv8\nExplicitly Not Mapped\n0.0 Explicitly Not Mapped\nv7\nExplicitly Not Mapped\nPage 276",
-    "references": [],
-    "additional_info": "",
     "page_number": 276
   },
   {
@@ -1375,8 +1193,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System:EnableLUA\nPage 277",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\Security Options\\User Account Control: Run all administrators in\nAdmin Approval Mode",
     "default_value": "Enabled. (Admin Approval Mode is enabled. This policy must be enabled and related\nUAC policy settings must also be set appropriately to allow the built-in Administrator\naccount and all other users who are members of the Administrators group to run in\nAdmin Approval Mode.)\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/user-account-control-run-all-administrators-in-admin-approval-\nmode\n2. GRID: MS-00000125\nCIS Controls:\nControls Version Control IG 1 IG 2 IG 3\n0.0 Explicitly Not Mapped\nv8\nExplicitly Not Mapped\n0.0 Explicitly Not Mapped\nv7\nExplicitly Not Mapped\nPage 278",
-    "references": [],
-    "additional_info": "",
     "page_number": 278
   },
   {
@@ -1390,8 +1206,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System:PromptOnSecure\nDesktop",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\Security Options\\User Account Control: Switch to the secure desktop\nwhen prompting for elevation",
     "default_value": "Enabled. (All elevation requests go to the secure desktop regardless of prompt behavior\npolicy settings for administrators and standard users.)\nPage 279\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/user-account-control-switch-to-the-secure-desktop-when-\nprompting-for-elevation\n2. GRID: MS-00000126\nCIS Controls:\nControls Version Control IG 1 IG 2 IG 3\n0.0 Explicitly Not Mapped\nv8\nExplicitly Not Mapped\n0.0 Explicitly Not Mapped\nv7\nExplicitly Not Mapped\nPage 280",
-    "references": [],
-    "additional_info": "",
     "page_number": 280
   },
   {
@@ -1405,8 +1219,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System:EnableVirtuali\nzation\nPage 281",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\Security Options\\User Account Control: Virtualize file and registry\nwrite failures to per-user locations",
     "default_value": "Enabled. (Application write failures are redirected at run time to defined user locations\nfor both the file system and registry.)\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/user-account-control-virtualize-file-and-registry-write-failures-to-\nper-user-locations\n2. GRID: MS-00000127\nCIS Controls:\nControls Version Control IG 1 IG 2 IG 3\n0.0 Explicitly Not Mapped\nv8\nExplicitly Not Mapped\n0.0 Explicitly Not Mapped\nv7\nExplicitly Not Mapped\nPage 282\n3 Event Log\nThis section is intentionally blank and exists to ensure the structure of Windows\nbenchmarks is consistent.\n4 Restricted Groups\nThis section is intentionally blank and exists to ensure the structure of Windows\nbenchmarks is consistent.\n5 System Services\nThis section contains recommendations for system services.\nPage 283",
-    "references": [],
-    "additional_info": "",
     "page_number": 282
   }
 ]

@@ -10,8 +10,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed.\nOR\nTo audit the system using auditpol.exe, perform the following and confirm it is set as\nprescribed:\nauditpol /get /subcategory:\"{0cce923f-69ae-11d9-bed3-505054503030}\"",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nSuccess and Failure:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced\nAudit Policy Configuration\\Audit Policies\\Account Logon\\Audit Credential\nValidation",
     "default_value": "No Auditing.\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-\nprotection/auditing/audit-credential-validation\n2. GRID: MS-00000196\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n8.5 Collect Detailed Audit Logs\nv8 Configure detailed audit logging for enterprise assets containing sensitive data. ● ●\nInclude event source, date, username, timestamp, source addresses, destination\naddresses, and other useful elements that could assist in a forensic investigation.\n6.3 Enable Detailed Logging\nv7 Enable system logging to include detailed information such as an event source, ● ●\ndate, user, timestamp, source addresses, destination addresses, and other useful\nelements.\nPage 403",
-    "references": [],
-    "additional_info": "",
     "page_number": 403
   },
   {
@@ -25,8 +23,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed.\nOR\nTo audit the system using auditpol.exe, perform the following and confirm it is set as\nprescribed:\nauditpol /get /subcategory:\"{0cce9239-69ae-11d9-bed3-505054503030}\"",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nSuccess and Failure:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced\nAudit Policy Configuration\\Audit Policies\\Account Management\\Audit\nApplication Group Management",
     "default_value": "No Auditing.\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-\nprotection/auditing/audit-application-group-management\n2. https://learn.microsoft.com/en-us/windows/security/threat-\nprotection/auditing/advanced-security-audit-policy-settings\n3. GRID: MS-00000199\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n8.5 Collect Detailed Audit Logs\nv8 Configure detailed audit logging for enterprise assets containing sensitive data. ● ●\nInclude event source, date, username, timestamp, source addresses, destination\naddresses, and other useful elements that could assist in a forensic investigation.\n6.3 Enable Detailed Logging\nv7 Enable system logging to include detailed information such as an event source, ● ●\ndate, user, timestamp, source addresses, destination addresses, and other useful\nelements.\nPage 406",
-    "references": [],
-    "additional_info": "",
     "page_number": 406
   },
   {
@@ -40,8 +36,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed.\nOR\nTo audit the system using auditpol.exe, perform the following and confirm it is set as\nprescribed:\nauditpol /get /subcategory:\"{0cce9237-69ae-11d9-bed3-505054503030}\"",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to include\nSuccess:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced\nAudit Policy Configuration\\Audit Policies\\Account Management\\Audit Security\nGroup Management",
     "default_value": "Success.\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-\nprotection/auditing/audit-security-group-management\n2. https://learn.microsoft.com/en-us/windows/security/threat-\nprotection/auditing/advanced-security-audit-policy-settings\n3. GRID: MS-00000203\nPage 408\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n8.5 Collect Detailed Audit Logs\nv8 Configure detailed audit logging for enterprise assets containing sensitive data. ● ●\nInclude event source, date, username, timestamp, source addresses, destination\naddresses, and other useful elements that could assist in a forensic investigation.\n6.3 Enable Detailed Logging\nv7 Enable system logging to include detailed information such as an event source, ● ●\ndate, user, timestamp, source addresses, destination addresses, and other useful\nelements.\n16.6 Maintain an Inventory of Accounts\nv7 ● ●\nMaintain an inventory of all accounts organized by authentication system.\nPage 409",
-    "references": [],
-    "additional_info": "",
     "page_number": 408
   },
   {
@@ -55,8 +49,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed.\nOR\nTo audit the system using auditpol.exe, perform the following and confirm it is set as\nprescribed:\nauditpol /get /subcategory:\"{0cce9235-69ae-11d9-bed3-505054503030}\"",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nSuccess and Failure:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced\nAudit Policy Configuration\\Audit Policies\\Account Management\\Audit User\nAccount Management",
     "default_value": "Success.\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-\nprotection/auditing/audit-user-account-management\n2. https://learn.microsoft.com/en-us/windows/security/threat-\nprotection/auditing/advanced-security-audit-policy-settings\n3. GRID: MS-00000204\nPage 411\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n8.5 Collect Detailed Audit Logs\nv8 Configure detailed audit logging for enterprise assets containing sensitive data. ● ●\nInclude event source, date, username, timestamp, source addresses, destination\naddresses, and other useful elements that could assist in a forensic investigation.\n6.3 Enable Detailed Logging\nv7 Enable system logging to include detailed information such as an event source, ● ●\ndate, user, timestamp, source addresses, destination addresses, and other useful\nelements.\nPage 412",
-    "references": [],
-    "additional_info": "",
     "page_number": 411
   },
   {
@@ -70,8 +62,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed.\nOR\nTo audit the system using auditpol.exe, perform the following and confirm it is set as\nprescribed:\nauditpol /get /subcategory:\"{0cce9248-69ae-11d9-bed3-505054503030}\"\nPage 414",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to include\nSuccess:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced\nAudit Policy Configuration\\Audit Policies\\Detailed Tracking\\Audit PNP\nActivity",
     "default_value": "No Auditing.\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-\nprotection/auditing/audit-pnp-activity\n2. GRID: MS-00000205\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n8.5 Collect Detailed Audit Logs\nv8 Configure detailed audit logging for enterprise assets containing sensitive data. ● ●\nInclude event source, date, username, timestamp, source addresses, destination\naddresses, and other useful elements that could assist in a forensic investigation.\n6.3 Enable Detailed Logging\nv7 Enable system logging to include detailed information such as an event source, ● ●\ndate, user, timestamp, source addresses, destination addresses, and other useful\nelements.\nPage 415",
-    "references": [],
-    "additional_info": "",
     "page_number": 415
   },
   {
@@ -85,8 +75,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed.\nOR\nTo audit the system using auditpol.exe, perform the following and confirm it is set as\nprescribed:\nauditpol /get /subcategory:\"{0cce922b-69ae-11d9-bed3-505054503030}\"",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to include\nSuccess:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced\nAudit Policy Configuration\\Audit Policies\\Detailed Tracking\\Audit Process\nCreation",
     "default_value": "No Auditing.\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-\nprotection/auditing/audit-process-creation\n2. GRID: MS-00000206\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n8.5 Collect Detailed Audit Logs\nv8 Configure detailed audit logging for enterprise assets containing sensitive data. ● ●\nInclude event source, date, username, timestamp, source addresses, destination\naddresses, and other useful elements that could assist in a forensic investigation.\n6.3 Enable Detailed Logging\nv7 Enable system logging to include detailed information such as an event source, ● ●\ndate, user, timestamp, source addresses, destination addresses, and other useful\nelements.\nPage 417",
-    "references": [],
-    "additional_info": "",
     "page_number": 417
   },
   {
@@ -100,8 +88,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed.\nOR\nTo audit the system using auditpol.exe, perform the following and confirm it is set as\nprescribed:\nauditpol /get /subcategory:\"{0cce9217-69ae-11d9-bed3-505054503030}\"\nPage 419",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to include\nFailure:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced\nAudit Policy Configuration\\Audit Policies\\Logon/Logoff\\Audit Account Lockout",
     "default_value": "Success.\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-\nprotection/auditing/audit-account-lockout\n2. GRID: MS-00000209\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n8.5 Collect Detailed Audit Logs\nv8 Configure detailed audit logging for enterprise assets containing sensitive data. ● ●\nInclude event source, date, username, timestamp, source addresses, destination\naddresses, and other useful elements that could assist in a forensic investigation.\n6.3 Enable Detailed Logging\nv7 Enable system logging to include detailed information such as an event source, ● ●\ndate, user, timestamp, source addresses, destination addresses, and other useful\nelements.\n16.6 Maintain an Inventory of Accounts\nv7 ● ●\nMaintain an inventory of all accounts organized by authentication system.\nPage 420",
-    "references": [],
-    "additional_info": "",
     "page_number": 420
   },
   {
@@ -115,8 +101,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed.\nOR\nTo audit the system using auditpol.exe, perform the following and confirm it is set as\nprescribed:\nauditpol /get /subcategory:\"{0cce9249-69ae-11d9-bed3-505054503030}\"\nPage 421",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to include\nSuccess:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced\nAudit Policy Configuration\\Audit Policies\\Logon/Logoff\\Audit Group Membership",
     "default_value": "No Auditing.\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-\nprotection/auditing/audit-group-membership\n2. GRID: MS-00000210\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n8.5 Collect Detailed Audit Logs\nv8 Configure detailed audit logging for enterprise assets containing sensitive data. ● ●\nInclude event source, date, username, timestamp, source addresses, destination\naddresses, and other useful elements that could assist in a forensic investigation.\n4.8 Log and Alert on Changes to Administrative Group\nMembership\nv7 ● ●\nConfigure systems to issue a log entry and alert when an account is added to\nor removed from any group assigned administrative privileges.\n6.3 Enable Detailed Logging\nv7 Enable system logging to include detailed information such as an event source, ● ●\ndate, user, timestamp, source addresses, destination addresses, and other useful\nelements.\n16.6 Maintain an Inventory of Accounts\nv7 ● ●\nMaintain an inventory of all accounts organized by authentication system.\nPage 422",
-    "references": [],
-    "additional_info": "",
     "page_number": 422
   },
   {
@@ -130,8 +114,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed.\nOR\nTo audit the system using auditpol.exe, perform the following and confirm it is set as\nprescribed:\nauditpol /get /subcategory:\"{0cce9216-69ae-11d9-bed3-505054503030}\"",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to include\nSuccess:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced\nAudit Policy Configuration\\Audit Policies\\Logon/Logoff\\Audit Logoff",
     "default_value": "Success.\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-\nprotection/auditing/audit-logoff\n2. GRID: MS-00000211\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n8.5 Collect Detailed Audit Logs\nv8 Configure detailed audit logging for enterprise assets containing sensitive data. ● ●\nInclude event source, date, username, timestamp, source addresses, destination\naddresses, and other useful elements that could assist in a forensic investigation.\n6.3 Enable Detailed Logging\nv7 Enable system logging to include detailed information such as an event source, ● ●\ndate, user, timestamp, source addresses, destination addresses, and other useful\nelements.\n16.13 Alert on Account Login Behavior Deviation\nv7 ●\nAlert when users deviate from normal login behavior, such as time-of-day,\nworkstation location and duration.\nPage 424",
-    "references": [],
-    "additional_info": "",
     "page_number": 424
   },
   {
@@ -145,8 +127,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed.\nOR\nTo audit the system using auditpol.exe, perform the following and confirm it is set as\nprescribed:\nauditpol /get /subcategory:\"{0cce9215-69ae-11d9-bed3-505054503030}\"",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nSuccess and Failure:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced\nAudit Policy Configuration\\Audit Policies\\Logon/Logoff\\Audit Logon",
     "default_value": "Success.\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-\nprotection/auditing/audit-logon\n2. GRID: MS-00000212\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n8.5 Collect Detailed Audit Logs\nv8 Configure detailed audit logging for enterprise assets containing sensitive data. ● ●\nInclude event source, date, username, timestamp, source addresses, destination\naddresses, and other useful elements that could assist in a forensic investigation.\n6.3 Enable Detailed Logging\nv7 Enable system logging to include detailed information such as an event source, ● ●\ndate, user, timestamp, source addresses, destination addresses, and other useful\nelements.\n16.13 Alert on Account Login Behavior Deviation\nv7 ●\nAlert when users deviate from normal login behavior, such as time-of-day,\nworkstation location and duration.\nPage 426",
-    "references": [],
-    "additional_info": "",
     "page_number": 426
   },
   {
@@ -160,8 +140,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed.\nOR\nTo audit the system using auditpol.exe, perform the following and confirm it is set as\nprescribed:\nauditpol /get /subcategory:\"{0cce921c-69ae-11d9-bed3-505054503030}\"",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nSuccess and Failure:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced\nAudit Policy Configuration\\Audit Policies\\Logon/Logoff\\Audit Other\nLogon/Logoff Events",
     "default_value": "No Auditing.\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-\nprotection/auditing/audit-other-logonlogoff-events\n2. GRID: MS-00000213\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n8.5 Collect Detailed Audit Logs\nv8 Configure detailed audit logging for enterprise assets containing sensitive data. ● ●\nInclude event source, date, username, timestamp, source addresses, destination\naddresses, and other useful elements that could assist in a forensic investigation.\n6.3 Enable Detailed Logging\nv7 Enable system logging to include detailed information such as an event source, ● ●\ndate, user, timestamp, source addresses, destination addresses, and other useful\nelements.\n16.13 Alert on Account Login Behavior Deviation\nv7 ●\nAlert when users deviate from normal login behavior, such as time-of-day,\nworkstation location and duration.\nPage 428\nPage 429",
-    "references": [],
-    "additional_info": "",
     "page_number": 428
   },
   {
@@ -175,8 +153,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed.\nOR\nTo audit the system using auditpol.exe, perform the following and confirm it is set as\nprescribed:\nauditpol /get /subcategory:\"{0cce921b-69ae-11d9-bed3-505054503030}\"\nPage 430",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to include\nSuccess:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced\nAudit Policy Configuration\\Audit Policies\\Logon/Logoff\\Audit Special Logon",
     "default_value": "Success.\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-\nprotection/auditing/audit-special-logon\n2. GRID: MS-00000214\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n8.5 Collect Detailed Audit Logs\nv8 Configure detailed audit logging for enterprise assets containing sensitive data. ● ●\nInclude event source, date, username, timestamp, source addresses, destination\naddresses, and other useful elements that could assist in a forensic investigation.\n6.3 Enable Detailed Logging\nv7 Enable system logging to include detailed information such as an event source, ● ●\ndate, user, timestamp, source addresses, destination addresses, and other useful\nelements.\n16.13 Alert on Account Login Behavior Deviation\nv7 ●\nAlert when users deviate from normal login behavior, such as time-of-day,\nworkstation location and duration.\nPage 431",
-    "references": [],
-    "additional_info": "",
     "page_number": 431
   },
   {
@@ -190,8 +166,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed.\nOR\nTo audit the system using auditpol.exe, perform the following and confirm it is set as\nprescribed:\nauditpol /get /subcategory:\"{0cce9244-69ae-11d9-bed3-505054503030}\"\nPage 433",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to include\nFailure:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced\nAudit Policy Configuration\\Audit Policies\\Object Access\\Audit Detailed File\nShare",
     "default_value": "No Auditing.\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-\nprotection/auditing/audit-detailed-file-share\n2. GRID: MS-00000215\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n8.5 Collect Detailed Audit Logs\nv8 Configure detailed audit logging for enterprise assets containing sensitive data. ● ●\nInclude event source, date, username, timestamp, source addresses, destination\naddresses, and other useful elements that could assist in a forensic investigation.\n6.3 Enable Detailed Logging\nv7 Enable system logging to include detailed information such as an event source, ● ●\ndate, user, timestamp, source addresses, destination addresses, and other useful\nelements.\n14.6 Protect Information through Access Control Lists\nProtect all information stored on systems with file system, network share,\nv7 claims, application, or database specific access control lists. These controls will ● ● ●\nenforce the principle that only authorized individuals should have access to the\ninformation based on their need to access the information as a part of their\nresponsibilities.\nPage 434",
-    "references": [],
-    "additional_info": "",
     "page_number": 434
   },
   {
@@ -205,8 +179,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed.\nOR\nTo audit the system using auditpol.exe, perform the following and confirm it is set as\nprescribed:\nauditpol /get /subcategory:\"{0cce9224-69ae-11d9-bed3-505054503030}\"\nPage 435",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nSuccess and Failure:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced\nAudit Policy Configuration\\Audit Policies\\Object Access\\Audit File Share",
     "default_value": "No Auditing.\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-\nprotection/auditing/audit-file-share\n2. GRID: MS-00000216\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n8.5 Collect Detailed Audit Logs\nv8 Configure detailed audit logging for enterprise assets containing sensitive data. ● ●\nInclude event source, date, username, timestamp, source addresses, destination\naddresses, and other useful elements that could assist in a forensic investigation.\n6.3 Enable Detailed Logging\nv7 Enable system logging to include detailed information such as an event source, ● ●\ndate, user, timestamp, source addresses, destination addresses, and other useful\nelements.\n14.6 Protect Information through Access Control Lists\nProtect all information stored on systems with file system, network share,\nv7 claims, application, or database specific access control lists. These controls will ● ● ●\nenforce the principle that only authorized individuals should have access to the\ninformation based on their need to access the information as a part of their\nresponsibilities.\nPage 436",
-    "references": [],
-    "additional_info": "",
     "page_number": 436
   },
   {
@@ -220,8 +192,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed.\nOR\nTo audit the system using auditpol.exe, perform the following and confirm it is set as\nprescribed:\nauditpol /get /subcategory:\"{0cce9227-69ae-11d9-bed3-505054503030}\"",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nSuccess and Failure:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced\nAudit Policy Configuration\\Audit Policies\\Object Access\\Audit Other Object\nAccess Events",
     "default_value": "No Auditing.\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-\nprotection/auditing/audit-other-object-access-events\n2. GRID: MS-00000217\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n8.5 Collect Detailed Audit Logs\nv8 Configure detailed audit logging for enterprise assets containing sensitive data. ● ●\nInclude event source, date, username, timestamp, source addresses, destination\naddresses, and other useful elements that could assist in a forensic investigation.\n6.3 Enable Detailed Logging\nv7 Enable system logging to include detailed information such as an event source, ● ●\ndate, user, timestamp, source addresses, destination addresses, and other useful\nelements.\nPage 438",
-    "references": [],
-    "additional_info": "",
     "page_number": 438
   },
   {
@@ -235,8 +205,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed.\nOR\nTo audit the system using auditpol.exe, perform the following and confirm it is set as\nprescribed:\nauditpol /get /subcategory:\"{0cce9245-69ae-11d9-bed3-505054503030}\"",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nSuccess and Failure:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced\nAudit Policy Configuration\\Audit Policies\\Object Access\\Audit Removable\nStorage",
     "default_value": "No Auditing.\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-\nprotection/auditing/audit-removable-storage\n2. GRID: MS-00000218\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n8.5 Collect Detailed Audit Logs\nv8 Configure detailed audit logging for enterprise assets containing sensitive data. ● ●\nInclude event source, date, username, timestamp, source addresses, destination\naddresses, and other useful elements that could assist in a forensic investigation.\n6.3 Enable Detailed Logging\nv7 Enable system logging to include detailed information such as an event source, ● ●\ndate, user, timestamp, source addresses, destination addresses, and other useful\nelements.\nPage 440",
-    "references": [],
-    "additional_info": "",
     "page_number": 440
   },
   {
@@ -250,8 +218,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed.\nOR\nTo audit the system using auditpol.exe, perform the following and confirm it is set as\nprescribed:\nauditpol /get /subcategory:\"{0cce922f-69ae-11d9-bed3-505054503030}\"",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to include\nSuccess:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced\nAudit Policy Configuration\\Audit Policies\\Policy Change\\Audit Audit Policy\nChange",
     "default_value": "Success.\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-\nprotection/auditing/audit-audit-policy-change\n2. GRID: MS-00000219\nPage 443\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n8.5 Collect Detailed Audit Logs\nv8 Configure detailed audit logging for enterprise assets containing sensitive data. ● ●\nInclude event source, date, username, timestamp, source addresses, destination\naddresses, and other useful elements that could assist in a forensic investigation.\n5.5 Implement Automated Configuration Monitoring\nSystems\nv7 ● ●\nUtilize a Security Content Automation Protocol (SCAP) compliant configuration\nmonitoring system to verify all security configuration elements, catalog approved\nexceptions, and alert when unauthorized changes occur.\n6.3 Enable Detailed Logging\nv7 Enable system logging to include detailed information such as an event source, ● ●\ndate, user, timestamp, source addresses, destination addresses, and other useful\nelements.\nPage 444",
-    "references": [],
-    "additional_info": "",
     "page_number": 443
   },
   {
@@ -265,8 +231,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed.\nOR\nTo audit the system using auditpol.exe, perform the following and confirm it is set as\nprescribed:\nauditpol /get /subcategory:\"{0cce9230-69ae-11d9-bed3-505054503030}\"",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to include\nSuccess:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced\nAudit Policy Configuration\\Audit Policies\\Policy Change\\Audit Authentication\nPolicy Change",
     "default_value": "Success.\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-\nprotection/auditing/audit-authentication-policy-change\n2. GRID: MS-00000220\nPage 446\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n8.5 Collect Detailed Audit Logs\nv8 Configure detailed audit logging for enterprise assets containing sensitive data. ● ●\nInclude event source, date, username, timestamp, source addresses, destination\naddresses, and other useful elements that could assist in a forensic investigation.\n5.5 Implement Automated Configuration Monitoring\nSystems\nv7 ● ●\nUtilize a Security Content Automation Protocol (SCAP) compliant configuration\nmonitoring system to verify all security configuration elements, catalog approved\nexceptions, and alert when unauthorized changes occur.\n6.3 Enable Detailed Logging\nv7 Enable system logging to include detailed information such as an event source, ● ●\ndate, user, timestamp, source addresses, destination addresses, and other useful\nelements.\nPage 447",
-    "references": [],
-    "additional_info": "",
     "page_number": 446
   },
   {
@@ -280,8 +244,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed.\nOR\nTo audit the system using auditpol.exe, perform the following and confirm it is set as\nprescribed:\nauditpol /get /subcategory:\"{0cce9231-69ae-11d9-bed3-505054503030}\"",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to include\nSuccess:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced\nAudit Policy Configuration\\Audit Policies\\Policy Change\\Audit Authorization\nPolicy Change",
     "default_value": "Success.\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-\nprotection/auditing/audit-authorization-policy-change\n2. GRID: MS-00000221\nPage 449\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n8.5 Collect Detailed Audit Logs\nv8 Configure detailed audit logging for enterprise assets containing sensitive data. ● ●\nInclude event source, date, username, timestamp, source addresses, destination\naddresses, and other useful elements that could assist in a forensic investigation.\n5.5 Implement Automated Configuration Monitoring\nSystems\nv7 ● ●\nUtilize a Security Content Automation Protocol (SCAP) compliant configuration\nmonitoring system to verify all security configuration elements, catalog approved\nexceptions, and alert when unauthorized changes occur.\n6.3 Enable Detailed Logging\nv7 Enable system logging to include detailed information such as an event source, ● ●\ndate, user, timestamp, source addresses, destination addresses, and other useful\nelements.\nPage 450",
-    "references": [],
-    "additional_info": "",
     "page_number": 449
   },
   {
@@ -295,8 +257,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed.\nOR\nTo audit the system using auditpol.exe, perform the following and confirm it is set as\nprescribed:\nauditpol /get /subcategory:\"{0cce9232-69ae-11d9-bed3-505054503030}\"",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nSuccess and Failure:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced\nAudit Policy Configuration\\Audit Policies\\Policy Change\\Audit MPSSVC Rule-\nLevel Policy Change",
     "default_value": "No Auditing.\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-\nprotection/auditing/audit-mpssvc-rule-level-policy-change\n2. GRID: MS-00000222\nPage 452\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n8.5 Collect Detailed Audit Logs\nv8 Configure detailed audit logging for enterprise assets containing sensitive data. ● ●\nInclude event source, date, username, timestamp, source addresses, destination\naddresses, and other useful elements that could assist in a forensic investigation.\n5.5 Implement Automated Configuration Monitoring\nSystems\nv7 ● ●\nUtilize a Security Content Automation Protocol (SCAP) compliant configuration\nmonitoring system to verify all security configuration elements, catalog approved\nexceptions, and alert when unauthorized changes occur.\n6.3 Enable Detailed Logging\nv7 Enable system logging to include detailed information such as an event source, ● ●\ndate, user, timestamp, source addresses, destination addresses, and other useful\nelements.\nPage 453",
-    "references": [],
-    "additional_info": "",
     "page_number": 452
   },
   {
@@ -310,8 +270,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed.\nOR\nTo audit the system using auditpol.exe, perform the following and confirm it is set as\nprescribed:\nauditpol /get /subcategory:\"{0cce9234-69ae-11d9-bed3-505054503030}\"",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to include\nFailure:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced\nAudit Policy Configuration\\Audit Policies\\Policy Change\\Audit Other Policy\nChange Events",
     "default_value": "No Auditing.\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-\nprotection/auditing/audit-other-policy-change-events\n2. GRID: MS-00000223\nPage 455\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n8.5 Collect Detailed Audit Logs\nv8 Configure detailed audit logging for enterprise assets containing sensitive data. ● ●\nInclude event source, date, username, timestamp, source addresses, destination\naddresses, and other useful elements that could assist in a forensic investigation.\n5.5 Implement Automated Configuration Monitoring\nSystems\nv7 ● ●\nUtilize a Security Content Automation Protocol (SCAP) compliant configuration\nmonitoring system to verify all security configuration elements, catalog approved\nexceptions, and alert when unauthorized changes occur.\n6.3 Enable Detailed Logging\nv7 Enable system logging to include detailed information such as an event source, ● ●\ndate, user, timestamp, source addresses, destination addresses, and other useful\nelements.\nPage 456",
-    "references": [],
-    "additional_info": "",
     "page_number": 455
   },
   {
@@ -325,8 +283,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed.\nOR\nTo audit the system using auditpol.exe, perform the following and confirm it is set as\nprescribed:\nauditpol /get /subcategory:\"{0cce9228-69ae-11d9-bed3-505054503030}\"",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nSuccess and Failure:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced\nAudit Policy Configuration\\Audit Policies\\Privilege Use\\Audit Sensitive\nPrivilege Use",
     "default_value": "No Auditing.\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-\nprotection/auditing/audit-sensitive-privilege-use\n2. GRID: MS-00000224\nPage 459\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n8.5 Collect Detailed Audit Logs\nv8 Configure detailed audit logging for enterprise assets containing sensitive data. ● ●\nInclude event source, date, username, timestamp, source addresses, destination\naddresses, and other useful elements that could assist in a forensic investigation.\n6.3 Enable Detailed Logging\nv7 Enable system logging to include detailed information such as an event source, ● ●\ndate, user, timestamp, source addresses, destination addresses, and other useful\nelements.\nPage 460",
-    "references": [],
-    "additional_info": "",
     "page_number": 459
   },
   {
@@ -340,8 +296,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed.\nOR\nTo audit the system using auditpol.exe, perform the following and confirm it is set as\nprescribed:\nauditpol /get /subcategory:\"{0cce9213-69ae-11d9-bed3-505054503030}\"",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nSuccess and Failure:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced\nAudit Policy Configuration\\Audit Policies\\System\\Audit IPsec Driver",
     "default_value": "No Auditing.\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-\nprotection/auditing/audit-ipsec-driver\n2. GRID: MS-00000225\nPage 463\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n8.5 Collect Detailed Audit Logs\nv8 Configure detailed audit logging for enterprise assets containing sensitive data. ● ●\nInclude event source, date, username, timestamp, source addresses, destination\naddresses, and other useful elements that could assist in a forensic investigation.\n6.3 Enable Detailed Logging\nv7 Enable system logging to include detailed information such as an event source, ● ●\ndate, user, timestamp, source addresses, destination addresses, and other useful\nelements.\nPage 464",
-    "references": [],
-    "additional_info": "",
     "page_number": 463
   },
   {
@@ -355,8 +309,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed.\nOR\nTo audit the system using auditpol.exe, perform the following and confirm it is set as\nprescribed:\nauditpol /get /subcategory:\"{0cce9214-69ae-11d9-bed3-505054503030}\"",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nSuccess and Failure:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced\nAudit Policy Configuration\\Audit Policies\\System\\Audit Other System Events",
     "default_value": "Success and Failure.\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-\nprotection/auditing/audit-other-system-events\n2. GRID: MS-00000226\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n8.5 Collect Detailed Audit Logs\nv8 Configure detailed audit logging for enterprise assets containing sensitive data. ● ●\nInclude event source, date, username, timestamp, source addresses, destination\naddresses, and other useful elements that could assist in a forensic investigation.\n6.3 Enable Detailed Logging\nv7 Enable system logging to include detailed information such as an event source, ● ●\ndate, user, timestamp, source addresses, destination addresses, and other useful\nelements.\nPage 466",
-    "references": [],
-    "additional_info": "",
     "page_number": 466
   },
   {
@@ -370,8 +322,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed.\nOR\nTo audit the system using auditpol.exe, perform the following and confirm it is set as\nprescribed:\nauditpol /get /subcategory:\"{0cce9210-69ae-11d9-bed3-505054503030}\"",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to include\nSuccess:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced\nAudit Policy Configuration\\Audit Policies\\System\\Audit Security State Change",
     "default_value": "Success.\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-\nprotection/auditing/audit-security-state-change\n2. GRID: MS-00000227\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n8.5 Collect Detailed Audit Logs\nv8 Configure detailed audit logging for enterprise assets containing sensitive data. ● ●\nInclude event source, date, username, timestamp, source addresses, destination\naddresses, and other useful elements that could assist in a forensic investigation.\n6.3 Enable Detailed Logging\nv7 Enable system logging to include detailed information such as an event source, ● ●\ndate, user, timestamp, source addresses, destination addresses, and other useful\nelements.\nPage 468",
-    "references": [],
-    "additional_info": "",
     "page_number": 468
   },
   {
@@ -385,8 +335,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed.\nOR\nTo audit the system using auditpol.exe, perform the following and confirm it is set as\nprescribed:\nauditpol /get /subcategory:\"{0cce9211-69ae-11d9-bed3-505054503030}\"",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to include\nSuccess:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced\nAudit Policy Configuration\\Audit Policies\\System\\Audit Security System\nExtension",
     "default_value": "No Auditing.\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-\nprotection/auditing/audit-security-system-extension\n2. GRID: MS-00000228\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n8.5 Collect Detailed Audit Logs\nv8 Configure detailed audit logging for enterprise assets containing sensitive data. ● ●\nInclude event source, date, username, timestamp, source addresses, destination\naddresses, and other useful elements that could assist in a forensic investigation.\n6.3 Enable Detailed Logging\nv7 Enable system logging to include detailed information such as an event source, ● ●\ndate, user, timestamp, source addresses, destination addresses, and other useful\nelements.\nPage 470",
-    "references": [],
-    "additional_info": "",
     "page_number": 470
   },
   {
@@ -400,8 +348,6 @@
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed.\nOR\nTo audit the system using auditpol.exe, perform the following and confirm it is set as\nprescribed:\nauditpol /get /subcategory:\"{0cce9212-69ae-11d9-bed3-505054503030}\"",
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nSuccess and Failure:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced\nAudit Policy Configuration\\Audit Policies\\System\\Audit System Integrity",
     "default_value": "Success and Failure.\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-\nprotection/auditing/audit-system-integrity\n2. GRID: MS-00000229\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n8.5 Collect Detailed Audit Logs\nv8 Configure detailed audit logging for enterprise assets containing sensitive data. ● ●\nInclude event source, date, username, timestamp, source addresses, destination\naddresses, and other useful elements that could assist in a forensic investigation.\n6.3 Enable Detailed Logging\nv7 Enable system logging to include detailed information such as an event source, ● ●\ndate, user, timestamp, source addresses, destination addresses, and other useful\nelements.\nPage 472",
-    "references": [],
-    "additional_info": "",
     "page_number": 472
   }
 ]

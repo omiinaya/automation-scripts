@@ -36,8 +36,6 @@ class CISRecommendation:
     audit_procedure: str
     remediation_procedure: str
     default_value: str = ""
-    references: List[str] = field(default_factory=list)
-    additional_info: str = ""
     page_number: int = 0
 
 
@@ -74,7 +72,7 @@ class CISRobustExtractor:
         re.DOTALL | re.IGNORECASE
     )
     
-    def __init__(self, pdf_path: str, output_dir: str = "cis-data/raw-json"):
+    def __init__(self, pdf_path: str, output_dir: str = "docs/json"):
         self.pdf_path = pdf_path
         self.output_dir = output_dir
         self.recommendations: List[CISRecommendation] = []
@@ -388,8 +386,6 @@ class CISRobustExtractor:
                 audit_procedure=sections.get('audit', ''),
                 remediation_procedure=sections.get('remediation', ''),
                 default_value=sections.get('default_value', ''),
-                references=[],          # empty list
-                additional_info='',     # empty string
                 page_number=block_data['start_page']
             )
             
@@ -472,24 +468,6 @@ class CISRobustExtractor:
                     f"{output_path}"
                 )
             
-            # Also save a master index file with section information
-            index_data = {
-                "total_recommendations": len(self.recommendations),
-                "sections": {
-                    section_id: len(recommendations)
-                    for section_id, recommendations in sections.items()
-                },
-                "section_files": [
-                    f"cis_section_{section_id}.json"
-                    for section_id in sections.keys()
-                ]
-            }
-            
-            index_path = Path(self.output_dir) / "cis_sections_index.json"
-            with open(index_path, 'w', encoding='utf-8') as f:
-                json.dump(index_data, f, indent=2, ensure_ascii=False)
-            
-            self.logger.info(f"Saved section index to {index_path}")
             
         except Exception as e:
             self.logger.error(f"Error saving to JSON: {e}")
@@ -539,7 +517,7 @@ class CISRobustExtractor:
 def main():
     """Main function"""
     pdf_path = "docs/CIS_Microsoft_Windows_11_Stand-alone_Benchmark_v4.0.0.pdf"
-    output_dir = "cis-data/raw-json"
+    output_dir = "docs/json"
     
     if not Path(pdf_path).exists():
         print(f"Error: PDF file not found at {pdf_path}")
@@ -561,11 +539,6 @@ def main():
         print(f"Assessment status: {summary['assessment_status']}")
         print(f"Sections with content: {summary['sections_with_content']}")
         
-        # Save summary to file
-        summary_path = Path(output_dir) / "extraction_summary_robust.json"
-        with open(summary_path, 'w') as f:
-            json.dump(summary, f, indent=2)
-        print(f"Summary saved to: {summary_path}")
         
     except Exception as e:
         print(f"Error during extraction: {e}")
