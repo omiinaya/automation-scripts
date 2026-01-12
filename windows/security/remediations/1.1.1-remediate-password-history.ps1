@@ -95,7 +95,7 @@ try {
         Write-StatusMessage -Message "COMPLIANT: Password history setting already meets CIS benchmark" -Type Success
         Write-Host ""
         Write-StatusMessage -Message "No remediation required" -Type Success
-        Show-Pause -Message "Press Enter to exit..."
+        Display-Pause -Message "Press Enter to exit..."
         exit 0
     } else {
         Write-StatusMessage -Message "NON-COMPLIANT: Password history setting does not meet CIS benchmark" -Type Error
@@ -108,9 +108,9 @@ try {
         Write-Host ""
         
         # Get user confirmation before proceeding
-        if (-not (Show-Confirmation -Message "Do you want to proceed with remediation?" -DefaultChoice "No")) {
+        if (-not (Display-Confirmation -Message "Do you want to proceed with remediation?" -DefaultChoice "No")) {
             Write-StatusMessage -Message "Remediation cancelled by user" -Type Warning
-            Show-Pause -Message "Press Enter to exit..."
+            Display-Pause -Message "Press Enter to exit..."
             exit 0
         }
         
@@ -216,7 +216,7 @@ PasswordHistorySize=24
             }
         )
         
-        Show-Table -Data $remediationData -Title "Remediation Results"
+        Display-Table -Data $remediationData -Title "Remediation Results"
         
         Write-Host ""
         Write-StatusMessage -Message "Remediation process completed" -Type Success
@@ -239,7 +239,7 @@ PasswordHistorySize=24
     }
     
     Write-Host ""
-    Show-Pause -Message "Press Enter to exit..."
+    Display-Pause -Message "Press Enter to exit..."
     
 } catch {
     Wait-OnError -ErrorMessage "Failed to perform password policy remediation: $($_.Exception.Message)"

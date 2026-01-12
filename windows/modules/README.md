@@ -44,7 +44,7 @@ if (Test-AdminRights) {
 
 # Get current power schemes
 $schemes = Get-PowerSchemes
-Show-Table -Data $schemes -Title "Available Power Schemes"
+Display-Table -Data $schemes -Title "Available Power Schemes"
 
 # Set high performance mode
 $highPerf = Get-PowerSchemeByName -Name "High performance"
@@ -101,7 +101,7 @@ Provides registry operations and manipulation functions.
 - `New-RegistryKey` - Create a new registry key
 - `Export-RegistryKey` - Export registry key to .reg file
 - `Import-RegistryFile` - Import registry settings from .reg file
-- `Search-RegistryValue` - Search for registry values by name or data
+- `Find-RegistryValue` - Search for registry values by name or data
 
 ### WindowsUI Module
 Provides consistent UI output and formatting functions.

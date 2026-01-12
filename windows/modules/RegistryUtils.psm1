@@ -323,11 +323,11 @@ function Import-RegistryFile {
     }
 }
 
-# Function to search for registry values
-function Search-RegistryValue {
+# Function to find registry values
+function Find-RegistryValue {
     <#
     .SYNOPSIS
-        Searches for registry values by name or data.
+        Finds registry values by name or data.
     .DESCRIPTION
         Searches through registry keys for values matching the search criteria.
     .PARAMETER SearchTerm
@@ -337,7 +337,7 @@ function Search-RegistryValue {
     .PARAMETER SearchData
         Search in value data as well as names.
     .EXAMPLE
-        Search-RegistryValue -SearchTerm "MyApp" -KeyPath "HKLM:\SOFTWARE"
+        Find-RegistryValue -SearchTerm "MyApp" -KeyPath "HKLM:\SOFTWARE"
     .OUTPUTS
         PSCustomObject[]
     #>
@@ -348,7 +348,7 @@ function Search-RegistryValue {
         [switch]$SearchData
     )
     
-    function Search-RegistryRecursive {
+    function Find-RegistryRecursive {
         param($Path, $Term, $SearchInData)
         
         $results = @()
@@ -385,7 +385,7 @@ function Search-RegistryValue {
                 # Search in subkeys
                 $subKeys = Get-ChildItem -Path $Path -ErrorAction SilentlyContinue
                 foreach ($subKey in $subKeys) {
-                    $results += Search-RegistryRecursive -Path $subKey.PSPath -Term $Term -SearchInData $SearchInData
+                    $results += Find-RegistryRecursive -Path $subKey.PSPath -Term $Term -SearchInData $SearchInData
                 }
             }
         }
@@ -396,8 +396,8 @@ function Search-RegistryValue {
         return $results
     }
     
-    return Search-RegistryRecursive -Path $KeyPath -Term $SearchTerm -SearchInData $SearchData
+    return Find-RegistryRecursive -Path $KeyPath -Term $SearchTerm -SearchInData $SearchData
 }
 
 # Export the module members
-Export-ModuleMember -Function Test-RegistryKey, Test-RegistryValue, Get-RegistryValue, Set-RegistryValue, Remove-RegistryValue, Remove-RegistryKey, New-RegistryKey, Export-RegistryKey, Import-RegistryFile, Search-RegistryValue
+Export-ModuleMember -Function Test-RegistryKey, Test-RegistryValue, Get-RegistryValue, Set-RegistryValue, Remove-RegistryValue, Remove-RegistryKey, New-RegistryKey, Export-RegistryKey, Import-RegistryFile, Find-RegistryValue

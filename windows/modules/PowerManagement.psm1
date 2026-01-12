@@ -229,15 +229,15 @@ function Set-Windows11PowerMode {
     }
 }
 
-# Function to switch Windows 11 Power Mode
-function Switch-Windows11PowerMode {
+# Function to toggle Windows 11 Power Mode
+function Toggle-Windows11PowerMode {
     <#
     .SYNOPSIS
-        Switches between Windows 11 Power Modes.
+        Toggles between Windows 11 Power Modes.
     .DESCRIPTION
         Cycles through the three Windows 11 Power Modes: Recommended (0), Better Performance (1), Best Performance (2).
     .EXAMPLE
-        Switch-Windows11PowerMode
+        Toggle-Windows11PowerMode
     .OUTPUTS
         PSCustomObject
     #>
@@ -648,4 +648,4 @@ function Convert-HexStringToInt {
 }
 
 # Export the module members
-Export-ModuleMember -Function Get-PowerSchemes, Get-ActivePowerScheme, Set-PowerScheme, Get-PowerSchemeByName, Get-PowerSetting, Set-PowerSetting, Get-PowerSettingGUID, Get-PowerSettings, Get-BatteryInfo, Copy-PowerScheme, Remove-PowerScheme, Convert-HexStringToInt, Get-Windows11PowerMode, Set-Windows11PowerMode, Switch-Windows11PowerMode
+Export-ModuleMember -Function Get-PowerSchemes, Get-ActivePowerScheme, Set-PowerScheme, Get-PowerSchemeByName, Get-PowerSetting, Set-PowerSetting, Get-PowerSettingGUID, Get-PowerSettings, Get-BatteryInfo, Copy-PowerScheme, Remove-PowerScheme, Convert-HexStringToInt, Get-Windows11PowerMode, Set-Windows11PowerMode, Toggle-Windows11PowerMode
