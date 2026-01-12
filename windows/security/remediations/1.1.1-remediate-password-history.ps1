@@ -2,6 +2,11 @@
 # CIS Benchmark: 1.1.1 (L1) Ensure 'Enforce password history' is set to '24 or more password(s)'
 # Refactored to use modular system
 
+[CmdletBinding()]
+param()
+
+$VerboseOutput = $PSCmdlet.MyInvocation.BoundParameters.ContainsKey('Verbose')
+
 # Function to pause on error
 function Wait-OnError {
     param(
@@ -23,7 +28,12 @@ if (-not (Test-AdminRights)) {
 }
 
 try {
-    Write-SectionHeader -Title "Password Policy Remediation: Enforce Password History"
+    # Initialize result object
+    $scriptResult = $null
+    
+    if ($VerboseOutput) {
+        Write-SectionHeader -Title "Password Policy Remediation: Enforce Password History"
+    }
     
     # Check if this is a domain environment
     $isDomainMember = (Get-CimInstance -ClassName Win32_ComputerSystem).PartOfDomain
@@ -95,8 +105,20 @@ try {
         Write-StatusMessage -Message "COMPLIANT: Password history setting already meets CIS benchmark" -Type Success
         Write-Host ""
         Write-StatusMessage -Message "No remediation required" -Type Success
-        Display-Pause -Message "Press Enter to exit..."
-        exit 0
+        
+        $scriptResult = [PSCustomObject]@{
+            Status = "Compliant"
+            Message = "Password history setting already meets CIS benchmark"
+            PreviousValue = $passwordHistoryValue
+            NewValue = $passwordHistoryValue
+            IsCompliant = $true
+            RequiresManualAction = $false
+            Source = $source
+        }
+        
+        if ($VerboseOutput) {
+            Display-Pause -Message "Press Enter to exit..."
+        }
     } else {
         Write-StatusMessage -Message "NON-COMPLIANT: Password history setting does not meet CIS benchmark" -Type Error
         Write-Host ""
@@ -110,8 +132,22 @@ try {
         # Get user confirmation before proceeding
         if (-not (Display-Confirmation -Message "Do you want to proceed with remediation?" -DefaultChoice "No")) {
             Write-StatusMessage -Message "Remediation cancelled by user" -Type Warning
-            Display-Pause -Message "Press Enter to exit..."
-            exit 0
+            
+            $scriptResult = [PSCustomObject]@{
+                Status = "Cancelled"
+                Message = "User cancelled remediation"
+                PreviousValue = $passwordHistoryValue
+                NewValue = $passwordHistoryValue
+                IsCompliant = $false
+                RequiresManualAction = $false
+                Source = $source
+            }
+            
+            if ($VerboseOutput) {
+                Display-Pause -Message "Press Enter to exit..."
+            }
+            
+            return $scriptResult
         }
         
         Write-Host ""
@@ -130,6 +166,16 @@ try {
             Write-Host "5. Apply the policy and run 'gpupdate /force' on all domain computers" -ForegroundColor White
             Write-Host ""
             Write-Host "Note: Domain policy changes require domain administrator privileges" -ForegroundColor Gray
+            
+            $scriptResult = [PSCustomObject]@{
+                Status = "ManualActionRequired"
+                Message = "Domain environment requires manual policy changes"
+                PreviousValue = $passwordHistoryValue
+                NewValue = 24
+                IsCompliant = $false
+                RequiresManualAction = $true
+                Source = $source
+            }
         } else {
             Write-StatusMessage -Message "Standalone environment - applying local policy remediation" -Type Info
             
@@ -170,8 +216,37 @@ PasswordHistorySize=24
                         $newValue = [int]($verifyLine -split "=")[1].Trim()
                         if ($newValue -ge 24) {
                             Write-StatusMessage -Message "Remediation verified: Password history now set to $newValue" -Type Success
+                            $scriptResult = [PSCustomObject]@{
+                                Status = "Remediated"
+                                Message = "Password history setting successfully updated to $newValue"
+                                PreviousValue = $passwordHistoryValue
+                                NewValue = $newValue
+                                IsCompliant = $true
+                                RequiresManualAction = $false
+                                Source = $source
+                            }
                         } else {
                             Write-StatusMessage -Message "Warning: Setting may not have applied correctly" -Type Warning
+                            $scriptResult = [PSCustomObject]@{
+                                Status = "PartiallyRemediated"
+                                Message = "Password history setting may not have been applied correctly (value: $newValue)"
+                                PreviousValue = $passwordHistoryValue
+                                NewValue = $newValue
+                                IsCompliant = $false
+                                RequiresManualAction = $false
+                                Source = $source
+                            }
+                        }
+                    } else {
+                        # No verification line found
+                        $scriptResult = [PSCustomObject]@{
+                            Status = "PartiallyRemediated"
+                            Message = "Unable to verify password history setting after remediation"
+                            PreviousValue = $passwordHistoryValue
+                            NewValue = 24
+                            IsCompliant = $false
+                            RequiresManualAction = $false
+                            Source = $source
                         }
                     }
                     
@@ -188,6 +263,16 @@ PasswordHistorySize=24
                     Write-Host "2. Navigate to: Account Policies\Password Policy" -ForegroundColor White
                     Write-Host "3. Set 'Enforce password history' to 24 or more" -ForegroundColor White
                     Write-Host "4. Click Apply and OK" -ForegroundColor White
+                    
+                    $scriptResult = [PSCustomObject]@{
+                        Status = "Failed"
+                        Message = "Failed to apply security policy (exit code: $LASTEXITCODE)"
+                        PreviousValue = $passwordHistoryValue
+                        NewValue = 24
+                        IsCompliant = $false
+                        RequiresManualAction = $true
+                        Source = $source
+                    }
                 }
                 
             } catch {
@@ -200,6 +285,16 @@ PasswordHistorySize=24
                 Write-Host "2. Navigate to: Account Policies\Password Policy" -ForegroundColor White
                 Write-Host "3. Set 'Enforce password history' to 24 or more" -ForegroundColor White
                 Write-Host "4. Click Apply and OK" -ForegroundColor White
+                
+                $scriptResult = [PSCustomObject]@{
+                    Status = "Error"
+                    Message = "Failed to remediate local policy: $($_.Exception.Message)"
+                    PreviousValue = $passwordHistoryValue
+                    NewValue = 24
+                    IsCompliant = $false
+                    RequiresManualAction = $true
+                    Source = $source
+                }
             }
         }
         
@@ -237,9 +332,26 @@ PasswordHistorySize=24
             Write-Host "• Verify the setting by running the audit script again" -ForegroundColor White
         }
     }
+    # Output result
+    if ($scriptResult -eq $null) {
+        $scriptResult = [PSCustomObject]@{
+            Status = "Unknown"
+            Message = "Script completed without setting a result"
+            PreviousValue = $null
+            NewValue = $null
+            IsCompliant = $false
+            RequiresManualAction = $false
+            Source = "Unknown"
+        }
+    }
     
-    Write-Host ""
-    Display-Pause -Message "Press Enter to exit..."
+    $scriptResult
+    
+    if ($VerboseOutput) {
+        Write-Host ""
+        Display-Pause -Message "Press Enter to exit..."
+    }
+    
     
 } catch {
     Wait-OnError -ErrorMessage "Failed to perform password policy remediation: $($_.Exception.Message)"
