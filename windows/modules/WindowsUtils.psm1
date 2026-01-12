@@ -79,18 +79,13 @@ try {
     # Write the output to the result file
     `$output | Out-File -FilePath '$resultFile' -Encoding UTF8
     `$exitCode = `$LASTEXITCODE
-    if (`$exitCode -eq 0 -or `$exitCode -eq `$null -or `$exitCode -eq '') {
-        Write-Host "Script completed successfully!" -ForegroundColor Green
-        Start-Sleep -Seconds 1
-    } else {
-        Write-Host "Script completed with errors (Exit Code: `$exitCode)" -ForegroundColor Red
-        Write-Host "Press Enter to close..." -ForegroundColor Yellow
-        Read-Host
+    if (`$exitCode -ne 0 -and `$exitCode -ne `$null -and `$exitCode -ne '') {
+        # Non-zero exit code indicates error; write error to result file
+        "ExitCode:`$exitCode" | Out-File -FilePath '$resultFile' -Encoding UTF8 -Append
     }
 } catch {
-    Write-Host "ERROR: `$(`$_.Exception.Message)" -ForegroundColor Red
-    Write-Host "Press Enter to close..." -ForegroundColor Yellow
-    Read-Host
+    # Write error to result file
+    `$_.Exception.Message | Out-File -FilePath '$resultFile' -Encoding UTF8
 }
 "@
         
@@ -109,6 +104,7 @@ try {
             $psi.Arguments = "-NoLogo -NoProfile -ExecutionPolicy Bypass -File `"$tempScript`""
             $psi.Verb = "runas"  # This triggers UAC elevation
             $psi.UseShellExecute = $true
+            $psi.WindowStyle = [System.Diagnostics.ProcessWindowStyle]::Hidden
             $psi.WorkingDirectory = $currentDirectory
             
             # Start the elevated process and wait for it to exit
