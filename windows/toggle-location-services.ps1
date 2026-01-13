@@ -2,7 +2,7 @@
 # Refactored to use modular system - reduces from 31 lines to 14 lines
 # Updated with Windows version check, improved validation, and error handling
 # Updated registry path to user-level ConsentStore to avoid "managed by your organization" message
-# Updated to set both HKCU and HKLM registry paths and broadcast change notification
+# Updated to set only HKCU registry path and broadcast change notification
 
 # Function to handle errors with optional interactive pause
 function Wait-OnError {
@@ -75,15 +75,17 @@ try {
 try {
     # User-level registry path for location consent (avoids "managed by your organization" message)
     $registryPathHKCU = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\location"
-    # Machine-level registry path for location consent (policy)
-    $registryPathHKLM = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\location"
     
-    # Validate registry keys exist
+    # Validate registry key exists
     if (-not (Test-RegistryKey -KeyPath $registryPathHKCU)) {
         Write-Warning "Registry key '$registryPathHKCU' does not exist. It will be created."
     }
-    if (-not (Test-RegistryKey -KeyPath $registryPathHKLM)) {
-        Write-Warning "Registry key '$registryPathHKLM' does not exist. It will be created."
+    
+    # Delete HKLM key if it exists to clear "managed by organization" message
+    $registryPathHKLM = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\location"
+    if (Test-RegistryKey -KeyPath $registryPathHKLM) {
+        Remove-Item -Path $registryPathHKLM -Recurse -Force -ErrorAction SilentlyContinue
+        Write-Verbose "Deleted HKLM registry key to clear organization policy." -Verbose
     }
     
     # Validate registry value existence and data type (use HKCU as primary for decision)
@@ -113,7 +115,6 @@ try {
     if ($locationEnabled) {
         # Disable location services
         Set-RegistryValue -KeyPath $registryPathHKCU -ValueName "Value" -ValueData "Deny" -ValueType String
-        Set-RegistryValue -KeyPath $registryPathHKLM -ValueName "Value" -ValueData "Deny" -ValueType String
         Stop-Service -Name "lfsvc" -Force
         Write-StatusMessage -Message "Location services disabled" -Type Success
         
@@ -126,7 +127,6 @@ try {
     } else {
         # Enable location services
         Set-RegistryValue -KeyPath $registryPathHKCU -ValueName "Value" -ValueData "Allow" -ValueType String
-        Set-RegistryValue -KeyPath $registryPathHKLM -ValueName "Value" -ValueData "Allow" -ValueType String
         Start-Service -Name "lfsvc"
         Write-StatusMessage -Message "Location services enabled" -Type Success
         
@@ -143,12 +143,11 @@ try {
     
     # Final verification
     $finalRegistryValueHKCU = Get-RegistryValue -KeyPath $registryPathHKCU -ValueName "Value" -DefaultValue "Allow"
-    $finalRegistryValueHKLM = Get-RegistryValue -KeyPath $registryPathHKLM -ValueName "Value" -DefaultValue "Allow"
     $finalServiceStatus = (Get-Service -Name "lfsvc" -ErrorAction SilentlyContinue).Status
-    Write-Verbose "Final registry values - HKCU: $finalRegistryValueHKCU, HKLM: $finalRegistryValueHKLM, service status: $finalServiceStatus" -Verbose
+    Write-Verbose "Final registry value - HKCU: $finalRegistryValueHKCU, service status: $finalServiceStatus" -Verbose
     
-    if (($finalRegistryValueHKCU -eq "Allow" -and $finalRegistryValueHKLM -eq "Allow" -and $finalServiceStatus -eq "Running") -or
-        ($finalRegistryValueHKCU -eq "Deny" -and $finalRegistryValueHKLM -eq "Deny" -and $finalServiceStatus -ne "Running")) {
+    if (($finalRegistryValueHKCU -eq "Allow" -and $finalServiceStatus -eq "Running") -or
+        ($finalRegistryValueHKCU -eq "Deny" -and $finalServiceStatus -ne "Running")) {
         Write-StatusMessage -Message "Location services toggled successfully and synchronized." -Type Success
     } else {
         Write-Warning "Registry and service may not be fully synchronized. Please check manually."
