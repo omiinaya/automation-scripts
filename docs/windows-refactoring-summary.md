@@ -45,7 +45,7 @@ This document summarizes the refactoring improvements made to the Windows automa
 
 | Script | Before (lines) | After (lines) | Key Changes |
 |--------|----------------|---------------|-------------|
-| `toggle‑location‑services.ps1` | 31 | 14 | Modular registry/service functions, Windows version check, improved error handling |
+| `toggle‑location‑services.ps1` | 31 | ~20 | Modular registry/service functions, Windows version check, improved error handling, HKLM registry path support, broadcast notification |
 | `toggle‑screen‑never.ps1` | (to be assessed) | (to be assessed) | Uses `PowerManagement` module for power‑setting operations |
 | `toggle‑sleep‑never.ps1` | (to be assessed) | (to be assessed) | Uses `PowerManagement` module for sleep‑setting operations |
 | `toggle‑theme.ps1` | (to be assessed) | (to be assessed) | Uses `RegistryUtils` for theme registry changes |
@@ -65,6 +65,10 @@ This document summarizes the refactoring improvements made to the Windows automa
 ### User Interface
 - Status messages standardized with `Write‑StatusMessage` (success/warning/error colors).
 - Verbose logging available via `‑Verbose` flag for debugging.
+
+### System Notification
+- Critical registry changes are broadcast via `WM_SETTINGCHANGE` to notify Windows and applications of policy updates.
+- Uses `SendMessageTimeout` with `HWND_BROADCAST` to ensure system-wide awareness.
 
 ## Future Refactoring Opportunities
 
