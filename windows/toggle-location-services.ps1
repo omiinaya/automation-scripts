@@ -73,6 +73,8 @@ try {
 }
 
 try {
+    Write-StatusMessage -Message "Checking location services status..." -Type Info
+    
     # User-level registry path for location consent (avoids "managed by your organization" message)
     $registryPathHKCU = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\location"
     
@@ -85,7 +87,16 @@ try {
     $registryPathHKLM = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\location"
     if (Test-RegistryKey -KeyPath $registryPathHKLM) {
         Remove-Item -Path $registryPathHKLM -Recurse -Force -ErrorAction SilentlyContinue
+        Write-StatusMessage -Message "Deleted HKLM location policy key." -Type Info
         Write-Verbose "Deleted HKLM registry key to clear organization policy." -Verbose
+    }
+    
+    # Delete Group Policy key if it exists to prevent "managed by your organization" message
+    $policyPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\LocationAndSensors"
+    if (Test-RegistryKey -KeyPath $policyPath) {
+        Remove-Item -Path $policyPath -Recurse -Force -ErrorAction SilentlyContinue
+        Write-StatusMessage -Message "Deleted Group Policy location key." -Type Info
+        Write-Verbose "Deleted Group Policy registry key to clear organization policy." -Verbose
     }
     
     # Validate registry value existence and data type (use HKCU as primary for decision)
@@ -111,6 +122,8 @@ try {
     
     # Determine if location is currently enabled based on registry and service
     $locationEnabled = ($currentValue -eq "Allow") -and ($serviceStatus -eq "Running")
+    
+    Write-StatusMessage -Message "Location services are currently $(if ($locationEnabled) { 'ENABLED' } else { 'DISABLED' })" -Type Info
     
     if ($locationEnabled) {
         # Disable location services
