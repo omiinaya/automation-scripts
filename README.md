@@ -26,7 +26,7 @@ automation-scripts/
     ├── toggle-taskbar-alignment.ps1 # Toggle taskbar left/center alignment
     ├── toggle-theme.ps1            # Toggle Windows light/dark theme
     ├── toggle-transparency.ps1     # Toggle transparency effects
-    ├── enable-powershell.bat       # Temporary PowerShell execution policy bypass
+    ├── enable-powershell.bat       # Permanent PowerShell execution policy toggle
     ├── modules/                    # PowerShell modules
     │   ├── ModuleIndex.psm1        # Main module loader
     │   ├── PowerManagement.psm1    # Power management functions
@@ -122,7 +122,7 @@ automation-scripts/
 
 ## 🐛 Troubleshooting
 
-**"Execution policy" errors**: See [SETUP.md](./SETUP.md) (for a temporary bypass, run `windows/enable-powershell.bat` as administrator)
+**"Execution policy" errors**: See [SETUP.md](./SETUP.md) (for a permanent toggle, run `windows/enable-powershell.bat` as administrator)
 
 **"Access denied" errors**: Run PowerShell as Administrator
 
