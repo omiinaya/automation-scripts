@@ -49,7 +49,7 @@ automation-scripts/
 |--------|-------------|----------------|
 | `set-high-performance.ps1` | Sets power plan to high performance | Yes |
 | `toggle-lid-close.ps1` | Toggles laptop lid close behavior | Yes |
-| `toggle-location-services.ps1` | Enables/disables Windows location services | Yes |
+| `toggle-location-services.ps1` | Toggle Windows location services with modular design, Windows version check, and improved error handling | Yes |
 | `toggle-power-mode.ps1` | Switches between balanced/high performance | Yes |
 | `toggle-screen-never.ps1` | Toggles screen timeout (never vs 15min) | Yes |
 | `toggle-sleep-never.ps1` | Toggles sleep mode (never vs 15min) | Yes |
