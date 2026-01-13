@@ -43,6 +43,41 @@ Get-ExecutionPolicy -List
 
 You should see `RemoteSigned` for `CurrentUser`.
 
+### Temporary Execution Policy Bypass
+
+For temporary script execution without permanently changing system policies, you can use the `enable-powershell.bat` batch file included in the `windows/` folder. This method sets a **process-scoped** execution policy that only affects the current PowerShell session.
+
+**Process-scoped vs permanent execution policies:**
+- **Process-scoped**: Changes apply only to the current PowerShell window and disappear when you close it. No permanent system changes.
+- **Permanent**: Changes persist across sessions and affect all future PowerShell windows (requires administrator rights).
+
+**Instructions for running the batch file:**
+1. Navigate to the `windows/` folder in File Explorer.
+2. Right-click `enable-powershell.bat` and select **"Run as administrator"** (recommended) or double-click to run as a normal user.
+3. The batch file will:
+   - Check for administrator privileges.
+   - Set the execution policy to `Bypass` for the current process.
+   - Confirm success and keep the window open for verification.
+
+**Example command and expected output:**
+```batch
+C:\automation-scripts\windows> enable-powershell.bat
+========================================
+   PowerShell Execution Policy Bypass
+========================================
+
+[INFO] Running with administrator privileges.
+
+Setting execution policy to Bypass for the current process...
+[SUCCESS] PowerShell scripts are now enabled for this session.
+
+You can now run PowerShell scripts in this window.
+```
+
+**When to use temporary vs permanent methods:**
+- Use **temporary bypass** when you need to run scripts once or in a controlled environment.
+- Use **permanent policy change** (as described in Step 2) for regular script usage.
+
 ## 🛡️ Security Best Practices
 
 ### Before Running Scripts
