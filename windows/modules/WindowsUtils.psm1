@@ -64,7 +64,7 @@ function Invoke-Elevation {
         $currentDirectory = Get-Location
         
         # Get original command line arguments
-        $originalArgs = $MyInvocation.UnboundArguments -join " "
+        $originalArgs = if ($MyInvocation.UnboundArguments) { $MyInvocation.UnboundArguments -join " " } else { "" }
         
         # Create a temporary file to store the output of the elevated script
         $resultFile = [System.IO.Path]::Combine([System.IO.Path]::GetTempPath(), "elevated_result_$(Get-Date -Format 'yyyyMMddHHmmss').txt")
@@ -119,7 +119,11 @@ try {
             if (Test-Path $resultFile) {
                 $result = Get-Content $resultFile -Raw
                 # Trim whitespace and convert to boolean if possible
-                $trimmed = $result.Trim()
+                if ($null -eq $result) {
+                    $trimmed = ''
+                } else {
+                    $trimmed = $result.Trim()
+                }
                 # Try to convert to boolean (handles "True"/"False" strings)
                 if ($trimmed -eq "True" -or $trimmed -eq "False") {
                     [bool]::Parse($trimmed)
