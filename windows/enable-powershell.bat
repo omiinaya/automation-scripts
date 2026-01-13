@@ -1,35 +1,54 @@
 @echo off
-REM enable-powershell.bat - Temporarily enables PowerShell script execution for the current session
-REM Usage: Run this batch file as administrator (recommended) or as a normal user.
+REM enable-powershell.bat - Toggles PowerShell script execution policy permanently between Restricted and RemoteSigned.
+REM Requires administrator privileges.
+REM Usage: Run this batch file as administrator.
 
 echo ========================================
-echo   PowerShell Execution Policy Bypass
+echo   PowerShell Execution Policy Toggle
 echo ========================================
 echo.
 
-REM Check if running as administrator (optional)
+REM Check for administrator privileges
 net session >nul 2>&1
-if %errorLevel% equ 0 (
-    echo [INFO] Running with administrator privileges.
+if %errorLevel% neq 0 (
+    echo [ERROR] This operation requires administrator privileges.
+    echo Please right-click the batch file and select "Run as administrator".
+    pause
+    exit /b 1
+)
+echo [INFO] Running with administrator privileges.
+echo.
+
+REM Get current execution policy at LocalMachine scope
+for /f "delims=" %%A in ('powershell -Command "Get-ExecutionPolicy -Scope LocalMachine 2>&1"') do set "currentPolicy=%%A"
+echo Current execution policy (LocalMachine): %currentPolicy%
+
+REM Determine new policy (treat Undefined as Restricted)
+if /i "%currentPolicy%"=="Restricted" (
+    set "newPolicy=RemoteSigned"
+    set "action=Enabled"
+) else if /i "%currentPolicy%"=="Undefined" (
+    set "newPolicy=RemoteSigned"
+    set "action=Enabled"
 ) else (
-    echo [WARNING] Not running as administrator. Some changes may require elevation.
+    set "newPolicy=Restricted"
+    set "action=Disabled"
 )
 
-echo.
-echo Setting execution policy to Bypass for the current process...
-powershell -Command "Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process -Force"
-if %errorLevel% equ 0 (
-    echo [SUCCESS] PowerShell scripts are now enabled for this session.
-) else (
-    echo [ERROR] Failed to set execution policy. Please run as administrator.
+echo Switching policy to %newPolicy% (%action%)...
+powershell -Command "Set-ExecutionPolicy -ExecutionPolicy %newPolicy% -Scope LocalMachine -Force"
+if %errorLevel% neq 0 (
+    echo [ERROR] Failed to set execution policy.
     pause
     exit /b 1
 )
 
+REM Verify change
+for /f "delims=" %%A in ('powershell -Command "Get-ExecutionPolicy -Scope LocalMachine 2>&1"') do set "updatedPolicy=%%A"
+echo Updated execution policy (LocalMachine): %updatedPolicy%
+
 echo.
-echo You can now run PowerShell scripts in this window.
-echo To make the change permanent, run PowerShell as Administrator and use:
-echo   Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine
+echo [SUCCESS] PowerShell script execution has been %action%.
 echo.
 echo Press any key to close this window...
 pause >nul
