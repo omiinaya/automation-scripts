@@ -44,7 +44,7 @@ if (Test-AdminRights) {
 
 # Get current power schemes
 $schemes = Get-PowerSchemes
-Show-Table -Data $schemes -Title "Available Power Schemes"
+Display-Table -Data $schemes -Title "Available Power Schemes"
 
 # Set high performance mode
 $highPerf = Get-PowerSchemeByName -Name "High performance"
@@ -65,7 +65,7 @@ Provides administrative utilities and system information.
 
 **Key Functions:**
 - `Test-AdminRights` - Check if running with admin privileges
-- `Request-Elevation` - Request elevation if needed
+- `Invoke-Elevation` - Request elevation if needed
 - `Get-SystemInfo` - Get basic system information
 - `Get-CurrentUserInfo` - Get current user information
 - `Test-ServiceExists` - Check if a Windows service exists
@@ -101,7 +101,7 @@ Provides registry operations and manipulation functions.
 - `New-RegistryKey` - Create a new registry key
 - `Export-RegistryKey` - Export registry key to .reg file
 - `Import-RegistryFile` - Import registry settings from .reg file
-- `Search-RegistryValue` - Search for registry values by name or data
+- `Find-RegistryValue` - Search for registry values by name or data
 
 ### WindowsUI Module
 Provides consistent UI output and formatting functions.
@@ -211,7 +211,7 @@ Import-Module .\windows\modules\ModuleIndex.psm1 -Force
 Test-AdminRights
 
 # Request elevation if needed
-Request-Elevation
+Invoke-Elevation
 ```
 
 ### Power Settings Not Applying

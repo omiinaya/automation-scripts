@@ -43,6 +43,45 @@ Get-ExecutionPolicy -List
 
 You should see `RemoteSigned` for `CurrentUser`.
 
+### Permanent Execution Policy Toggle
+
+For convenient switching between Restricted and RemoteSigned execution policies, you can use the `enable-powershell.bat` batch file included in the `windows/` folder. This script **permanently** toggles the execution policy at the LocalMachine scope (affecting all users) between Restricted and RemoteSigned. It requires administrator privileges.
+
+**How the toggle works:**
+- If the current policy is `Restricted` or `Undefined`, it sets it to `RemoteSigned` (enables script execution).
+- If the current policy is `RemoteSigned` (or any other non-Restricted policy), it sets it to `Restricted` (disables script execution).
+
+**Instructions for running the batch file:**
+1. Navigate to the `windows/` folder in File Explorer.
+2. Right-click `enable-powershell.bat` and select **"Run as administrator"** (required).
+3. The batch file will:
+   - Check for administrator privileges.
+   - Display the current execution policy.
+   - Toggle to the opposite policy.
+   - Confirm the change and show the updated policy.
+
+**Example command and expected output:**
+```batch
+C:\automation-scripts\windows> enable-powershell.bat
+========================================
+   PowerShell Execution Policy Toggle
+========================================
+
+[INFO] Running with administrator privileges.
+
+Current execution policy (LocalMachine): Restricted
+Switching policy to RemoteSigned (Enabled)...
+Updated execution policy (LocalMachine): RemoteSigned
+
+[SUCCESS] PowerShell script execution has been Enabled.
+
+Press any key to close this window...
+```
+
+**When to use the toggle vs manual policy change:**
+- Use the **toggle script** for quick, one‑time setup or to revert to Restricted after testing.
+- Use **manual policy change** (`Set-ExecutionPolicy RemoteSigned -Scope CurrentUser`) for per‑user configuration without admin rights.
+
 ## 🛡️ Security Best Practices
 
 ### Before Running Scripts
@@ -142,6 +181,31 @@ Set-AuthenticodeSignature -FilePath ".\myscript.ps1" -Certificate $cert
 For scheduled tasks or startup scripts:
 - Use Task Scheduler with "Run with highest privileges"
 - Set proper execution policy for system account
+
+## 🐍 Python Extraction Script
+
+For CIS benchmark extraction (optional), a Python script is provided in `scripts/`.
+
+### Dependencies
+Install Python dependencies:
+```bash
+pip install -r scripts/requirements.txt
+```
+
+### Usage
+```bash
+python scripts/cis_robust_extractor.py
+```
+
+### Log Files
+Extraction logs are saved to `cis_extraction_robust.log` (already excluded via `.gitignore`).
+
+### Git Large File Storage (LFS)
+Large files (e.g., PDF benchmarks) should be managed with Git LFS. If you have Git LFS installed, run:
+```bash
+git lfs track "*.pdf"
+git add .gitattributes
+```
 
 ## 🆘 Getting Help
 

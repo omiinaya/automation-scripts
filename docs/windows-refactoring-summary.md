@@ -1,185 +1,85 @@
-# Windows PowerShell Scripts Refactoring Summary
+# Windows Script Refactoring Summary
 
 ## Overview
-This document summarizes the refactoring of all Windows PowerShell scripts to use the new modular system, achieving a 60-70% reduction in code redundancy by leveraging shared modules.
+
+This document summarizes the refactoring improvements made to the Windows automation scripts, focusing on modularity, error handling, and maintainability.
+
+## Key Improvements
+
+### 1. Modular Design
+- **Before**: Each script contained duplicate code for common operations (admin checks, registry operations, service management).
+- **After**: Common functionality extracted into reusable PowerShell modules:
+  - `WindowsUtils.psm1` – Administrative utilities (elevation, system info)
+  - `RegistryUtils.psm1` – Registry operations (test, get, set)
+  - `PowerManagement.psm1` – Power scheme management
+  - `WindowsUI.psm1` – Consistent user‑interface output
+- **Benefit**: Reduced code duplication, easier maintenance, and consistent behavior across scripts.
+
+### 2. Enhanced Error Handling
+- **Before**: Minimal error handling; scripts could fail silently or with cryptic messages.
+- **After**:
+  - Structured `try/catch` blocks around critical operations.
+  - Custom `Wait-OnError` function for user‑friendly error reporting.
+  - Validation of registry keys, service status, and Windows version.
+  - Graceful fallbacks and warnings when expected resources are missing.
+- **Benefit**: More robust scripts that provide clear feedback and are easier to debug.
+
+### 3. Windows Version Validation
+- **Before**: Scripts assumed Windows 11/10 compatibility without verification.
+- **After**: Added `Get-CimInstance` check to confirm the OS is Windows 10 or 11; scripts exit with a helpful message on unsupported versions.
+- **Benefit**: Prevents unintended behavior on incompatible systems.
+
+### 4. Administrative Privilege Management
+- **Before**: Manual elevation requests or reliance on user to run as Administrator.
+- **After**: Automatic admin‑rights detection (`Test-AdminRights`) and elevation prompting (`Invoke-Elevation`) when needed.
+- **Benefit**: Scripts can be run from any context and will request elevation only when necessary.
+
+### 5. Code Reduction & Readability
+- **Example**: `toggle‑location‑services.ps1` reduced from 31 lines to 14 lines (excluding comments) while adding validation and error handling.
+- **Techniques**:
+  - Replacing inline registry/service calls with module functions.
+  - Removing redundant checks via unified utilities.
+  - Using verbose logging for troubleshooting.
 
 ## Refactored Scripts
 
-### 1. set-high-performance.ps1
-- **Original Lines**: 13
-- **Refactored Lines**: 13 (reduced main logic to 5 lines)
-- **Reduction**: 62% (8 lines of actual logic reduced to 3 lines)
-- **Key Changes**:
-  - Used `Test-AdminRights` from WindowsUtils module
-  - Used `Request-Elevation` from WindowsUtils module
-  - Used `Set-PowerScheme` from PowerManagement module
-  - Used `Write-StatusMessage` from WindowsUI module for consistent output
+| Script | Before (lines) | After (lines) | Key Changes |
+|--------|----------------|---------------|-------------|
+| `toggle‑location‑services.ps1` | 31 | ~20 | Modular registry/service functions, Windows version check, improved error handling, HKLM registry path support, broadcast notification |
+| `toggle‑screen‑never.ps1` | (to be assessed) | (to be assessed) | Uses `PowerManagement` module for power‑setting operations |
+| `toggle‑sleep‑never.ps1` | (to be assessed) | (to be assessed) | Uses `PowerManagement` module for sleep‑setting operations |
+| `toggle‑theme.ps1` | (to be assessed) | (to be assessed) | Uses `RegistryUtils` for theme registry changes |
 
-### 2. set-lid-close-nothing.ps1
-- **Original Lines**: 17
-- **Refactored Lines**: 19 (reduced main logic to 8 lines)
-- **Reduction**: 53% (9 lines of actual logic reduced to 4 lines)
-- **Key Changes**:
-  - Used `Get-ActivePowerScheme` from PowerManagement module
-  - Used `Test-AdminRights` and `Request-Elevation` for privilege handling
-  - Used `Set-PowerScheme` for applying changes
-  - Used `Write-StatusMessage` for consistent user feedback
+*Note: Line counts are approximate and refer to functional code (excluding comments/blank lines).*
 
-### 3. toggle-transparency.ps1
-- **Original Lines**: 28
-- **Refactored Lines**: 26 (reduced main logic to 9 lines)
-- **Reduction**: 68% (19 lines of actual logic reduced to 6 lines)
-- **Key Changes**:
-  - Used `Get-RegistryValue` from RegistryUtils module
-  - Used `Set-RegistryValue` from RegistryUtils module
-  - Used `Write-StatusMessage` for consistent output
-  - Eliminated manual registry path checking and error handling
+## Technical Details
 
-### 4. toggle-theme.ps1
-- **Original Lines**: 38
-- **Refactored Lines**: 36 (reduced main logic to 12 lines)
-- **Reduction**: 68% (26 lines of actual logic reduced to 8 lines)
-- **Key Changes**:
-  - Used `Get-RegistryValue` for reading theme values
-  - Used `Set-RegistryValue` for setting all registry values
-  - Used `Write-StatusMessage` for consistent feedback
-  - Maintained Explorer restart functionality
+### Registry Operations
+- All registry access now uses `RegistryUtils` functions (`Test‑RegistryKey`, `Get‑RegistryValue`, `Set‑RegistryValue`).
+- These functions include built‑in validation and consistent error reporting.
 
-### 5. toggle-location-services.ps1
-- **Original Lines**: 31
-- **Refactored Lines**: 32 (reduced main logic to 14 lines)
-- **Reduction**: 55% (17 lines of actual logic reduced to 8 lines)
-- **Key Changes**:
-  - Used `Test-AdminRights` and `Request-Elevation` for privilege handling
-  - Used `Get-RegistryValue` for reading location service status
-  - Used `Set-RegistryValue` for setting registry values
-  - Used `Write-StatusMessage` for consistent output
+### Service Management
+- Service start/stop operations include verification steps to ensure the desired state is achieved.
+- If a service fails to start/stop, a warning is logged and a second attempt is made.
 
-### 6. toggle-taskbar-alignment.ps1
-- **Original Lines**: 50
-- **Refactored Lines**: 48 (reduced main logic to 15 lines)
-- **Reduction**: 70% (35 lines of actual logic reduced to 10 lines)
-- **Key Changes**:
-  - Used `Get-RegistryValue` for reading current alignment
-  - Used `Set-RegistryValue` for setting alignment values
-  - Used `Write-StatusMessage` for all user feedback
-  - Maintained Explorer restart functionality
+### User Interface
+- Status messages standardized with `Write‑StatusMessage` (success/warning/error colors).
+- Verbose logging available via `‑Verbose` flag for debugging.
 
-### 7. toggle-screen-never.ps1
-- **Original Lines**: 42
-- **Refactored Lines**: 55 (reduced main logic to 20 lines)
-- **Reduction**: 52% (22 lines of actual logic reduced to 11 lines)
-- **Key Changes**:
-  - Used `Get-ActivePowerScheme` for current scheme
-  - Used `Test-AdminRights` and `Request-Elevation` for privilege handling
-  - Used `Set-PowerScheme` for applying changes
-  - Used `Write-StatusMessage` for consistent feedback
+### System Notification
+- Critical registry changes are broadcast via `WM_SETTINGCHANGE` to notify Windows and applications of policy updates.
+- Uses `SendMessageTimeout` with `HWND_BROADCAST` to ensure system-wide awareness.
 
-### 8. toggle-sleep-never.ps1
-- **Original Lines**: 35
-- **Refactored Lines**: 47 (reduced main logic to 18 lines)
-- **Reduction**: 49% (17 lines of actual logic reduced to 9 lines)
-- **Key Changes**:
-  - Used `Get-ActivePowerScheme` for current scheme
-  - Used `Test-AdminRights` and `Request-Elevation` for privilege handling
-  - Used `Set-PowerScheme` for applying changes
-  - Used `Write-StatusMessage` for consistent feedback
+## Future Refactoring Opportunities
 
-### 9. toggle-bluetooth.ps1
-- **Original Lines**: 0 (New script)
-- **Refactored Lines**: 82 (main logic to 25 lines)
-- **Reduction**: N/A (New implementation)
-- **Key Changes**:
-  - Uses `Test-ServiceExists` from WindowsUtils module
-  - Uses `Test-AdminRights` and `Request-Elevation` for privilege handling
-  - Uses `Get-RegistryValue` and `Set-RegistryValue` from RegistryUtils
-  - Uses `Write-StatusMessage` for consistent output
-  - Comprehensive Bluetooth service management including bthserv, BTAGService, BthAvctpSvc
-  - Registry-based Bluetooth radio state control
+1. **Centralized Configuration**: Move hard‑coded registry paths and service names to a configuration file.
+2. **Unit Tests**: Add Pester tests for each module function.
+3. **Cross‑Platform Compatibility**: Adapt modules for PowerShell Core on Linux/macOS where applicable.
+4. **Performance Monitoring**: Add timing and resource‑usage logging for long‑running operations.
 
-## Modules Used
+## Conclusion
 
-### ModuleIndex.psm1
-- Central module that imports all other Windows utility modules
-- Provides initialization functions and module information
+The refactoring effort has transformed a collection of standalone scripts into a modular, maintainable, and user‑friendly automation suite. The improvements enhance reliability, reduce maintenance overhead, and provide a solid foundation for future enhancements.
 
-### WindowsUtils.psm1
-- **Test-AdminRights**: Checks if running with administrative privileges
-- **Request-Elevation**: Prompts for elevation if not running as admin
-- Other utility functions for system information
-
-### RegistryUtils.psm1
-- **Get-RegistryValue**: Safely reads registry values with default fallback
-- **Set-RegistryValue**: Safely writes registry values with type handling
-- **Test-RegistryKey**: Checks if registry key exists
-- **Test-RegistryValue**: Checks if registry value exists
-
-### PowerManagement.psm1
-- **Get-ActivePowerScheme**: Gets currently active power scheme
-- **Set-PowerScheme**: Activates a power scheme by GUID
-- **Get-PowerSchemes**: Lists all available power schemes
-
-### WindowsUI.psm1
-- **Write-StatusMessage**: Provides consistent colored output with status types
-- **Write-SectionHeader**: Formatted section headers
-- Other UI utilities for consistent user experience
-
-## Code Reduction Summary
-
-| Script | Original Lines | Logic Lines | Refactored Logic Lines | Reduction % |
-|--------|----------------|-------------|------------------------|-------------|
-| set-high-performance.ps1 | 13 | 8 | 3 | 62.5% |
-| set-lid-close-nothing.ps1 | 17 | 9 | 4 | 55.6% |
-| toggle-transparency.ps1 | 28 | 19 | 6 | 68.4% |
-| toggle-theme.ps1 | 38 | 26 | 8 | 69.2% |
-| toggle-location-services.ps1 | 31 | 17 | 8 | 52.9% |
-| toggle-taskbar-alignment.ps1 | 50 | 35 | 10 | 71.4% |
-| toggle-screen-never.ps1 | 42 | 22 | 11 | 50.0% |
-| toggle-sleep-never.ps1 | 35 | 17 | 9 | 47.1% |
-| toggle-bluetooth.ps1 | 0 | 0 | 25 | N/A |
-| **Average** | **29.0** | **17.4** | **9.0** | **48.3%** |
-
-## Key Benefits Achieved
-
-1. **Code Reusability**: All scripts now use shared modules instead of duplicating functionality
-2. **Consistency**: All output uses the same formatting and color scheme
-3. **Error Handling**: Centralized error handling through module functions
-4. **Maintainability**: Changes to common functionality only need to be made in one place
-5. **User Experience**: Consistent feedback messages and status indicators
-6. **Admin Privilege Handling**: Uniform elevation requests across all scripts
-7. **Registry Operations**: Safe and consistent registry access patterns
-
-## Testing Requirements
-
-All refactored scripts maintain backward compatibility and provide the same functionality as the original versions. The following should be tested:
-
-1. **Administrative Privileges**: Scripts requiring admin rights should properly detect and request elevation
-2. **Registry Operations**: Registry changes should be applied correctly
-3. **Power Management**: Power scheme changes should take effect
-4. **User Feedback**: All status messages should display correctly
-5. **Error Handling**: Error conditions should be handled gracefully with appropriate user feedback
-
-## Usage Pattern
-
-All refactored scripts now follow the same basic pattern:
-
-```powershell
-# Import the Windows modules
-Import-Module .\windows\modules\ModuleIndex.psm1 -Force
-
-# Check admin rights (if required)
-if (-not (Test-AdminRights)) {
-    Request-Elevation
-    exit
-}
-
-# Main logic using module functions
-try {
-    # Use module functions for operations
-    Write-StatusMessage -Message "Operation completed" -Type Success
-} catch {
-    Write-StatusMessage -Message "Error occurred: $($_.Exception.Message)" -Type Error
-}
-```
-
-This pattern ensures consistency, maintainability, and reduces the learning curve for new script development.
+---
+*Last updated: 2026‑01‑13*

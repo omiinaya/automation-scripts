@@ -13,12 +13,12 @@ function Wait-OnError {
 
 # Import the Windows modules
 $modulePath = Join-Path $PSScriptRoot "modules\ModuleIndex.psm1"
-Import-Module $modulePath -Force
+Import-Module $modulePath -Force -WarningAction SilentlyContinue
 
 # Check admin rights
 if (-not (Test-AdminRights)) {
     Write-StatusMessage -Message "Administrator privileges required to modify power settings" -Type Error
-    Request-Elevation
+    Invoke-Elevation
     exit
 }
 

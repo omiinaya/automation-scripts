@@ -26,6 +26,7 @@ automation-scripts/
     ├── toggle-taskbar-alignment.ps1 # Toggle taskbar left/center alignment
     ├── toggle-theme.ps1            # Toggle Windows light/dark theme
     ├── toggle-transparency.ps1     # Toggle transparency effects
+    ├── enable-powershell.bat       # Permanent PowerShell execution policy toggle
     ├── modules/                    # PowerShell modules
     │   ├── ModuleIndex.psm1        # Main module loader
     │   ├── PowerManagement.psm1    # Power management functions
@@ -48,7 +49,7 @@ automation-scripts/
 |--------|-------------|----------------|
 | `set-high-performance.ps1` | Sets power plan to high performance | Yes |
 | `toggle-lid-close.ps1` | Toggles laptop lid close behavior | Yes |
-| `toggle-location-services.ps1` | Enables/disables Windows location services | Yes |
+| `toggle-location-services.ps1` | Toggle Windows location services with modular design, Windows version check, and improved error handling | Yes |
 | `toggle-power-mode.ps1` | Switches between balanced/high performance | Yes |
 | `toggle-screen-never.ps1` | Toggles screen timeout (never vs 15min) | Yes |
 | `toggle-sleep-never.ps1` | Toggles sleep mode (never vs 15min) | Yes |
@@ -121,7 +122,7 @@ automation-scripts/
 
 ## 🐛 Troubleshooting
 
-**"Execution policy" errors**: See [SETUP.md](./SETUP.md)
+**"Execution policy" errors**: See [SETUP.md](./SETUP.md) (for a permanent toggle, run `windows/enable-powershell.bat` as administrator)
 
 **"Access denied" errors**: Run PowerShell as Administrator
 
