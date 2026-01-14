@@ -29,6 +29,7 @@ $modulesToImport = @(
     "PowerManagement.psm1"
     "RegistryUtils.psm1"
     "WindowsUI.psm1"
+    "CISFramework.psm1"
 )
 
 foreach ($module in $modulesToImport) {
@@ -126,6 +127,19 @@ function Get-WindowsModuleInfo {
                 "Clear-ScreenWithHeader",
                 "Show-SystemBanner"
             )
+        },
+        @{
+            Name = "CISFramework"
+            Description = "CIS benchmark auditing framework for Windows security compliance"
+            Commands = @(
+                "New-CISResultObject",
+                "Get-CISRecommendation",
+                "Test-CISCompliance",
+                "Invoke-CISAudit",
+                "Test-DomainMember",
+                "Export-CISAuditResults",
+                "Get-CISAuditSummary"
+            )
         }
     )
     
@@ -175,6 +189,11 @@ function Test-WindowsModules {
             Name = "Status Message"
             Test = { Write-StatusMessage -Message "Test message" -Type Info; return $true }
             Module = "WindowsUI"
+        },
+        @{
+            Name = "CIS Framework"
+            Test = { New-CISResultObject -CIS_ID "1.1.1" -Title "Test" -CurrentValue "Test" -RecommendedValue "Test" -ComplianceStatus "Compliant" }
+            Module = "CISFramework"
         }
     )
     
@@ -209,7 +228,7 @@ function Get-WindowsModuleCommands {
     
     $commands = @()
     
-    $moduleCommands = Get-Command -Module WindowsUtils, PowerManagement, RegistryUtils, WindowsUI -ErrorAction SilentlyContinue
+    $moduleCommands = Get-Command -Module WindowsUtils, PowerManagement, RegistryUtils, WindowsUI, CISFramework -ErrorAction SilentlyContinue
     
     foreach ($cmd in $moduleCommands) {
         $commands += [PSCustomObject]@{
@@ -319,5 +338,5 @@ Write-Verbose "Use Initialize-WindowsModules to display welcome information"
 Export-ModuleMember -Function Get-WindowsModuleInfo, Test-WindowsModules, Get-WindowsModuleCommands, Show-WindowsModuleHelp, Initialize-WindowsModules
 
 # Export all functions from imported modules
-$allCommands = Get-Command -Module WindowsUtils, PowerManagement, RegistryUtils, WindowsUI -ErrorAction SilentlyContinue
+$allCommands = Get-Command -Module WindowsUtils, PowerManagement, RegistryUtils, WindowsUI, CISFramework -ErrorAction SilentlyContinue
 Export-ModuleMember -Function $allCommands.Name -ErrorAction SilentlyContinue
