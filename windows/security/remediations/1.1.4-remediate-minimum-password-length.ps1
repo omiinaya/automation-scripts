@@ -1,5 +1,5 @@
-# Remediation: Enforce maximum password age setting on Windows
-# CIS Benchmark: 1.1.2 (L1) Ensure 'Maximum password age' is set to '365 or fewer days, but not 0'
+# Remediation: Minimum password length setting on Windows
+# CIS Benchmark: 1.1.4 (L1) Ensure 'Minimum password length' is set to '14 or more character(s)'
 # Refactored to use modular system
 
 [CmdletBinding()]
@@ -31,7 +31,7 @@ try {
     $scriptResult = $null
     
     if ($VerboseOutput) {
-        Write-SectionHeader -Title "Password Policy Remediation: Maximum Password Age"
+        Write-SectionHeader -Title "Password Policy Remediation: Minimum Password Length"
     }
     
     # Check if this is a domain environment
@@ -45,23 +45,23 @@ try {
         # For domain members, we need to check the actual password policy
         try {
             $netAccounts = net accounts
-            $maxAgeLine = $netAccounts | Where-Object { $_ -like "*Maximum password age*" }
+            $minLengthLine = $netAccounts | Where-Object { $_ -like "*Minimum password length*" }
             
-            if ($maxAgeLine) {
-                $maximumPasswordAge = [int]($maxAgeLine -replace "[^\d]", "")
+            if ($minLengthLine) {
+                $minimumPasswordLength = [int]($minLengthLine -replace "[^\d]", "")
                 $source = "Domain Policy"
             } else {
                 if ($VerboseOutput) {
-                    Write-StatusMessage -Message "Unable to determine maximum password age from net accounts" -Type Warning
+                    Write-StatusMessage -Message "Unable to determine minimum password length from net accounts" -Type Warning
                 }
-                $maximumPasswordAge = 42
+                $minimumPasswordLength = 7
                 $source = "Domain Default (assumed)"
             }
         } catch {
             if ($VerboseOutput) {
                 Write-StatusMessage -Message "Failed to retrieve password policy information" -Type Warning
             }
-            $maximumPasswordAge = 42
+            $minimumPasswordLength = 7
             $source = "Domain Default (assumed)"
         }
     } else {
@@ -77,16 +77,16 @@ try {
             
             # Read the exported policy
             $policyContent = Get-Content $tempFile
-            $maxAgeLine = $policyContent | Where-Object { $_ -like "MaximumPasswordAge*" }
+            $minLengthLine = $policyContent | Where-Object { $_ -like "MinimumPasswordLength*" }
             
-            if ($maxAgeLine) {
-                $maximumPasswordAge = [int]($maxAgeLine -split "=")[1].Trim()
+            if ($minLengthLine) {
+                $minimumPasswordLength = [int]($minLengthLine -split "=")[1].Trim()
                 $source = "Local Policy"
             } else {
                 if ($VerboseOutput) {
-                    Write-StatusMessage -Message "Maximum password age setting not found in policy" -Type Warning
+                    Write-StatusMessage -Message "Minimum password length setting not found in policy" -Type Warning
                 }
-                $maximumPasswordAge = 0
+                $minimumPasswordLength = 0
                 $source = "Local Default"
             }
             
@@ -96,7 +96,7 @@ try {
             if ($VerboseOutput) {
                 Write-StatusMessage -Message "Failed to retrieve local password policy" -Type Warning
             }
-            $maximumPasswordAge = 0
+            $minimumPasswordLength = 0
             $source = "Local Default (assumed)"
         }
     }
@@ -106,26 +106,26 @@ try {
         Write-Host ""
         Write-Host "CURRENT STATUS:" -ForegroundColor Cyan
         Write-Host "==============" -ForegroundColor Cyan
-        Write-Host "Setting: Maximum password age" -ForegroundColor White
-        Write-Host "Current Value: $maximumPasswordAge day(s)" -ForegroundColor White
+        Write-Host "Setting: Minimum password length" -ForegroundColor White
+        Write-Host "Current Value: $minimumPasswordLength character(s)" -ForegroundColor White
         Write-Host "Source: $source" -ForegroundColor White
-        Write-Host "Recommended: 365 or fewer days, but not 0" -ForegroundColor White
+        Write-Host "Recommended: 14 or more character(s)" -ForegroundColor White
         Write-Host ""
     }
     
     # Determine compliance status
-    if ($maximumPasswordAge -le 365 -and $maximumPasswordAge -ne 0) {
+    if ($minimumPasswordLength -ge 14) {
         if ($VerboseOutput) {
-            Write-StatusMessage -Message "COMPLIANT: Maximum password age setting already meets CIS benchmark" -Type Success
+            Write-StatusMessage -Message "COMPLIANT: Minimum password length setting already meets CIS benchmark" -Type Success
             Write-Host ""
             Write-StatusMessage -Message "No remediation required" -Type Success
         }
         
         $scriptResult = [PSCustomObject]@{
             Status = "Compliant"
-            Message = "Maximum password age setting already meets CIS benchmark"
-            PreviousValue = $maximumPasswordAge
-            NewValue = $maximumPasswordAge
+            Message = "Minimum password length setting already meets CIS benchmark"
+            PreviousValue = $minimumPasswordLength
+            NewValue = $minimumPasswordLength
             IsCompliant = $true
             RequiresManualAction = $false
             Source = $source
@@ -136,43 +136,43 @@ try {
         }
     } else {
         if ($VerboseOutput) {
-            Write-StatusMessage -Message "NON-COMPLIANT: Maximum password age setting does not meet CIS benchmark" -Type Error
+            Write-StatusMessage -Message "NON-COMPLIANT: Minimum password length setting does not meet CIS benchmark" -Type Error
             Write-Host ""
             
             # Show remediation warning
             Write-Host "REMEDIATION REQUIRED:" -ForegroundColor Yellow
             Write-Host "====================" -ForegroundColor Yellow
-            Write-Host "The maximum password age setting needs to be changed from $maximumPasswordAge to 365 (or fewer days, but not 0)." -ForegroundColor White
+            Write-Host "The minimum password length setting needs to be changed from $minimumPasswordLength to 14 or more character(s)." -ForegroundColor White
             Write-Host ""
         }
         
-        # Get user confirmation before proceeding
-        if (-not (Display-Confirmation -Message "Do you want to proceed with remediation?" -DefaultChoice "No")) {
-            if ($VerboseOutput) {
+        # Get user confirmation before proceeding (only in verbose mode)
+        if ($VerboseOutput) {
+            if (-not (Display-Confirmation -Message "Do you want to proceed with remediation?" -DefaultChoice "No")) {
                 Write-StatusMessage -Message "Remediation cancelled by user" -Type Warning
-            }
-            
-            $scriptResult = [PSCustomObject]@{
-                Status = "Cancelled"
-                Message = "User cancelled remediation"
-                PreviousValue = $maximumPasswordAge
-                NewValue = $maximumPasswordAge
-                IsCompliant = $false
-                RequiresManualAction = $false
-                Source = $source
-            }
-            
-            if ($VerboseOutput) {
+                
+                $scriptResult = [PSCustomObject]@{
+                    Status = "Cancelled"
+                    Message = "User cancelled remediation"
+                    PreviousValue = $minimumPasswordLength
+                    NewValue = $minimumPasswordLength
+                    IsCompliant = $false
+                    RequiresManualAction = $false
+                    Source = $source
+                }
+                
                 Display-Pause -Message "Press Enter to exit..."
+                
+                # Return appropriate result based on verbose mode
+                if ($VerboseOutput) {
+                    $scriptResult
+                } else {
+                    $scriptResult.IsCompliant
+                }
+                return
             }
-            
-            # Return appropriate result based on verbose mode
-            if ($VerboseOutput) {
-                $scriptResult
-            } else {
-                $scriptResult.IsCompliant
-            }
-            return
+        } else {
+            # In non-verbose mode, automatically proceed with remediation
         }
         
         if ($VerboseOutput) {
@@ -190,7 +190,7 @@ try {
                 Write-Host "1. Open Group Policy Management Console (gpmc.msc)" -ForegroundColor White
                 Write-Host "2. Navigate to: Default Domain Policy" -ForegroundColor White
                 Write-Host "3. Edit: Computer Configuration\Policies\Windows Settings\Security Settings\Account Policies\Password Policy" -ForegroundColor White
-                Write-Host "4. Set 'Maximum password age' to 365 or fewer days (but not 0)" -ForegroundColor White
+                Write-Host "4. Set 'Minimum password length' to 14 or more character(s)" -ForegroundColor White
                 Write-Host "5. Apply the policy and run 'gpupdate /force' on all domain computers" -ForegroundColor White
                 Write-Host ""
                 Write-Host "Note: Domain policy changes require domain administrator privileges" -ForegroundColor Gray
@@ -199,8 +199,8 @@ try {
             $scriptResult = [PSCustomObject]@{
                 Status = "ManualActionRequired"
                 Message = "Domain environment requires manual policy changes"
-                PreviousValue = $maximumPasswordAge
-                NewValue = 365
+                PreviousValue = $minimumPasswordLength
+                NewValue = 14
                 IsCompliant = $false
                 RequiresManualAction = $true
                 Source = $source
@@ -220,7 +220,7 @@ Unicode=yes
 signature="`$CHICAGO`$"
 Revision=1
 [System Access]
-MaximumPasswordAge=365
+MinimumPasswordLength=14
 "@
                 
                 # Write the template
@@ -245,18 +245,18 @@ MaximumPasswordAge=365
                     $verifyTempFile = [System.IO.Path]::GetTempFileName()
                     secedit /export /cfg $verifyTempFile /quiet
                     $verifyContent = Get-Content $verifyTempFile
-                    $verifyLine = $verifyContent | Where-Object { $_ -like "MaximumPasswordAge*" }
+                    $verifyLine = $verifyContent | Where-Object { $_ -like "MinimumPasswordLength*" }
                     
                     if ($verifyLine) {
                         $newValue = [int]($verifyLine -split "=")[1].Trim()
-                        if ($newValue -le 365 -and $newValue -ne 0) {
+                        if ($newValue -ge 14) {
                             if ($VerboseOutput) {
-                                Write-StatusMessage -Message "Remediation verified: Maximum password age now set to $newValue" -Type Success
+                                Write-StatusMessage -Message "Remediation verified: Minimum password length now set to $newValue" -Type Success
                             }
                             $scriptResult = [PSCustomObject]@{
                                 Status = "Remediated"
-                                Message = "Maximum password age setting successfully updated to $newValue"
-                                PreviousValue = $maximumPasswordAge
+                                Message = "Minimum password length setting successfully updated to $newValue"
+                                PreviousValue = $minimumPasswordLength
                                 NewValue = $newValue
                                 IsCompliant = $true
                                 RequiresManualAction = $false
@@ -268,8 +268,8 @@ MaximumPasswordAge=365
                             }
                             $scriptResult = [PSCustomObject]@{
                                 Status = "PartiallyRemediated"
-                                Message = "Maximum password age setting may not have been applied correctly (value: $newValue)"
-                                PreviousValue = $maximumPasswordAge
+                                Message = "Minimum password length setting may not have been applied correctly (value: $newValue)"
+                                PreviousValue = $minimumPasswordLength
                                 NewValue = $newValue
                                 IsCompliant = $false
                                 RequiresManualAction = $false
@@ -280,9 +280,9 @@ MaximumPasswordAge=365
                         # No verification line found
                         $scriptResult = [PSCustomObject]@{
                             Status = "PartiallyRemediated"
-                            Message = "Unable to verify maximum password age setting after remediation"
-                            PreviousValue = $maximumPasswordAge
-                            NewValue = 365
+                            Message = "Unable to verify minimum password length setting after remediation"
+                            PreviousValue = $minimumPasswordLength
+                            NewValue = 14
                             IsCompliant = $false
                             RequiresManualAction = $false
                             Source = $source
@@ -301,15 +301,15 @@ MaximumPasswordAge=365
                         Write-Host "========================" -ForegroundColor Yellow
                         Write-Host "1. Open Local Security Policy (secpol.msc)" -ForegroundColor White
                         Write-Host "2. Navigate to: Account Policies\Password Policy" -ForegroundColor White
-                        Write-Host "3. Set 'Maximum password age' to 365 or fewer days (but not 0)" -ForegroundColor White
+                        Write-Host "3. Set 'Minimum password length' to 14 or more character(s)" -ForegroundColor White
                         Write-Host "4. Click Apply and OK" -ForegroundColor White
                     }
                     
                     $scriptResult = [PSCustomObject]@{
                         Status = "Failed"
                         Message = "Failed to apply security policy (exit code: $LASTEXITCODE)"
-                        PreviousValue = $maximumPasswordAge
-                        NewValue = 365
+                        PreviousValue = $minimumPasswordLength
+                        NewValue = 14
                         IsCompliant = $false
                         RequiresManualAction = $true
                         Source = $source
@@ -322,18 +322,18 @@ MaximumPasswordAge=365
                     Write-Host ""
                     Write-Host "MANUAL REMEDIATION REQUIRED:" -ForegroundColor Red
                     Write-Host "===========================" -ForegroundColor Red
-                    Write-Host "Please manually set the maximum password age policy:" -ForegroundColor White
+                    Write-Host "Please manually set the minimum password length policy:" -ForegroundColor White
                     Write-Host "1. Open Local Security Policy (secpol.msc)" -ForegroundColor White
                     Write-Host "2. Navigate to: Account Policies\Password Policy" -ForegroundColor White
-                    Write-Host "3. Set 'Maximum password age' to 365 or fewer days (but not 0)" -ForegroundColor White
+                    Write-Host "3. Set 'Minimum password length' to 14 or more character(s)" -ForegroundColor White
                     Write-Host "4. Click Apply and OK" -ForegroundColor White
                 }
                 
                 $scriptResult = [PSCustomObject]@{
                     Status = "Error"
                     Message = "Failed to remediate local policy: $($_.Exception.Message)"
-                    PreviousValue = $maximumPasswordAge
-                    NewValue = 365
+                    PreviousValue = $minimumPasswordLength
+                    NewValue = 14
                     IsCompliant = $false
                     RequiresManualAction = $true
                     Source = $source
@@ -347,11 +347,11 @@ MaximumPasswordAge=365
             
             $remediationData = @(
                 [PSCustomObject]@{
-                    Setting = "Maximum password age"
-                    OriginalValue = "$maximumPasswordAge day(s)"
-                    NewValue = "365 day(s)"
+                    Setting = "Minimum password length"
+                    OriginalValue = "$minimumPasswordLength character(s)"
+                    NewValue = "14 character(s)"
                     Status = if ($isDomainMember) { "Manual Domain Action Required" } else { "Applied" }
-                    CISReference = "1.1.2 (L1)"
+                    CISReference = "1.1.4 (L1)"
                 }
             )
             
@@ -372,7 +372,7 @@ MaximumPasswordAge=365
                 Write-Host "NEXT STEPS FOR STANDALONE ENVIRONMENT:" -ForegroundColor Cyan
                 Write-Host "=======================================" -ForegroundColor Cyan
                 Write-Host "• The policy change should take effect immediately" -ForegroundColor White
-                Write-Host "• Users will need to change passwords within the new maximum age" -ForegroundColor White
+                Write-Host "• Users will need to create passwords with at least 14 characters" -ForegroundColor White
                 Write-Host "• Verify the setting by running the audit script again" -ForegroundColor White
             }
         }

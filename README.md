@@ -37,11 +37,21 @@ automation-scripts/
     └── security/                  # Security audit and remediation scripts
         ├── audits/                 # Security audit scripts
         │   ├── 1.1.1-audit-password-history.ps1
-        │   └── 1.1.3-audit-minimum-password-age.ps1
+        │   ├── 1.1.2-audit-maximum-password-age.ps1
+        │   ├── 1.1.3-audit-minimum-password-age.ps1
+        │   ├── 1.1.4-audit-minimum-password-length.ps1
+        │   ├── 1.1.5-audit-password-complexity.ps1
+        │   ├── 1.1.6-audit-relax-minimum-password-length-limits.ps1
+        │   ├── 1.1.7-audit-store-passwords-using-reversible-encryption.ps1
+        │   ├── 1.2.1-audit-account-lockout-duration.ps1
+        │   ├── 1.2.2-audit-account-lockout-threshold.ps1
+        │   ├── 1.2.3-audit-allow-administrator-account-lockout.ps1
+        │   └── 1.2.4-audit-reset-account-lockout-counter-after.ps1
         └── remediations/           # Security remediation scripts
             ├── 1.1.1-remediate-password-history.ps1
             ├── 1.1.2-remediate-maximum-password-age.ps1
-            └── 1.1.3-remediate-minimum-password-age.ps1
+            ├── 1.1.3-remediate-minimum-password-age.ps1
+            └── 1.1.4-remediate-minimum-password-length.ps1
 ```
 
 ## 📋 Available Scripts
@@ -62,13 +72,30 @@ automation-scripts/
 
 ### Security Scripts
 
+#### Audit Scripts
+
 | Script | Description | CIS Benchmark | Admin Required |
 |--------|-------------|---------------|----------------|
 | `security/audits/1.1.1-audit-password-history.ps1` | Audits password history enforcement setting | 1.1.1 (L1) | Yes |
-| `security/remediations/1.1.1-remediate-password-history.ps1` | Remediate password history enforcement setting | 1.1.1 (L1) | Yes |
+| `security/audits/1.1.2-audit-maximum-password-age.ps1` | Audits maximum password age setting | 1.1.2 (L1) | Yes |
 | `security/audits/1.1.3-audit-minimum-password-age.ps1` | Audits minimum password age setting | 1.1.3 (L1) | Yes |
+| `security/audits/1.1.4-audit-minimum-password-length.ps1` | Audits minimum password length setting | 1.1.4 (L1) | Yes |
+| `security/audits/1.1.5-audit-password-complexity.ps1` | Audits password complexity requirements setting | 1.1.5 (L1) | Yes |
+| `security/audits/1.1.6-audit-relax-minimum-password-length-limits.ps1` | Audits relax minimum password length limits setting | 1.1.6 (L1) | Yes |
+| `security/audits/1.1.7-audit-store-passwords-using-reversible-encryption.ps1` | Audits store passwords using reversible encryption setting | 1.1.7 (L1) | Yes |
+| `security/audits/1.2.1-audit-account-lockout-duration.ps1` | Audits account lockout duration setting | 1.2.1 (L1) | Yes |
+| `security/audits/1.2.2-audit-account-lockout-threshold.ps1` | Audits account lockout threshold setting | 1.2.2 (L1) | Yes |
+| `security/audits/1.2.3-audit-allow-administrator-account-lockout.ps1` | Audits allow administrator account lockout setting | 1.2.3 (L1) | Yes |
+| `security/audits/1.2.4-audit-reset-account-lockout-counter-after.ps1` | Audits reset account lockout counter after setting | 1.2.4 (L1) | Yes |
+
+#### Remediation Scripts
+
+| Script | Description | CIS Benchmark | Admin Required |
+|--------|-------------|---------------|----------------|
+| `security/remediations/1.1.1-remediate-password-history.ps1` | Remediate password history enforcement setting | 1.1.1 (L1) | Yes |
 | `security/remediations/1.1.2-remediate-maximum-password-age.ps1` | Remediate maximum password age setting | 1.1.2 (L1) | Yes |
 | `security/remediations/1.1.3-remediate-minimum-password-age.ps1` | Remediate minimum password age setting | 1.1.3 (L1) | Yes |
+| `security/remediations/1.1.4-remediate-minimum-password-length.ps1` | Remediate minimum password length setting | 1.1.4 (L1) | Yes |
 
 ## 🔧 Features
 
@@ -96,11 +123,26 @@ automation-scripts/
 ### Security Compliance Examples
 
 ```powershell
-# Audit password policy compliance
+# Audit all password policy settings
 .\windows\security\audits\1.1.1-audit-password-history.ps1
+.\windows\security\audits\1.1.2-audit-maximum-password-age.ps1
+.\windows\security\audits\1.1.3-audit-minimum-password-age.ps1
+.\windows\security\audits\1.1.4-audit-minimum-password-length.ps1
+.\windows\security\audits\1.1.5-audit-password-complexity.ps1
+.\windows\security\audits\1.1.6-audit-relax-minimum-password-length-limits.ps1
+.\windows\security\audits\1.1.7-audit-store-passwords-using-reversible-encryption.ps1
+
+# Audit all account lockout policy settings
+.\windows\security\audits\1.2.1-audit-account-lockout-duration.ps1
+.\windows\security\audits\1.2.2-audit-account-lockout-threshold.ps1
+.\windows\security\audits\1.2.3-audit-allow-administrator-account-lockout.ps1
+.\windows\security\audits\1.2.4-audit-reset-account-lockout-counter-after.ps1
 
 # Remediate non-compliant password settings
 .\windows\security\remediations\1.1.1-remediate-password-history.ps1
+.\windows\security\remediations\1.1.2-remediate-maximum-password-age.ps1
+.\windows\security\remediations\1.1.3-remediate-minimum-password-age.ps1
+.\windows\security\remediations\1.1.4-remediate-minimum-password-length.ps1
 
 # Verify remediation success
 .\windows\security\audits\1.1.1-audit-password-history.ps1
