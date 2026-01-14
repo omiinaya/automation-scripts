@@ -36,9 +36,12 @@ automation-scripts/
     │   └── README.md               # Module documentation
     └── security/                  # Security audit and remediation scripts
         ├── audits/                 # Security audit scripts
-        │   └── 1.1.1-audit-password-history.ps1
+        │   ├── 1.1.1-audit-password-history.ps1
+        │   └── 1.1.3-audit-minimum-password-age.ps1
         └── remediations/           # Security remediation scripts
-            └── 1.1.1-remediate-password-history.ps1
+            ├── 1.1.1-remediate-password-history.ps1
+            ├── 1.1.2-remediate-maximum-password-age.ps1
+            └── 1.1.3-remediate-minimum-password-age.ps1
 ```
 
 ## 📋 Available Scripts
@@ -63,6 +66,9 @@ automation-scripts/
 |--------|-------------|---------------|----------------|
 | `security/audits/1.1.1-audit-password-history.ps1` | Audits password history enforcement setting | 1.1.1 (L1) | Yes |
 | `security/remediations/1.1.1-remediate-password-history.ps1` | Remediate password history enforcement setting | 1.1.1 (L1) | Yes |
+| `security/audits/1.1.3-audit-minimum-password-age.ps1` | Audits minimum password age setting | 1.1.3 (L1) | Yes |
+| `security/remediations/1.1.2-remediate-maximum-password-age.ps1` | Remediate maximum password age setting | 1.1.2 (L1) | Yes |
+| `security/remediations/1.1.3-remediate-minimum-password-age.ps1` | Remediate minimum password age setting | 1.1.3 (L1) | Yes |
 
 ## 🔧 Features
 
