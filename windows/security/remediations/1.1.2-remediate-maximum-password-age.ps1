@@ -146,33 +146,33 @@ try {
             Write-Host ""
         }
         
-        # Get user confirmation before proceeding
-        if (-not (Display-Confirmation -Message "Do you want to proceed with remediation?" -DefaultChoice "No")) {
-            if ($VerboseOutput) {
+        # Get user confirmation before proceeding (only in verbose mode)
+        if ($VerboseOutput) {
+            if (-not (Display-Confirmation -Message "Do you want to proceed with remediation?" -DefaultChoice "No")) {
                 Write-StatusMessage -Message "Remediation cancelled by user" -Type Warning
-            }
-            
-            $scriptResult = [PSCustomObject]@{
-                Status = "Cancelled"
-                Message = "User cancelled remediation"
-                PreviousValue = $maximumPasswordAge
-                NewValue = $maximumPasswordAge
-                IsCompliant = $false
-                RequiresManualAction = $false
-                Source = $source
-            }
-            
-            if ($VerboseOutput) {
+                
+                $scriptResult = [PSCustomObject]@{
+                    Status = "Cancelled"
+                    Message = "User cancelled remediation"
+                    PreviousValue = $maximumPasswordAge
+                    NewValue = $maximumPasswordAge
+                    IsCompliant = $false
+                    RequiresManualAction = $false
+                    Source = $source
+                }
+                
                 Display-Pause -Message "Press Enter to exit..."
+                
+                # Return appropriate result based on verbose mode
+                if ($VerboseOutput) {
+                    $scriptResult
+                } else {
+                    $scriptResult.IsCompliant
+                }
+                return
             }
-            
-            # Return appropriate result based on verbose mode
-            if ($VerboseOutput) {
-                $scriptResult
-            } else {
-                $scriptResult.IsCompliant
-            }
-            return
+        } else {
+            # In non-verbose mode, automatically proceed with remediation
         }
         
         if ($VerboseOutput) {
