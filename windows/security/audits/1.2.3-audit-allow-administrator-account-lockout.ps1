@@ -147,7 +147,7 @@ try {
             }
         )
         
-        Display-Table -Data $auditData -Title "Account Lockout Policy Audit Results"
+        Show-Table -Data $auditData -Title "Account Lockout Policy Audit Results"
     }
     
     # Additional information

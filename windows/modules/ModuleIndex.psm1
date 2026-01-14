@@ -92,7 +92,7 @@ function Get-WindowsModuleInfo {
                 "Get-BatteryInfo",
                 "Get-Windows11PowerMode",
                 "Set-Windows11PowerMode",
-                "Toggle-Windows11PowerMode"
+                "Switch-Windows11PowerMode"
             )
         },
         @{
@@ -118,13 +118,13 @@ function Get-WindowsModuleInfo {
                 "Write-StatusMessage",
                 "Write-SectionHeader",
                 "Write-ProgressBar",
-                "Display-Menu",
-                "Display-Confirmation",
-                "Display-Table",
-                "Display-List",
-                "Display-Pause",
+                "Show-Menu",
+                "Show-Confirmation",
+                "Show-Table",
+                "Show-List",
+                "Show-Pause",
                 "Clear-ScreenWithHeader",
-                "Display-SystemBanner"
+                "Show-SystemBanner"
             )
         }
     )
@@ -224,7 +224,7 @@ function Get-WindowsModuleCommands {
 }
 
 # Function to display help for a command
-function Display-WindowsModuleHelp {
+function Show-WindowsModuleHelp {
     <#
     .SYNOPSIS
         Displays help for a specific command.
@@ -233,7 +233,7 @@ function Display-WindowsModuleHelp {
     .PARAMETER CommandName
         The name of the command to show help for.
     .EXAMPLE
-        Display-WindowsModuleHelp -CommandName "Test-AdminRights"
+        Show-WindowsModuleHelp -CommandName "Test-AdminRights"
     #>
     param(
         [Parameter(Mandatory=$true)]
@@ -297,17 +297,17 @@ function Initialize-WindowsModules {
     
     Clear-ScreenWithHeader -Title "Windows Administration Modules"
     
-    Display-SystemBanner
+    Show-SystemBanner
     
     Write-StatusMessage -Message "Windows modules loaded successfully!" -Type Success
     Write-Host ""
     
     $moduleInfo = Get-WindowsModuleInfo
-    Display-Table -Data $moduleInfo -Title "Available Modules"
+    Show-Table -Data $moduleInfo -Title "Available Modules"
     
     Write-Host ""
     Write-StatusMessage -Message "Use 'Get-WindowsModuleCommands' to see all available commands" -Type Info
-    Write-StatusMessage -Message "Use 'Display-WindowsModuleHelp -CommandName <Command>' for detailed help" -Type Info
+    Write-StatusMessage -Message "Use 'Show-WindowsModuleHelp -CommandName <Command>' for detailed help" -Type Info
     Write-Host ""
 }
 
@@ -316,7 +316,7 @@ Write-Verbose "Windows Module Index loaded successfully"
 Write-Verbose "Use Initialize-WindowsModules to display welcome information"
 
 # Export the module members
-Export-ModuleMember -Function Get-WindowsModuleInfo, Test-WindowsModules, Get-WindowsModuleCommands, Display-WindowsModuleHelp, Initialize-WindowsModules
+Export-ModuleMember -Function Get-WindowsModuleInfo, Test-WindowsModules, Get-WindowsModuleCommands, Show-WindowsModuleHelp, Initialize-WindowsModules
 
 # Export all functions from imported modules
 $allCommands = Get-Command -Module WindowsUtils, PowerManagement, RegistryUtils, WindowsUI -ErrorAction SilentlyContinue

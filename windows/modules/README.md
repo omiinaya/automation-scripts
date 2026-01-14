@@ -44,7 +44,7 @@ if (Test-AdminRights) {
 
 # Get current power schemes
 $schemes = Get-PowerSchemes
-Display-Table -Data $schemes -Title "Available Power Schemes"
+Show-Table -Data $schemes -Title "Available Power Schemes"
 
 # Set high performance mode
 $highPerf = Get-PowerSchemeByName -Name "High performance"

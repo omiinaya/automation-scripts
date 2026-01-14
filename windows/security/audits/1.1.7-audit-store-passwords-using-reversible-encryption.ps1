@@ -146,7 +146,7 @@ try {
             }
         )
         
-        Display-Table -Data $auditData -Title "Password Policy Audit Results"
+        Show-Table -Data $auditData -Title "Password Policy Audit Results"
     }
     
     # Additional information

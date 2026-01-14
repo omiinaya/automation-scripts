@@ -132,7 +132,7 @@ try {
         }
         
         if ($VerboseOutput) {
-            Display-Pause -Message "Press Enter to exit..."
+            Show-Pause -Message "Press Enter to exit..."
         }
     } else {
         if ($VerboseOutput) {
@@ -149,7 +149,7 @@ try {
         # Get user confirmation before proceeding (only in verbose mode)
         $proceedWithRemediation = $true
         if ($VerboseOutput) {
-            if (-not (Display-Confirmation -Message "Do you want to proceed with remediation?" -DefaultChoice "No")) {
+            if (-not (Show-Confirmation -Message "Do you want to proceed with remediation?" -DefaultChoice "No")) {
                 Write-StatusMessage -Message "Remediation cancelled by user" -Type Warning
                 
                 $scriptResult = [PSCustomObject]@{
@@ -162,7 +162,7 @@ try {
                     Source = $source
                 }
                 
-                Display-Pause -Message "Press Enter to exit..."
+                Show-Pause -Message "Press Enter to exit..."
                 
                 # Return appropriate result based on verbose mode
                 if ($VerboseOutput) {
@@ -357,7 +357,7 @@ MinimumPasswordAge=1
                 }
             )
             
-            Display-Table -Data $remediationData -Title "Remediation Results"
+            Show-Table -Data $remediationData -Title "Remediation Results"
             
             Write-Host ""
             Write-StatusMessage -Message "Remediation process completed" -Type Success
@@ -401,7 +401,7 @@ MinimumPasswordAge=1
     
     if ($VerboseOutput) {
         Write-Host ""
-        Display-Pause -Message "Press Enter to exit..."
+        Show-Pause -Message "Press Enter to exit..."
     }
     
     

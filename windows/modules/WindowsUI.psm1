@@ -135,7 +135,7 @@ function Write-ProgressBar {
 }
 
 # Function to display a menu
-function Display-Menu {
+function Show-Menu {
     <#
     .SYNOPSIS
         Displays a selection menu.
@@ -148,7 +148,7 @@ function Display-Menu {
     .PARAMETER AllowMultiple
         Allow multiple selections (comma-separated).
     .EXAMPLE
-        $choice = Display-Menu -Title "Select an option" -Options @("Option 1", "Option 2", "Option 3")
+        $choice = Show-Menu -Title "Select an option" -Options @("Option 1", "Option 2", "Option 3")
     .OUTPUTS
         System.Object
     #>
@@ -189,7 +189,7 @@ function Display-Menu {
 }
 
 # Function to display a confirmation prompt
-function Display-Confirmation {
+function Show-Confirmation {
     <#
     .SYNOPSIS
         Displays a yes/no confirmation prompt.
@@ -200,7 +200,7 @@ function Display-Confirmation {
     .PARAMETER DefaultChoice
         The default choice (Yes, No).
     .EXAMPLE
-        if (Display-Confirmation -Message "Continue with operation?") { Write-Host "Proceeding..." }
+        if (Show-Confirmation -Message "Continue with operation?") { Write-Host "Proceeding..." }
     .OUTPUTS
         System.Boolean
     #>
@@ -233,7 +233,7 @@ function Display-Confirmation {
 }
 
 # Function to display a table
-function Display-Table {
+function Show-Table {
 <#
 .SYNOPSIS
     Displays data in a formatted table.
@@ -245,9 +245,9 @@ function Display-Table {
     Optional table title.
 .EXAMPLE
     $data = @([PSCustomObject]@{Name="Item1"; Value=100}, [PSCustomObject]@{Name="Item2"; Value=200})
-    Display-Table -Data $data -Title "My Data"
+    Show-Table -Data $data -Title "My Data"
 .EXAMPLE
-    Get-Process | Select-Object -First 5 Name, Id, CPU | Display-Table -Title "Running Processes"
+    Get-Process | Select-Object -First 5 Name, Id, CPU | Show-Table -Title "Running Processes"
 .OUTPUTS
     None. Writes formatted table to console.
 .NOTES
@@ -305,7 +305,7 @@ param(
 }
 
 # Function to display a list with bullets
-function Display-List {
+function Show-List {
     <#
     .SYNOPSIS
         Displays items in a bulleted list.
@@ -316,7 +316,7 @@ function Display-List {
     .PARAMETER Title
         Optional list title.
     .EXAMPLE
-        Display-List -Items @("Item 1", "Item 2", "Item 3") -Title "My List"
+        Show-List -Items @("Item 1", "Item 2", "Item 3") -Title "My List"
     #>
     param(
         [Parameter(Mandatory=$true)]
@@ -336,7 +336,7 @@ function Display-List {
 }
 
 # Function to pause execution
-function Display-Pause {
+function Show-Pause {
     <#
     .SYNOPSIS
         Pauses execution and waits for user input.
@@ -345,7 +345,7 @@ function Display-Pause {
     .PARAMETER Message
         Custom pause message.
     .EXAMPLE
-        Display-Pause -Message "Press Enter to continue..."
+        Show-Pause -Message "Press Enter to continue..."
     #>
     param(
         [string]$Message = "Press Enter to continue..."
@@ -378,14 +378,14 @@ function Clear-ScreenWithHeader {
 }
 
 # Function to display system information banner
-function Display-SystemBanner {
+function Show-SystemBanner {
     <#
     .SYNOPSIS
         Displays a system information banner.
     .DESCRIPTION
         Shows current system information in a formatted banner.
     .EXAMPLE
-        Display-SystemBanner
+        Show-SystemBanner
     #>
     $os = Get-CimInstance -ClassName Win32_OperatingSystem
     $computer = Get-CimInstance -ClassName Win32_ComputerSystem
@@ -404,4 +404,4 @@ function Display-SystemBanner {
 }
 
 # Export the module members
-Export-ModuleMember -Function Write-StatusMessage, Write-SectionHeader, Write-ProgressBar, Display-Menu, Display-Confirmation, Display-Table, Display-List, Display-Pause, Clear-ScreenWithHeader, Display-SystemBanner
+Export-ModuleMember -Function Write-StatusMessage, Write-SectionHeader, Write-ProgressBar, Show-Menu, Show-Confirmation, Show-Table, Show-List, Show-Pause, Clear-ScreenWithHeader, Show-SystemBanner
