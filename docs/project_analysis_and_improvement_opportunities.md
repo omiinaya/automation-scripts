@@ -160,7 +160,7 @@ windows/modules/CISRemediation.psm1
 helpers/generate_cis_scripts.py
 ```
 **Functionality**:
-- Read `docs/json/cis_section_*.json`
+- Read split JSON files from `docs/json/` (e.g., `cis_section_1_1.json`, `cis_section_2_1.json`, etc.)
 - Generate audit and remediation scripts using templates
 - Update README.md script tables automatically
 
