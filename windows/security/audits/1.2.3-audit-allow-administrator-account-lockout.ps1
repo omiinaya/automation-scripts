@@ -39,8 +39,8 @@ try {
             # Read the exported policy
             $policyContent = Get-Content $tempFile
             
-            # Look for administrator lockout setting (exact name unknown)
-            $adminLockoutLine = $policyContent | Where-Object { $_ -like "*AdministratorLockout*" -or $_ -like "*AdminLockout*" }
+            # Look for administrator lockout setting
+            $adminLockoutLine = $policyContent | Where-Object { $_ -like "AllowAdministratorAccountLockout*" }
             
             if ($adminLockoutLine) {
                 # Try to parse the value
@@ -67,7 +67,7 @@ try {
             try {
                 # This registry path might contain the setting
                 $registryPath = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System"
-                $valueName = "AdministratorLockout"
+                $valueName = "AllowAdministratorAccountLockout"
                 
                 if (Test-Path $registryPath) {
                     $registryValue = Get-ItemProperty -Path $registryPath -Name $valueName -ErrorAction SilentlyContinue

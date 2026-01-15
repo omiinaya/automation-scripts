@@ -1,5 +1,5 @@
-# Remediation: Minimum password age setting on Windows
-# CIS Benchmark: 1.1.3 (L1) Ensure 'Minimum password age' is set to '1 or more day(s)'
+# Remediation: Account lockout duration setting on Windows
+# CIS Benchmark: 1.2.1 (L1) Ensure 'Account lockout duration' is set to '15 or more minute(s)'
 # Refactored to use CISRemediation framework
 
 [CmdletBinding()]
@@ -18,7 +18,7 @@ if (-not (Test-AdminRights)) {
 
 try {
     if ($VerboseOutput) {
-        Write-SectionHeader -Title "Password Policy Remediation: Minimum Password Age"
+        Write-SectionHeader -Title "Account Lockout Policy Remediation: Account Lockout Duration"
     }
     
     # Create security policy template
@@ -29,11 +29,11 @@ Unicode=yes
 signature="`$CHICAGO`$"
 Revision=1
 [System Access]
-MinimumPasswordAge=1
+LockoutDuration=15
 "@
     
     # Invoke remediation using CISRemediation framework
-    $result = Invoke-CISRemediation -CIS_ID "1.1.3" -RemediationType "SecurityPolicy" -SecurityPolicyTemplate $templateContent -SettingName "MinimumPasswordAge" -VerboseOutput:$VerboseOutput
+    $result = Invoke-CISRemediation -CIS_ID "1.2.1" -RemediationType "SecurityPolicy" -SecurityPolicyTemplate $templateContent -SettingName "LockoutDuration" -VerboseOutput:$VerboseOutput
     
     # Return appropriate result based on verbose mode
     if ($VerboseOutput) {
@@ -44,7 +44,7 @@ MinimumPasswordAge=1
     
 } catch {
     if ($VerboseOutput) {
-        Wait-OnError -ErrorMessage "Failed to perform password policy remediation: $($_.Exception.Message)"
+        Wait-OnError -ErrorMessage "Failed to perform account lockout policy remediation: $($_.Exception.Message)"
     } else {
         $false
     }
