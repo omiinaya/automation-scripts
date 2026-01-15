@@ -330,7 +330,7 @@ graph TD
 | Batch | CIS IDs | JSON File | Status | Started | Completed | Controls | Notes |
 |-------|---------|-----------|--------|---------|-----------|----------|-------|
 | Section 1 Complete | 1.1.1-1.2.4 | [`cis_section_1.json`](docs/json/cis_section_1.json) | ✅ Completed | 2026-01-14 | 2026-01-14 | 11/11 | All Section 1 scripts generated |
-| Batch 1 | 2.2.1-2.2.10 | [`cis_section_2.json`](docs/json/cis_section_2.json) | Not Started | - | - | 0/10 | User Rights Assignment - Part 1 |
+| Batch 1 | 2.2.1-2.2.10 | [`cis_section_2.json`](docs/json/cis_section_2.json) | ✅ Completed | 2026-01-15 | 2026-01-15 | 10/10 | User Rights Assignment - Part 1 |
 | Batch 2 | 2.2.11-2.2.20 | [`cis_section_2.json`](docs/json/cis_section_2.json) | Not Started | - | - | 0/10 | User Rights Assignment - Part 2 |
 | Batch 3 | 2.2.21-2.2.30 | [`cis_section_2.json`](docs/json/cis_section_2.json) | Not Started | - | - | 0/10 | User Rights Assignment - Part 3 |
 | Batch 4 | 2.2.31-2.3.1.1 | [`cis_section_2.json`](docs/json/cis_section_2.json) | Not Started | - | - | 0/10 | User Rights Assignment - Part 4 + Security Options start |
@@ -351,8 +351,8 @@ graph TD
 | Batch 19 | 19.1-19.10 | [`cis_section_19.json`](docs/json/cis_section_19.json) | Not Started | - | - | 0/10 | Advanced Security Options - Part 1 |
 
 **Progress Metrics**:
-- **Total CIS IDs Processed**: 11/200+ (5.5%)
-- **Batches Completed**: 0/20+ (0%)
+- **Total CIS IDs Processed**: 21/200+ (10.5%)
+- **Batches Completed**: 1/20+ (5%)
 - **Sections Completed**: 1/19 (5.3%)
 
 ### Phase 3 Task Progress
@@ -421,7 +421,7 @@ graph TD
 - [x] **Update attack plan** with Phase 2 progress
 
 ### Next Checklist (Week 3) - Phase 3 - In Progress
-- [ ] **Generate scripts for CIS IDs 2.2.1-2.2.10** (Batch 1 - 10 controls)
+- [x] **Generate scripts for CIS IDs 2.2.1-2.2.10** (Batch 1 - 10 controls)
 - [ ] **Generate scripts for CIS IDs 2.2.11-2.2.20** (Batch 2 - 10 controls)
 - [ ] **Generate scripts for CIS IDs 2.2.21-2.2.30** (Batch 3 - 10 controls)
 - [ ] **Generate scripts for CIS IDs 2.2.31-2.3.1.1** (Batch 4 - 10 controls)
