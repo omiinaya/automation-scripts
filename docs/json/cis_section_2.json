@@ -483,13 +483,13 @@
     "cis_id": "2.3.1.2",
     "title": "Ensure 'Accounts: Limit local account use of blank\npasswords to console logon only' is set to 'Enabled'",
     "profile": "L1",
-    "description": "The built-in local guest account is another well-known name to attackers. It is\nrecommended to rename this account to something that does not indicate its purpose.\nEven if you disable this account, which is recommended, ensure that you rename it for\nadded security.",
-    "rationale": "The Guest account exists on all computers that run the Windows 2000 or newer\noperating systems. If you rename this account, it is slightly more difficult for\nunauthorized persons to guess this privileged user name and password combination.",
-    "impact": "There should be little impact, because the Guest account is disabled by default.",
+    "description": "This policy setting determines whether local accounts that are not password protected\ncan be used to log on from locations other than the physical computer console. If you\nenable this policy setting, local accounts that have blank passwords will only be able to\nlog on to the computer from the console.\nThe recommended state for this setting is: Enabled.",
+    "rationale": "Accounts with blank passwords are a significant security risk because they can provide\neasy access to your computer for unauthorized users. If you enable this policy setting,\nlocal accounts that have blank passwords will not be able to log on to the network from\nremote client computers. This policy setting will help prevent password guessing attacks\nagainst such accounts.",
+    "impact": "None - this is the default behavior.",
     "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed.",
-    "remediation_procedure": "To establish the recommended configuration via GP, configure the following UI path:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\Security Options\\Accounts: Rename guest account",
-    "default_value": "Guest.\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/accounts-rename-guest-account\n2. GRID: MS-00000057\nPage 154\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.7 Manage Default Accounts on Enterprise Assets and\nSoftware\nv8\nManage default accounts on enterprise assets and software, such as root,\n● ● ●\nadministrator, and other pre-configured vendor accounts. Example\nimplementations can include: disabling default accounts or making them\nunusable.\nPage 155",
-    "page_number": 151
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nComputer Configuration\\Policies\\Windows Settings\\Security Settings\\Local\nPolicies\\Security Options\\Accounts: Limit local account use of blank passwords to console logon only",
+    "default_value": "Enabled.\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/security-\npolicy-settings/accounts-limit-local-account-use-of-blank-passwords-to-console-logon-only\n2. GRID: MS-00000055\nPage 152\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.7 Manage Default Accounts on Enterprise Assets and\nSoftware\nv8\nManage default accounts on enterprise assets and software, such as root,\n● ● ●\nadministrator, and other pre-configured vendor accounts. Example\nimplementations can include: disabling default accounts or making them\nunusable.\nPage 153",
+    "page_number": 152
   },
   {
     "cis_id": "2.3.2.1",
