@@ -335,7 +335,7 @@ graph TD
 | Batch 3 | 2.2.21-2.2.30 | [`cis_section_2.json`](docs/json/cis_section_2.json) | ✅ Completed | 2026-01-15 | 2026-01-15 | 10/10 | User Rights Assignment - Part 3 |
 | Batch 4 | 2.2.31-2.3.1.1 | [`cis_section_2.json`](docs/json/cis_section_2.json) | ✅ Completed | 2026-01-15 | 2026-01-15 | 10/10 | User Rights Assignment - Part 4 + Security Options start |
 | Batch 5 | 2.3.1.2-2.3.2.1 | [`cis_section_2.json`](docs/json/cis_section_2.json) | ✅ Completed | 2026-01-15 | 2026-01-15 | 2/2 | Security Options - Accounts + Audit (Batch 5 contained only 2 CIS IDs) |
-| Batch 6 | 2.3.2.2-2.3.4.1 | [`cis_section_2.json`](docs/json/cis_section_2.json) | Not Started | - | - | 0/10 | Security Options - Audit + Devices |
+| Batch 6 | 2.3.2.2-2.3.4.1 | [`cis_section_2.json`](docs/json/cis_section_2.json) | ✅ Completed | 2026-01-15 | 2026-01-15 | 2/2 | Security Options - Audit + Devices |
 | Batch 7 | 2.3.7.1-2.3.7.4 | [`cis_section_2.json`](docs/json/cis_section_2.json) | Not Started | - | - | 0/10 | Security Options - Interactive logon |
 | Batch 8 | 2.3.7.7-2.3.8.2 | [`cis_section_2.json`](docs/json/cis_section_2.json) | Not Started | - | - | 0/10 | Security Options - Interactive logon + Microsoft network client |
 | Batch 9 | 2.3.8.3-2.3.9.2 | [`cis_section_2.json`](docs/json/cis_section_2.json) | Not Started | - | - | 0/10 | Security Options - Microsoft network client + server |
@@ -351,8 +351,8 @@ graph TD
 | Batch 19 | 19.1-19.10 | [`cis_section_19.json`](docs/json/cis_section_19.json) | Not Started | - | - | 0/10 | Advanced Security Options - Part 1 |
 
 **Progress Metrics**:
-- **Total CIS IDs Processed**: 53/200+ (26.5%)
-- **Batches Completed**: 5/20+ (25%)
+- **Total CIS IDs Processed**: 55/200+ (27.5%)
+- **Batches Completed**: 6/20+ (30%)
 - **Sections Completed**: 1/19 (5.3%)
 
 ### Phase 3 Task Progress
@@ -527,6 +527,7 @@ def process_batch_safely(json_file_path, start_index, batch_size=10):
 | 2026-01-15 | 1.6 | Batch 2 completed: Generated scripts for CIS IDs 2.2.11-2.2.20 (10 audit + 10 remediation scripts) using incremental JSON processing | Kilo Code |
 | 2026-01-15 | 1.7 | Batch 3 completed: Generated scripts for CIS IDs 2.2.21-2.2.30 (10 audit + 10 remediation scripts) using incremental JSON processing | Kilo Code |
 | 2026-01-15 | 1.8 | Batch 4 completed: Generated scripts for CIS IDs 2.2.31-2.3.1.1 (10 audit + 10 remediation scripts) including first Security Options control (Guest account status) | Kilo Code |
+| 2026-01-15 | 1.9 | Batch 6 completed: Generated scripts for CIS IDs 2.3.2.2-2.3.4.1 (2 audit + 2 remediation scripts) using incremental JSON processing for Security Options controls | Kilo Code |
 
 ## Appendix
 
