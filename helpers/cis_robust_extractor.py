@@ -446,7 +446,7 @@ class CISRobustExtractor:
     
     def save_to_json_by_section(self):
         """Save extracted recommendations to separate JSON files organized
-        by section"""
+        by section, with maximum 10 items per file"""
         try:
             # Group recommendations by section (first part of CIS ID)
             sections = {}
@@ -457,20 +457,26 @@ class CISRobustExtractor:
                     sections[section_id] = []
                 sections[section_id].append(asdict(rec))
             
-            # Save each section to separate file
+            # Save each section to separate files with max 10 items per file
             for section_id, recommendations_data in sections.items():
-                filename = f"cis_section_{section_id}.json"
-                output_path = Path(self.output_dir) / filename
-                
-                with open(output_path, 'w', encoding='utf-8') as f:
-                    json.dump(
-                        recommendations_data, f, indent=2, ensure_ascii=False
+                # Split recommendations into chunks of max 10 items
+                chunk_size = 10
+                for i in range(0, len(recommendations_data), chunk_size):
+                    chunk = recommendations_data[i:i + chunk_size]
+                    part_number = (i // chunk_size) + 1
+                    
+                    filename = f"cis_section_{section_id}_{part_number}.json"
+                    output_path = Path(self.output_dir) / filename
+                    
+                    with open(output_path, 'w', encoding='utf-8') as f:
+                        json.dump(
+                            chunk, f, indent=2, ensure_ascii=False
+                        )
+                    
+                    self.logger.info(
+                        f"Saved {len(chunk)} recommendations to "
+                        f"{output_path}"
                     )
-                
-                self.logger.info(
-                    f"Saved {len(recommendations_data)} recommendations to "
-                    f"{output_path}"
-                )
             
             
         except Exception as e:
@@ -514,8 +520,9 @@ class CISRobustExtractor:
 
 def main():
     """Main function"""
-    pdf_path = "docs/CIS_Microsoft_Windows_11_Stand-alone_Benchmark_v4.0.0.pdf"
-    output_dir = "docs/json"
+    pdf_filename = "CIS_Microsoft_Windows_11_Stand-alone_Benchmark_v4.0.0.pdf"
+    pdf_path = f"../docs/{pdf_filename}"
+    output_dir = "../docs/json"
     
     if not Path(pdf_path).exists():
         print(f"Error: PDF file not found at {pdf_path}")

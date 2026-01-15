@@ -80,12 +80,21 @@ The Windows Automation Scripts project requires systematic improvements to addre
 
 **Batching Strategy**: Work will be completed in batches of 10 CIS IDs at a time using incremental JSON file reading to prevent memory overload. This approach specifically addresses the issue of large JSON files that cannot be processed entirely.
 
+**Updated JSON File Structure**: The CIS JSON data has been split into smaller, more manageable files:
+- **Section 1**: Split into `cis_section_1_1.json` (password policies) and `cis_section_1_2.json` (account lockout policies)
+- **Section 2**: Split into 10 files (`cis_section_2_1.json` through `cis_section_2_10.json`) for User Rights Assignment and Security Options
+- **Section 5**: Split into 5 files (`cis_section_5_1.json` through `cis_section_5_5.json`) for Services
+- **Section 9**: Split into 2 files (`cis_section_9_1.json` and `cis_section_9_2.json`) for Windows Firewall
+- **Section 17**: Split into 3 files (`cis_section_17_1.json` through `cis_section_17_3.json`) for User Account Control
+- **Section 18**: Split into 32 files (`cis_section_18_1.json` through `cis_section_18_32.json`) for Application Control
+- **Section 19**: Split into 2 files (`cis_section_19_1.json` and `cis_section_19_2.json`) for Advanced Security Options
+
 **Incremental JSON Processing Methodology**:
 - Each batch processes exactly 10 CIS IDs (5 audit + 5 remediation pairs)
-- **Read JSON files in chunks**: Process only 10 CIS IDs at a time from the JSON file
-- **Use line-by-line reading**: Read JSON files incrementally to avoid loading entire files
+- **Read JSON files in chunks**: Process only 10 CIS IDs at a time from the appropriate JSON file
+- **Use file-based batching**: Each JSON file contains a manageable subset of CIS IDs for easier processing
 - **Clear memory between batches**: Explicitly clear variables and memory after each batch
-- **Track file position**: Resume reading from the last processed CIS ID
+- **Track file position**: Resume reading from the last processed CIS ID within each file
 
 **Concrete Batch Structure with Specific CIS IDs**:
 
@@ -107,12 +116,22 @@ Batch 11: CIS IDs 2.3.10.3-2.3.10.12 (Security Options - Network access completi
 **Specific JSON Reading Instructions**:
 
 ```python
-# Example incremental JSON reading approach
+# Example incremental JSON reading approach for split JSON files
 import json
+import os
 
-def process_cis_ids_in_chunks(json_file_path, start_cis_id, batch_size=10):
-    """Process CIS IDs in small chunks to avoid memory issues"""
+def process_cis_ids_in_chunks(section_number, subsection_number, start_cis_id, batch_size=10):
+    """Process CIS IDs in small chunks from split JSON files to avoid memory issues"""
     processed_ids = []
+    
+    # Construct JSON file path based on section and subsection
+    json_file_path = f"docs/json/cis_section_{section_number}_{subsection_number}.json"
+    
+    if not os.path.exists(json_file_path):
+        # Try alternative subsection if file doesn't exist
+        json_file_path = f"docs/json/cis_section_{section_number}_1.json"
+        if not os.path.exists(json_file_path):
+            raise FileNotFoundError(f"JSON file not found: {json_file_path}")
     
     # Read file incrementally
     with open(json_file_path, 'r') as file:
@@ -137,6 +156,21 @@ def process_cis_ids_in_chunks(json_file_path, start_cis_id, batch_size=10):
             generate_remediation_script(cis_item)
     
     return processed_ids
+
+def get_json_files_for_section(section_number):
+    """Get all JSON files for a given section"""
+    json_files = []
+    base_path = "docs/json"
+    
+    # List all files in the directory
+    for filename in os.listdir(base_path):
+        if filename.startswith(f"cis_section_{section_number}_") and filename.endswith(".json"):
+            json_files.append(os.path.join(base_path, filename))
+    
+    # Sort files numerically by subsection
+    json_files.sort(key=lambda x: int(x.split('_')[-1].split('.')[0]) if x.split('_')[-1].split('.')[0].isdigit() else 0)
+    
+    return json_files
 ```
 
 **Batch Completion Criteria**:
@@ -327,28 +361,28 @@ graph TD
 
 ### CIS ID Batch Progress Tracking
 
-| Batch | CIS IDs | JSON File | Status | Started | Completed | Controls | Notes |
-|-------|---------|-----------|--------|---------|-----------|----------|-------|
-| Section 1 Complete | 1.1.1-1.2.4 | [`cis_section_1.json`](docs/json/cis_section_1.json) | ✅ Completed | 2026-01-14 | 2026-01-14 | 11/11 | All Section 1 scripts generated |
-| Batch 1 | 2.2.1-2.2.10 | [`cis_section_2.json`](docs/json/cis_section_2.json) | ✅ Completed | 2026-01-15 | 2026-01-15 | 10/10 | User Rights Assignment - Part 1 |
-| Batch 2 | 2.2.11-2.2.20 | [`cis_section_2.json`](docs/json/cis_section_2.json) | ✅ Completed | 2026-01-15 | 2026-01-15 | 10/10 | User Rights Assignment - Part 2 |
-| Batch 3 | 2.2.21-2.2.30 | [`cis_section_2.json`](docs/json/cis_section_2.json) | ✅ Completed | 2026-01-15 | 2026-01-15 | 10/10 | User Rights Assignment - Part 3 |
-| Batch 4 | 2.2.31-2.3.1.1 | [`cis_section_2.json`](docs/json/cis_section_2.json) | ✅ Completed | 2026-01-15 | 2026-01-15 | 10/10 | User Rights Assignment - Part 4 + Security Options start |
-| Batch 5 | 2.3.1.2-2.3.2.1 | [`cis_section_2.json`](docs/json/cis_section_2.json) | ✅ Completed | 2026-01-15 | 2026-01-15 | 2/2 | Security Options - Accounts + Audit (Batch 5 contained only 2 CIS IDs) |
-| Batch 6 | 2.3.2.2-2.3.4.1 | [`cis_section_2.json`](docs/json/cis_section_2.json) | ✅ Completed | 2026-01-15 | 2026-01-15 | 2/2 | Security Options - Audit + Devices |
-| Batch 7 | 2.3.7.1-2.3.7.4 | [`cis_section_2.json`](docs/json/cis_section_2.json) | ✅ Completed | 2026-01-15 | 2026-01-15 | 4/4 | Security Options - Interactive logon |
-| Batch 8 | 2.3.7.7-2.3.8.2 | [`cis_section_2.json`](docs/json/cis_section_2.json) | Not Started | - | - | 0/10 | Security Options - Interactive logon + Microsoft network client |
-| Batch 9 | 2.3.8.3-2.3.9.2 | [`cis_section_2.json`](docs/json/cis_section_2.json) | Not Started | - | - | 0/10 | Security Options - Microsoft network client + server |
-| Batch 10 | 2.3.9.3-2.3.10.2 | [`cis_section_2.json`](docs/json/cis_section_2.json) | Not Started | - | - | 0/10 | Security Options - Microsoft network server + Network access |
-| Batch 11 | 2.3.10.3-2.3.10.12 | [`cis_section_2.json`](docs/json/cis_section_2.json) | Not Started | - | - | 0/10 | Security Options - Network access completion |
-| Batch 12 | 5.1-5.10 | [`cis_section_5.json`](docs/json/cis_section_5.json) | Not Started | - | - | 0/10 | Services - Part 1 |
-| Batch 13 | 5.11-5.20 | [`cis_section_5.json`](docs/json/cis_section_5.json) | Not Started | - | - | 0/10 | Services - Part 2 |
-| Batch 14 | 5.21-5.30 | [`cis_section_5.json`](docs/json/cis_section_5.json) | Not Started | - | - | 0/10 | Services - Part 3 |
-| Batch 15 | 5.31-5.41 | [`cis_section_5.json`](docs/json/cis_section_5.json) | Not Started | - | - | 0/10 | Services - Part 4 |
-| Batch 16 | 9.1-9.10 | [`cis_section_9.json`](docs/json/cis_section_9.json) | Not Started | - | - | 0/10 | Windows Firewall - Part 1 |
-| Batch 17 | 17.1-17.10 | [`cis_section_17.json`](docs/json/cis_section_17.json) | Not Started | - | - | 0/10 | User Account Control - Part 1 |
-| Batch 18 | 18.1-18.10 | [`cis_section_18.json`](docs/json/cis_section_18.json) | Not Started | - | - | 0/10 | Application Control - Part 1 |
-| Batch 19 | 19.1-19.10 | [`cis_section_19.json`](docs/json/cis_section_19.json) | Not Started | - | - | 0/10 | Advanced Security Options - Part 1 |
+| Batch | CIS IDs | JSON File(s) | Status | Started | Completed | Controls | Notes |
+|-------|---------|--------------|--------|---------|-----------|----------|-------|
+| Section 1 Complete | 1.1.1-1.2.4 | [`cis_section_1_1.json`](docs/json/cis_section_1_1.json), [`cis_section_1_2.json`](docs/json/cis_section_1_2.json) | ✅ Completed | 2026-01-14 | 2026-01-14 | 11/11 | All Section 1 scripts generated |
+| Batch 1 | 2.2.1-2.2.10 | [`cis_section_2_1.json`](docs/json/cis_section_2_1.json) | ✅ Completed | 2026-01-15 | 2026-01-15 | 10/10 | User Rights Assignment - Part 1 |
+| Batch 2 | 2.2.11-2.2.20 | [`cis_section_2_2.json`](docs/json/cis_section_2_2.json) | ✅ Completed | 2026-01-15 | 2026-01-15 | 10/10 | User Rights Assignment - Part 2 |
+| Batch 3 | 2.2.21-2.2.30 | [`cis_section_2_3.json`](docs/json/cis_section_2_3.json) | ✅ Completed | 2026-01-15 | 2026-01-15 | 10/10 | User Rights Assignment - Part 3 |
+| Batch 4 | 2.2.31-2.3.1.1 | [`cis_section_2_4.json`](docs/json/cis_section_2_4.json) | ✅ Completed | 2026-01-15 | 2026-01-15 | 10/10 | User Rights Assignment - Part 4 + Security Options start |
+| Batch 5 | 2.3.1.2-2.3.2.1 | [`cis_section_2_5.json`](docs/json/cis_section_2_5.json) | ✅ Completed | 2026-01-15 | 2026-01-15 | 2/2 | Security Options - Accounts + Audit (Batch 5 contained only 2 CIS IDs) |
+| Batch 6 | 2.3.2.2-2.3.4.1 | [`cis_section_2_6.json`](docs/json/cis_section_2_6.json) | ✅ Completed | 2026-01-15 | 2026-01-15 | 2/2 | Security Options - Audit + Devices |
+| Batch 7 | 2.3.7.1-2.3.7.4 | [`cis_section_2_7.json`](docs/json/cis_section_2_7.json) | ✅ Completed | 2026-01-15 | 2026-01-15 | 4/4 | Security Options - Interactive logon |
+| Batch 8 | 2.3.7.7-2.3.8.2 | [`cis_section_2_8.json`](docs/json/cis_section_2_8.json) | Not Started | - | - | 0/10 | Security Options - Interactive logon + Microsoft network client |
+| Batch 9 | 2.3.8.3-2.3.9.2 | [`cis_section_2_9.json`](docs/json/cis_section_2_9.json) | Not Started | - | - | 0/10 | Security Options - Microsoft network client + server |
+| Batch 10 | 2.3.9.3-2.3.10.2 | [`cis_section_2_10.json`](docs/json/cis_section_2_10.json) | Not Started | - | - | 0/10 | Security Options - Microsoft network server + Network access |
+| Batch 11 | 2.3.10.3-2.3.10.12 | [`cis_section_2_10.json`](docs/json/cis_section_2_10.json) | Not Started | - | - | 0/10 | Security Options - Network access completion |
+| Batch 12 | 5.1-5.10 | [`cis_section_5_1.json`](docs/json/cis_section_5_1.json) | Not Started | - | - | 0/10 | Services - Part 1 |
+| Batch 13 | 5.11-5.20 | [`cis_section_5_2.json`](docs/json/cis_section_5_2.json) | Not Started | - | - | 0/10 | Services - Part 2 |
+| Batch 14 | 5.21-5.30 | [`cis_section_5_3.json`](docs/json/cis_section_5_3.json) | Not Started | - | - | 0/10 | Services - Part 3 |
+| Batch 15 | 5.31-5.41 | [`cis_section_5_4.json`](docs/json/cis_section_5_4.json), [`cis_section_5_5.json`](docs/json/cis_section_5_5.json) | Not Started | - | - | 0/10 | Services - Part 4 |
+| Batch 16 | 9.1-9.10 | [`cis_section_9_1.json`](docs/json/cis_section_9_1.json), [`cis_section_9_2.json`](docs/json/cis_section_9_2.json) | Not Started | - | - | 0/10 | Windows Firewall - Part 1 |
+| Batch 17 | 17.1-17.10 | [`cis_section_17_1.json`](docs/json/cis_section_17_1.json), [`cis_section_17_2.json`](docs/json/cis_section_17_2.json), [`cis_section_17_3.json`](docs/json/cis_section_17_3.json) | Not Started | - | - | 0/10 | User Account Control - Part 1 |
+| Batch 18 | 18.1-18.10 | [`cis_section_18_1.json`](docs/json/cis_section_18_1.json), [`cis_section_18_2.json`](docs/json/cis_section_18_2.json), [`cis_section_18_3.json`](docs/json/cis_section_18_3.json), [`cis_section_18_4.json`](docs/json/cis_section_18_4.json) | Not Started | - | - | 0/10 | Application Control - Part 1 |
+| Batch 19 | 19.1-19.10 | [`cis_section_19_1.json`](docs/json/cis_section_19_1.json), [`cis_section_19_2.json`](docs/json/cis_section_19_2.json) | Not Started | - | - | 0/10 | Advanced Security Options - Part 1 |
 
 **Progress Metrics**:
 - **Total CIS IDs Processed**: 59/200+ (29.5%)
@@ -432,15 +466,16 @@ graph TD
 
 **Batch Processing Guidelines**:
 - Each batch processes exactly 10 CIS IDs
+- **Use split JSON files**: Each JSON file contains a manageable subset of CIS IDs
 - **Read JSON files incrementally**: Never load entire JSON file into memory
-- **Use specific CIS ID ranges**: Process predefined CIS ID ranges
+- **Use specific CIS ID ranges**: Process predefined CIS ID ranges across appropriate JSON files
 - **Clear memory explicitly**: Delete variables and clear cache after each batch
-- **Track last processed CIS ID**: Resume from exact position
+- **Track last processed CIS ID and file**: Resume from exact position within the correct JSON file
 
 **Specific Batch Completion Checklist (per batch)**:
 
 **Step 1: Incremental JSON Reading**
-- [ ] Load JSON file [`docs/json/cis_section_X.json`](docs/json/cis_section_X.json) incrementally
+- [ ] Load appropriate JSON file(s) from [`docs/json/`](docs/json/) incrementally (e.g., `cis_section_2_1.json` for Batch 1)
 - [ ] Read only 10 CIS IDs starting from last processed position
 - [ ] Store CIS IDs in temporary variable, then clear
 - [ ] Process controls one at a time to minimize memory usage
@@ -473,9 +508,19 @@ graph TD
 **Example Memory Management Code**:
 ```python
 import gc
+import os
 
-def process_batch_safely(json_file_path, start_index, batch_size=10):
-    """Process batch with memory management"""
+def process_batch_safely(section_number, subsection_number, start_index, batch_size=10):
+    """Process batch with memory management using split JSON files"""
+    # Construct JSON file path
+    json_file_path = f"docs/json/cis_section_{section_number}_{subsection_number}.json"
+    
+    if not os.path.exists(json_file_path):
+        # Try alternative subsection if file doesn't exist
+        json_file_path = f"docs/json/cis_section_{section_number}_1.json"
+        if not os.path.exists(json_file_path):
+            raise FileNotFoundError(f"JSON file not found: {json_file_path}")
+    
     # Read only required portion
     with open(json_file_path, 'r') as file:
         data = json.load(file)
@@ -497,6 +542,40 @@ def process_batch_safely(json_file_path, start_index, batch_size=10):
     gc.collect()
     
     return results
+
+def process_multiple_json_files(section_number, batch_size=10):
+    """Process multiple JSON files for a section"""
+    json_files = get_json_files_for_section(section_number)
+    all_results = []
+    
+    for json_file in json_files:
+        with open(json_file, 'r') as file:
+            data = json.load(file)
+            
+            # Process in batches
+            for i in range(0, len(data), batch_size):
+                batch_data = data[i:i + batch_size]
+                batch_results = []
+                
+                for item in batch_data:
+                    result = process_cis_item(item)
+                    batch_results.append(result)
+                    
+                    # Clear memory after each item
+                    del item
+                    gc.collect()
+                
+                all_results.extend(batch_results)
+                
+                # Clear batch data
+                del batch_data
+                gc.collect()
+            
+            # Clear file data
+            del data
+            gc.collect()
+    
+    return all_results
 ```
 
 **Quality Assurance (per batch)**:
@@ -512,7 +591,7 @@ def process_batch_safely(json_file_path, start_index, batch_size=10):
    - [`windows/modules/WindowsUtils.psm1`](../windows/modules/WindowsUtils.psm1)
    - [`windows/modules/RegistryUtils.psm1`](../windows/modules/RegistryUtils.psm1)
    - [`windows/modules/WindowsUI.psm1`](../windows/modules/WindowsUI.psm1)
-4. **CIS JSON Data**: [`docs/json/cis_section_1.json`](json/cis_section_1.json)
+4. **CIS JSON Data**: [`docs/json/cis_section_1_1.json`](json/cis_section_1_1.json) (password policies) and [`docs/json/cis_section_1_2.json`](json/cis_section_1_2.json) (account lockout policies)
 
 ## Change Log
 

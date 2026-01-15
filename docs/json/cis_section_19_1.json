@@ -118,41 +118,5 @@
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nUser Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\Network Sharing\\Prevent users from sharing files within their\nprofile.\nNote: This Group Policy path is provided by the Group Policy template\nSharing.admx/adml that is included with all versions of the Microsoft Windows\nAdministrative Templates.\nPage 1276",
     "default_value": "Disabled. (Users can share files out of their user profile after an administrator has opted\nin the computer.)\nReferences:\n1. GRID: MS-00000566\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n0.0 Explicitly Not Mapped\nv8\nExplicitly Not Mapped\n14.6 Protect Information through Access Control Lists\nProtect all information stored on systems with file system, network share,\nv7 claims, application, or database specific access control lists. These controls will ● ● ●\nenforce the principle that only authorized individuals should have access to the\ninformation based on their need to access the information as a part of their\nresponsibilities.\nPage 1277",
     "page_number": 1277
-  },
-  {
-    "cis_id": "19.7.40.1",
-    "title": "Ensure 'Turn off Windows Copilot' is set to\n'Enabled'",
-    "profile": "L1",
-    "description": "This policy setting configures the use of Windows Copilot. Windows Copilot is an\nartificial intelligence (AI) assistant that's integrated in Microsoft Windows workstation\nOSes, beginning with Windows 11 Release 23H2.\nThe recommended state for this setting is: Enabled.",
-    "rationale": "While AI can be an exciting new technology, it also carries its own risks, including the\npossibility of users accidentally uploading or typing personal or organization-sensitive\ndata into it, with no real way to “undo” or get that data back.",
-    "impact": "Users will not be able to use Windows Copilot and its icon will not appear on the\ntaskbar.",
-    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKU\\[USER\nSID]\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsCopilot:TurnOffWindowsCopilot",
-    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nUser Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\Windows Copilot\\Turn off Windows Copilot\nNote: This Group Policy path may not exist by default. It is provided by the Group Policy\ntemplate WindowsCopilot.admx/adml that is included with the Microsoft Windows 11\nRelease 23H2 Administrative Templates (or newer).",
-    "default_value": "Disabled. (Windows Copilot is enabled.)\nPage 1281\nReferences:\n1. GRID: MS-00000567\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8 ● ●\nUninstall or disable unnecessary services on enterprise assets and software,\nsuch as an unused file sharing service, web application module, or service\nfunction.\nPage 1282",
-    "page_number": 1282
-  },
-  {
-    "cis_id": "19.7.44.1",
-    "title": "Ensure 'Always install with elevated privileges' is\nset to 'Disabled'",
-    "profile": "L1",
-    "description": "This setting controls whether or not Windows Installer should use system permissions\nwhen it installs any program on the system.\nNote: This setting appears both in the Computer Configuration and User Configuration\nfolders. To make this setting effective, you must enable the setting in both folders.\nCaution: If enabled, skilled users can take advantage of the permissions this setting\ngrants to change their privileges and gain permanent access to restricted files and\nfolders. Note that the User Configuration version of this setting is not guaranteed to be\nsecure.\nThe recommended state for this setting is: Disabled.",
-    "rationale": "Users with limited privileges can exploit this feature by creating a Windows Installer\ninstallation package that creates a new local account that belongs to the local built-in\nAdministrators group, adds their current account to the local built-in Administrators\ngroup, installs malicious software, or performs other unauthorized activities.",
-    "impact": "None - this is the default behavior.",
-    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 0.\nHKU\\[USER\nSID]\\Software\\Policies\\Microsoft\\Windows\\Installer:AlwaysInstallElevated",
-    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nDisabled:\nUser Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\Windows Installer\\Always install with elevated privileges\nNote: This Group Policy path is provided by the Group Policy template MSI.admx/adml\nthat is included with all versions of the Microsoft Windows Administrative Templates.\nPage 1284",
-    "default_value": "Disabled. (Windows Installer will apply the current user's permissions when it installs\nprograms that a system administrator does not distribute or offer. This will prevent\nstandard users from installing applications that affect system-wide configuration items.)\nReferences:\n1. https://learn.microsoft.com/en-us/windows/win32/msi/alwaysinstallelevated\n2. GRID: MS-00000568\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n0.0 Explicitly Not Mapped\nv8\nExplicitly Not Mapped\n4.3 Ensure the Use of Dedicated Administrative Accounts\nv7 Ensure that all users with administrative account access use a dedicated or ● ● ●\nsecondary account for elevated activities. This account should only be used for\nadministrative activities and not internet browsing, email, or similar activities.\nPage 1285",
-    "page_number": 1285
-  },
-  {
-    "cis_id": "19.7.46.2.1",
-    "title": "Ensure 'Prevent Codec Download' is set to\n'Enabled'",
-    "profile": "L2",
-    "description": "This setting controls whether Windows Media Player is allowed to download additional\ncodecs for decoding media files it does not already understand.\nThe recommended state for this setting is: Enabled.",
-    "rationale": "This has some potential for risk if a malicious data file is opened in Media Player that\nrequires an additional codec to be installed. If a special codec is required for a\nnecessary job function, then that codec should first be tested to ensure it is legitimate,\nand it should be supplied by the IT department in the organization.",
-    "impact": "Windows Media Player is prevented from automatically downloading codecs to your\ncomputer. In addition, the Download codecs automatically check box on the Player tab\nin the Player is not available.",
-    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKU\\[USER\nSID]\\Software\\Policies\\Microsoft\\WindowsMediaPlayer:PreventCodecDownload",
-    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nUser Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\Windows Media Player\\Playback\\Prevent Codec Download\nNote: This Group Policy path is provided by the Group Policy template\nWindowsMediaPlayer.admx/adml that is included with all versions of the Microsoft\nWindows Administrative Templates.",
-    "default_value": "Users can change the setting for the Download codecs automatically check box.\nPage 1287",
-    "page_number": 1288
   }
 ]
