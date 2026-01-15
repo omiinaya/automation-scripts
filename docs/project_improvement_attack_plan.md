@@ -334,7 +334,7 @@ graph TD
 | Batch 2 | 2.2.11-2.2.20 | [`cis_section_2.json`](docs/json/cis_section_2.json) | ✅ Completed | 2026-01-15 | 2026-01-15 | 10/10 | User Rights Assignment - Part 2 |
 | Batch 3 | 2.2.21-2.2.30 | [`cis_section_2.json`](docs/json/cis_section_2.json) | ✅ Completed | 2026-01-15 | 2026-01-15 | 10/10 | User Rights Assignment - Part 3 |
 | Batch 4 | 2.2.31-2.3.1.1 | [`cis_section_2.json`](docs/json/cis_section_2.json) | ✅ Completed | 2026-01-15 | 2026-01-15 | 10/10 | User Rights Assignment - Part 4 + Security Options start |
-| Batch 5 | 2.3.1.2-2.3.2.1 | [`cis_section_2.json`](docs/json/cis_section_2.json) | Not Started | - | - | 0/10 | Security Options - Accounts + Audit |
+| Batch 5 | 2.3.1.2-2.3.2.1 | [`cis_section_2.json`](docs/json/cis_section_2.json) | ✅ Completed | 2026-01-15 | 2026-01-15 | 2/2 | Security Options - Accounts + Audit (Batch 5 contained only 2 CIS IDs) |
 | Batch 6 | 2.3.2.2-2.3.4.1 | [`cis_section_2.json`](docs/json/cis_section_2.json) | Not Started | - | - | 0/10 | Security Options - Audit + Devices |
 | Batch 7 | 2.3.7.1-2.3.7.4 | [`cis_section_2.json`](docs/json/cis_section_2.json) | Not Started | - | - | 0/10 | Security Options - Interactive logon |
 | Batch 8 | 2.3.7.7-2.3.8.2 | [`cis_section_2.json`](docs/json/cis_section_2.json) | Not Started | - | - | 0/10 | Security Options - Interactive logon + Microsoft network client |
@@ -351,8 +351,8 @@ graph TD
 | Batch 19 | 19.1-19.10 | [`cis_section_19.json`](docs/json/cis_section_19.json) | Not Started | - | - | 0/10 | Advanced Security Options - Part 1 |
 
 **Progress Metrics**:
-- **Total CIS IDs Processed**: 51/200+ (25.5%)
-- **Batches Completed**: 4/20+ (20%)
+- **Total CIS IDs Processed**: 53/200+ (26.5%)
+- **Batches Completed**: 5/20+ (25%)
 - **Sections Completed**: 1/19 (5.3%)
 
 ### Phase 3 Task Progress
