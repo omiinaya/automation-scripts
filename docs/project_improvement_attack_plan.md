@@ -333,7 +333,7 @@ graph TD
 | Batch 1 | 2.2.1-2.2.10 | [`cis_section_2.json`](docs/json/cis_section_2.json) | ✅ Completed | 2026-01-15 | 2026-01-15 | 10/10 | User Rights Assignment - Part 1 |
 | Batch 2 | 2.2.11-2.2.20 | [`cis_section_2.json`](docs/json/cis_section_2.json) | ✅ Completed | 2026-01-15 | 2026-01-15 | 10/10 | User Rights Assignment - Part 2 |
 | Batch 3 | 2.2.21-2.2.30 | [`cis_section_2.json`](docs/json/cis_section_2.json) | ✅ Completed | 2026-01-15 | 2026-01-15 | 10/10 | User Rights Assignment - Part 3 |
-| Batch 4 | 2.2.31-2.3.1.1 | [`cis_section_2.json`](docs/json/cis_section_2.json) | Not Started | - | - | 0/10 | User Rights Assignment - Part 4 + Security Options start |
+| Batch 4 | 2.2.31-2.3.1.1 | [`cis_section_2.json`](docs/json/cis_section_2.json) | ✅ Completed | 2026-01-15 | 2026-01-15 | 10/10 | User Rights Assignment - Part 4 + Security Options start |
 | Batch 5 | 2.3.1.2-2.3.2.1 | [`cis_section_2.json`](docs/json/cis_section_2.json) | Not Started | - | - | 0/10 | Security Options - Accounts + Audit |
 | Batch 6 | 2.3.2.2-2.3.4.1 | [`cis_section_2.json`](docs/json/cis_section_2.json) | Not Started | - | - | 0/10 | Security Options - Audit + Devices |
 | Batch 7 | 2.3.7.1-2.3.7.4 | [`cis_section_2.json`](docs/json/cis_section_2.json) | Not Started | - | - | 0/10 | Security Options - Interactive logon |
@@ -351,8 +351,8 @@ graph TD
 | Batch 19 | 19.1-19.10 | [`cis_section_19.json`](docs/json/cis_section_19.json) | Not Started | - | - | 0/10 | Advanced Security Options - Part 1 |
 
 **Progress Metrics**:
-- **Total CIS IDs Processed**: 41/200+ (20.5%)
-- **Batches Completed**: 3/20+ (15%)
+- **Total CIS IDs Processed**: 51/200+ (25.5%)
+- **Batches Completed**: 4/20+ (20%)
 - **Sections Completed**: 1/19 (5.3%)
 
 ### Phase 3 Task Progress
@@ -424,7 +424,7 @@ graph TD
 - [x] **Generate scripts for CIS IDs 2.2.1-2.2.10** (Batch 1 - 10 controls)
 - [x] **Generate scripts for CIS IDs 2.2.11-2.2.20** (Batch 2 - 10 controls)
 - [x] **Generate scripts for CIS IDs 2.2.21-2.2.30** (Batch 3 - 10 controls)
-- [ ] **Generate scripts for CIS IDs 2.2.31-2.3.1.1** (Batch 4 - 10 controls)
+- [x] **Generate scripts for CIS IDs 2.2.31-2.3.1.1** (Batch 4 - 10 controls)
 - [x] **Create test suite with Pester** - Establish `tests/` directory structure
 - [ ] **Refactor module structure** for better separation of concerns
 - [ ] **Implement CI/CD pipeline basics** - Create `.github/workflows/validate.yml`
@@ -526,6 +526,7 @@ def process_batch_safely(json_file_path, start_index, batch_size=10):
 | 2026-01-15 | 1.5 | Modified attack plan to use CIS ID batching (10 CIS IDs per batch) instead of section batching to prevent overwhelming system resources | Kilo Code |
 | 2026-01-15 | 1.6 | Batch 2 completed: Generated scripts for CIS IDs 2.2.11-2.2.20 (10 audit + 10 remediation scripts) using incremental JSON processing | Kilo Code |
 | 2026-01-15 | 1.7 | Batch 3 completed: Generated scripts for CIS IDs 2.2.21-2.2.30 (10 audit + 10 remediation scripts) using incremental JSON processing | Kilo Code |
+| 2026-01-15 | 1.8 | Batch 4 completed: Generated scripts for CIS IDs 2.2.31-2.3.1.1 (10 audit + 10 remediation scripts) including first Security Options control (Guest account status) | Kilo Code |
 
 ## Appendix
 
