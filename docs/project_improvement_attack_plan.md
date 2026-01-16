@@ -376,7 +376,8 @@ graph TD
 | Batch 10 | 2.3.9.4-2.3.10.8 | [`cis_section_2_6.json`](docs/json/cis_section_2_6.json), [`cis_section_2_7.json`](docs/json/cis_section_2_7.json) | ✅ Completed | 2026-01-16 | 2026-01-16 | 10/10 | Security Options - Microsoft network server + Network access |
 | Batch 11 | 2.3.10.9-2.3.11.2 | [`cis_section_2_7.json`](docs/json/cis_section_2_7.json), [`cis_section_2_8.json`](docs/json/cis_section_2_8.json) | ✅ Completed | 2026-01-16 | 2026-01-16 | 12/12 | Security Options - Network access completion + Network security start |
 | Batch 12 | 2.3.11.3-2.3.11.13 | [`cis_section_2_8.json`](docs/json/cis_section_2_8.json), [`cis_section_2_9.json`](docs/json/cis_section_2_9.json) | ✅ Completed | 2026-01-16 | 2026-01-16 | 18/18 | Security Options - Network security controls (CIS IDs 2.3.11.3-2.3.11.10, 2.3.11.12-2.3.11.13) |
-| Batch 13 | 5.1-5.10 | [`cis_section_5_1.json`](docs/json/cis_section_5_1.json) | Not Started | - | - | 0/10 | Services - Part 1 |
+| Batch 13 | 2.3.14.1-2.3.15.2 | [`cis_section_2_9.json`](docs/json/cis_section_2_9.json) | ✅ Completed | 2026-01-16 | 2026-01-16 | 3/3 | Security Options - System cryptography and System objects (CIS IDs 2.3.14.1, 2.3.15.1-2.3.15.2) |
+| Batch 14 | 5.1-5.10 | [`cis_section_5_1.json`](docs/json/cis_section_5_1.json) | Not Started | - | - | 0/10 | Services - Part 1 |
 | Batch 13 | 5.11-5.20 | [`cis_section_5_2.json`](docs/json/cis_section_5_2.json) | Not Started | - | - | 0/10 | Services - Part 2 |
 | Batch 14 | 5.21-5.30 | [`cis_section_5_3.json`](docs/json/cis_section_5_3.json) | Not Started | - | - | 0/10 | Services - Part 3 |
 | Batch 15 | 5.31-5.41 | [`cis_section_5_4.json`](docs/json/cis_section_5_4.json), [`cis_section_5_5.json`](docs/json/cis_section_5_5.json) | Not Started | - | - | 0/10 | Services - Part 4 |
@@ -386,8 +387,8 @@ graph TD
 | Batch 19 | 19.1-19.10 | [`cis_section_19_1.json`](docs/json/cis_section_19_1.json), [`cis_section_19_2.json`](docs/json/cis_section_19_2.json) | Not Started | - | - | 0/10 | Advanced Security Options - Part 1 |
 
 **Progress Metrics**:
-- **Total CIS IDs Processed**: 109/200+ (54.5%)
-- **Batches Completed**: 12/20+ (60%)
+- **Total CIS IDs Processed**: 112/200+ (56%)
+- **Batches Completed**: 13/20+ (65%)
 - **Sections Completed**: 1/19 (5.3%)
 
 ### Phase 3 Task Progress
@@ -612,6 +613,7 @@ def process_multiple_json_files(section_number, batch_size=10):
 | 2026-01-16 | 2.1 | Batch 9 completed: Generated scripts for CIS IDs 2.3.9.1-2.3.9.3 (3 audit + 3 remediation scripts) for Security Options controls using incremental JSON processing from `cis_section_2_6.json` | Kilo Code |
 | 2026-01-16 | 2.2 | Batch 10 completed: Generated scripts for CIS IDs 2.3.9.4-2.3.10.8 (10 audit + 10 remediation scripts) for Security Options controls using incremental JSON processing from `cis_section_2_6.json` and `cis_section_2_7.json` | Kilo Code |
 | 2026-01-16 | 2.3 | Batch 11 completed: Generated scripts for CIS IDs 2.3.10.9-2.3.11.2 (12 audit + 12 remediation scripts) for Security Options controls using incremental JSON processing from `cis_section_2_7.json` and `cis_section_2_8.json` | Kilo Code |
+| 2026-01-16 | 2.4 | Batch 13 completed: Generated scripts for CIS IDs 2.3.14.1-2.3.15.2 (3 audit + 3 remediation scripts) for Security Options controls using incremental JSON processing from `cis_section_2_9.json` | Kilo Code |
 
 ## Appendix
 
