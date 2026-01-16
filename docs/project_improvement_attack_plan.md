@@ -384,13 +384,13 @@ graph TD
 | Batch 18 | 5.31-5.40 | [`cis_section_5_4.json`](docs/json/cis_section_5_4.json) | ✅ Completed | 2026-01-16 | 2026-01-16 | 10/10 | Services - Part 4 |
 | Batch 19 | 9.2.1-9.3.9 | [`cis_section_9_1.json`](docs/json/cis_section_9_1.json), [`cis_section_9_2.json`](docs/json/cis_section_9_2.json) | ✅ Completed | 2026-01-16 | 2026-01-16 | 16/16 | Windows Firewall - All controls (CIS IDs start from 9.2.1, not 9.1) |
 | Batch 20 | 17.1-17.10 | [`cis_section_17_1.json`](docs/json/cis_section_17_1.json), [`cis_section_17_2.json`](docs/json/cis_section_17_2.json), [`cis_section_17_3.json`](docs/json/cis_section_17_3.json) | ✅ Completed | 2026-01-16 | 2026-01-16 | 10/10 | User Account Control - Part 1 |
-| Batch 21 | 18.1-18.10 | [`cis_section_18_1.json`](docs/json/cis_section_18_1.json), [`cis_section_18_2.json`](docs/json/cis_section_18_2.json), [`cis_section_18_3.json`](docs/json/cis_section_18_3.json), [`cis_section_18_4.json`](docs/json/cis_section_18_4.json) | Not Started | - | - | 0/10 | Application Control - Part 1 |
+| Batch 21 | 18.1.1.1-18.4.6 | [`cis_section_18_1.json`](docs/json/cis_section_18_1.json), [`cis_section_18_2.json`](docs/json/cis_section_18_2.json), [`cis_section_18_3.json`](docs/json/cis_section_18_3.json), [`cis_section_18_4.json`](docs/json/cis_section_18_4.json) | ✅ Completed | 2026-01-16 | 2026-01-16 | 12/12 | Application Control - Part 1 (CIS IDs 18.1.1.1, 18.1.1.2, 18.1.2.2, 18.1.3, 18.4.1-18.4.6) |
 | Batch 22 | 19.1-19.10 | [`cis_section_19_1.json`](docs/json/cis_section_19_1.json), [`cis_section_19_2.json`](docs/json/cis_section_19_2.json) | Not Started | - | - | 0/10 | Advanced Security Options - Part 1 |
 
 **Progress Metrics**:
-- **Total CIS IDs Processed**: 196/200+ (98%)
-- **Batches Completed**: 20/22+ (91%)
-- **Sections Completed**: 3/19 (15.8%)
+- **Total CIS IDs Processed**: 208/200+ (100%)
+- **Batches Completed**: 21/22+ (95%)
+- **Sections Completed**: 4/19 (21.1%)
 
 ### Phase 3 Task Progress
 
@@ -622,6 +622,7 @@ def process_multiple_json_files(section_number, batch_size=10):
 | 2026-01-16 | 2.8 | Batch 18 completed: Generated scripts for CIS IDs 5.31-5.40 (10 audit + 10 remediation scripts) for Services controls using incremental JSON processing from `cis_section_5_4.json` | Kilo Code |
 | 2026-01-16 | 2.9 | Batch 19 completed: Generated scripts for CIS IDs 9.2.1-9.3.9 (16 audit + 16 remediation scripts) for Windows Firewall controls using incremental JSON processing from `cis_section_9_1.json` and `cis_section_9_2.json` (CIS IDs in Section 9 start from 9.2.1, not 9.1) | Kilo Code |
 | 2026-01-16 | 3.0 | Batch 20 completed: Generated scripts for CIS IDs 17.1.1-17.5.4 (10 audit + 10 remediation scripts) for User Account Control controls using incremental JSON processing from `cis_section_17_1.json`, `cis_section_17_2.json`, and `cis_section_17_3.json` | Kilo Code |
+| 2026-01-16 | 3.1 | Batch 21 completed: Generated scripts for CIS IDs 18.1.1.1-18.4.6 (12 audit + 12 remediation scripts) for Application Control controls using incremental JSON processing from `cis_section_18_1.json`, `cis_section_18_2.json`, `cis_section_18_3.json`, and `cis_section_18_4.json` | Kilo Code |
 
 ## Appendix
 
