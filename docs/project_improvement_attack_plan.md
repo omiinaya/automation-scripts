@@ -378,7 +378,7 @@ graph TD
 | Batch 12 | 2.3.11.3-2.3.11.13 | [`cis_section_2_8.json`](docs/json/cis_section_2_8.json), [`cis_section_2_9.json`](docs/json/cis_section_2_9.json) | ✅ Completed | 2026-01-16 | 2026-01-16 | 18/18 | Security Options - Network security controls (CIS IDs 2.3.11.3-2.3.11.10, 2.3.11.12-2.3.11.13) |
 | Batch 13 | 2.3.14.1-2.3.15.2 | [`cis_section_2_9.json`](docs/json/cis_section_2_9.json) | ✅ Completed | 2026-01-16 | 2026-01-16 | 3/3 | Security Options - System cryptography and System objects (CIS IDs 2.3.14.1, 2.3.15.1-2.3.15.2) |
 | Batch 14 | 2.3.17.1-2.3.17.8 | [`cis_section_2_9.json`](docs/json/cis_section_2_9.json), [`cis_section_2_10.json`](docs/json/cis_section_2_10.json) | ✅ Completed | 2026-01-16 | 2026-01-16 | 8/8 | Security Options - User Account Control |
-| Batch 15 | 5.1-5.10 | [`cis_section_5_1.json`](docs/json/cis_section_5_1.json) | Not Started | - | - | 0/10 | Services - Part 1 |
+| Batch 15 | 5.1-5.10 | [`cis_section_5_1.json`](docs/json/cis_section_5_1.json) | ✅ Completed | 2026-01-16 | 2026-01-16 | 10/10 | Services - Part 1 |
 | Batch 13 | 5.11-5.20 | [`cis_section_5_2.json`](docs/json/cis_section_5_2.json) | Not Started | - | - | 0/10 | Services - Part 2 |
 | Batch 14 | 5.21-5.30 | [`cis_section_5_3.json`](docs/json/cis_section_5_3.json) | Not Started | - | - | 0/10 | Services - Part 3 |
 | Batch 15 | 5.31-5.41 | [`cis_section_5_4.json`](docs/json/cis_section_5_4.json), [`cis_section_5_5.json`](docs/json/cis_section_5_5.json) | Not Started | - | - | 0/10 | Services - Part 4 |
@@ -388,8 +388,8 @@ graph TD
 | Batch 19 | 19.1-19.10 | [`cis_section_19_1.json`](docs/json/cis_section_19_1.json), [`cis_section_19_2.json`](docs/json/cis_section_19_2.json) | Not Started | - | - | 0/10 | Advanced Security Options - Part 1 |
 
 **Progress Metrics**:
-- **Total CIS IDs Processed**: 120/200+ (60%)
-- **Batches Completed**: 14/20+ (70%)
+- **Total CIS IDs Processed**: 130/200+ (65%)
+- **Batches Completed**: 15/20+ (75%)
 - **Sections Completed**: 1/19 (5.3%)
 
 ### Phase 3 Task Progress
@@ -616,6 +616,7 @@ def process_multiple_json_files(section_number, batch_size=10):
 | 2026-01-16 | 2.3 | Batch 11 completed: Generated scripts for CIS IDs 2.3.10.9-2.3.11.2 (12 audit + 12 remediation scripts) for Security Options controls using incremental JSON processing from `cis_section_2_7.json` and `cis_section_2_8.json` | Kilo Code |
 | 2026-01-16 | 2.4 | Batch 13 completed: Generated scripts for CIS IDs 2.3.14.1-2.3.15.2 (3 audit + 3 remediation scripts) for Security Options controls using incremental JSON processing from `cis_section_2_9.json` | Kilo Code |
 | 2026-01-16 | 2.5 | Batch 14 completed: Generated scripts for CIS IDs 2.3.17.1-2.3.17.8 (8 audit + 8 remediation scripts) for Security Options - User Account Control controls using incremental JSON processing from `cis_section_2_9.json` and `cis_section_2_10.json` | Kilo Code |
+| 2026-01-16 | 2.6 | Batch 15 completed: Generated scripts for CIS IDs 5.1-5.10 (10 audit + 10 remediation scripts) for Services controls using incremental JSON processing from `cis_section_5_1.json` | Kilo Code |
 
 ## Appendix
 
