@@ -1,0 +1,14 @@
+[
+  {
+    "cis_id": "5.14",
+    "title": "Ensure 'Problem Reports and Solutions Control Panel\nSupport (wercplsupport)' is set to 'Disabled'",
+    "profile": "L2",
+    "description": "This service provides support for viewing, sending and deletion of system-level problem\nreports for the Problem Reports and Solutions control panel.\nThe recommended state for this setting is: Disabled.",
+    "rationale": "This service is involved in the process of displaying/reporting issues & solutions to/from\nMicrosoft. In a high security environment, preventing this information from being sent\ncan help reduce privacy concerns for sensitive corporate information.",
+    "impact": "Sending and viewing system-level problem reports and solutions to and from Microsoft\nmay no longer function.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 4.\nHKLM\\SYSTEM\\CurrentControlSet\\Services\\wercplsupport:Start",
+    "remediation_procedure": "To establish the recommended configuration, run the following PowerShell command:\nSet-Service -Name wercplsupport -StartupType Disabled",
+    "default_value": "Manual\nReferences:\n1. GRID: MS-00000146\nPage 310\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8\nUninstall or disable unnecessary services on enterprise assets and software,\n● ●\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nv7 Are Running ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 311",
+    "page_number": 311
+  }
+]

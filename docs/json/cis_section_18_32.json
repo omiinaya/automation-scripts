@@ -1,5 +1,17 @@
 [
   {
+    "cis_id": "18.10.93.4.3",
+    "title": "Ensure 'Select when Quality Updates are\nreceived' is set to 'Enabled: 0 days'",
+    "profile": "L1",
+    "description": "This settings controls when Quality Updates are received.\nThe recommended state for this setting is: Enabled: 0 days.\nNote: If the \"Allow Diagnostic Data\" (formerly \"Allow Telemetry\") policy is set to 0, this\npolicy will have no effect.\nNote #2: Starting with Windows 10 R1607, Microsoft introduced a new Windows\nUpdate (WU) client behavior called Dual Scan, with an eye to cloud-based update\nmanagement. In some cases, this Dual Scan feature can interfere with Windows\nUpdates from Windows Server Update Services (WSUS) and/or manual WU updates. If\nyou are using WSUS in your environment, you may need to set the above setting to Not\nConfigured or configure the setting Do not allow update deferral policies to cause\nscans against Windows Update (added in the Windows 10 Release 1709 Administrative\nTemplates) in order to prevent the Dual Scan feature from interfering. More information\non Dual Scan is available at these links:\n• Demystifying “Dual Scan” – WSUS Product Team Blog\n• Improving Dual Scan on 1607 – WSUS Product Team Blog",
+    "rationale": "Quality Updates can contain important bug fixes and/or security patches, and should be\ninstalled as soon as possible.",
+    "impact": "None - this is the default behavior.\nPage 1241",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1 (DeferQualityUpdates) and 0\n(DeferQualityUpdatesPeriodInDays).\nHKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate:DeferQualityUpdates\nHKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate:DeferQualityUpdatesPer\niodInDays",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:0 days:\nComputer Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\Windows Update\\Manage updates offered from Windows Update\\Select\nwhen Quality Updates are received\nNote: Note: This Group Policy path may not exist by default. It is provided by the Group\nPolicy template WindowsUpdate.admx/adml that is included with the Microsoft\nWindows 10 Release 1607 & Server 2016 Administrative Templates (or newer).",
+    "default_value": "Enabled: 0 days. (Install new Quality Updates as soon as they are available.)\nReferences:\n1. GRID: MS-00000555\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n7.3 Perform Automated Operating System Patch\nManagement\nv8 ● ● ●\nPerform operating system updates on enterprise assets through automated\npatch management on a monthly, or more frequent, basis.\n3.4 Deploy Automated Operating System Patch\nManagement Tools\nv7 ● ● ●\nDeploy automated software update tools in order to ensure that the operating\nsystems are running the most recent security updates provided by the software\nvendor.\nPage 1242",
+    "page_number": 1242
+  },
+  {
     "cis_id": "18.10.93.4.4",
     "title": "Ensure 'Enable optional updates' is set to\n'Disabled'",
     "profile": "L1",

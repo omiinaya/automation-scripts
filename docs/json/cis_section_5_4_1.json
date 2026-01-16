@@ -1,0 +1,14 @@
+[
+  {
+    "cis_id": "5.4",
+    "title": "Ensure 'Downloaded Maps Manager (MapsBroker)' is set\nto 'Disabled'",
+    "profile": "L2",
+    "description": "Windows service for application access to downloaded maps. This service is started on-\ndemand by application accessing downloaded maps.",
+    "rationale": "Mapping technologies can unwillingly reveal your location to attackers and other\nsoftware that picks up the information. In addition, automatic downloads of data from\nthird-party sources should be minimized when not needed. Therefore, this service\nshould not be needed in high security environments.",
+    "impact": "Applications will be prevented from accessing maps data.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 4.\nHKLM\\SYSTEM\\CurrentControlSet\\Services\\MapsBroker:Start",
+    "remediation_procedure": "To establish the recommended configuration, run the following PowerShell command:\nSet-Service -Name MapsBroker -StartupType Disabled",
+    "default_value": "Automatic (Delayed Start)\nReferences:\n1. GRID: MS-00000131\nPage 290\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8\nUninstall or disable unnecessary services on enterprise assets and software,\n● ●\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nv7 Are Running ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 291",
+    "page_number": 291
+  }
+]

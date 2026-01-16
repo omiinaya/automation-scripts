@@ -1,5 +1,17 @@
 [
   {
+    "cis_id": "18.10.6.2",
+    "title": "Ensure 'Block launching Universal Windows apps\nwith Windows Runtime API access from hosted content.' is set to\n'Enabled'",
+    "profile": "L2",
+    "description": "This policy setting controls whether Microsoft Store apps with Windows Runtime API\naccess directly from web content can be launched.\nThe recommended state for this setting is: Enabled.",
+    "rationale": "Blocking apps from the web with direct access to the Windows API can prevent\nmalicious apps from being run on a system. Only system administrators should be\ninstalling approved applications.",
+    "impact": "Universal Windows apps which declare Windows Runtime API access in the\nApplicationContentUriRules section of the manifest cannot be launched (Universal\nWindows apps which have not declared Windows Runtime API access in the manifest\nwill not be affected).",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System:BlockHostedApp\nAccessWinRT\nPage 799",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nComputer Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\App runtime\\Block launching Universal Windows apps with Windows\nRuntime API access from hosted content.\nNote: A reboot may be required after the setting is applied.\nNote #2: This Group Policy path is provided by the Group Policy template\nAppXRuntime.admx/adml that is included with the Microsoft Windows 10 RTM\n(Release 1507) Administrative Templates (or newer).\nNote #3: In older Microsoft Windows Administrative Templates, this setting was initially\nnamed Block launching Windows Store apps with Windows Runtime API access from\nhosted content, but it was renamed starting with the Windows 10 Release 1803\nAdministrative Templates.",
+    "default_value": "Disabled. (All Universal Windows apps can be launched.)\nReferences:\n1. GRID: MS-00000373\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n2.5 Allowlist Authorized Software\nv8 Use technical controls, such as application allowlisting, to ensure that only ● ●\nauthorized software can execute or be accessed. Reassess bi-annually, or more\nfrequently.\n9.2 Ensure Only Approved Ports, Protocols and Services\nAre Running\nv7 ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 800",
+    "page_number": 800
+  },
+  {
     "cis_id": "18.10.8.1",
     "title": "Ensure 'Disallow Autoplay for non-volume devices'\nis set to 'Enabled'",
     "profile": "L1",
@@ -106,17 +118,5 @@
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled: Allow 256-bit recovery key or Enabled: Require 256-bit recovery\nkey:\nComputer Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\BitLocker Drive Encryption\\Fixed Data Drives\\Choose how BitLocker-\nprotected fixed drives can be recovered: Recovery Key\nNote: This Group Policy path is provided by the Group Policy template\nVolumeEncryption.admx/adml that is included with the Microsoft Windows 7 & Server\n2008 R2 Administrative Templates (or newer).",
     "default_value": "Recovery options are specified by the user.\nReferences:\n1. GRID: MS-00000383\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n3.6 Encrypt Data on End-User Devices\nv8 Encrypt data on end-user devices containing sensitive data. Example ● ● ●\nimplementations can include: Windows BitLocker®, Apple FileVault®, Linux®\ndm-crypt.\n13.6 Encrypt the Hard Drive of All Mobile Devices.\nv7 ● ● ●\nUtilize approved whole disk encryption software to encrypt the hard drive of\nall mobile devices.\nPage 822",
     "page_number": 822
-  },
-  {
-    "cis_id": "18.10.10.1.6",
-    "title": "Ensure 'Choose how BitLocker-protected fixed\ndrives can be recovered: Omit recovery options from the\nBitLocker setup wizard' is set to 'Enabled: True'",
-    "profile": "BL",
-    "description": "This policy setting allows you to control how BitLocker-protected fixed data drives are\nrecovered in the absence of the required credentials. This policy setting is applied when\nyou turn on BitLocker.\nSelect \"Omit recovery options from the BitLocker setup wizard\" to prevent users from\nspecifying recovery options when they enable BitLocker on a drive. This means that you\nwill not be able to specify which recovery option to use when you enable BitLocker,\ninstead BitLocker recovery options for the drive are determined by the policy setting.\nThe recommended state for this setting is: Enabled: True (checked).",
-    "rationale": "Administrators should always have a safe, secure way to access encrypted data in the\nevent users cannot access their data.\nAdditionally, as with any authentication method, a drive can be compromised by\nguessing or finding the authentication information used to access the drive.\nTo use BitLocker, a Data Recovery Agent will need to be configured for fixed drives. To\nrecover a drive will require highly-controlled access to the Data Recovery Agent private\nkey.",
-    "impact": "The ability to manually select recovery options for fixed drives will not be presented to\nthe user in the BitLocker setup wizard.\nPage 823",
-    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKLM\\SOFTWARE\\Policies\\Microsoft\\FVE:FDVHideRecoveryPage",
-    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled: True (checked):\nComputer Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\BitLocker Drive Encryption\\Fixed Data Drives\\Choose how BitLocker-\nprotected fixed drives can be recovered: Omit recovery options from the\nBitLocker setup wizard\nNote: This Group Policy path is provided by the Group Policy template\nVolumeEncryption.admx/adml that is included with the Microsoft Windows 7 & Server\n2008 R2 Administrative Templates (or newer).",
-    "default_value": "Recovery options for fixed drives are selectable by the user in the BitLocker setup\nwizard.\nReferences:\n1. GRID: MS-00000384\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n3.6 Encrypt Data on End-User Devices\nv8 Encrypt data on end-user devices containing sensitive data. Example ● ● ●\nimplementations can include: Windows BitLocker®, Apple FileVault®, Linux®\ndm-crypt.\n13.6 Encrypt the Hard Drive of All Mobile Devices.\nv7 ● ● ●\nUtilize approved whole disk encryption software to encrypt the hard drive of\nall mobile devices.\nPage 824",
-    "page_number": 824
   }
 ]

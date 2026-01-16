@@ -1,5 +1,17 @@
 [
   {
+    "cis_id": "18.10.10.2.6",
+    "title": "Ensure 'Choose how BitLocker-protected\noperating system drives can be recovered: Recovery Key' is set\nto 'Enabled: Do not allow 256-bit recovery key'",
+    "profile": "BL",
+    "description": "This policy setting allows you to control how BitLocker-protected operating system\ndrives are recovered in the absence of the required startup key information. This policy\nsetting is applied when you turn on BitLocker.\nIn \"Configure user storage of BitLocker recovery information\" select whether users are\nallowed, required, or not allowed to generate a 48-digit recovery password or a 256-bit\nrecovery key.\nThe recommended state for this setting is: Enabled: Do not allow 256-bit\nrecovery key.",
+    "rationale": "Should a user lose their primary means for accessing an encrypted OS volume, or\nshould the system not pass its boot time integrity checks, the system will go into\nrecovery mode. If the recovery key has not been backed up to Active Directory, the user\nwould need to have saved the recovery key to another location such as a USB flash\ndrive, or have printed the recovery password, and now have access to one of those in\norder to recovery the system. If the user is unable to produce the recovery key, then the\nuser will be denied access to the encrypted volume and subsequently any data that is\nstored there.",
+    "impact": "A 256-bit recovery key will not be permitted for the operating system drive. Users will\nneed to be domain connected to turn on BitLocker. This policy is not FIPS complaint.\nPage 845",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 0.\nHKLM\\SOFTWARE\\Policies\\Microsoft\\FVE:OSRecoveryKey",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled: Do not allow 256-bit recovery key:\nComputer Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\BitLocker Drive Encryption\\Operating System Drives\\Choose how\nBitLocker-protected operating system drives can be recovered: Recovery Key\nNote: This Group Policy path is provided by the Group Policy template\nVolumeEncryption.admx/adml that is included with the Microsoft Windows 7 & Server\n2008 R2 Administrative Templates (or newer).",
+    "default_value": "Recovery options are specified by the user.\nReferences:\n1. GRID: MS-00000396\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n3.6 Encrypt Data on End-User Devices\nv8 Encrypt data on end-user devices containing sensitive data. Example ● ● ●\nimplementations can include: Windows BitLocker®, Apple FileVault®, Linux®\ndm-crypt.\n13.6 Encrypt the Hard Drive of All Mobile Devices.\nv7 ● ● ●\nUtilize approved whole disk encryption software to encrypt the hard drive of\nall mobile devices.\nPage 846",
+    "page_number": 846
+  },
+  {
     "cis_id": "18.10.10.2.7",
     "title": "Ensure 'Choose how BitLocker-protected\noperating system drives can be recovered: Omit recovery options\nfrom the BitLocker setup wizard' is set to 'Enabled: True'",
     "profile": "BL",
@@ -106,17 +118,5 @@
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled: Do not allow 48-digit recovery password:\nComputer Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\BitLocker Drive Encryption\\Removable Data Drives\\Choose how\nBitLocker-protected removable drives can be recovered: Recovery Password\nNote: This Group Policy path is provided by the Group Policy template\nVolumeEncryption.admx/adml that is included with the Microsoft Windows 7 & Server\n2008 R2 Administrative Templates (or newer).",
     "default_value": "Recovery options are specified by the user.\nReferences:\n1. GRID: MS-00000412\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n3.9 Encrypt Data on Removable Media\nv8 ● ●\nEncrypt data on removable media.\n13.6 Encrypt the Hard Drive of All Mobile Devices.\nv7 ● ● ●\nUtilize approved whole disk encryption software to encrypt the hard drive\nof all mobile devices.\nPage 866",
     "page_number": 866
-  },
-  {
-    "cis_id": "18.10.10.3.5",
-    "title": "Ensure 'Choose how BitLocker-protected\nremovable drives can be recovered: Recovery Key' is set to\n'Enabled: Do not allow 256-bit recovery key'",
-    "profile": "BL",
-    "description": "This policy setting allows you to control how BitLocker-protected removable data drives\nare recovered in the absence of the required credentials. This policy setting is applied\nwhen you turn on BitLocker.\nIn \"Configure user storage of BitLocker recovery information\" select whether users are\nallowed, required, or not allowed to generate a 48-digit recovery password or a 256-bit\nrecovery key.\nThe recommended state for this setting is: Enabled: Do not allow 256-bit\nrecovery key.",
-    "rationale": "Administrators should always have a safe, secure way to access encrypted data in the\nevent users cannot access their data.\nAdditionally, as with any authentication method, a drive can be compromised by\nguessing or finding the authentication information used to access the drive.\nTo use BitLocker a Data Recovery Agent will need to be configured for removable\ndrives. To recover a drive will require highly-controlled access to the Data Recovery\nAgent private key.",
-    "impact": "A 256-bit recovery key will not be permitted for removable drives.\nPage 867",
-    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 0.\nHKLM\\SOFTWARE\\Policies\\Microsoft\\FVE:RDVRecoveryKey",
-    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled: Do not allow 256-bit recovery key:\nComputer Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\BitLocker Drive Encryption\\Removable Data Drives\\Choose how\nBitLocker-protected removable drives can be recovered: Recovery Key\nNote: This Group Policy path is provided by the Group Policy template\nVolumeEncryption.admx/adml that is included with the Microsoft Windows 7 & Server\n2008 R2 Administrative Templates (or newer).",
-    "default_value": "Recovery options are specified by the user.\nReferences:\n1. GRID: MS-00000413\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n3.9 Encrypt Data on Removable Media\nv8 ● ●\nEncrypt data on removable media.\n13.6 Encrypt the Hard Drive of All Mobile Devices.\nv7 ● ● ●\nUtilize approved whole disk encryption software to encrypt the hard drive\nof all mobile devices.\nPage 868",
-    "page_number": 868
   }
 ]

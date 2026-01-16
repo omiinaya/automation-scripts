@@ -1,0 +1,14 @@
+[
+  {
+    "cis_id": "5.40",
+    "title": "Ensure 'Xbox Live Game Save (XblGameSave)' is set to\n'Disabled'",
+    "profile": "L1",
+    "description": "This service syncs save data for Xbox Live save enabled games.\nThe recommended state for this setting is: Disabled.",
+    "rationale": "Xbox Live is a gaming service and has no place in an enterprise managed environment\n(perhaps unless it is a gaming company).",
+    "impact": "Game save data will not upload to or download from Xbox Live.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 4.\nHKLM\\SYSTEM\\CurrentControlSet\\Services\\XblGameSave:Start",
+    "remediation_procedure": "To establish the recommended configuration, run the following PowerShell command:\nSet-Service -Name XblGameSave -StartupType Disabled",
+    "default_value": "Windows 10 R1507 and R1511: Manual\nWindows 10 R1607 or newer: Manual (Trigger Start)\nReferences:\n1. https://www.cisecurity.org/insights/blog/update-cis-microsoft-windows-10-\nenterprise-release-1703-benchmark-v1-0-0\n2. GRID: MS-00000171\nPage 362\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8\nUninstall or disable unnecessary services on enterprise assets and software,\n● ●\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nv7 Are Running ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 363",
+    "page_number": 363
+  }
+]

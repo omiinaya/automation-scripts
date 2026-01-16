@@ -1,5 +1,17 @@
 [
   {
+    "cis_id": "18.10.10.3.5",
+    "title": "Ensure 'Choose how BitLocker-protected\nremovable drives can be recovered: Recovery Key' is set to\n'Enabled: Do not allow 256-bit recovery key'",
+    "profile": "BL",
+    "description": "This policy setting allows you to control how BitLocker-protected removable data drives\nare recovered in the absence of the required credentials. This policy setting is applied\nwhen you turn on BitLocker.\nIn \"Configure user storage of BitLocker recovery information\" select whether users are\nallowed, required, or not allowed to generate a 48-digit recovery password or a 256-bit\nrecovery key.\nThe recommended state for this setting is: Enabled: Do not allow 256-bit\nrecovery key.",
+    "rationale": "Administrators should always have a safe, secure way to access encrypted data in the\nevent users cannot access their data.\nAdditionally, as with any authentication method, a drive can be compromised by\nguessing or finding the authentication information used to access the drive.\nTo use BitLocker a Data Recovery Agent will need to be configured for removable\ndrives. To recover a drive will require highly-controlled access to the Data Recovery\nAgent private key.",
+    "impact": "A 256-bit recovery key will not be permitted for removable drives.\nPage 867",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 0.\nHKLM\\SOFTWARE\\Policies\\Microsoft\\FVE:RDVRecoveryKey",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled: Do not allow 256-bit recovery key:\nComputer Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\BitLocker Drive Encryption\\Removable Data Drives\\Choose how\nBitLocker-protected removable drives can be recovered: Recovery Key\nNote: This Group Policy path is provided by the Group Policy template\nVolumeEncryption.admx/adml that is included with the Microsoft Windows 7 & Server\n2008 R2 Administrative Templates (or newer).",
+    "default_value": "Recovery options are specified by the user.\nReferences:\n1. GRID: MS-00000413\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n3.9 Encrypt Data on Removable Media\nv8 ● ●\nEncrypt data on removable media.\n13.6 Encrypt the Hard Drive of All Mobile Devices.\nv7 ● ● ●\nUtilize approved whole disk encryption software to encrypt the hard drive\nof all mobile devices.\nPage 868",
+    "page_number": 868
+  },
+  {
     "cis_id": "18.10.10.3.6",
     "title": "Ensure 'Choose how BitLocker-protected\nremovable drives can be recovered: Omit recovery options from\nthe BitLocker setup wizard' is set to 'Enabled: True'",
     "profile": "BL",
@@ -106,17 +118,5 @@
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nDisabled:\nComputer Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\Camera\\Allow Use of Camera\nNote: This Group Policy path is provided by the Group Policy template\nCamera.admx/adml that is included with the Microsoft Windows 10 Release 1607 &\nServer 2016 Administrative Templates (or newer).",
     "default_value": "Enabled. (Camera devices are enabled.)\nReferences:\n1. GRID: MS-00000424\nPage 886\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8 ● ●\nUninstall or disable unnecessary services on enterprise assets and software,\nsuch as an unused file sharing service, web application module, or service\nfunction.\nPage 887",
     "page_number": 887
-  },
-  {
-    "cis_id": "18.10.13.1",
-    "title": "Ensure 'Turn off cloud consumer account state\ncontent' is set to 'Enabled'",
-    "profile": "L1",
-    "description": "This policy setting determines whether cloud consumer account state content is allowed\nin all Windows experiences.\nThe recommended state for this setting is: Enabled.",
-    "rationale": "The use of consumer accounts in an enterprise managed environment is not good\nsecurity practice as it could lead to possible data leakage.",
-    "impact": "Users will not be able to use Microsoft consumer accounts on the system, and\nassociated Windows experiences will instead present default fallback content.",
-    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\CloudContent:DisableConsumerAccountS\ntateContent",
-    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nComputer Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\Cloud Content\\Turn off cloud consumer account state content\nNote: This Group Policy path is provided by the Group Policy template\nCloudContent.admx/adml that is included with the Microsoft Windows 11 Release\n21H2 Administrative Templates (or newer).",
-    "default_value": "Disabled. (Windows experiences are able to use cloud consumer accounts.)\nReferences:\n1. GRID: MS-00000425\nPage 889\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n5.6 Centralize Account Management\nv8 ● ●\nCentralize account management through a directory or identity\nservice.\nPage 890",
-    "page_number": 890
   }
 ]

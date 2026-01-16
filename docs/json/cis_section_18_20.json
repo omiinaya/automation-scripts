@@ -1,5 +1,17 @@
 [
   {
+    "cis_id": "18.10.18.6",
+    "title": "Ensure 'Enable App Installer ms-appinstaller\nprotocol' is set to 'Disabled'",
+    "profile": "L1",
+    "description": "This policy setting controls whether users can install packages from a website that is\nusing the ms-appinstaller protocol. The ms-appinstaller protocol allows users to\ninstall an application by clicking a link on a website.\nThe recommended state for this setting is: Disabled.",
+    "rationale": "Users should not have the ability to install an application by clicking a link on a website.\nIf an unknown or malicious link is clicked, malicious software could be installed on the\nsystem.",
+    "impact": "Users will not have the ability to use the ms-appinstaller protocol to install\napplications by clicking a link on a website.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 0.\nHKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\AppInstaller:EnableMSAppInstallerPro\ntocol",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nDisabled:\nComputer Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\Desktop App Installer\\Enable App Installer ms-appinstaller\nprotocol\nNote: This Group Policy path is provided by the Group Policy template\nDesktopAppInstaller.admx/adml that is included with the Microsoft Windows 11\nRelease 22H2 Administrative Templates v1.0 (or newer).\nPage 935",
+    "default_value": "Enabled. (Users can install packages from websites that use the ms-appinstaller\nprotocol.)\nReferences:\n1. https://learn.microsoft.com/en-us/windows/package-manager/\n2. GRID: MS-00000444\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8 ● ●\nUninstall or disable unnecessary services on enterprise assets and software,\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nAre Running\nv7 ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 936",
+    "page_number": 936
+  },
+  {
     "cis_id": "18.10.18.7",
     "title": "Ensure 'Enable Windows Package Manager\ncommand line interfaces' is set to 'Disabled'",
     "profile": "L2",
@@ -106,17 +118,5 @@
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled: 32,768 or greater:\nComputer Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\Event Log Service\\System\\Specify the maximum log file size (KB)\nNote: This Group Policy path is provided by the Group Policy template\nEventLog.admx/adml that is included with all versions of the Microsoft Windows\nAdministrative Templates.\nNote #2: In older Microsoft Windows Administrative Templates, this setting was initially\nnamed Maximum Log Size (KB), but it was renamed starting with the Windows 8.0 &\nServer 2012 (non-R2) Administrative Templates.",
     "default_value": "Disabled. (The default log size is 20,480 KB - this value can be changed by the local\nadministrator using the Log Properties dialog.)\nReferences:\n1. GRID: MS-00000453\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n8.3 Ensure Adequate Audit Log Storage\nv8 ● ● ●\nEnsure that logging destinations maintain adequate storage to comply with\nthe enterprise’s audit log management process.\n6.4 Ensure adequate storage for logs\nv7 ● ●\nEnsure that all systems that store logs have adequate storage space for the\nlogs generated.\nPage 959",
     "page_number": 959
-  },
-  {
-    "cis_id": "18.10.29.2",
-    "title": "Ensure 'Turn off account-based insights, recent,\nfavorite, and recommended files in File Explorer' is set to\n'Enabled'",
-    "profile": "L2",
-    "description": "This policy setting configures whether File Explorer can request cloud file metadata and\ndisplay it in the homepage and other views in File Explorer (such as Quick access\nview).\nThe recommended state for this setting is: Enabled.",
-    "rationale": "In a high security environment, data should never be sent to any third-party since this\ndata could contain sensitive information.",
-    "impact": "Insights and files available based on account activity will not be available in views such\nas Recent, Recommended, Favorites, etc.",
-    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\Explorer:DisableGraphRecentItems",
-    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nComputer Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\File Explorer\\Turn off account-based insights, recent, favorite,\nand recommended files in File Explorer\nNote: This Group Policy path is provided by the Group Policy template\nExplorer.admx/adml that is included with the Microsoft Windows 11 Release 22H2\nAdministrative Templates v1.0 (or newer).\nNote #2: In the Windows 11 Release 22H2 v1.0 and v3.0 Administrative Templates, this\nsetting was initially named Turn off files from Office.com in Quick access view. It was\nrenamed to Turn off account-based insights, recent, favorite, and recommended files in\nFile Explorer starting with the Windows 11 Release 23H2 Administrative Templates.\nPage 961",
-    "default_value": "Disabled. (File Explorer will request cloud file metadata and display it in the homepage\nand other views in File Explorer.)\nReferences:\n1. GRID: MS-00000454\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8 ● ●\nUninstall or disable unnecessary services on enterprise assets and software,\nsuch as an unused file sharing service, web application module, or service\nfunction.\nPage 962",
-    "page_number": 962
   }
 ]

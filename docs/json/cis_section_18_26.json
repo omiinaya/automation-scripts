@@ -1,5 +1,17 @@
 [
   {
+    "cis_id": "18.10.57.3.3.7",
+    "title": "Ensure 'Do not allow WebAuthn redirection' is\nset to 'Enabled'",
+    "profile": "L2",
+    "description": "This policy setting controls the redirection of web authentication (WebAuthn) requests\nfrom a Remote Desktop session to the local device. This redirection enables users to\nauthenticate to resources inside the Remote Desktop session using their\nlocal authenticator (e.g. Windows Hello for Business, security key, or other).\nThe recommended state for this setting is: Enabled.",
+    "rationale": "In a more security-sensitive environment, it is desirable to reduce the possible attack\nsurface. To reduce this, resources inside the Remote Desktop session should not be\nallowed to use the local authenticator.",
+    "impact": "Users in a Remote Desktop Services session will not be able to authenticate to\nresources inside the Remote Desktop session using their local authenticator.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal\nServices:fDisableWebAuthn",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nComputer Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\Remote Desktop Services\\Remote Desktop Session Host\\Device and\nResource Redirection\\Do not allow WebAuthn redirection\nNote: This Group Policy path is provided by the Group Policy template\nTerminalServer.admx/adml that is included with the Microsoft Windows 11 Release\n22H2 Administrative Templates v1.0 (or newer).\nPage 1094",
+    "default_value": "Disabled. (Users can use local authenticators inside the Remote Desktop session.)\nReferences:\n1. GRID: MS-00000497\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8 ● ●\nUninstall or disable unnecessary services on enterprise assets and software,\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nAre Running\nv7 ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 1095",
+    "page_number": 1095
+  },
+  {
     "cis_id": "18.10.57.3.3.8",
     "title": "Ensure 'Restrict clipboard transfer from server\nto client' is set to 'Enabled: Disable clipboard transfers from server\nto client'",
     "profile": "L2",
@@ -106,17 +118,5 @@
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nDisabled:\nComputer Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\Remote Desktop Services\\Remote Desktop Session Host\\Temporary\nFolders\\Do not delete temp folders upon exit\nNote: This Group Policy path is provided by the Group Policy template\nTerminalServer.admx/adml that is included with all versions of the Microsoft Windows\nAdministrative Templates.\nNote #2: In older Microsoft Windows Administrative Templates, this setting was named\nDo not delete temp folder upon exit, but it was renamed starting with the Windows 8.0 &\nServer 2012 (non-R2) Administrative Templates.",
     "default_value": "Disabled. (Temporary folders are deleted when a user logs off.)\nPage 1116\nReferences:\n1. GRID: MS-00000505\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n3.4 Enforce Data Retention\nv8 ● ● ●\nRetain data according to the enterprise’s data management process. Data\nretention must include both minimum and maximum timelines.\n9.2 Ensure Only Approved Ports, Protocols and\nServices Are Running\nv7 ● ●\nEnsure that only network ports, protocols, and services listening on a\nsystem with validated business needs, are running on each system.\nPage 1117",
     "page_number": 1117
-  },
-  {
-    "cis_id": "18.10.58.1",
-    "title": "Ensure 'Prevent downloading of enclosures' is set\nto 'Enabled'",
-    "profile": "L1",
-    "description": "This policy setting prevents the user from having enclosures (file attachments)\ndownloaded from an RSS feed to the user's computer.\nThe recommended state for this setting is: Enabled.",
-    "rationale": "Allowing attachments to be downloaded through the RSS feed can introduce files that\ncould have malicious intent.",
-    "impact": "Users cannot set the Feed Sync Engine to download an enclosure through the Feed\nproperty page. Developers cannot change the download setting through feed APIs.",
-    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKLM\\SOFTWARE\\Policies\\Microsoft\\Internet\nExplorer\\Feeds:DisableEnclosureDownload",
-    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nComputer Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\RSS Feeds\\Prevent downloading of enclosures\nNote: This Group Policy path is provided by the Group Policy template\nInetRes.admx/adml that is included with all versions of the Microsoft Windows\nAdministrative Templates.\nNote #2: In older Microsoft Windows Administrative Templates, this setting was named\nTurn off downloading of enclosures, but it was renamed starting with the Windows 8.0 &\nServer 2012 (non-R2) Administrative Templates.\nPage 1119",
-    "default_value": "Disabled. (Users can set the Feed Sync Engine to download an enclosure through the\nFeed property page. Developers can change the download setting through the Feed\nAPIs.)\nReferences:\n1. GRID: MS-00000507\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n9.4 Restrict Unnecessary or Unauthorized Browser and\nEmail Client Extensions\nv8 ● ●\nRestrict, either through uninstalling or disabling, any unauthorized or\nunnecessary browser or email client plugins, extensions, and add-on\napplications.\n7.2 Disable Unnecessary or Unauthorized Browser or\nEmail Client Plugins\nv7 ● ●\nUninstall or disable any unauthorized browser or email client plugins or add-\non applications.\nPage 1120",
-    "page_number": 1120
   }
 ]

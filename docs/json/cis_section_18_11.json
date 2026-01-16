@@ -1,5 +1,17 @@
 [
   {
+    "cis_id": "18.9.27.1",
+    "title": "Ensure 'Disallow copying of user input methods to\nthe system account for sign-in' is set to 'Enabled'",
+    "profile": "L2",
+    "description": "This policy prevents automatic copying of user input methods to the system account for\nuse on the sign-in screen. The user is restricted to the set of input methods that are\nenabled in the system account.\nThe recommended state for this setting is: Enabled.",
+    "rationale": "This is a way to increase the security of the system account.",
+    "impact": "Users will have input methods enabled for the system account on the sign-in page.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKLM\\SOFTWARE\\Policies\\Microsoft\\Control\nPanel\\International:BlockUserInputMethodsForSignIn",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nComputer Configuration\\Policies\\Administrative Templates\\System\\Locale\nServices\\Disallow copying of user input methods to the system account for\nsign-in\nNote: This Group Policy path is provided by the Group Policy template\nGlobalization.admx/adml that is included with the Microsoft Windows 8.0 & Server\n2012 (non-R2) Administrative Templates (or newer).",
+    "default_value": "Disabled. (Users will be able to use input methods enabled for their user account on the\nsign-in page.)\nPage 720\nReferences:\n1. GRID: MS-00000344\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n0.0 Explicitly Not Mapped\nv8\nExplicitly Not Mapped\n16.11 Lock Workstation Sessions After Inactivity\nv7 ● ● ●\nAutomatically lock workstation sessions after a standard period of\ninactivity.\nPage 721",
+    "page_number": 721
+  },
+  {
     "cis_id": "18.9.28.1",
     "title": "Ensure 'Block user from showing account details\non sign-in' is set to 'Enabled'",
     "profile": "L1",
@@ -106,17 +118,5 @@
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nDisabled:\nComputer Configuration\\Policies\\Administrative Templates\\System\\Power\nManagement\\Sleep Settings\\Allow standby states (S1-S3) when sleeping (on\nbattery)\nNote: This Group Policy path is provided by the Group Policy template\nPower.admx/adml that is included with the Microsoft Windows 8.0 & Server 2012 (non-\nR2) Administrative Templates (or newer).\nPage 743",
     "default_value": "Enabled. (Windows is allowed to use standby states when putting the computer in a\nsleep state.)\nReferences:\n1. GRID: MS-00000356\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.1 Establish and Maintain a Secure Configuration Process\nEstablish and maintain a secure configuration process for enterprise assets\nv8 (end-user devices, including portable and mobile, non-computing/IoT devices, and ● ● ●\nservers) and software (operating systems and applications). Review and update\ndocumentation annually, or when significant enterprise changes occur that could\nimpact this Safeguard.\n5.1 Establish Secure Configurations\nv7 ● ● ●\nMaintain documented, standard security configuration standards for all\nauthorized operating systems and software.\nPage 744",
     "page_number": 744
-  },
-  {
-    "cis_id": "18.9.33.6.4",
-    "title": "Ensure 'Allow standby states (S1-S3) when\nsleeping (plugged in)' is set to 'Disabled'",
-    "profile": "BL",
-    "description": "This policy setting manages whether or not Windows is allowed to use standby states\nwhen putting the computer in a sleep state.\nThe recommended state for this setting is: Disabled.",
-    "rationale": "System sleep states (S1-S3) keep power to the RAM which may contain secrets, such\nas the BitLocker volume encryption key. An attacker finding a computer in sleep states\n(S1-S3) could directly attack the memory of the computer and gain access to the\nsecrets through techniques such as RAM reminisce and direct memory access (DMA).",
-    "impact": "Users will not be able to use Sleep (S3) while plugged in, which resumes faster than\nHibernation (S4).",
-    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed\nby the following registry location with a REG_DWORD value of 0.\nHKLM\\SOFTWARE\\Policies\\Microsoft\\Power\\PowerSettings\\abfc2519-3608-4c2a-94ea-\n171b0ed546ab:ACSettingIndex",
-    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nDisabled:\nComputer Configuration\\Policies\\Administrative Templates\\System\\Power\nManagement\\Sleep Settings\\Allow standby states (S1-S3) when sleeping (plugged\nin)\nNote: This Group Policy path is provided by the Group Policy template\nPower.admx/adml that is included with the Microsoft Windows 8.0 & Server 2012 (non-\nR2) Administrative Templates (or newer).\nPage 745",
-    "default_value": "Enabled. (Windows is allowed to use standby states when putting the computer in a\nsleep state.)\nReferences:\n1. GRID: MS-00000439\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.1 Establish and Maintain a Secure Configuration Process\nEstablish and maintain a secure configuration process for enterprise assets\nv8 (end-user devices, including portable and mobile, non-computing/IoT devices, and ● ● ●\nservers) and software (operating systems and applications). Review and update\ndocumentation annually, or when significant enterprise changes occur that could\nimpact this Safeguard.\n5.1 Establish Secure Configurations\nv7 ● ● ●\nMaintain documented, standard security configuration standards for all\nauthorized operating systems and software.\nPage 746",
-    "page_number": 746
   }
 ]

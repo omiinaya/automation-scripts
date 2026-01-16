@@ -1,5 +1,17 @@
 [
   {
+    "cis_id": "18.10.66.2",
+    "title": "Ensure 'Turn off Automatic Download and Install\nof updates' is set to 'Disabled'",
+    "profile": "L1",
+    "description": "This setting enables or disables the automatic download and installation of Microsoft\nStore app updates.\nThe recommended state for this setting is: Disabled.",
+    "rationale": "Keeping your system properly patched can help protect against 0 day vulnerabilities.",
+    "impact": "None - this is the default behavior.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 4.\nHKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsStore:AutoDownload",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nDisabled:\nComputer Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\Store\\Turn off Automatic Download and Install of updates\nNote: This Group Policy path is provided by the Group Policy template\nWinStoreUI.admx/adml that is included with the Microsoft Windows 8.1 & Server 2012\nR2 Administrative Templates, or by the Group Policy template\nWindowsStore.admx/adml that is included with the Microsoft Windows 10 Release\n1511 Administrative Templates (or newer).",
+    "default_value": "Disabled. (Microsoft Store automatically downloads and installs updates for Microsoft\nStore apps.)\nPage 1142\nReferences:\n1. GRID: MS-00000517\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n7.3 Perform Automated Operating System Patch\nManagement\nv8 ● ● ●\nPerform operating system updates on enterprise assets through automated\npatch management on a monthly, or more frequent, basis.\n9.2 Ensure Only Approved Ports, Protocols and\nServices Are Running\nv7 ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 1143",
+    "page_number": 1143
+  },
+  {
     "cis_id": "18.10.66.3",
     "title": "Ensure 'Turn off the offer to update to the latest\nversion of Windows' is set to 'Enabled'",
     "profile": "L1",
@@ -106,17 +118,5 @@
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled: Warn and prevent bypass:\nComputer Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\Windows Defender SmartScreen\\Explorer\\Configure Windows Defender\nSmartScreen\nNote: This Group Policy path is provided by the Group Policy template\nWindowsExplorer.admx/adml that is included with the Microsoft Windows 8.0 & Server\n2012 (non-R2) Administrative Templates (or newer).\nNote #2: In older Microsoft Windows Administrative Templates, this setting was initially\nnamed Configure Windows SmartScreen, but it was renamed starting with the Windows\n10 Release 1703 Administrative Templates.",
     "default_value": "Disabled. (Windows Defender SmartScreen behavior is managed by administrators on\nthe PC by using Windows Defender SmartScreen Settings in Action Center.)\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/microsoft-\ndefender-smartscreen/microsoft-defender-smartscreen-overview\n2. GRID: MS-00000526\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n10.5 Enable Anti-Exploitation Features\nv8 Enable anti-exploitation features on enterprise assets and software, where ● ●\npossible, such as Microsoft® Data Execution Prevention (DEP), Windows®\nDefender Exploit Guard (WDEG), or Apple® System Integrity Protection (SIP) and\nGatekeeper™.\n8.3 Enable Operating System Anti-Exploitation Features/\nDeploy Anti-Exploit Technologies\nv7\nEnable anti-exploitation features such as Data Execution Prevention (DEP) or\n● ●\nAddress Space Layout Randomization (ASLR) that are available in an operating\nsystem or deploy appropriate toolkits that can be configured to apply protection to a\nbroader set of applications and executables.\nPage 1165",
     "page_number": 1165
-  },
-  {
-    "cis_id": "18.10.78.1",
-    "title": "Ensure 'Enables or disables Windows Game\nRecording and Broadcasting' is set to 'Disabled'",
-    "profile": "L1",
-    "description": "This setting enables or disables the Windows Game Recording and Broadcasting\nfeatures.\nThe recommended state for this setting is: Disabled.",
-    "rationale": "If this setting is allowed, users could record and broadcast session info to external sites,\nwhich is both a risk of accidentally exposing sensitive company data (on-screen) outside\nthe company as well as a privacy concern.",
-    "impact": "Windows Game Recording will not be allowed.",
-    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 0.\nHKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\GameDVR:AllowGameDVR",
-    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nDisabled:\nComputer Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\Windows Game Recording and Broadcasting\\Enables or disables\nWindows Game Recording and Broadcasting\nNote: This Group Policy path is provided by the Group Policy template\nGameDVR.admx/adml that is included with the Microsoft Windows 10 RTM (Release\n1507) Administrative Templates (or newer).",
-    "default_value": "Enabled. (Recording and Broadcasting (streaming) is allowed.)\nReferences:\n1. GRID: MS-00000527\nPage 1167\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8 ● ●\nUninstall or disable unnecessary services on enterprise assets and software,\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nAre Running\nv7 ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 1168",
-    "page_number": 1168
   }
 ]

@@ -1,5 +1,17 @@
 [
   {
+    "cis_id": "18.10.43.16",
+    "title": "Ensure 'Configure detection for potentially\nunwanted applications' is set to 'Enabled: Block'",
+    "profile": "L1",
+    "description": "This policy setting controls detection and action for Potentially Unwanted Applications\n(PUA), which are sneaky unwanted application bundlers or their bundled applications,\nthat can deliver adware or malware.\nThe recommended state for this setting is: Enabled: Block.\nFor more information, see this link: Block potentially unwanted applications with\nMicrosoft Defender Antivirus | Microsoft Docs",
+    "rationale": "Potentially unwanted applications can increase the risk of your network being infected\nwith malware, cause malware infections to be harder to identify, and can waste IT\nresources in cleaning up the applications. They should be blocked from installation.",
+    "impact": "Applications that are identified by Microsoft as PUA will be blocked at download and\ninstall time.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKLM\\SOFTWARE\\Policies\\Microsoft\\Windows Defender:PUAProtection",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled: Block:\nComputer Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\Microsoft Defender Antivirus\\Configure detection for potentially\nunwanted applications\nNote: This Group Policy path is provided by the Group Policy template\nWindowsDefender.admx/adml that is included with the Microsoft Windows 10 Release\n1809 & Server 2019 Administrative Templates (or newer).\nPage 1040",
+    "default_value": "Disabled. (Applications that are identified by Microsoft as PUA will not be blocked.)\nReferences:\n1. https://learn.microsoft.com/en-us/microsoft-365/security/defender-\nendpoint/detect-block-potentially-unwanted-apps-microsoft-defender-\nantivirus?view=o365-worldwide\n2. GRID: MS-00000462\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n10.1 Deploy and Maintain Anti-Malware Software\nv8 ● ● ●\nDeploy and maintain anti-malware software on all enterprise assets.\n2.7 Utilize Application Whitelisting\nv7 Utilize application whitelisting technology on all assets to ensure that only ●\nauthorized software executes and all unauthorized software is blocked from\nexecuting on assets.\n8.1 Utilize Centrally Managed Anti-malware Software\nv7 ● ●\nUtilize centrally managed anti-malware software to continuously monitor and\ndefend each of the organization's workstations and servers.\nPage 1041",
+    "page_number": 1041
+  },
+  {
     "cis_id": "18.10.43.17",
     "title": "Ensure 'Control whether exclusions are visible to\nlocal users' is set to 'Enabled'",
     "profile": "L1",
@@ -106,17 +118,5 @@
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nComputer Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\OneDrive\\Prevent the usage of OneDrive for file storage\nNote: This Group Policy path is provided by the Group Policy template\nSkyDrive.admx/adml that is included with the Microsoft Windows 8.1 & Server 2012\nR2 Administrative Templates (or newer). However, we strongly recommend you only\nuse the version included with the Microsoft Windows 10 Release 1607 & Server 2016\nAdministrative Templates (or newer). Older versions of the templates had conflicting\nsettings in different template files for both OneDrive & SkyDrive, until it was cleaned up\nproperly in the above version.\nNote #2: In older Microsoft Windows Administrative Templates, this setting was named\nPrevent the usage of SkyDrive for file storage, but it was renamed starting with the\nWindows 10 RTM (Release 1507) Administrative Templates.",
     "default_value": "Disabled. (Apps and features can work with OneDrive file storage using the Next\nGeneration Sync Client.)\nReferences:\n1. https://learn.microsoft.com/en-us/office365/servicedescriptions/onedrive-for-\nbusiness-service-description\n2. GRID: MS-00000485\nPage 1068\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8 ● ●\nUninstall or disable unnecessary services on enterprise assets and software,\nsuch as an unused file sharing service, web application module, or service\nfunction.\n13.4 Only Allow Access to Authorized Cloud Storage or\nv7 Email Providers ● ●\nOnly allow access to authorized cloud storage or email providers.\nPage 1069",
     "page_number": 1068
-  },
-  {
-    "cis_id": "18.10.56.1",
-    "title": "Ensure 'Turn off Push To Install service' is set to\n'Enabled'",
-    "profile": "L2",
-    "description": "This policy setting controls whether users can push Apps to the device from the\nMicrosoft Store App running on other devices or the web.\nThe recommended state for this setting is: Enabled.",
-    "rationale": "In a high security managed environment, application installations should be managed\ncentrally by IT staff, not by end users.",
-    "impact": "Users will not be able to push Apps to this device from the Microsoft Store running on\nother devices or the web.",
-    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKLM\\SOFTWARE\\Policies\\Microsoft\\PushToInstall:DisablePushToInstall",
-    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nComputer Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\Push to Install\\Turn off Push To Install service\nNote: This Group Policy path is provided by the Group Policy template\nPushToInstall.admx/adml that is included with the Microsoft Windows 10 Release\n1709 Administrative Templates (or newer).",
-    "default_value": "Disabled. (Users are able to push Apps to this device from the Microsoft Store running\non other devices or the web.)\nPage 1071\nReferences:\n1. GRID: MS-00000486\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n2.5 Allowlist Authorized Software\nv8 Use technical controls, such as application allowlisting, to ensure that only ● ●\nauthorized software can execute or be accessed. Reassess bi-annually, or more\nfrequently.\n9.2 Ensure Only Approved Ports, Protocols and Services\nAre Running\nv7 ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 1072",
-    "page_number": 1072
   }
 ]

@@ -1,5 +1,17 @@
 [
   {
+    "cis_id": "18.9.33.6.4",
+    "title": "Ensure 'Allow standby states (S1-S3) when\nsleeping (plugged in)' is set to 'Disabled'",
+    "profile": "BL",
+    "description": "This policy setting manages whether or not Windows is allowed to use standby states\nwhen putting the computer in a sleep state.\nThe recommended state for this setting is: Disabled.",
+    "rationale": "System sleep states (S1-S3) keep power to the RAM which may contain secrets, such\nas the BitLocker volume encryption key. An attacker finding a computer in sleep states\n(S1-S3) could directly attack the memory of the computer and gain access to the\nsecrets through techniques such as RAM reminisce and direct memory access (DMA).",
+    "impact": "Users will not be able to use Sleep (S3) while plugged in, which resumes faster than\nHibernation (S4).",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed\nby the following registry location with a REG_DWORD value of 0.\nHKLM\\SOFTWARE\\Policies\\Microsoft\\Power\\PowerSettings\\abfc2519-3608-4c2a-94ea-\n171b0ed546ab:ACSettingIndex",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nDisabled:\nComputer Configuration\\Policies\\Administrative Templates\\System\\Power\nManagement\\Sleep Settings\\Allow standby states (S1-S3) when sleeping (plugged\nin)\nNote: This Group Policy path is provided by the Group Policy template\nPower.admx/adml that is included with the Microsoft Windows 8.0 & Server 2012 (non-\nR2) Administrative Templates (or newer).\nPage 745",
+    "default_value": "Enabled. (Windows is allowed to use standby states when putting the computer in a\nsleep state.)\nReferences:\n1. GRID: MS-00000439\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.1 Establish and Maintain a Secure Configuration Process\nEstablish and maintain a secure configuration process for enterprise assets\nv8 (end-user devices, including portable and mobile, non-computing/IoT devices, and ● ● ●\nservers) and software (operating systems and applications). Review and update\ndocumentation annually, or when significant enterprise changes occur that could\nimpact this Safeguard.\n5.1 Establish Secure Configurations\nv7 ● ● ●\nMaintain documented, standard security configuration standards for all\nauthorized operating systems and software.\nPage 746",
+    "page_number": 746
+  },
+  {
     "cis_id": "18.9.33.6.5",
     "title": "Ensure 'Require a password when a computer\nwakes (on battery)' is set to 'Enabled'",
     "profile": "L1",
@@ -106,17 +118,5 @@
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nComputer Configuration\\Policies\\Administrative Templates\\System\\User\nProfiles\\Turn off the advertising ID\nNote: This Group Policy path is provided by the Group Policy template\nUserProfiles.admx/adml that is included with the Microsoft Windows 8.1 & Server\n2012 R2 Administrative Templates (or newer).",
     "default_value": "Disabled. (Users can control whether apps can use the advertising ID for experiences\nacross apps.)\nPage 772\nReferences:\n1. GRID: MS-00000366\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8 ● ●\nUninstall or disable unnecessary services on enterprise assets and software,\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nAre Running\nv7 ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\n18.9.50 Windows File Protection\nThis section is intentionally blank and exists to ensure the structure of Windows\nbenchmarks is consistent.\nThis Group Policy section is provided by the Group Policy template\nWindowsFileProtection.admx/adml that is included with all versions of the Microsoft\nWindows Administrative Templates.\n18.9.51 Windows Time Service\nThis section contains recommendations related to the Windows Time Service.\nThis Group Policy section is provided by the Group Policy template\nW32Time.admx/adml that is included with all versions of the Microsoft Windows\nAdministrative Templates.\nPage 773",
     "page_number": 773
-  },
-  {
-    "cis_id": "18.9.51.1.1",
-    "title": "Ensure 'Enable Windows NTP Client' is set to\n'Enabled'",
-    "profile": "L1",
-    "description": "This policy setting specifies whether the Windows NTP Client is enabled. Enabling the\nWindows NTP Client allows synchronization from a systems computer clock to NTP\nserver(s).\nThe recommended state for this setting is: Enabled.\nNote: If a third-party time provider is used in the environment, an exception to this\nrecommendation will be needed.",
-    "rationale": "A reliable and accurate account of time is important for a number of services and\nsecurity requirements, including but not limited to distributed applications, authentication\nservices, multi-user databases and logging services. The use of an NTP client (with\nsecure operation) establishes functional accuracy and is a focal point when reviewing\nsecurity relevant events.",
-    "impact": "System time will be synced to the configured NTP server(s).",
-    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKLM\\SOFTWARE\\Policies\\Microsoft\\W32Time\\TimeProviders\\NtpClient:Enabled",
-    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nComputer Configuration\\Policies\\Administrative Templates\\System\\Windows Time\nService\\Time Providers\\Enable Windows NTP Client\nNote: This Group Policy path is provided by the Group Policy template\nW32Time.admx/adml that is included with all versions of the Microsoft Windows\nAdministrative Templates.\nPage 775",
-    "default_value": "Disabled. (The local computer clock does not synchronize time with NTP servers.)\nReferences:\n1. GRID: MS-00000367\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n8.4 Standardize Time Synchronization\nv8 ● ●\nStandardize time synchronization. Configure at least two synchronized time\nsources across enterprise assets, where supported.\n6.1 Utilize Three Synchronized Time Sources\nv7 Use at least three synchronized time sources from which all servers and ● ●\nnetwork devices retrieve time information on a regular basis so that timestamps\nin logs are consistent.\nPage 776",
-    "page_number": 776
   }
 ]

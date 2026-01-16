@@ -1,5 +1,17 @@
 [
   {
+    "cis_id": "18.10.87.2",
+    "title": "Ensure 'Turn on PowerShell Transcription' is set\nto 'Enabled'",
+    "profile": "L2",
+    "description": "This Policy setting lets you capture the input and output of Windows PowerShell\ncommands into text-based transcripts.\nThe recommended state for this setting is: Enabled.",
+    "rationale": "PowerShell transcript input can be very valuable when performing forensic\ninvestigations of PowerShell attack incidents to determine what occurred.",
+    "impact": "PowerShell transcript input will be logged to PowerShell_transcript output files,\nwhich are saved to the My Documents folder (within a separate subfolder for each day)\nof each users´ profile by default. Optionally, a specific output directory name can be\nspecified, which will contain all PowerShell transcript logs in a subfolder of My\nDocuments. If specifying a full path outside the users My Documents folder, other users\non the system could have access to view these logs, which may contain sensitive\ninformation such as passwords.\nWarning: There are potential risks of capturing credentials and sensitive information in\nPowerShell_transcript output files, which could be exposed to users who have read\naccess to the files.\nWarning #2: PowerShell Transcription is not compatible with the natively installed\nPowerShell v4 on Microsoft Windows 10 Release 1511 and Server 2012 R2 and below.\nIf this recommendation is set as prescribed, PowerShell will need to be updated to at\nleast v5.1 or newer. For more information on updating PowerShell, please see Windows\nPowerShell System Requirements - PowerShell | Microsoft Learn.\nPage 1192",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\PowerShell\\Transcription:EnableTrans\ncripting",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nComputer Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\Windows PowerShell\\Turn on PowerShell Transcription\nNote: This Group Policy path is provided by the Group Policy template\nPowerShellExecutionPolicy.admx/adml that is included with the Microsoft Windows\n10 RTM (Release 1507) Administrative Templates (or newer).",
+    "default_value": "Disabled. (Transcription of PowerShell-based applications is disabled by default,\nalthough transcription can still be enabled through the Start-Transcript cmdlet.)\nReferences:\n1. https://learn.microsoft.com/en-\nus/powershell/module/microsoft.powershell.core/about/about_group_policy_setti\nngs?view=powershell-7.2#turn-on-powershell-transcription\n2. GRID: MS-00000537\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n8.8 Collect Command-Line Audit Logs\nv8 ● ●\nCollect command-line audit logs. Example implementations include collecting\naudit logs from PowerShell®, BASH™, and remote administrative terminals.\n8.8 Enable Command-line Audit Logging\nv7 ● ●\nEnable command-line audit logging for command shells, such as Microsoft\nPowershell and Bash.\nPage 1193",
+    "page_number": 1193
+  },
+  {
     "cis_id": "18.10.89.1.1",
     "title": "Ensure 'Allow Basic authentication' is set to\n'Disabled'",
     "profile": "L1",
@@ -106,17 +118,5 @@
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nDisabled:\nComputer Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\Windows Sandbox\\Allow clipboard sharing with Windows Sandbox\nNote: This Group Policy path is provided by the Group Policy template\nWindowsSandbox.admx/adml that is included with the Microsoft Windows 11 Release\n21H2 Administrative Templates (or newer).",
     "default_value": "Enabled. (Copy and paste between the host and Windows Sandbox are permitted.)\nPage 1214\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/windows-\nsandbox/windows-sandbox-configure-using-wsb-file\n2. GRID: MS-00000546\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8 ● ●\nUninstall or disable unnecessary services on enterprise assets and software,\nsuch as an unused file sharing service, web application module, or service\nfunction.\nPage 1215",
     "page_number": 1215
-  },
-  {
-    "cis_id": "18.10.91.2",
-    "title": "Ensure 'Allow mapping folders into Windows\nSandbox' is set to 'Disabled'",
-    "profile": "L2",
-    "description": "This policy setting controls whether folders are allowed to be mapped into Windows\nSandbox.\nThe recommended state for this setting is: Disabled.\nNote: The Windows Sandbox feature was first introduced in Windows 10 R1903, and\nallows a temporary \"clean install\" virtual instance of Windows to be run inside the host,\nfor the ostensible purpose of testing applications without making changes to the host.",
-    "rationale": "Disabling the ability to map folders from the host to the sandbox decreases the attack\nsurface exposed by the Windows Sandbox and exposure of untrusted application and\nfiles to the internal network.",
-    "impact": "Mapped folder access into the Windows Sandbox will be disabled. Therefore,\napplications and files in the Sandbox will not be accessible to the host system.",
-    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 0.\nHKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\Sandbox:AllowWriteToMappedFolders",
-    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nDisabled:\nComputer Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\Windows Sandbox\\Allow mapping folders into Windows Sandbox\nNote: This Group Policy path is provided by the Group Policy template\nWindowsSandbox.admx/adml that is included with the Microsoft Windows 11 Release\n24H2 Administrative Templates (or newer).",
-    "default_value": "Enabled. (Mapped folders into the Sandbox will be allowed.)\nPage 1216\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/windows-\nsandbox/windows-sandbox-configure-using-wsb-file\n2. GRID: MS-00000616\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8 ● ●\nUninstall or disable unnecessary services on enterprise assets and software,\nsuch as an unused file sharing service, web application module, or service\nfunction.\nPage 1217",
-    "page_number": 1217
   }
 ]

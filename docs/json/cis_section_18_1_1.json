@@ -1,0 +1,50 @@
+[
+  {
+    "cis_id": "18.1.1.1",
+    "title": "Ensure 'Prevent enabling lock screen camera' is set\nto 'Enabled'",
+    "profile": "L1",
+    "description": "Disables the lock screen camera toggle switch in PC Settings and prevents a camera\nfrom being invoked on the lock screen.\nThe recommended state for this setting is: Enabled.",
+    "rationale": "Disabling the lock screen camera extends the protection afforded by the lock screen to\ncamera features.",
+    "impact": "If you enable this setting, users will no longer be able to enable or disable lock screen\ncamera access in PC Settings, and the camera cannot be invoked on the lock screen.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\Personalization:NoLockScreenCamera",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nComputer Configuration\\Policies\\Administrative Templates\\Control\nPanel\\Personalization\\Prevent enabling lock screen camera\nNote: This Group Policy path is provided by the Group Policy template\nControlPanelDisplay.admx/adml that is included with the Microsoft Windows 8.1 &\nServer 2012 R2 Administrative Templates (or newer).",
+    "default_value": "Disabled. (Users can enable invocation of an available camera on the lock screen.)\nReferences:\n1. GRID: MS-00000231\nPage 474\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n0.0 Explicitly Not Mapped\nv8\nExplicitly Not Mapped\n16.11 Lock Workstation Sessions After Inactivity\nv7 ● ● ●\nAutomatically lock workstation sessions after a standard period of\ninactivity.\nPage 475",
+    "page_number": 475
+  },
+  {
+    "cis_id": "18.1.1.2",
+    "title": "Ensure 'Prevent enabling lock screen slide show' is\nset to 'Enabled'",
+    "profile": "L1",
+    "description": "Disables the lock screen slide show settings in PC Settings and prevents a slide show\nfrom playing on the lock screen.\nThe recommended state for this setting is: Enabled.",
+    "rationale": "Disabling the lock screen slide show extends the protection afforded by the lock screen\nto slide show contents.",
+    "impact": "If you enable this setting, users will no longer be able to modify slide show settings in\nPC Settings, and no slide show will ever start.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\Personalization:NoLockScreenSlidesho\nw",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nComputer Configuration\\Policies\\Administrative Templates\\Control\nPanel\\Personalization\\Prevent enabling lock screen slide show\nNote: This Group Policy path is provided by the Group Policy template\nControlPanelDisplay.admx/adml that is included with the Microsoft Windows 8.1 &\n2012 R2 Administrative Templates (or newer).",
+    "default_value": "Disabled. (Users can enable a slide show that will run after they lock the machine.)\nReferences:\n1. GRID: MS-00000232\nPage 476\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n0.0 Explicitly Not Mapped\nv8\nExplicitly Not Mapped\n16.11 Lock Workstation Sessions After Inactivity\nv7 ● ● ●\nAutomatically lock workstation sessions after a standard period of\ninactivity.\nPage 477",
+    "page_number": 477
+  },
+  {
+    "cis_id": "18.1.2.2",
+    "title": "Ensure 'Allow users to enable online speech\nrecognition services' is set to 'Disabled'",
+    "profile": "L1",
+    "description": "This policy enables the automatic learning component of input personalization that\nincludes speech, inking, and typing. Automatic learning enables the collection of speech\nand handwriting patterns, typing history, contacts, and recent calendar information. It is\nrequired for the use of Cortana. Some of this collected information may be stored on the\nuser's OneDrive, in the case of inking and typing; some of the information will be\nuploaded to Microsoft to personalize speech.\nThe recommended state for this setting is: Disabled.",
+    "rationale": "If this setting is Enabled sensitive information could be stored in the cloud or sent to\nMicrosoft.",
+    "impact": "Automatic learning of speech, inking, and typing stops and users cannot change its\nvalue via PC Settings.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 0.\nHKLM\\SOFTWARE\\Policies\\Microsoft\\InputPersonalization:AllowInputPersonalizati\non\nPage 479",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nDisabled:\nComputer Configuration\\Policies\\Administrative Templates\\Control\nPanel\\Regional and Language Options\\Allow users to enable online speech\nrecognition services\nNote: This Group Policy path is provided by the Group Policy template\nGlobalization.admx/adml that is included with the Microsoft Windows 10 RTM\n(Release 1507) Administrative Templates (or newer).\nNote #2: In older Microsoft Windows Administrative Templates, this setting was initially\nnamed Allow input personalization, but it was renamed to Allow users to enable online\nspeech recognition services starting with the Windows 10 R1809 & Server 2019\nAdministrative Templates.",
+    "default_value": "Enabled. (Automatic learning of speech, inking and typing is enabled, but users may\nchange this value via PC Settings.)\nReferences:\n1. GRID: MS-00000233\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.1 Establish and Maintain a Secure Configuration Process\nEstablish and maintain a secure configuration process for enterprise assets\nv8 (end-user devices, including portable and mobile, non-computing/IoT devices, and ● ● ●\nservers) and software (operating systems and applications). Review and update\ndocumentation annually, or when significant enterprise changes occur that could\nimpact this Safeguard.\n5.1 Establish Secure Configurations\nv7 ● ● ●\nMaintain documented, standard security configuration standards for all\nauthorized operating systems and software.\nPage 480",
+    "page_number": 480
+  },
+  {
+    "cis_id": "18.1.3",
+    "title": "Ensure 'Allow Online Tips' is set to 'Disabled'",
+    "profile": "L2",
+    "description": "This policy setting configures the retrieval of online tips and help for the Settings app.\nThe recommended state for this setting is: Disabled.",
+    "rationale": "Due to privacy concerns, data should never be sent to any third-party since this data\ncould contain sensitive information.",
+    "impact": "Settings will not contact Microsoft content services to retrieve tips and help content.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 0.\nHKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer:AllowOnlineT\nips",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nDisabled:\nComputer Configuration\\Policies\\Administrative Templates\\Control Panel\\Allow\nOnline Tips\nNote: This Group Policy path is provided by the Group Policy template\nControlPanel.admx/adml that is included with the Microsoft Windows 10 Release\n1709 Administrative Templates (or newer).",
+    "default_value": "Enabled. (Settings will contact Microsoft content services to retrieve tips and help\ncontent.)\nReferences:\n1. GRID: MS-00000230\nPage 481\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n0.0 Explicitly Not Mapped\nv8\nExplicitly Not Mapped\n9.2 Ensure Only Approved Ports, Protocols and\nServices Are Running\nv7 ● ●\nEnsure that only network ports, protocols, and services listening on a\nsystem with validated business needs, are running on each system.\nPage 482",
+    "page_number": 482
+  }
+]

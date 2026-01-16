@@ -1,0 +1,26 @@
+[
+  {
+    "cis_id": "18.8.1.1",
+    "title": "Ensure 'Turn off notifications network usage' is set\nto 'Enabled'",
+    "profile": "L2",
+    "description": "This policy setting blocks applications from using the network to send notifications to\nupdate tiles, tile badges, toast, or raw notifications. This policy setting turns off the\nconnection between Windows and the Windows Push Notification Service (WNS). This\npolicy setting also stops applications from being able to poll application services to\nupdate tiles.\nThe recommended state for this setting is: Enabled.",
+    "rationale": "Windows Push Notification Services (WNS) is a mechanism to receive third-party\nnotifications and updates from the cloud/Internet. In a high security environment,\nexternal systems, especially those hosted outside the organization, should be prevented\nfrom having an impact on the secure workstations.",
+    "impact": "Applications and system features will not be able receive notifications from the network\nfrom WNS or via notification polling APIs.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\CurrentVersion\\PushNotifications:NoC\nloudApplicationNotification",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nComputer Configuration\\Policies\\Administrative Templates\\Start Menu and\nTaskbar\\Notifications\\Turn off notifications network usage\nNote: This Group Policy path is provided by the Group Policy template WPN.admx/adml\nthat is included with the Microsoft Windows 10 Release 1607 & Server 2016\nAdministrative Templates (or newer).\nPage 626",
+    "default_value": "Disabled.\nReferences:\n1. GRID: MS-00000293\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n0.0 Explicitly Not Mapped\nv8\nExplicitly Not Mapped\n9.2 Ensure Only Approved Ports, Protocols and\nServices Are Running\nv7 ● ●\nEnsure that only network ports, protocols, and services listening on a\nsystem with validated business needs, are running on each system.\nPage 627",
+    "page_number": 627
+  },
+  {
+    "cis_id": "18.8.2",
+    "title": "Ensure 'Remove Personalized Website\nRecommendations from the Recommended section in the Start\nMenu' is set to 'Enabled'",
+    "profile": "L2",
+    "description": "This policy setting configures whether personalized website recommendations are\nshown in the in the Start Menu.\nThe recommended state for this setting is: Enabled.",
+    "rationale": "Microsoft's personalized website recommendations are based on data gathered from\nuser activity. This data could contain sensitive information.",
+    "impact": "Personalized website recommendations will not be shown in the Start Menu.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\Explorer:HideRecommendedPersonalized\nSites",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nComputer Configuration\\Policies\\Administrative Templates\\Start Menu and\nTaskbar\\Remove Personalized Website Recommendations from the Recommended\nsection in the Start Menu\nNote: This Group Policy path is provided by the Group Policy template\nStartMenu.admx/adml that is included with the Microsoft Windows 11 Release 22H2\nAdministrative Templates v3.0 (or newer).",
+    "default_value": "Disabled. (Personalized website recommendations will be shown in the Start Menu.)\nPage 628\nReferences:\n1. GRID: MS-00000292\nCIS Controls:\nControls Version Control IG 1 IG 2 IG 3\n0.0 Explicitly Not Mapped\nv8\nExplicitly Not Mapped\n0.0 Explicitly Not Mapped\nv7\nExplicitly Not Mapped\nPage 629",
+    "page_number": 629
+  }
+]

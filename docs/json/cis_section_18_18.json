@@ -1,5 +1,17 @@
 [
   {
+    "cis_id": "18.10.13.1",
+    "title": "Ensure 'Turn off cloud consumer account state\ncontent' is set to 'Enabled'",
+    "profile": "L1",
+    "description": "This policy setting determines whether cloud consumer account state content is allowed\nin all Windows experiences.\nThe recommended state for this setting is: Enabled.",
+    "rationale": "The use of consumer accounts in an enterprise managed environment is not good\nsecurity practice as it could lead to possible data leakage.",
+    "impact": "Users will not be able to use Microsoft consumer accounts on the system, and\nassociated Windows experiences will instead present default fallback content.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\CloudContent:DisableConsumerAccountS\ntateContent",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nComputer Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\Cloud Content\\Turn off cloud consumer account state content\nNote: This Group Policy path is provided by the Group Policy template\nCloudContent.admx/adml that is included with the Microsoft Windows 11 Release\n21H2 Administrative Templates (or newer).",
+    "default_value": "Disabled. (Windows experiences are able to use cloud consumer accounts.)\nReferences:\n1. GRID: MS-00000425\nPage 889\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n5.6 Centralize Account Management\nv8 ● ●\nCentralize account management through a directory or identity\nservice.\nPage 890",
+    "page_number": 890
+  },
+  {
     "cis_id": "18.10.13.2",
     "title": "Ensure 'Turn off cloud optimized content' is set to\n'Enabled'",
     "profile": "L2",
@@ -106,17 +118,5 @@
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nComputer Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\Data Collection and Preview Builds\\Disable OneSettings Downloads\nNote: This Group Policy path is provided by the Group Policy template\nDataCollection.admx/adml that is included with the Microsoft Windows 11 Release\n21H2 Administrative Templates (or newer).",
     "default_value": "Disabled. (Windows will periodically attempt to connect with the OneSettings service to\ndownload configuration settings.)\nReferences:\n1. GRID: MS-00000434\nPage 911\nCIS Controls:\nControls Version Control IG 1 IG 2 IG 3\n0.0 Explicitly Not Mapped\nv8\nExplicitly Not Mapped\n0.0 Explicitly Not Mapped\nv7\nExplicitly Not Mapped\nPage 912",
     "page_number": 912
-  },
-  {
-    "cis_id": "18.10.16.4",
-    "title": "Ensure 'Do not show feedback notifications' is set\nto 'Enabled'",
-    "profile": "L1",
-    "description": "This policy setting allows an organization to prevent its devices from showing feedback\nquestions from Microsoft.\nThe recommended state for this setting is: Enabled.",
-    "rationale": "Users should not be sending any feedback to third-party vendors in an enterprise\nmanaged environment.",
-    "impact": "Users will no longer see feedback notifications through the Windows Feedback app.",
-    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DataCollection:DoNotShowFeedbackNoti\nfications",
-    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nComputer Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\Data Collection and Preview Builds\\Do not show feedback\nnotifications\nNote: This Group Policy path is provided by the Group Policy template\nFeedbackNotifications.admx/adml that is included with the Microsoft Windows 10\nRelease 1511 Administrative Templates (or newer).",
-    "default_value": "Disabled. (Users may see notifications through the Windows Feedback app asking\nusers for feedback. Users can control how often they receive feedback questions.)\nPage 913\nReferences:\n1. GRID: MS-00000435\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n0.0 Explicitly Not Mapped\nv8\nExplicitly Not Mapped\n9.2 Ensure Only Approved Ports, Protocols and\nServices Are Running\nv7 ● ●\nEnsure that only network ports, protocols, and services listening on a\nsystem with validated business needs, are running on each system.\nPage 914",
-    "page_number": 914
   }
 ]

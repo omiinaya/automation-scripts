@@ -1,5 +1,17 @@
 [
   {
+    "cis_id": "18.6.23.2.1",
+    "title": "Ensure 'Allow Windows to automatically connect\nto suggested open hotspots, to networks shared by contacts, and\nto hotspots offering paid services' is set to 'Disabled'",
+    "profile": "L1",
+    "description": "This policy setting determines whether users can enable the following WLAN settings:\n\"Connect to suggested open hotspots,\" \"Connect to networks shared by my contacts,\"\nand \"Enable paid services\".\n• \"Connect to suggested open hotspots\" enables Windows to automatically\nconnect users to open hotspots it knows about by crowdsourcing networks that\nother people using Windows have connected to.\n• \"Connect to networks shared by my contacts\" enables Windows to automatically\nconnect to networks that the user's contacts have shared with them, and enables\nusers on this device to share networks with their contacts.\n• \"Enable paid services\" enables Windows to temporarily connect to open hotspots\nto determine if paid services are available.\nThe recommended state for this setting is: Disabled.\nNote: These features are also known by the name \"Wi-Fi Sense\".",
+    "rationale": "Automatically connecting to an open hotspot or network can introduce the system to a\nrogue network with malicious intent.",
+    "impact": "Connect to suggested open hotspots, Connect to networks shared by my contacts, and\nEnable paid services will each be turned off and users on the device will be prevented\nfrom enabling them.\nPage 596",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 0.\nHKLM\\SOFTWARE\\Microsoft\\WcmSvc\\wifinetworkmanager\\config:AutoConnectAllowedOE\nM",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nDisabled:\nComputer Configuration\\Policies\\Administrative Templates\\Network\\WLAN\nService\\WLAN Settings\\Allow Windows to automatically connect to suggested\nopen hotspots, to networks shared by contacts, and to hotspots offering paid\nservices\nNote: This Group Policy path is provided by the Group Policy template\nwlansvc.admx/adml that is included with the Microsoft Windows 10 Release 1511\nAdministrative Templates (or newer).",
+    "default_value": "Enabled. (Users can choose to enable or disable either \"Connect to suggested open\nhotspots\" or \"Connect to networks shared by my contacts\".)\nReferences:\n1. https://learn.microsoft.com/en-us/windows/configuration/manage-wifi-sense-in-\nenterprise\n2. GRID: MS-00000280\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8 ● ●\nUninstall or disable unnecessary services on enterprise assets and software,\nsuch as an unused file sharing service, web application module, or service\nfunction.\n15.5 Limit Wireless Access on Client Devices\nv7 Configure wireless access on client machines that do have an essential ●\nwireless business purpose, to allow access only to authorized wireless networks\nand to restrict access to other wireless networks.\nPage 597",
+    "page_number": 597
+  },
+  {
     "cis_id": "18.7.1",
     "title": "Ensure 'Allow Print Spooler to accept client\nconnections' is set to 'Disabled'",
     "profile": "L1",
@@ -106,17 +118,5 @@
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled.\nComputer Configuration\\Policies\\Administrative Templates\\Printers\\Configure\nWindows protected print\nNote: This Group Policy path is provided by the Group Policy template\nPrinting.admx/adml that is included with the Microsoft Windows 11 Release 24H2\nAdministrative Templates (or newer).",
     "default_value": "Disabled. (There are no restrictions on the print drivers that can be installed or print\nfunctionality.)\nReferences:\n1. https://learn.microsoft.com/en-us/windows-hardware/drivers/print/windows-\nprotected-print-mode\n2. https://techcommunity.microsoft.com/blog/microsoft-security-blog/a-new-modern-\nand-secure-print-experience-from-windows/4002645\n3. GRID: MS-00000584\nCIS Controls:\nControls Version Control IG 1 IG 2 IG 3\n0.0 Explicitly Not Mapped\nv8\nExplicitly Not Mapped\n0.0 Explicitly Not Mapped\nv7\nExplicitly Not Mapped\nPage 616",
     "page_number": 616
-  },
-  {
-    "cis_id": "18.7.10",
-    "title": "Ensure 'Limits print driver installation to\nAdministrators' is set to 'Enabled'",
-    "profile": "L1",
-    "description": "This policy setting controls whether users who aren't Administrators can install print\ndrivers on the system.\nThe recommended state for this setting is: Enabled.\nNote: On August 10, 2021, Microsoft announced a Point and Print Default Behavior\nChange which modifies the default Point and Print driver installation and update\nbehavior to require Administrator privileges. This is documented in KB5005652—\nManage new Point and Print default driver installation behavior (CVE-2021-34481).",
-    "rationale": "Restricting the installation of print drives to Administrators can help mitigate the\nPrintNightmare vulnerability (CVE-2021-34527) and other Print Spooler attacks.",
-    "impact": "None - this is the default behavior.",
-    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\nNT\\Printers\\PointAndPrint:RestrictDriverInstallationToAdministrators",
-    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled.\nComputer Configuration\\Policies\\Administrative Templates\\Printers\\Limits\nprint driver installation to Administrators\nNote: This Group Policy path is provided by the Group Policy template\nPrinting.admx/adml that is included with the Microsoft Windows 10 Release 21H2\nAdministrative Templates (or newer).\nPage 617",
-    "default_value": "Enabled. (The system will limit installation of print drivers to Administrators of the\ncomputer.)\nReferences:\n1. https://support.microsoft.com/en-us/topic/kb5005010-restricting-installation-of-\nnew-printer-drivers-after-applying-the-july-6-2021-updates-31b91c02-05bc-4ada-\na7ea-183b129578a7\n2. https://support.microsoft.com/en-gb/topic/kb5005652-manage-new-point-and-\nprint-default-driver-installation-behavior-cve-2021-34481-873642bf-2634-49c5-\na23b-6d8e9a302872\n3. GRID: MS-00000288\nCIS Controls:\nControls Version Control IG 1 IG 2 IG 3\n0.0 Explicitly Not Mapped\nv8\nExplicitly Not Mapped\n0.0 Explicitly Not Mapped\nv7\nExplicitly Not Mapped\nPage 618",
-    "page_number": 618
   }
 ]

@@ -1,0 +1,14 @@
+[
+  {
+    "cis_id": "19.7.46.2.1",
+    "title": "Ensure 'Prevent Codec Download' is set to\n'Enabled'",
+    "profile": "L2",
+    "description": "This setting controls whether Windows Media Player is allowed to download additional\ncodecs for decoding media files it does not already understand.\nThe recommended state for this setting is: Enabled.",
+    "rationale": "This has some potential for risk if a malicious data file is opened in Media Player that\nrequires an additional codec to be installed. If a special codec is required for a\nnecessary job function, then that codec should first be tested to ensure it is legitimate,\nand it should be supplied by the IT department in the organization.",
+    "impact": "Windows Media Player is prevented from automatically downloading codecs to your\ncomputer. In addition, the Download codecs automatically check box on the Player tab\nin the Player is not available.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKU\\[USER\nSID]\\Software\\Policies\\Microsoft\\WindowsMediaPlayer:PreventCodecDownload",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nUser Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\Windows Media Player\\Playback\\Prevent Codec Download\nNote: This Group Policy path is provided by the Group Policy template\nWindowsMediaPlayer.admx/adml that is included with all versions of the Microsoft\nWindows Administrative Templates.",
+    "default_value": "Users can change the setting for the Download codecs automatically check box.\nPage 1287",
+    "page_number": 1288
+  }
+]

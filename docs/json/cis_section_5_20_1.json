@@ -1,0 +1,14 @@
+[
+  {
+    "cis_id": "5.20",
+    "title": "Ensure 'Remote Registry (RemoteRegistry)' is set to\n'Disabled'",
+    "profile": "L2",
+    "description": "Enables remote users to view and modify registry settings on this computer.\nThe recommended state for this setting is: Disabled.",
+    "rationale": "In a high security environment, exposing the registry to remote access is an increased\nsecurity risk.",
+    "impact": "The registry can be viewed and modified only by users on the computer.\nNote: Many remote administration tools, such as System Center Configuration Manager\n(SCCM), require the Remote Registry service to be operational for remote\nmanagement. In addition, many vulnerability scanners use this service to access the\nregistry remotely.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 4.\nHKLM\\SYSTEM\\CurrentControlSet\\Services\\RemoteRegistry:Start",
+    "remediation_procedure": "To establish the recommended configuration, run the following PowerShell command:\nSet-Service -Name RemoteRegistry -StartupType Disabled",
+    "default_value": "Windows 7: Manual\nWindows 8.0 or newer: Disabled\nReferences:\n1. GRID: MS-00000152\nPage 322\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8\nUninstall or disable unnecessary services on enterprise assets and software,\n● ●\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nv7 Are Running ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 323",
+    "page_number": 323
+  }
+]

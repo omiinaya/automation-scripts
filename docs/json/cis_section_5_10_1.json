@@ -1,0 +1,14 @@
+[
+  {
+    "cis_id": "5.10",
+    "title": "Ensure 'Microsoft FTP Service (FTPSVC)' is set to\n'Disabled' or 'Not Installed'",
+    "profile": "L1",
+    "description": "Enables the server to be a File Transfer Protocol (FTP) server.\nThe recommended state for this setting is: Disabled or Not Installed.\nNote: This service is not installed by default. It is supplied with Windows, but is installed\nby enabling an optional Windows feature (Internet Information Services - FTP Server).",
+    "rationale": "Hosting an FTP server (especially a non-secure FTP server) from a workstation is an\nincreased security risk, as the attack surface of that workstation is then greatly\nincreased.\nNote: This security concern applies to any FTP server application installed on a\nworkstation, not just IIS.",
+    "impact": "The computer will not function as an FTP server.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 4 or that the key does not exist.\nHKLM\\SYSTEM\\CurrentControlSet\\Services\\FTPSVC:Start",
+    "remediation_procedure": "To establish the recommended configuration, run the following PowerShell command or\nensure the service is not installed.\nSet-Service -Name FTPSVC -StartupType Disabled",
+    "default_value": "Not Installed (Automatic when installed)\nReferences:\n1. GRID: MS-00000138\nPage 302\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8\nUninstall or disable unnecessary services on enterprise assets and software,\n● ●\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nv7 Are Running ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 303",
+    "page_number": 303
+  }
+]

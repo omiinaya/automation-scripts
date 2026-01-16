@@ -1,0 +1,122 @@
+[
+  {
+    "cis_id": "19.7.5.1",
+    "title": "Ensure 'Do not preserve zone information in file\nattachments' is set to 'Disabled'",
+    "profile": "L1",
+    "description": "This policy setting allows you to manage whether Windows marks file attachments with\ninformation about their zone of origin (such as restricted, Internet, intranet, local). This\nrequires NTFS in order to function correctly, and will fail without notice on FAT32. By\nnot preserving the zone information, Windows cannot make proper risk assessments.\nThe recommended state for this setting is: Disabled.\nNote: The Attachment Manager feature warns users when opening or executing files\nwhich are marked as being from an untrusted source, unless/until the file's zone\ninformation has been removed via the \"Unblock\" button on the file's properties or via a\nseparate tool such as Microsoft Sysinternals Streams.",
+    "rationale": "A file that is downloaded from a computer in the Internet or Restricted Sites zone may\nbe moved to a location that makes it appear safe, like an intranet file share, and\nexecuted by an unsuspecting user. The Attachment Manager feature will warn users\nwhen opening or executing files which are marked as being from an untrusted source,\nunless/until the file's zone information has been removed.",
+    "impact": "None - this is the default behavior.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 2.\nHKU\\[USER\nSID]\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Attachments:SaveZoneI\nnformation\nPage 1257",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nDisabled:\nUser Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\Attachment Manager\\Do not preserve zone information in file\nattachments\nNote: This Group Policy path is provided by the Group Policy template\nAttachmentManager.admx/adml that is included with all versions of the Microsoft\nWindows Administrative Templates.",
+    "default_value": "Disabled. (Windows marks file attachments with their zone information.)\nReferences:\n1. GRID: MS-00000559\nCIS Controls:\nControls Version Control IG 1 IG 2 IG 3\n0.0 Explicitly Not Mapped\nv8\nExplicitly Not Mapped\n0.0 Explicitly Not Mapped\nv7\nExplicitly Not Mapped\nPage 1258",
+    "page_number": 1258
+  },
+  {
+    "cis_id": "19.7.5.2",
+    "title": "Ensure 'Notify antivirus programs when opening\nattachments' is set to 'Enabled'",
+    "profile": "L1",
+    "description": "This policy setting manages the behavior for notifying registered antivirus programs. If\nmultiple programs are registered, they will all be notified.\nThe recommended state for this setting is: Enabled.\nNote: An updated antivirus program must be installed for this policy setting to function\nproperly.",
+    "rationale": "Antivirus programs that do not perform on-access checks may not be able to scan\ndownloaded files.",
+    "impact": "Windows tells the registered antivirus program(s) to scan the file when a user opens a\nfile attachment. If the antivirus program fails, the attachment is blocked from being\nopened.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 3.\nHKU\\[USER\nSID]\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Attachments:ScanWithA\nntiVirus",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nUser Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\Attachment Manager\\Notify antivirus programs when opening\nattachments\nNote: This Group Policy path is provided by the Group Policy template\nAttachmentManager.admx/adml that is included with all versions of the Microsoft\nWindows Administrative Templates.\nPage 1259",
+    "default_value": "Disabled. (Windows does not call the registered antivirus program(s) when file\nattachments are opened.)\nReferences:\n1. GRID: MS-00000560\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n10.1 Deploy and Maintain Anti-Malware Software\nv8 ● ● ●\nDeploy and maintain anti-malware software on all enterprise assets.\n8.1 Utilize Centrally Managed Anti-malware Software\nv7 ● ●\nUtilize centrally managed anti-malware software to continuously monitor and\ndefend each of the organization's workstations and servers.\nPage 1260",
+    "page_number": 1260
+  },
+  {
+    "cis_id": "19.7.8.1",
+    "title": "Ensure 'Configure Windows spotlight on lock screen'\nis set to 'Disabled'",
+    "profile": "L1",
+    "description": "This policy setting lets you configure Windows Spotlight on the lock screen.\nThe recommended state for this setting is: Disabled.\nNote: Per Microsoft TechNet, this policy setting only applies to Windows 10 Enterprise\nand Windows 10 Education editions.",
+    "rationale": "Enabling this setting will help ensure your data is not shared with any third party. The\nWindows Spotlight feature collects data and uses that data to display suggested apps\nas well as images from the internet.",
+    "impact": "Windows Spotlight will be turned off and users will no longer be able to select it as their\nlock screen.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 2.\nHKU\\[USER\nSID]\\Software\\Policies\\Microsoft\\Windows\\CloudContent:ConfigureWindowsSpotlig\nht",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nDisabled:\nUser Configuration\\Policies\\Administrative Templates\\Windows Components\\Cloud\nContent\\Configure Windows spotlight on lock screen\nNote: This Group Policy path may not exist by default. It is provided by the Group Policy\ntemplate CloudContent.admx/adml that is included with the Microsoft Windows 10\nRelease 1607 & Server 2016 Administrative Templates (or newer).",
+    "default_value": "Enabled. (Windows Spotlight is set as the lock screen provider.)\nPage 1262\nReferences:\n1. https://learn.microsoft.com/en-us/windows/configuration/windows-spotlight#how-\ndo-you-disable-windows-spotlight-for-managed-devices\n2. GRID: MS-00000561\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n0.0 Explicitly Not Mapped\nv8\nExplicitly Not Mapped\n16.11 Lock Workstation Sessions After Inactivity\nv7 ● ● ●\nAutomatically lock workstation sessions after a standard period of\ninactivity.\nPage 1263",
+    "page_number": 1263
+  },
+  {
+    "cis_id": "19.7.8.2",
+    "title": "Ensure 'Do not suggest third-party content in\nWindows spotlight' is set to 'Enabled'",
+    "profile": "L1",
+    "description": "This policy setting determines whether Windows will suggest apps and content from\nthird-party software publishers.\nThe recommended state for this setting is: Enabled.",
+    "rationale": "Enabling this setting will help ensure your data is not shared with any third party. The\nWindows Spotlight feature collects data and uses that data to display suggested apps\nas well as images from the internet.",
+    "impact": "Windows Spotlight on lock screen, Windows tips, Microsoft consumer features and\nother related features will no longer suggest apps and content from third-party software\npublishers. Users may still see suggestions and tips to make them more productive with\nMicrosoft features and apps.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKU\\[USER\nSID]\\Software\\Policies\\Microsoft\\Windows\\CloudContent:DisableThirdPartySugges\ntions",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nUser Configuration\\Policies\\Administrative Templates\\Windows Components\\Cloud\nContent\\Do not suggest third-party content in Windows spotlight\nNote: This Group Policy path may not exist by default. It is provided by the Group Policy\ntemplate CloudContent.admx/adml that is included with the Microsoft Windows 10\nRelease 1607 & Server 2016 Administrative Templates (or newer).\nPage 1264",
+    "default_value": "Disabled. (Apps and content from third-party software publishers will be suggested in\naddition to Microsoft apps and content.)\nReferences:\n1. GRID: MS-00000562\nCIS Controls:\nControls Version Control IG 1 IG 2 IG 3\n0.0 Explicitly Not Mapped\nv8\nExplicitly Not Mapped\n0.0 Explicitly Not Mapped\nv7\nExplicitly Not Mapped\nPage 1265",
+    "page_number": 1265
+  },
+  {
+    "cis_id": "19.7.8.3",
+    "title": "Ensure 'Do not use diagnostic data for tailored\nexperiences' is set to 'Enabled'",
+    "profile": "L2",
+    "description": "This setting determines if Windows can use diagnostic data to provide tailored\nexperiences to the user.\nThe recommended state for this setting is: Enabled.",
+    "rationale": "Tracking, collection and utilization of personalized data is a privacy and security issue\nthat is of concern to many organizations.",
+    "impact": "Windows will not use diagnostic data from this device (this data may include browser,\napp and feature usage, depending on the \"Diagnostic and usage data\" setting value) to\ncustomize content shown on the lock screen, Windows tips, Microsoft consumer\nfeatures and other related features. If these features are enabled, users will still see\nrecommendations, tips and offers, but they may be less personalized.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKU\\[USER\nSID]\\Software\\Policies\\Microsoft\\Windows\\CloudContent:DisableTailoredExperien\ncesWithDiagnosticData",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nUser Configuration\\Policies\\Administrative Templates\\Windows Components\\Cloud\nContent\\Do not use diagnostic data for tailored experiences\nNote: This Group Policy path may not exist by default. It is provided by the Group Policy\ntemplate CloudContent.admx/adml that is included with the Microsoft Windows 10\nRelease 1703 Administrative Templates (or newer).\nPage 1266",
+    "default_value": "Disabled. (Microsoft will use diagnostic data to provide personalized recommendations,\ntips and offers.)\nReferences:\n1. GRID: MS-00000563\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n0.0 Explicitly Not Mapped\nv8\nExplicitly Not Mapped\n9.2 Ensure Only Approved Ports, Protocols and\nServices Are Running\nv7 ● ●\nEnsure that only network ports, protocols, and services listening on a\nsystem with validated business needs, are running on each system.\nPage 1267",
+    "page_number": 1267
+  },
+  {
+    "cis_id": "19.7.8.4",
+    "title": "Ensure 'Turn off all Windows spotlight features' is\nset to 'Enabled'",
+    "profile": "L2",
+    "description": "This policy setting determines whether the all Windows Spotlight features are turned\non/off (together).\nThe recommended state for this setting is: Enabled.\nNote: Per Microsoft TechNet, this policy setting only applies to Windows 10 Enterprise\nand Windows 10 Education editions.",
+    "rationale": "Enabling this setting will help ensure your data is not shared with any third party. The\nWindows Spotlight feature collects data and uses that data to display suggested apps\nas well as images from the internet.",
+    "impact": "Windows Spotlight on lock screen, Windows tips, Microsoft consumer features and\nother related features will be turned off.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKU\\[USER\nSID]\\Software\\Policies\\Microsoft\\Windows\\CloudContent:DisableWindowsSpotlight\nFeatures",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nUser Configuration\\Policies\\Administrative Templates\\Windows Components\\Cloud\nContent\\Turn off all Windows spotlight features\nNote: This Group Policy path may not exist by default. It is provided by the Group Policy\ntemplate CloudContent.admx/adml that is included with the Microsoft Windows 10\nRelease 1607 & Server 2016 Administrative Templates (or newer).\nPage 1268",
+    "default_value": "Disabled. (Windows Spotlight features are allowed.)\nReferences:\n1. GRID: MS-00000564\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8 ● ●\nUninstall or disable unnecessary services on enterprise assets and software,\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nAre Running\nv7 ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 1269",
+    "page_number": 1269
+  },
+  {
+    "cis_id": "19.7.8.5",
+    "title": "Ensure 'Turn off Spotlight collection on Desktop' is\nset to 'Enabled'",
+    "profile": "L1",
+    "description": "This policy setting removes the Spotlight collection setting in Personalization, rendering\nthe user unable to select and subsequently download daily images from Microsoft to the\nsystem desktop.\nThe recommended state for this setting is: Enabled.",
+    "rationale": "Enabling this setting will help ensure your data is not shared with any third party. The\nWindows Spotlight feature collects data and uses that data to display images from\nMicrosoft.",
+    "impact": "The Spotlight collection feature will not be available as an option in\nPersonalization settings, so users will not be able to download daily images from\nMicrosoft.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKU\\[USER\nSID]\\SOFTWARE\\Policies\\Microsoft\\Windows\\CloudContent:DisableSpotlightCollect\nionOnDesktop",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nUser Configuration\\Policies\\Administrative Templates\\Windows Components\\Cloud\nContent\\Turn off Spotlight collection on Desktop\nNote: This Group Policy path may not exist by default. It is provided by the Group Policy\ntemplate CloudContent.admx/adml that is included with the Microsoft Windows 11\nRelease 21H2 Administrative Templates (or newer).\nPage 1270",
+    "default_value": "Disabled. (Spotlight collection will appear as an option in Personalization settings,\nallowing the user to select Spotlight collection as the Desktop provider and display\ndaily images from Microsoft on the desktop.)\nReferences:\n1. https://learn.microsoft.com/en-us/windows/configuration/windows-spotlight\n2. GRID: MS-00000565\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8 ● ●\nUninstall or disable unnecessary services on enterprise assets and software,\nsuch as an unused file sharing service, web application module, or service\nfunction.\nPage 1271",
+    "page_number": 1271
+  },
+  {
+    "cis_id": "19.7.26.1",
+    "title": "Ensure 'Prevent users from sharing files within\ntheir profile.' is set to 'Enabled'",
+    "profile": "L1",
+    "description": "This policy setting determines whether users can share files within their profile. By\ndefault, users are allowed to share files within their profile to other users on their\nnetwork after an administrator opts in the computer. An administrator can opt in the\ncomputer by using the sharing wizard to share a file within their profile.\nThe recommended state for this setting is: Enabled.",
+    "rationale": "If not properly configured, a user could accidentally share sensitive data with\nunauthorized users. In an enterprise managed environment, the company should\nprovide a managed location for file sharing, such as a file server or SharePoint, instead\nof the user sharing files directly from their own user profile.",
+    "impact": "Users cannot share files within their profile using the sharing wizard. Also, the sharing\nwizard cannot create a share at %root%\\Users and can only be used to create SMB\nshares on folders.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKU\\[USER\nSID]\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer:NoInplaceSha\nring",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nUser Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\Network Sharing\\Prevent users from sharing files within their\nprofile.\nNote: This Group Policy path is provided by the Group Policy template\nSharing.admx/adml that is included with all versions of the Microsoft Windows\nAdministrative Templates.\nPage 1276",
+    "default_value": "Disabled. (Users can share files out of their user profile after an administrator has opted\nin the computer.)\nReferences:\n1. GRID: MS-00000566\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n0.0 Explicitly Not Mapped\nv8\nExplicitly Not Mapped\n14.6 Protect Information through Access Control Lists\nProtect all information stored on systems with file system, network share,\nv7 claims, application, or database specific access control lists. These controls will ● ● ●\nenforce the principle that only authorized individuals should have access to the\ninformation based on their need to access the information as a part of their\nresponsibilities.\nPage 1277",
+    "page_number": 1277
+  },
+  {
+    "cis_id": "19.7.40.1",
+    "title": "Ensure 'Turn off Windows Copilot' is set to\n'Enabled'",
+    "profile": "L1",
+    "description": "This policy setting configures the use of Windows Copilot. Windows Copilot is an\nartificial intelligence (AI) assistant that's integrated in Microsoft Windows workstation\nOSes, beginning with Windows 11 Release 23H2.\nThe recommended state for this setting is: Enabled.",
+    "rationale": "While AI can be an exciting new technology, it also carries its own risks, including the\npossibility of users accidentally uploading or typing personal or organization-sensitive\ndata into it, with no real way to “undo” or get that data back.",
+    "impact": "Users will not be able to use Windows Copilot and its icon will not appear on the\ntaskbar.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKU\\[USER\nSID]\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsCopilot:TurnOffWindowsCopilot",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nUser Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\Windows Copilot\\Turn off Windows Copilot\nNote: This Group Policy path may not exist by default. It is provided by the Group Policy\ntemplate WindowsCopilot.admx/adml that is included with the Microsoft Windows 11\nRelease 23H2 Administrative Templates (or newer).",
+    "default_value": "Disabled. (Windows Copilot is enabled.)\nPage 1281\nReferences:\n1. GRID: MS-00000567\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8 ● ●\nUninstall or disable unnecessary services on enterprise assets and software,\nsuch as an unused file sharing service, web application module, or service\nfunction.\nPage 1282",
+    "page_number": 1282
+  },
+  {
+    "cis_id": "19.7.44.1",
+    "title": "Ensure 'Always install with elevated privileges' is\nset to 'Disabled'",
+    "profile": "L1",
+    "description": "This setting controls whether or not Windows Installer should use system permissions\nwhen it installs any program on the system.\nNote: This setting appears both in the Computer Configuration and User Configuration\nfolders. To make this setting effective, you must enable the setting in both folders.\nCaution: If enabled, skilled users can take advantage of the permissions this setting\ngrants to change their privileges and gain permanent access to restricted files and\nfolders. Note that the User Configuration version of this setting is not guaranteed to be\nsecure.\nThe recommended state for this setting is: Disabled.",
+    "rationale": "Users with limited privileges can exploit this feature by creating a Windows Installer\ninstallation package that creates a new local account that belongs to the local built-in\nAdministrators group, adds their current account to the local built-in Administrators\ngroup, installs malicious software, or performs other unauthorized activities.",
+    "impact": "None - this is the default behavior.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 0.\nHKU\\[USER\nSID]\\Software\\Policies\\Microsoft\\Windows\\Installer:AlwaysInstallElevated",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nDisabled:\nUser Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\Windows Installer\\Always install with elevated privileges\nNote: This Group Policy path is provided by the Group Policy template MSI.admx/adml\nthat is included with all versions of the Microsoft Windows Administrative Templates.\nPage 1284",
+    "default_value": "Disabled. (Windows Installer will apply the current user's permissions when it installs\nprograms that a system administrator does not distribute or offer. This will prevent\nstandard users from installing applications that affect system-wide configuration items.)\nReferences:\n1. https://learn.microsoft.com/en-us/windows/win32/msi/alwaysinstallelevated\n2. GRID: MS-00000568\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n0.0 Explicitly Not Mapped\nv8\nExplicitly Not Mapped\n4.3 Ensure the Use of Dedicated Administrative Accounts\nv7 Ensure that all users with administrative account access use a dedicated or ● ● ●\nsecondary account for elevated activities. This account should only be used for\nadministrative activities and not internet browsing, email, or similar activities.\nPage 1285",
+    "page_number": 1285
+  }
+]

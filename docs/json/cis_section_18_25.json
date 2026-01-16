@@ -1,5 +1,17 @@
 [
   {
+    "cis_id": "18.10.56.1",
+    "title": "Ensure 'Turn off Push To Install service' is set to\n'Enabled'",
+    "profile": "L2",
+    "description": "This policy setting controls whether users can push Apps to the device from the\nMicrosoft Store App running on other devices or the web.\nThe recommended state for this setting is: Enabled.",
+    "rationale": "In a high security managed environment, application installations should be managed\ncentrally by IT staff, not by end users.",
+    "impact": "Users will not be able to push Apps to this device from the Microsoft Store running on\nother devices or the web.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKLM\\SOFTWARE\\Policies\\Microsoft\\PushToInstall:DisablePushToInstall",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nComputer Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\Push to Install\\Turn off Push To Install service\nNote: This Group Policy path is provided by the Group Policy template\nPushToInstall.admx/adml that is included with the Microsoft Windows 10 Release\n1709 Administrative Templates (or newer).",
+    "default_value": "Disabled. (Users are able to push Apps to this device from the Microsoft Store running\non other devices or the web.)\nPage 1071\nReferences:\n1. GRID: MS-00000486\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n2.5 Allowlist Authorized Software\nv8 Use technical controls, such as application allowlisting, to ensure that only ● ●\nauthorized software can execute or be accessed. Reassess bi-annually, or more\nfrequently.\n9.2 Ensure Only Approved Ports, Protocols and Services\nAre Running\nv7 ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 1072",
+    "page_number": 1072
+  },
+  {
     "cis_id": "18.10.57.2.2",
     "title": "Ensure 'Disable Cloud Clipboard integration for\nserver-to-client data transfer' is set to 'Enabled'",
     "profile": "L2",
@@ -106,17 +118,5 @@
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nComputer Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\Remote Desktop Services\\Remote Desktop Session Host\\Device and\nResource Redirection\\Do not allow supported Plug and Play device redirection\nNote: This Group Policy path is provided by the Group Policy template\nTerminalServer.admx/adml that is included with all versions of the Microsoft Windows\nAdministrative Templates.\nPage 1092",
     "default_value": "Disabled. (Remote Desktop Services allows redirection of supported Plug and Play\ndevices.)\nReferences:\n1. GRID: MS-00000496\nCIS Controls:\nControls Version Control IG 1 IG 2 IG 3\n0.0 Explicitly Not Mapped\nv8\nExplicitly Not Mapped\n0.0 Explicitly Not Mapped\nv7\nExplicitly Not Mapped\nPage 1093",
     "page_number": 1093
-  },
-  {
-    "cis_id": "18.10.57.3.3.7",
-    "title": "Ensure 'Do not allow WebAuthn redirection' is\nset to 'Enabled'",
-    "profile": "L2",
-    "description": "This policy setting controls the redirection of web authentication (WebAuthn) requests\nfrom a Remote Desktop session to the local device. This redirection enables users to\nauthenticate to resources inside the Remote Desktop session using their\nlocal authenticator (e.g. Windows Hello for Business, security key, or other).\nThe recommended state for this setting is: Enabled.",
-    "rationale": "In a more security-sensitive environment, it is desirable to reduce the possible attack\nsurface. To reduce this, resources inside the Remote Desktop session should not be\nallowed to use the local authenticator.",
-    "impact": "Users in a Remote Desktop Services session will not be able to authenticate to\nresources inside the Remote Desktop session using their local authenticator.",
-    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal\nServices:fDisableWebAuthn",
-    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nComputer Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\Remote Desktop Services\\Remote Desktop Session Host\\Device and\nResource Redirection\\Do not allow WebAuthn redirection\nNote: This Group Policy path is provided by the Group Policy template\nTerminalServer.admx/adml that is included with the Microsoft Windows 11 Release\n22H2 Administrative Templates v1.0 (or newer).\nPage 1094",
-    "default_value": "Disabled. (Users can use local authenticators inside the Remote Desktop session.)\nReferences:\n1. GRID: MS-00000497\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8 ● ●\nUninstall or disable unnecessary services on enterprise assets and software,\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nAre Running\nv7 ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 1095",
-    "page_number": 1095
   }
 ]

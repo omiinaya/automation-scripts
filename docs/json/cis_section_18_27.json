@@ -1,5 +1,17 @@
 [
   {
+    "cis_id": "18.10.58.1",
+    "title": "Ensure 'Prevent downloading of enclosures' is set\nto 'Enabled'",
+    "profile": "L1",
+    "description": "This policy setting prevents the user from having enclosures (file attachments)\ndownloaded from an RSS feed to the user's computer.\nThe recommended state for this setting is: Enabled.",
+    "rationale": "Allowing attachments to be downloaded through the RSS feed can introduce files that\ncould have malicious intent.",
+    "impact": "Users cannot set the Feed Sync Engine to download an enclosure through the Feed\nproperty page. Developers cannot change the download setting through feed APIs.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKLM\\SOFTWARE\\Policies\\Microsoft\\Internet\nExplorer\\Feeds:DisableEnclosureDownload",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nComputer Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\RSS Feeds\\Prevent downloading of enclosures\nNote: This Group Policy path is provided by the Group Policy template\nInetRes.admx/adml that is included with all versions of the Microsoft Windows\nAdministrative Templates.\nNote #2: In older Microsoft Windows Administrative Templates, this setting was named\nTurn off downloading of enclosures, but it was renamed starting with the Windows 8.0 &\nServer 2012 (non-R2) Administrative Templates.\nPage 1119",
+    "default_value": "Disabled. (Users can set the Feed Sync Engine to download an enclosure through the\nFeed property page. Developers can change the download setting through the Feed\nAPIs.)\nReferences:\n1. GRID: MS-00000507\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n9.4 Restrict Unnecessary or Unauthorized Browser and\nEmail Client Extensions\nv8 ● ●\nRestrict, either through uninstalling or disabling, any unauthorized or\nunnecessary browser or email client plugins, extensions, and add-on\napplications.\n7.2 Disable Unnecessary or Unauthorized Browser or\nEmail Client Plugins\nv7 ● ●\nUninstall or disable any unauthorized browser or email client plugins or add-\non applications.\nPage 1120",
+    "page_number": 1120
+  },
+  {
     "cis_id": "18.10.58.2",
     "title": "Ensure 'Turn on Basic feed authentication over\nHTTP' is set to 'Disabled'",
     "profile": "L1",
@@ -106,17 +118,5 @@
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nDisabled:\nComputer Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\Store\\Disable all apps from Microsoft Store\nNote: This Group Policy path is provided by the Group Policy template\nWindowsStore.admx/adml that is included with the Microsoft Windows 10 Release\n1511 Administrative Templates (or newer).\nNote #2: In older Microsoft Windows Administrative Templates, this setting was initially\nnamed Disable all apps from Windows Store, but it was renamed starting with the\nWindows 10 Release 1803 Administrative Templates.",
     "default_value": "Enabled. (Microsoft Store apps are permitted to be launched and updated. Microsoft\nStore is enabled.)\nReferences:\n1. GRID: MS-00000515\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n2.5 Allowlist Authorized Software\nv8 Use technical controls, such as application allowlisting, to ensure that only ● ●\nauthorized software can execute or be accessed. Reassess bi-annually, or more\nfrequently.\n9.2 Ensure Only Approved Ports, Protocols and Services\nAre Running\nv7 ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 1141",
     "page_number": 1141
-  },
-  {
-    "cis_id": "18.10.66.2",
-    "title": "Ensure 'Turn off Automatic Download and Install\nof updates' is set to 'Disabled'",
-    "profile": "L1",
-    "description": "This setting enables or disables the automatic download and installation of Microsoft\nStore app updates.\nThe recommended state for this setting is: Disabled.",
-    "rationale": "Keeping your system properly patched can help protect against 0 day vulnerabilities.",
-    "impact": "None - this is the default behavior.",
-    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 4.\nHKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsStore:AutoDownload",
-    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nDisabled:\nComputer Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\Store\\Turn off Automatic Download and Install of updates\nNote: This Group Policy path is provided by the Group Policy template\nWinStoreUI.admx/adml that is included with the Microsoft Windows 8.1 & Server 2012\nR2 Administrative Templates, or by the Group Policy template\nWindowsStore.admx/adml that is included with the Microsoft Windows 10 Release\n1511 Administrative Templates (or newer).",
-    "default_value": "Disabled. (Microsoft Store automatically downloads and installs updates for Microsoft\nStore apps.)\nPage 1142\nReferences:\n1. GRID: MS-00000517\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n7.3 Perform Automated Operating System Patch\nManagement\nv8 ● ● ●\nPerform operating system updates on enterprise assets through automated\npatch management on a monthly, or more frequent, basis.\n9.2 Ensure Only Approved Ports, Protocols and\nServices Are Running\nv7 ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 1143",
-    "page_number": 1143
   }
 ]

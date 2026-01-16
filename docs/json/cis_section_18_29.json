@@ -1,5 +1,17 @@
 [
   {
+    "cis_id": "18.10.78.1",
+    "title": "Ensure 'Enables or disables Windows Game\nRecording and Broadcasting' is set to 'Disabled'",
+    "profile": "L1",
+    "description": "This setting enables or disables the Windows Game Recording and Broadcasting\nfeatures.\nThe recommended state for this setting is: Disabled.",
+    "rationale": "If this setting is allowed, users could record and broadcast session info to external sites,\nwhich is both a risk of accidentally exposing sensitive company data (on-screen) outside\nthe company as well as a privacy concern.",
+    "impact": "Windows Game Recording will not be allowed.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 0.\nHKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\GameDVR:AllowGameDVR",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nDisabled:\nComputer Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\Windows Game Recording and Broadcasting\\Enables or disables\nWindows Game Recording and Broadcasting\nNote: This Group Policy path is provided by the Group Policy template\nGameDVR.admx/adml that is included with the Microsoft Windows 10 RTM (Release\n1507) Administrative Templates (or newer).",
+    "default_value": "Enabled. (Recording and Broadcasting (streaming) is allowed.)\nReferences:\n1. GRID: MS-00000527\nPage 1167\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8 ● ●\nUninstall or disable unnecessary services on enterprise assets and software,\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nAre Running\nv7 ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 1168",
+    "page_number": 1168
+  },
+  {
     "cis_id": "18.10.79.1",
     "title": "Ensure 'Enable ESS with Supported Peripherals'\nis set to 'Enabled: 1'",
     "profile": "L1",
@@ -106,17 +118,5 @@
     "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nComputer Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\Windows PowerShell\\Turn on PowerShell Script Block Logging\nNote: This Group Policy path is provided by the Group Policy template\nPowerShellExecutionPolicy.admx/adml that is included with the Microsoft Windows\n10 RTM (Release 1507) Administrative Templates (or newer).",
     "default_value": "Enabled. (PowerShell will log script blocks the first time they are used.)\nReferences:\n1. https://learn.microsoft.com/en-\nus/powershell/module/microsoft.powershell.core/about/about_logging_windows?\nview=powershell-7.2#protected-event-logging\n2. GRID: MS-00000536\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n8.8 Collect Command-Line Audit Logs\nv8 ● ●\nCollect command-line audit logs. Example implementations include collecting\naudit logs from PowerShell®, BASH™, and remote administrative terminals.\n8.8 Enable Command-line Audit Logging\nv7 ● ●\nEnable command-line audit logging for command shells, such as Microsoft\nPowershell and Bash.\nPage 1191",
     "page_number": 1191
-  },
-  {
-    "cis_id": "18.10.87.2",
-    "title": "Ensure 'Turn on PowerShell Transcription' is set\nto 'Enabled'",
-    "profile": "L2",
-    "description": "This Policy setting lets you capture the input and output of Windows PowerShell\ncommands into text-based transcripts.\nThe recommended state for this setting is: Enabled.",
-    "rationale": "PowerShell transcript input can be very valuable when performing forensic\ninvestigations of PowerShell attack incidents to determine what occurred.",
-    "impact": "PowerShell transcript input will be logged to PowerShell_transcript output files,\nwhich are saved to the My Documents folder (within a separate subfolder for each day)\nof each users´ profile by default. Optionally, a specific output directory name can be\nspecified, which will contain all PowerShell transcript logs in a subfolder of My\nDocuments. If specifying a full path outside the users My Documents folder, other users\non the system could have access to view these logs, which may contain sensitive\ninformation such as passwords.\nWarning: There are potential risks of capturing credentials and sensitive information in\nPowerShell_transcript output files, which could be exposed to users who have read\naccess to the files.\nWarning #2: PowerShell Transcription is not compatible with the natively installed\nPowerShell v4 on Microsoft Windows 10 Release 1511 and Server 2012 R2 and below.\nIf this recommendation is set as prescribed, PowerShell will need to be updated to at\nleast v5.1 or newer. For more information on updating PowerShell, please see Windows\nPowerShell System Requirements - PowerShell | Microsoft Learn.\nPage 1192",
-    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\PowerShell\\Transcription:EnableTrans\ncripting",
-    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nComputer Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\Windows PowerShell\\Turn on PowerShell Transcription\nNote: This Group Policy path is provided by the Group Policy template\nPowerShellExecutionPolicy.admx/adml that is included with the Microsoft Windows\n10 RTM (Release 1507) Administrative Templates (or newer).",
-    "default_value": "Disabled. (Transcription of PowerShell-based applications is disabled by default,\nalthough transcription can still be enabled through the Start-Transcript cmdlet.)\nReferences:\n1. https://learn.microsoft.com/en-\nus/powershell/module/microsoft.powershell.core/about/about_group_policy_setti\nngs?view=powershell-7.2#turn-on-powershell-transcription\n2. GRID: MS-00000537\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n8.8 Collect Command-Line Audit Logs\nv8 ● ●\nCollect command-line audit logs. Example implementations include collecting\naudit logs from PowerShell®, BASH™, and remote administrative terminals.\n8.8 Enable Command-line Audit Logging\nv7 ● ●\nEnable command-line audit logging for command shells, such as Microsoft\nPowershell and Bash.\nPage 1193",
-    "page_number": 1193
   }
 ]
