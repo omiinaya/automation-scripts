@@ -382,15 +382,15 @@ graph TD
 | Batch 16 | 5.11-5.20 | [`cis_section_5_2.json`](docs/json/cis_section_5_2.json) | ✅ Completed | 2026-01-16 | 2026-01-16 | 10/10 | Services - Part 2 |
 | Batch 17 | 5.21-5.30 | [`cis_section_5_3.json`](docs/json/cis_section_5_3.json) | ✅ Completed | 2026-01-16 | 2026-01-16 | 10/10 | Services - Part 3 |
 | Batch 18 | 5.31-5.40 | [`cis_section_5_4.json`](docs/json/cis_section_5_4.json) | ✅ Completed | 2026-01-16 | 2026-01-16 | 10/10 | Services - Part 4 |
-| Batch 19 | 9.1-9.10 | [`cis_section_9_1.json`](docs/json/cis_section_9_1.json), [`cis_section_9_2.json`](docs/json/cis_section_9_2.json) | Not Started | - | - | 0/10 | Windows Firewall - Part 1 |
+| Batch 19 | 9.2.1-9.3.9 | [`cis_section_9_1.json`](docs/json/cis_section_9_1.json), [`cis_section_9_2.json`](docs/json/cis_section_9_2.json) | ✅ Completed | 2026-01-16 | 2026-01-16 | 16/16 | Windows Firewall - All controls (CIS IDs start from 9.2.1, not 9.1) |
 | Batch 20 | 17.1-17.10 | [`cis_section_17_1.json`](docs/json/cis_section_17_1.json), [`cis_section_17_2.json`](docs/json/cis_section_17_2.json), [`cis_section_17_3.json`](docs/json/cis_section_17_3.json) | Not Started | - | - | 0/10 | User Account Control - Part 1 |
 | Batch 21 | 18.1-18.10 | [`cis_section_18_1.json`](docs/json/cis_section_18_1.json), [`cis_section_18_2.json`](docs/json/cis_section_18_2.json), [`cis_section_18_3.json`](docs/json/cis_section_18_3.json), [`cis_section_18_4.json`](docs/json/cis_section_18_4.json) | Not Started | - | - | 0/10 | Application Control - Part 1 |
 | Batch 22 | 19.1-19.10 | [`cis_section_19_1.json`](docs/json/cis_section_19_1.json), [`cis_section_19_2.json`](docs/json/cis_section_19_2.json) | Not Started | - | - | 0/10 | Advanced Security Options - Part 1 |
 
 **Progress Metrics**:
-- **Total CIS IDs Processed**: 170/200+ (85%)
-- **Batches Completed**: 18/22+ (82%)
-- **Sections Completed**: 1/19 (5.3%)
+- **Total CIS IDs Processed**: 186/200+ (93%)
+- **Batches Completed**: 19/22+ (86%)
+- **Sections Completed**: 2/19 (10.5%)
 
 ### Phase 3 Task Progress
 
@@ -620,6 +620,7 @@ def process_multiple_json_files(section_number, batch_size=10):
 | 2026-01-16 | 2.6 | Batch 15 completed: Generated scripts for CIS IDs 5.1-5.10 (10 audit + 10 remediation scripts) for Services controls using incremental JSON processing from `cis_section_5_1.json` | Kilo Code |
 | 2026-01-16 | 2.7 | Batch 16 completed: Generated scripts for CIS IDs 5.11-5.20 (10 audit + 10 remediation scripts) for Services controls using incremental JSON processing from `cis_section_5_2.json` | Kilo Code |
 | 2026-01-16 | 2.8 | Batch 18 completed: Generated scripts for CIS IDs 5.31-5.40 (10 audit + 10 remediation scripts) for Services controls using incremental JSON processing from `cis_section_5_4.json` | Kilo Code |
+| 2026-01-16 | 2.9 | Batch 19 completed: Generated scripts for CIS IDs 9.2.1-9.3.9 (16 audit + 16 remediation scripts) for Windows Firewall controls using incremental JSON processing from `cis_section_9_1.json` and `cis_section_9_2.json` (CIS IDs in Section 9 start from 9.2.1, not 9.1) | Kilo Code |
 
 ## Appendix
 
