@@ -19,7 +19,7 @@ Describe "CIS Remediation Scripts Integration Tests" {
         
         It "Should have remediation scripts with proper naming convention" {
             $remediationScriptsPath = "$PSScriptRoot\..\..\windows\security\remediations"
-            $remediationScripts = Get-ChildItem -Path $remediationScriptsPath -Filter "*-remediate-*.ps1"
+            $remediationScripts = Get-ChildItem -Path $remediationScriptsPath -Recurse -Filter "*-remediate-*.ps1"
             
             $remediationScripts.Count | Should -BeGreaterThan 0
             
@@ -31,7 +31,7 @@ Describe "CIS Remediation Scripts Integration Tests" {
         
         It "Should have proper script headers and documentation" {
             $remediationScriptsPath = "$PSScriptRoot\..\..\windows\security\remediations"
-            $remediationScripts = Get-ChildItem -Path $remediationScriptsPath -Filter "*.ps1"
+            $remediationScripts = Get-ChildItem -Path $remediationScriptsPath -Recurse -Filter "*.ps1"
             
             foreach ($script in $remediationScripts) {
                 $content = Get-Content -Path $script.FullName -Raw
@@ -47,7 +47,7 @@ Describe "CIS Remediation Scripts Integration Tests" {
     Context "Remediation Script Content Validation" {
         It "Should import required modules correctly" {
             $remediationScriptsPath = "$PSScriptRoot\..\..\windows\security\remediations"
-            $sampleScript = Get-ChildItem -Path $remediationScriptsPath -Filter "*.ps1" | Select-Object -First 1
+            $sampleScript = Get-ChildItem -Path $remediationScriptsPath -Recurse -Filter "*.ps1" | Select-Object -First 1
             
             if ($sampleScript) {
                 $content = Get-Content -Path $sampleScript.FullName -Raw

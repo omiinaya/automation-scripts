@@ -19,7 +19,7 @@ Describe "CIS Audit Scripts Integration Tests" {
         
         It "Should have audit scripts with proper naming convention" {
             $auditScriptsPath = "$PSScriptRoot\..\..\windows\security\audits"
-            $auditScripts = Get-ChildItem -Path $auditScriptsPath -Filter "*-audit-*.ps1"
+            $auditScripts = Get-ChildItem -Path $auditScriptsPath -Recurse -Filter "*-audit-*.ps1"
             
             $auditScripts.Count | Should -BeGreaterThan 0
             
@@ -31,7 +31,7 @@ Describe "CIS Audit Scripts Integration Tests" {
         
         It "Should have proper script headers and documentation" {
             $auditScriptsPath = "$PSScriptRoot\..\..\windows\security\audits"
-            $auditScripts = Get-ChildItem -Path $auditScriptsPath -Filter "*.ps1"
+            $auditScripts = Get-ChildItem -Path $auditScriptsPath -Recurse -Filter "*.ps1"
             
             foreach ($script in $auditScripts) {
                 $content = Get-Content -Path $script.FullName -Raw
@@ -46,7 +46,7 @@ Describe "CIS Audit Scripts Integration Tests" {
     Context "Audit Script Content Validation" {
         It "Should import required modules correctly" {
             $auditScriptsPath = "$PSScriptRoot\..\..\windows\security\audits"
-            $sampleScript = Get-ChildItem -Path $auditScriptsPath -Filter "*.ps1" | Select-Object -First 1
+            $sampleScript = Get-ChildItem -Path $auditScriptsPath -Recurse -Filter "*.ps1" | Select-Object -First 1
             
             if ($sampleScript) {
                 $content = Get-Content -Path $sampleScript.FullName -Raw
