@@ -375,7 +375,8 @@ graph TD
 | Batch 9 | 2.3.8.3-2.3.9.2 | [`cis_section_2_6.json`](docs/json/cis_section_2_6.json) | ✅ Completed | 2026-01-15 | 2026-01-16 | 4/4 | Security Options - Microsoft network client + server (CIS IDs 2.3.9.1-2.3.9.3 completed) |
 | Batch 10 | 2.3.9.4-2.3.10.8 | [`cis_section_2_6.json`](docs/json/cis_section_2_6.json), [`cis_section_2_7.json`](docs/json/cis_section_2_7.json) | ✅ Completed | 2026-01-16 | 2026-01-16 | 10/10 | Security Options - Microsoft network server + Network access |
 | Batch 11 | 2.3.10.9-2.3.11.2 | [`cis_section_2_7.json`](docs/json/cis_section_2_7.json), [`cis_section_2_8.json`](docs/json/cis_section_2_8.json) | ✅ Completed | 2026-01-16 | 2026-01-16 | 12/12 | Security Options - Network access completion + Network security start |
-| Batch 12 | 5.1-5.10 | [`cis_section_5_1.json`](docs/json/cis_section_5_1.json) | Not Started | - | - | 0/10 | Services - Part 1 |
+| Batch 12 | 2.3.11.3-2.3.11.13 | [`cis_section_2_8.json`](docs/json/cis_section_2_8.json), [`cis_section_2_9.json`](docs/json/cis_section_2_9.json) | ✅ Completed | 2026-01-16 | 2026-01-16 | 18/18 | Security Options - Network security controls (CIS IDs 2.3.11.3-2.3.11.10, 2.3.11.12-2.3.11.13) |
+| Batch 13 | 5.1-5.10 | [`cis_section_5_1.json`](docs/json/cis_section_5_1.json) | Not Started | - | - | 0/10 | Services - Part 1 |
 | Batch 13 | 5.11-5.20 | [`cis_section_5_2.json`](docs/json/cis_section_5_2.json) | Not Started | - | - | 0/10 | Services - Part 2 |
 | Batch 14 | 5.21-5.30 | [`cis_section_5_3.json`](docs/json/cis_section_5_3.json) | Not Started | - | - | 0/10 | Services - Part 3 |
 | Batch 15 | 5.31-5.41 | [`cis_section_5_4.json`](docs/json/cis_section_5_4.json), [`cis_section_5_5.json`](docs/json/cis_section_5_5.json) | Not Started | - | - | 0/10 | Services - Part 4 |
@@ -385,8 +386,8 @@ graph TD
 | Batch 19 | 19.1-19.10 | [`cis_section_19_1.json`](docs/json/cis_section_19_1.json), [`cis_section_19_2.json`](docs/json/cis_section_19_2.json) | Not Started | - | - | 0/10 | Advanced Security Options - Part 1 |
 
 **Progress Metrics**:
-- **Total CIS IDs Processed**: 91/200+ (45.5%)
-- **Batches Completed**: 11/20+ (55%)
+- **Total CIS IDs Processed**: 109/200+ (54.5%)
+- **Batches Completed**: 12/20+ (60%)
 - **Sections Completed**: 1/19 (5.3%)
 
 ### Phase 3 Task Progress
