@@ -59,15 +59,16 @@ class CISRobustExtractor:
     # Regex pattern for recommendation start
     # Matches: "1.1.1 (L1) Ensure 'Enforce password history' is set to
     # '24 or more password(s)' (Automated)"
+    # Also matches: "2.3.1.4 (L1) Configure 'Accounts: Rename guest account' (Automated)"
     REC_START_PATTERN = re.compile(
-        r'^(\d+\.\d+(?:\.\d+)*)\s+\((L1|L2|BL)\)\s+(Ensure\s+.+?)\s+'
+        r'^(\d+\.\d+(?:\.\d+)*)\s+\((L1|L2|BL)\)\s+(Ensure|Configure)\s+(.+?)\s+'
         r'\((Automated|Manual)\)',
         re.DOTALL | re.IGNORECASE
     )
     
     # Fallback pattern for variations
     REC_START_FALLBACK = re.compile(
-        r'^(\d+\.\d+(?:\.\d+)*)\s+(Ensure\s+.+?)\s+\((Automated|Manual)\)',
+        r'^(\d+\.\d+(?:\.\d+)*)\s+(Ensure|Configure)\s+(.+?)\s+\((Automated|Manual)\)',
         re.DOTALL | re.IGNORECASE
     )
     
@@ -161,14 +162,18 @@ class CISRobustExtractor:
         # Try primary pattern
         match = self.REC_START_PATTERN.search(text)
         if match:
-            cis_id, profile, title, _ = match.groups()
-            return cis_id, profile, title
+            cis_id, profile, action_type, title, _ = match.groups()
+            # Combine action_type and title for full title
+            full_title = f"{action_type} {title}"
+            return cis_id, profile, full_title
         
         # Try fallback pattern (missing profile)
         match = self.REC_START_FALLBACK.search(text)
         if match:
-            cis_id, title, _ = match.groups()
-            return cis_id, "L1", title
+            cis_id, action_type, title, _ = match.groups()
+            # Combine action_type and title for full title
+            full_title = f"{action_type} {title}"
+            return cis_id, "L1", full_title
         
         return None
     
