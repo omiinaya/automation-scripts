@@ -1,6 +1,6 @@
 # Toggle "Fade out menu items after clicking" setting
 # This controls the checkbox in Performance Options > Visual Effects
-# Manipulates the UserPreferencesMask binary value (bit 0x04 in second byte)
+# Uses SystemParametersInfo with SPI_SETSELECTIONFADE
 
 # Function to pause on error
 function Wait-OnError {
@@ -12,13 +12,13 @@ function Wait-OnError {
     Read-Host
 }
 
-# Add P/Invoke for SystemParametersInfo to broadcast settings changes
+# Add P/Invoke for SystemParametersInfo
 Add-Type @"
 using System;
 using System.Runtime.InteropServices;
 public class SystemParams {
     [DllImport("user32.dll", SetLastError = true)]
-    public static extern bool SystemParametersInfo(uint uiAction, uint uiParam, IntPtr pvParam, uint fWinIni);
+    public static extern bool SystemParametersInfo(uint uiAction, uint uiParam, ref bool pvParam, uint fWinIni);
 }
 "@
 
@@ -27,44 +27,34 @@ $modulePath = Join-Path $PSScriptRoot "..\..\..\modules\ModuleIndex.psm1"
 Import-Module $modulePath -Force -WarningAction SilentlyContinue
 
 try {
-    $registryPath = "HKCU:\Control Panel\Desktop"
-    $valueName = "UserPreferencesMask"
+    # SPI_GETSELECTIONFADE = 0x1014, SPI_SETSELECTIONFADE = 0x1015
+    $SPI_GETSELECTIONFADE = 0x1014
+    $SPI_SETSELECTIONFADE = 0x1015
+    $SPIF_UPDATEINIFILE = 0x0001
+    $SPIF_SENDCHANGE = 0x0002
     
-    # Get current UserPreferencesMask value (binary)
-    $currentMask = Get-ItemProperty -Path $registryPath -Name $valueName -ErrorAction Stop | Select-Object -ExpandProperty $valueName
+    # Get current setting
+    $currentValue = $false
+    $result = [SystemParams]::SystemParametersInfo($SPI_GETSELECTIONFADE, 0, [ref]$currentValue, 0)
     
-    if ($null -eq $currentMask) {
-        throw "UserPreferencesMask value not found"
+    if (-not $result) {
+        throw "Failed to get current selection fade setting"
     }
     
-    # Bit 0x04 in second byte (index 1) controls "Fade out menu items after clicking"
-    # When bit is SET (1), fade out is ENABLED
-    # When bit is CLEAR (0), fade out is DISABLED
-    $fadeBit = 0x04
+    # Toggle the setting
+    $newValue = -not $currentValue
+    $newState = if ($newValue) { "enabled" } else { "disabled" }
     
-    # Check current state
-    $isEnabled = ($currentMask[1] -band $fadeBit) -ne 0
+    # Apply the new setting
+    $result = [SystemParams]::SystemParametersInfo($SPI_SETSELECTIONFADE, 0, [ref]$newValue, $SPIF_UPDATEINIFILE -bor $SPIF_SENDCHANGE)
     
-    # Toggle the bit
-    if ($isEnabled) {
-        # Disable: Clear the bit
-        $currentMask[1] = $currentMask[1] -band (-bnot $fadeBit)
-        $newState = "disabled"
-    } else {
-        # Enable: Set the bit
-        $currentMask[1] = $currentMask[1] -bor $fadeBit
-        $newState = "enabled"
+    if (-not $result) {
+        throw "Failed to apply selection fade setting"
     }
-    
-    # Write back the modified mask
-    Set-ItemProperty -Path $registryPath -Name $valueName -Value $currentMask -Type Binary
-    
-    # Broadcast WM_SETTINGCHANGE to apply changes immediately
-    [SystemParams]::SystemParametersInfo(0x0057, 0, [IntPtr]::Zero, 0x0002) | Out-Null
     
     Write-StatusMessage -Message "Fade out menu items after clicking: $newState" -Type Success
     Write-StatusMessage -Message "Changes applied immediately - no restart required" -Type Info
     
 } catch {
-    Wait-OnError -ErrorMessage "Failed to toggle fade menu items setting: $($_.Exception.Message)"
+    Wait-OnError -ErrorMessage "Failed to toggle menu item fade setting: $($_.Exception.Message)"
 }

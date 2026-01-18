@@ -1,6 +1,6 @@
 # Toggle "Slide open combo boxes" setting
 # This controls the checkbox in Performance Options > Visual Effects
-# Manipulates the UserPreferencesMask binary value (bit 0x08)
+# Uses SystemParametersInfo with SPI_SETCOMBOBOXANIMATION
 
 # Function to pause on error
 function Wait-OnError {
@@ -12,13 +12,13 @@ function Wait-OnError {
     Read-Host
 }
 
-# Add P/Invoke for SystemParametersInfo to broadcast settings changes
+# Add P/Invoke for SystemParametersInfo
 Add-Type @"
 using System;
 using System.Runtime.InteropServices;
 public class SystemParams {
     [DllImport("user32.dll", SetLastError = true)]
-    public static extern bool SystemParametersInfo(uint uiAction, uint uiParam, IntPtr pvParam, uint fWinIni);
+    public static extern bool SystemParametersInfo(uint uiAction, uint uiParam, ref bool pvParam, uint fWinIni);
 }
 "@
 
@@ -27,40 +27,30 @@ $modulePath = Join-Path $PSScriptRoot "..\..\..\modules\ModuleIndex.psm1"
 Import-Module $modulePath -Force -WarningAction SilentlyContinue
 
 try {
-    $registryPath = "HKCU:\Control Panel\Desktop"
-    $valueName = "UserPreferencesMask"
+    # SPI_GETCOMBOBOXANIMATION = 0x1004, SPI_SETCOMBOBOXANIMATION = 0x1005
+    $SPI_GETCOMBOBOXANIMATION = 0x1004
+    $SPI_SETCOMBOBOXANIMATION = 0x1005
+    $SPIF_UPDATEINIFILE = 0x0001
+    $SPIF_SENDCHANGE = 0x0002
     
-    # Get current UserPreferencesMask value (binary)
-    $currentMask = Get-ItemProperty -Path $registryPath -Name $valueName -ErrorAction Stop | Select-Object -ExpandProperty $valueName
+    # Get current setting
+    $currentValue = $false
+    $result = [SystemParams]::SystemParametersInfo($SPI_GETCOMBOBOXANIMATION, 0, [ref]$currentValue, 0)
     
-    if ($null -eq $currentMask) {
-        throw "UserPreferencesMask value not found"
+    if (-not $result) {
+        throw "Failed to get current combo box animation setting"
     }
     
-    # Bit 0x08 (fourth bit in first byte) controls "Slide open combo boxes"
-    # When bit is SET (1), slide animation is ENABLED
-    # When bit is CLEAR (0), slide animation is DISABLED
-    $slideBit = 0x08
+    # Toggle the setting
+    $newValue = -not $currentValue
+    $newState = if ($newValue) { "enabled" } else { "disabled" }
     
-    # Check current state
-    $isEnabled = ($currentMask[0] -band $slideBit) -ne 0
+    # Apply the new setting
+    $result = [SystemParams]::SystemParametersInfo($SPI_SETCOMBOBOXANIMATION, 0, [ref]$newValue, $SPIF_UPDATEINIFILE -bor $SPIF_SENDCHANGE)
     
-    # Toggle the bit
-    if ($isEnabled) {
-        # Disable: Clear the bit
-        $currentMask[0] = $currentMask[0] -band (-bnot $slideBit)
-        $newState = "disabled"
-    } else {
-        # Enable: Set the bit
-        $currentMask[0] = $currentMask[0] -bor $slideBit
-        $newState = "enabled"
+    if (-not $result) {
+        throw "Failed to apply combo box animation setting"
     }
-    
-    # Write back the modified mask
-    Set-ItemProperty -Path $registryPath -Name $valueName -Value $currentMask -Type Binary
-    
-    # Broadcast WM_SETTINGCHANGE to apply changes immediately
-    [SystemParams]::SystemParametersInfo(0x0057, 0, [IntPtr]::Zero, 0x0002) | Out-Null
     
     Write-StatusMessage -Message "Slide open combo boxes: $newState" -Type Success
     Write-StatusMessage -Message "Changes applied immediately - no restart required" -Type Info

@@ -12,13 +12,20 @@ function Wait-OnError {
     Read-Host
 }
 
-# Add P/Invoke for SystemParametersInfo to broadcast settings changes
+# Add P/Invoke for SystemParametersInfo and ANIMATIONINFO structure
 Add-Type @"
 using System;
 using System.Runtime.InteropServices;
+
+[StructLayout(LayoutKind.Sequential)]
+public struct ANIMATIONINFO {
+    public uint cbSize;
+    public int iMinAnimate;
+}
+
 public class SystemParams {
     [DllImport("user32.dll", SetLastError = true)]
-    public static extern bool SystemParametersInfo(uint uiAction, uint uiParam, IntPtr pvParam, uint fWinIni);
+    public static extern bool SystemParametersInfo(uint uiAction, uint uiParam, ref ANIMATIONINFO pvParam, uint fWinIni);
 }
 "@
 
@@ -27,26 +34,37 @@ $modulePath = Join-Path $PSScriptRoot "..\..\..\modules\ModuleIndex.psm1"
 Import-Module $modulePath -Force -WarningAction SilentlyContinue
 
 try {
-    $registryPath = "HKCU:\Control Panel\Desktop\WindowMetrics"
-    $valueName = "MinAnimate"
+    # SPI_GETANIMATION = 0x0048, SPI_SETANIMATION = 0x0049
+    $SPI_GETANIMATION = 0x0048
+    $SPI_SETANIMATION = 0x0049
+    $SPIF_UPDATEINIFILE = 0x0001
+    $SPIF_SENDCHANGE = 0x0002
     
-    # Get current value (1 = enabled, 0 = disabled)
-    $currentValue = Get-RegistryValue -KeyPath $registryPath -ValueName $valueName -DefaultValue "1"
+    # Get current animation settings
+    $animInfo = New-Object ANIMATIONINFO
+    $animInfo.cbSize = [System.Runtime.InteropServices.Marshal]::SizeOf($animInfo)
     
-    # Toggle the value
-    if ($currentValue -eq "1") {
-        $newValue = "0"
+    $result = [SystemParams]::SystemParametersInfo($SPI_GETANIMATION, $animInfo.cbSize, [ref]$animInfo, 0)
+    
+    if (-not $result) {
+        throw "Failed to get current animation settings"
+    }
+    
+    # Toggle the animation setting (iMinAnimate: 0 = disabled, 1 = enabled)
+    if ($animInfo.iMinAnimate -ne 0) {
+        $animInfo.iMinAnimate = 0
         $newState = "disabled"
     } else {
-        $newValue = "1"
+        $animInfo.iMinAnimate = 1
         $newState = "enabled"
     }
     
-    # Write back the modified value
-    Set-RegistryValue -KeyPath $registryPath -ValueName $valueName -ValueData $newValue -ValueType String
+    # Apply the new setting
+    $result = [SystemParams]::SystemParametersInfo($SPI_SETANIMATION, $animInfo.cbSize, [ref]$animInfo, $SPIF_UPDATEINIFILE -bor $SPIF_SENDCHANGE)
     
-    # Broadcast WM_SETTINGCHANGE to apply changes immediately
-    [SystemParams]::SystemParametersInfo(0x0057, 0, [IntPtr]::Zero, 0x0002) | Out-Null
+    if (-not $result) {
+        throw "Failed to apply animation settings"
+    }
     
     Write-StatusMessage -Message "Animate windows when minimizing and maximizing: $newState" -Type Success
     Write-StatusMessage -Message "Changes applied immediately - no restart required" -Type Info
