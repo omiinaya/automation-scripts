@@ -147,7 +147,7 @@ function Get-WindowsModuleInfo {
             Description = "CIS benchmark remediation framework for Windows security compliance"
             Commands = @(
                 "New-CISRemediationResult",
-                "Apply-SecurityPolicyTemplate",
+                "Set-SecurityPolicyTemplate",
                 "Get-DomainRemediationInstructions",
                 "Invoke-CISRemediation",
                 "Export-CISRemediationResults",

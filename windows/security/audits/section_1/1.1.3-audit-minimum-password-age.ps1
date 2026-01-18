@@ -82,7 +82,7 @@ try {
     $auditResult.IsCompliant
 } catch {
     if ($VerboseOutput) {
-        Wait-OnError -ErrorMessage "Failed to perform password policy audit: $($_.Exception.Message)"
+        Write-Error "Failed to perform password policy audit: $($_.Exception.Message)"
     } else {
         $false
     }

@@ -67,7 +67,7 @@ try {
     $auditResult.IsCompliant
 } catch {
     if ($VerboseOutput) {
-        Wait-OnError -ErrorMessage "Failed to perform user rights assignment audit: $($_.Exception.Message)"
+        Write-Error "Failed to perform user rights assignment audit: $($_.Exception.Message)"
     } else {
         $false
     }

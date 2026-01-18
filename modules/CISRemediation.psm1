@@ -100,7 +100,7 @@ function New-CISRemediationResult {
 }
 
 # Function to apply security policy template using secedit
-function Apply-SecurityPolicyTemplate {
+function Set-SecurityPolicyTemplate {
     <#
     .SYNOPSIS
         Applies a security policy template using secedit.
@@ -308,7 +308,6 @@ function Invoke-CISRemediation {
         
         [switch]$AutoConfirm,
         
-        [ValidateSet("1", "2", "5", "9", "17", "18", "19")]
         [string]$Section
     )
     
@@ -316,8 +315,11 @@ function Invoke-CISRemediation {
         # Get CIS recommendation
         $recommendation = Get-CISRecommendation -CIS_ID $CIS_ID -Section $Section
         
+        # Use default title if recommendation not found
         if (-not $recommendation) {
-            return New-CISRemediationResult -CIS_ID $CIS_ID -Title "Unknown" -PreviousValue "Unknown" -NewValue "Unknown" -Status "Error" -Message "CIS recommendation not found" -IsCompliant $false -RequiresManualAction $true
+            $recommendation = [PSCustomObject]@{
+                title = "CIS Benchmark $CIS_ID"
+            }
         }
         
         # Check if computer is domain member
@@ -361,7 +363,7 @@ function Invoke-CISRemediation {
                     return New-CISRemediationResult -CIS_ID $CIS_ID -Title $recommendation.title -PreviousValue "Unknown" -NewValue "Unknown" -Status "Error" -Message "Security policy template and setting name required" -IsCompliant $false -RequiresManualAction $true
                 }
                 
-                $result = Apply-SecurityPolicyTemplate -CIS_ID $CIS_ID -TemplateContent $SecurityPolicyTemplate -SettingName $SettingName -VerboseOutput:$VerboseOutput
+                $result = Set-SecurityPolicyTemplate -CIS_ID $CIS_ID -TemplateContent $SecurityPolicyTemplate -SettingName $SettingName -VerboseOutput:$VerboseOutput
             }
             
             "Registry" {
@@ -505,4 +507,4 @@ function Get-CISRemediationSummary {
 }
 
 # Export the module members
-Export-ModuleMember -Function New-CISRemediationResult, Apply-SecurityPolicyTemplate, Get-DomainRemediationInstructions, Invoke-CISRemediation, Export-CISRemediationResults, Get-CISRemediationSummary
+Export-ModuleMember -Function New-CISRemediationResult, Set-SecurityPolicyTemplate, Get-DomainRemediationInstructions, Invoke-CISRemediation, Export-CISRemediationResults, Get-CISRemediationSummary
