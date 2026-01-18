@@ -27,11 +27,12 @@ Enhanced [`Get-Windows11PowerMode`](modules/PowerManagement.psm1:93) function:
 - Better error handling for missing registry values
 
 ### 3. Focused AC Power Mode Changes
-Updated [`toggle-power-mode.ps1`](windows/optimization/toggle-power-mode.ps1) script:
+Updated [`toggle-power-mode.ps1`](windows/deferred/toggle-power-mode.ps1) script (moved to deferred folder):
 
 - Specifically targets AC power ("Plugged In") mode changes
 - Uses `-ApplyTo "AC"` parameter to focus on the requested power state
 - Maintains toggle functionality between Balanced (0) and Best Performance (2)
+- **Note**: Script moved to deferred folder as it requires further development
 
 ## Registry Values Explained
 
@@ -82,7 +83,7 @@ After running the fixed script:
 
 ## Files Modified
 - [`modules/PowerManagement.psm1`](modules/PowerManagement.psm1) - Enhanced power mode functions
-- [`windows/optimization/toggle-power-mode.ps1`](windows/optimization/toggle-power-mode.ps1) - Fixed toggle script
+- [`windows/deferred/toggle-power-mode.ps1`](windows/deferred/toggle-power-mode.ps1) - Fixed toggle script (moved to deferred folder)
 - [`tests/power-mode-test.ps1`](tests/power-mode-test.ps1) - Created test script
 
 ## Files Created

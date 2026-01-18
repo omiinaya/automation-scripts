@@ -20,13 +20,16 @@ automation-scripts/
     ├── set-high-performance.ps1    # Set power plan to high performance
     ├── toggle-lid-close.ps1        # Toggle laptop lid close action
     ├── toggle-location-services.ps1 # Toggle Windows location services
-    ├── toggle-power-mode.ps1       # Toggle between power modes
     ├── toggle-screen-never.ps1     # Toggle screen timeout never/15min
     ├── toggle-sleep-never.ps1      # Toggle sleep never/15min
     ├── toggle-taskbar-alignment.ps1 # Toggle taskbar left/center alignment
     ├── toggle-theme.ps1            # Toggle Windows light/dark theme
-    ├── toggle-transparency.ps1     # Toggle transparency effects
     ├── enable-powershell.bat       # Permanent PowerShell execution policy toggle
+    ├── deferred/                   # Scripts requiring further development
+    │   └── toggle-power-mode.ps1   # Toggle between power modes (deferred)
+    ├── optimization/               # Optimization scripts
+    │   ├── toggle-game-mode.ps1   # Toggle Windows Game Mode
+    │   └── toggle-transparency.ps1 # Toggle transparency effects
     ├── modules/                    # PowerShell modules
     │   ├── ModuleIndex.psm1        # Main module loader
     │   ├── PowerManagement.psm1    # Power management functions
@@ -63,12 +66,12 @@ automation-scripts/
 | `set-high-performance.ps1` | Sets power plan to high performance | Yes |
 | `toggle-lid-close.ps1` | Toggles laptop lid close behavior | Yes |
 | `toggle-location-services.ps1` | Toggle Windows location services with modular design, Windows version check, and improved error handling | Yes |
-| `toggle-power-mode.ps1` | Switches between balanced/high performance | Yes |
 | `toggle-screen-never.ps1` | Toggles screen timeout (never vs 15min) | Yes |
 | `toggle-sleep-never.ps1` | Toggles sleep mode (never vs 15min) | Yes |
 | `toggle-taskbar-alignment.ps1` | Moves taskbar icons left/center | No |
 | `toggle-theme.ps1` | Switches between light/dark theme | No |
 | `toggle-transparency.ps1` | Toggles transparency effects | No |
+| `deferred/toggle-power-mode.ps1` | Switches between balanced/high performance (deferred - requires further development) | Yes |
 
 ### Security Scripts
 
