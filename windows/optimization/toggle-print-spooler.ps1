@@ -1,4 +1,5 @@
-# Toggle Print Spooler service on Windows
+# Toggle Print Spooler service startup type on Windows
+# Enable/Disable service startup instead of starting/stopping the service
 # Refactored to use modular system
 
 # Function to pause on error
@@ -32,27 +33,29 @@ try {
     }
     
     Write-StatusMessage -Message "Current Print Spooler status: $($service.Status)" -Type Info
+    Write-StatusMessage -Message "Current startup type: $($service.StartType)" -Type Info
     
-    # Determine action based on current state
-    if ($service.Status -eq "Running") {
-        # Stop the service
-        Stop-Service -Name "Spooler" -Force -ErrorAction Stop
-        Write-StatusMessage -Message "Print Spooler service stopped" -Type Success
-        Write-StatusMessage -Message "Printing functionality will be disabled" -Type Warning
+    # Determine action based on current startup type
+    if ($service.StartType -eq "Disabled") {
+        # Enable the service (set to Automatic)
+        Set-Service -Name "Spooler" -StartupType "Automatic" -ErrorAction Stop
+        Write-StatusMessage -Message "Print Spooler service enabled" -Type Success
+        Write-StatusMessage -Message "Printing functionality will be available on next boot" -Type Warning
     } else {
-        # Start the service
-        Start-Service -Name "Spooler" -ErrorAction Stop
-        Write-StatusMessage -Message "Print Spooler service started" -Type Success
-        Write-StatusMessage -Message "Printing functionality is now available" -Type Info
+        # Disable the service
+        Set-Service -Name "Spooler" -StartupType "Disabled" -ErrorAction Stop
+        Write-StatusMessage -Message "Print Spooler service disabled" -Type Success
+        Write-StatusMessage -Message "Printing functionality will be disabled on next boot" -Type Warning
     }
     
-    # Verify the new status
+    # Verify the new startup type
     Start-Sleep -Seconds 2
     $newService = Get-Service -Name "Spooler"
-    Write-StatusMessage -Message "New Print Spooler status: $($newService.Status)" -Type Info
+    Write-StatusMessage -Message "New Print Spooler startup type: $($newService.StartType)" -Type Info
+    Write-StatusMessage -Message "Current service status: $($newService.Status)" -Type Info
     
-    Write-StatusMessage -Message "Note: Service changes take effect immediately" -Type Info
+    Write-StatusMessage -Message "Note: Startup type changes require a reboot to take full effect" -Type Warning
     
 } catch {
-    Wait-OnError -ErrorMessage "Failed to toggle Print Spooler service: $($_.Exception.Message)"
+    Wait-OnError -ErrorMessage "Failed to toggle Print Spooler service startup type: $($_.Exception.Message)"
 }
