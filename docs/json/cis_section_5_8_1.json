@@ -1,0 +1,14 @@
+[
+  {
+    "cis_id": "5.8",
+    "title": "Ensure 'Infrared monitor service (irmon)' is set to\n'Disabled' or 'Not Installed'",
+    "profile": "L1",
+    "description": "Detects other Infrared devices that are in range and launches the file transfer\napplication.\nThe recommended state for this setting is: Disabled or Not Installed.",
+    "rationale": "Infrared connections can potentially be a source of data compromise - especially via the\nautomatic \"file transfer application\" functionality. Enterprise-managed systems should\nutilize a more secure method of connection than infrared.",
+    "impact": "Infrared file transfers will be prevented from working.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 4 or that the key does not exist.\nHKLM\\SYSTEM\\CurrentControlSet\\Services\\irmon:Start",
+    "remediation_procedure": "To establish the recommended configuration, run the following PowerShell command or\nensure the service is not installed.\nSet-Service -Name irmon -StartupType Disabled",
+    "default_value": "Windows 10 R1607 through Windows 10 R1809: Manual\nWindows 10 R1903 or newer: Not Installed (Manual when installed)\nReferences:\n1. GRID: MS-00000134\nPage 298\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8\nUninstall or disable unnecessary services on enterprise assets and software,\n● ●\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nv7 Are Running ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 299",
+    "page_number": 299
+  }
+]

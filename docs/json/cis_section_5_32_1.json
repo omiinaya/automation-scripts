@@ -1,0 +1,14 @@
+[
+  {
+    "cis_id": "5.32",
+    "title": "Ensure 'Windows Mobile Hotspot Service (icssvc)' is set\nto 'Disabled'",
+    "profile": "L1",
+    "description": "Provides the ability to share a cellular data connection with another device.\nThe recommended state for this setting is: Disabled.",
+    "rationale": "The capability to run a mobile hotspot from a domain-connected computer could easily\nexpose the internal network to wardrivers or other hackers.",
+    "impact": "The Windows Mobile Hotspot feature will not be available.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 4.\nHKLM\\SYSTEM\\CurrentControlSet\\Services\\icssvc:Start",
+    "remediation_procedure": "To establish the recommended configuration, run the following PowerShell command:\nSet-Service -Name icssvc -StartupType Disabled",
+    "default_value": "Manual (Trigger Start)\nReferences:\n1. GRID: MS-00000164\nPage 346\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8\nUninstall or disable unnecessary services on enterprise assets and software,\n● ●\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nv7 Are Running ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 347",
+    "page_number": 347
+  }
+]

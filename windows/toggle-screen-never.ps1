@@ -12,7 +12,7 @@ function Wait-OnError {
 }
 
 # Import the Windows modules
-$modulePath = Join-Path $PSScriptRoot "modules\ModuleIndex.psm1"
+$modulePath = Join-Path $PSScriptRoot "..\modules\ModuleIndex.psm1"
 Import-Module $modulePath -Force -WarningAction SilentlyContinue
 
 # Check admin rights

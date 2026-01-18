@@ -1,0 +1,122 @@
+[
+  {
+    "cis_id": "18.10.57.2.3",
+    "title": "Ensure 'Do not allow passwords to be saved' is\nset to 'Enabled'",
+    "profile": "L1",
+    "description": "This policy setting helps prevent Remote Desktop clients from saving passwords on a\ncomputer.\nThe recommended state for this setting is: Enabled.\nNote: If this policy setting was previously configured as Disabled or Not configured, any\npreviously saved passwords will be deleted the first time a Remote Desktop client\ndisconnects from any server.",
+    "rationale": "An attacker with physical access to the computer may be able to break the protection\nguarding saved passwords. An attacker who compromises a user's account and\nconnects to their computer could use saved passwords to gain access to additional\nhosts.",
+    "impact": "The password saving checkbox will be disabled for Remote Desktop clients and users\nwill not be able to save passwords.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal\nServices:DisablePasswordSaving",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nComputer Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\Remote Desktop Services\\Remote Desktop Connection Client\\Do not\nallow passwords to be saved\nNote: This Group Policy path is provided by the Group Policy template\nTerminalServer.admx/adml that is included with all versions of the Microsoft Windows\nAdministrative Templates.\nPage 1076",
+    "default_value": "Disabled. (Users will be able to save passwords using Remote Desktop Connection.)\nReferences:\n1. GRID: MS-00000488\nCIS Controls:\nControls Version Control IG 1 IG 2 IG 3\n0.0 Explicitly Not Mapped\nv8\nExplicitly Not Mapped\n0.0 Explicitly Not Mapped\nv7\nExplicitly Not Mapped\nPage 1077",
+    "page_number": 1077
+  },
+  {
+    "cis_id": "18.10.57.3.2.1",
+    "title": "Ensure 'Allow users to connect remotely by\nusing Remote Desktop Services' is set to 'Disabled'",
+    "profile": "L2",
+    "description": "This policy setting allows you to configure remote access to computers by using\nRemote Desktop Services.\nThe recommended state for this setting is: Disabled.",
+    "rationale": "Any account with the Allow log on through Remote Desktop Services user right can log\non to the remote console of the computer. If you do not restrict access to legitimate\nusers who need to log on to the console of the computer, unauthorized users could\ndownload and execute malicious code to elevate their privileges.",
+    "impact": "None - this is the default configuration, unless Remote Desktop Services has been\nmanually enabled on the Remote tab in the System Properties sheet.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal\nServices:fDenyTSConnections\nPage 1079",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nDisabled:\nComputer Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\Remote Desktop Services\\Remote Desktop Session\nHost\\Connections\\Allow users to connect remotely by using Remote Desktop\nServices\nNote: This Group Policy path is provided by the Group Policy template\nTerminalServer.admx/adml that is included with all versions of the Microsoft Windows\nAdministrative Templates.\nNote #2: In older Microsoft Windows Administrative Templates, this setting was initially\nnamed Allow users to connect remotely using Terminal Services, but it was renamed to\nAllow users to connect remotely using Remote Desktop Services in the Windows 7 &\nServer 2008 R2 Administrative Templates. It was finally renamed (again) to Allow users\nto connect remotely by using Remote Desktop Services starting with the Windows 8.0 &\nServer 2012 (non-R2) Administrative Templates.",
+    "default_value": "Disabled. (Users cannot connect remotely to the target computer by using Remote\nDesktop Services, unless it has been manually enabled from the Remote tab in the\nSystem Properties sheet.)\nReferences:\n1. GRID: MS-00000489\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8 ● ●\nUninstall or disable unnecessary services on enterprise assets and software,\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nAre Running\nv7 ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 1080",
+    "page_number": 1080
+  },
+  {
+    "cis_id": "18.10.57.3.3.1",
+    "title": "Ensure 'Allow UI Automation redirection' is set\nto 'Disabled'",
+    "profile": "L2",
+    "description": "This policy setting determines whether User Interface (UI) Automation client\napplications running on the local computer can access UI elements on the server.\nUI Automation gives programs access to most UI elements, which allows use of\nassistive technology products like Magnifier and Narrator that need to interact with the\nUI in order to work properly. UI information also allows automated test scripts to interact\nwith the UI. For example, the local computer´s Narrator and Magnifier clients can be\nused to interact with UI on a web page opened in a remote session.\nThe recommended state for this setting is: Disabled.\nNote: Remote Desktop sessions don´t currently support UI Automation redirection.",
+    "rationale": "In a more security-sensitive environment, it is desirable to reduce the possible attack\nsurface. The need for UI Automation redirection within a Remote Desktop session is\nrare, and not supported at this time, but it makes sense to reduce the number of\nunexpected avenues for malicious activity to occur.",
+    "impact": "UI Automation clients on the local computer will not be able to interact with remote\napps.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 0.\nHKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal\nServices:EnableUiaRedirection\nPage 1082",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nDisabled:\nComputer Configuration\\Administrative Templates\\Windows Components\\Remote\nDesktop Services\\Remote Desktop Session Host\\Device and Resource\nRedirection\\Allow UI Automation redirection\nNote: This Group Policy path is provided by the Group Policy template\nTerminalServer.admx/adml that is included with the Microsoft Windows 10 Release\n21H2 Administrative Templates (or newer).",
+    "default_value": "Enabled. (Any UI Automation clients on the local computer can interact with remote\napps.)\nReferences:\n1. https://learn.microsoft.com/en-us/dotnet/framework/ui-automation/ui-automation-\noverview\n2. GRID: MS-00000491\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8 ● ●\nUninstall or disable unnecessary services on enterprise assets and software,\nsuch as an unused file sharing service, web application module, or service\nfunction.\nPage 1083",
+    "page_number": 1083
+  },
+  {
+    "cis_id": "18.10.57.3.3.2",
+    "title": "Ensure 'Do not allow COM port redirection' is\nset to 'Enabled'",
+    "profile": "L2",
+    "description": "This policy setting specifies whether to prevent the redirection of data to client COM\nports from the remote computer in a Remote Desktop Services session.\nThe recommended state for this setting is: Enabled.",
+    "rationale": "In a more security-sensitive environment, it is desirable to reduce the possible attack\nsurface. The need for COM port redirection within a Remote Desktop session is very\nrare, so makes sense to reduce the number of unexpected avenues for data exfiltration\nand/or malicious code transfer.",
+    "impact": "Users in a Remote Desktop Services session will not be able to redirect server data to\nlocal (client) COM ports.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services:fDisableCcm",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nComputer Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\Remote Desktop Services\\Remote Desktop Session Host\\Device and\nResource Redirection\\Do not allow COM port redirection\nNote: This Group Policy path is provided by the Group Policy template\nTerminalServer.admx/adml that is included with all versions of the Microsoft Windows\nAdministrative Templates.",
+    "default_value": "Disabled. (Remote Desktop Services allows COM port redirection.)\nPage 1084\nReferences:\n1. GRID: MS-00000492\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8 ● ●\nUninstall or disable unnecessary services on enterprise assets and software,\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nAre Running\nv7 ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 1085",
+    "page_number": 1085
+  },
+  {
+    "cis_id": "18.10.57.3.3.3",
+    "title": "Ensure 'Do not allow drive redirection' is set to\n'Enabled'",
+    "profile": "L1",
+    "description": "This policy setting prevents users from sharing the local drives on their client computers\nto Remote Desktop Servers that they access. Mapped drives appear in the session\nfolder tree in Windows Explorer in the following format:\n\\\\TSClient\\<driveletter>$\nIf local drives are shared they are left vulnerable to intruders who want to exploit the\ndata that is stored on them.\nThe recommended state for this setting is: Enabled.",
+    "rationale": "Data could be forwarded from the user's Remote Desktop Services session to the user's\nlocal computer without any direct user interaction. Malicious software already present\non a compromised server would have direct and stealthy disk access to the user's local\ncomputer during the Remote Desktop session.",
+    "impact": "Drive redirection will not be possible. In most situations, traditional network drive\nmapping to file shares (including administrative shares) performed manually by the\nconnected user will serve as a capable substitute to still allow file transfers when\nneeded.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services:fDisableCdm\nPage 1086",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nComputer Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\Remote Desktop Services\\Remote Desktop Session Host\\Device and\nResource Redirection\\Do not allow drive redirection\nNote: This Group Policy path is provided by the Group Policy template\nTerminalServer.admx/adml that is included with all versions of the Microsoft Windows\nAdministrative Templates.",
+    "default_value": "Disabled. (An RD Session Host maps client drives automatically upon connection.)\nReferences:\n1. GRID: MS-00000493\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8 ● ●\nUninstall or disable unnecessary services on enterprise assets and software,\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nAre Running\nv7 ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 1087",
+    "page_number": 1087
+  },
+  {
+    "cis_id": "18.10.57.3.3.4",
+    "title": "Ensure 'Do not allow location redirection' is\nset to 'Enabled'",
+    "profile": "L2",
+    "description": "This policy setting controls the redirection of location data to the remote computer in a\nRemote Desktop Services session.\nThe recommended state for this setting is: Enabled.",
+    "rationale": "In a more security-sensitive environment, it is desirable to reduce the possible attack\nsurface. The need for location data redirection within a Remote Desktop session is rare,\nso it makes sense to reduce the number of unexpected avenues for malicious activity to\noccur.",
+    "impact": "Users will not be able to redirect their location data to the remote computer.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal\nServices:fDisableLocationRedir",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nComputer Configuration\\Administrative Templates\\Windows Components\\Remote\nDesktop Services\\Remote Desktop Session Host\\Device and Resource\nRedirection\\Do not allow location redirection\nNote: This Group Policy path is provided by the Group Policy template\nTerminalServer.admx/adml that is included with the Microsoft Windows 10 Release\n21H2 Administrative Templates (or newer).",
+    "default_value": "Disabled. (Users can redirect their location data to the remote computer.)\nPage 1088\nReferences:\n1. GRID: MS-00000494\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8 ● ●\nUninstall or disable unnecessary services on enterprise assets and software,\nsuch as an unused file sharing service, web application module, or service\nfunction.\nPage 1089",
+    "page_number": 1089
+  },
+  {
+    "cis_id": "18.10.57.3.3.5",
+    "title": "Ensure 'Do not allow LPT port redirection' is\nset to 'Enabled'",
+    "profile": "L2",
+    "description": "This policy setting specifies whether to prevent the redirection of data to client LPT ports\nduring a Remote Desktop Services session.\nThe recommended state for this setting is: Enabled.",
+    "rationale": "In a more security-sensitive environment, it is desirable to reduce the possible attack\nsurface. The need for LPT port redirection within a Remote Desktop session is very\nrare, so makes sense to reduce the number of unexpected avenues for data exfiltration\nand/or malicious code transfer.",
+    "impact": "Users in a Remote Desktop Services session will not be able to redirect server data to\nlocal (client) LPT ports.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services:fDisableLPT",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nComputer Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\Remote Desktop Services\\Remote Desktop Session Host\\Device and\nResource Redirection\\Do not allow LPT port redirection\nNote: This Group Policy path is provided by the Group Policy template\nTerminalServer.admx/adml that is included with all versions of the Microsoft Windows\nAdministrative Templates.",
+    "default_value": "Disabled. (Remote Desktop Services allows LPT port redirection.)\nPage 1090\nReferences:\n1. GRID: MS-00000495\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8 ● ●\nUninstall or disable unnecessary services on enterprise assets and software,\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nAre Running\nv7 ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 1091",
+    "page_number": 1091
+  },
+  {
+    "cis_id": "18.10.57.3.3.6",
+    "title": "Ensure 'Do not allow supported Plug and Play\ndevice redirection' is set to 'Enabled'",
+    "profile": "L2",
+    "description": "This policy setting allows you to control the redirection of supported Plug and Play\ndevices, such as Windows Portable Devices, to the remote computer in a Remote\nDesktop Services session.\nThe recommended state for this setting is: Enabled.",
+    "rationale": "In a more security-sensitive environment, it is desirable to reduce the possible attack\nsurface. The need for Plug and Play device redirection within a Remote Desktop\nsession is very rare, so makes sense to reduce the number of unexpected avenues for\ndata exfiltration and/or malicious code transfer.",
+    "impact": "Users in a Remote Desktop Services session will not be able to redirect their supported\n(local client) Plug and Play devices to the remote computer.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal\nServices:fDisablePNPRedir",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nComputer Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\Remote Desktop Services\\Remote Desktop Session Host\\Device and\nResource Redirection\\Do not allow supported Plug and Play device redirection\nNote: This Group Policy path is provided by the Group Policy template\nTerminalServer.admx/adml that is included with all versions of the Microsoft Windows\nAdministrative Templates.\nPage 1092",
+    "default_value": "Disabled. (Remote Desktop Services allows redirection of supported Plug and Play\ndevices.)\nReferences:\n1. GRID: MS-00000496\nCIS Controls:\nControls Version Control IG 1 IG 2 IG 3\n0.0 Explicitly Not Mapped\nv8\nExplicitly Not Mapped\n0.0 Explicitly Not Mapped\nv7\nExplicitly Not Mapped\nPage 1093",
+    "page_number": 1093
+  },
+  {
+    "cis_id": "18.10.57.3.3.7",
+    "title": "Ensure 'Do not allow WebAuthn redirection' is\nset to 'Enabled'",
+    "profile": "L2",
+    "description": "This policy setting controls the redirection of web authentication (WebAuthn) requests\nfrom a Remote Desktop session to the local device. This redirection enables users to\nauthenticate to resources inside the Remote Desktop session using their\nlocal authenticator (e.g. Windows Hello for Business, security key, or other).\nThe recommended state for this setting is: Enabled.",
+    "rationale": "In a more security-sensitive environment, it is desirable to reduce the possible attack\nsurface. To reduce this, resources inside the Remote Desktop session should not be\nallowed to use the local authenticator.",
+    "impact": "Users in a Remote Desktop Services session will not be able to authenticate to\nresources inside the Remote Desktop session using their local authenticator.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal\nServices:fDisableWebAuthn",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nComputer Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\Remote Desktop Services\\Remote Desktop Session Host\\Device and\nResource Redirection\\Do not allow WebAuthn redirection\nNote: This Group Policy path is provided by the Group Policy template\nTerminalServer.admx/adml that is included with the Microsoft Windows 11 Release\n22H2 Administrative Templates v1.0 (or newer).\nPage 1094",
+    "default_value": "Disabled. (Users can use local authenticators inside the Remote Desktop session.)\nReferences:\n1. GRID: MS-00000497\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8 ● ●\nUninstall or disable unnecessary services on enterprise assets and software,\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nAre Running\nv7 ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 1095",
+    "page_number": 1095
+  },
+  {
+    "cis_id": "18.10.57.3.3.8",
+    "title": "Ensure 'Restrict clipboard transfer from server\nto client' is set to 'Enabled: Disable clipboard transfers from server\nto client'",
+    "profile": "L2",
+    "description": "This policy setting controls whether the clipboard can be used to transfer data from the\nRemote Desktop session to the client.\nThe recommended state for this setting is: Enabled: Disable clipboard transfers\nfrom server to client.",
+    "rationale": "In a more security-sensitive environment, it is desirable to reduce the possible attack\nsurface. The need for the clipboard to transfer data from a Remote Desktop session to a\nclient is rare, so it makes sense to reduce the number of unexpected avenues for\nmalicious activity to occur.",
+    "impact": "Users will not be able to transfer clipboard data from the Remote Desktop session to the\nclient.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 0.\nHKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services:SCClipLevel",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled: Disable clipboard transfers from server to client:\nComputer Configuration\\Administrative Templates\\Windows Components\\Remote\nDesktop Services\\Remote Desktop Session Host\\Device and Resource\nRedirection\\Restrict clipboard transfer from server to client\nNote: This Group Policy path is provided by the Group Policy template\nTerminalServer.admx/adml that is included with the Microsoft Windows 11 Release\n23H2 v2.0 Administrative Templates (or newer).\nPage 1096",
+    "default_value": "Disabled. (Users can copy arbitrary contents from the server to the client.)\nReferences:\n1. GRID: MS-00000614\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8 ● ●\nUninstall or disable unnecessary services on enterprise assets and software,\nsuch as an unused file sharing service, web application module, or service\nfunction.\nPage 1097",
+    "page_number": 1097
+  }
+]

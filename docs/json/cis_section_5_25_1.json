@@ -1,0 +1,14 @@
+[
+  {
+    "cis_id": "5.25",
+    "title": "Ensure 'Special Administration Console Helper (sacsvr)'\nis set to 'Disabled' or 'Not Installed'",
+    "profile": "L1",
+    "description": "This service allows administrators to remotely access a command prompt using\nEmergency Management Services.\nThe recommended state for this setting is: Disabled or Not Installed.\nNote: This service is not installed by default. It is supplied with Windows, but it is\ninstalled by enabling an optional Windows capability (Windows Emergency\nManagement Services and Serial Console).",
+    "rationale": "Allowing the use of a remotely accessible command prompt that provides the ability to\nperform remote management tasks on a computer is a security risk.",
+    "impact": "Users will not have access to a remote command prompt using Emergency\nManagement Services.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 4 or that the key does not exist.\nHKLM\\SYSTEM\\CurrentControlSet\\Services\\sacsvr:Start",
+    "remediation_procedure": "To establish the recommended configuration, run the following PowerShell command or\nensure the service is not installed.\nSet-Service -Name sacsvr -StartupType Disabled",
+    "default_value": "Not Installed (Manual when installed)\nReferences:\n1. GRID: MS-00000157\nPage 332\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8\nUninstall or disable unnecessary services on enterprise assets and software,\n● ●\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nv7 Are Running ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 333",
+    "page_number": 333
+  }
+]

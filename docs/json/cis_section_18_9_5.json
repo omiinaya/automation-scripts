@@ -1,0 +1,122 @@
+[
+  {
+    "cis_id": "18.9.31.2",
+    "title": "Ensure 'Allow upload of User Activities' is set to\n'Disabled'",
+    "profile": "L2",
+    "description": "This policy setting determines whether published User Activities can be uploaded to the\ncloud.\nThe recommended state for this setting is: Disabled.",
+    "rationale": "Due to privacy concerns, data should never be sent to any third-party since this data\ncould contain sensitive information.",
+    "impact": "Activities of type User Activity are not allowed to be uploaded to the cloud. The Timeline\nfeature will not function across devices.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed\nby the following registry location with a REG_DWORD value of 0.\nHKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\System:UploadUserActivities",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nDisabled:\nComputer Configuration\\Policies\\Administrative Templates\\System\\OS\nPolicies\\Allow upload of User Activities\nNote: This Group Policy path is provided by the Group Policy template\nOSPolicy.admx/adml that is included with the Microsoft Windows 10 Release 1803\nAdministrative Templates (or newer).",
+    "default_value": "Enabled. (Activities of type User Activity are allowed to be uploaded to the cloud.)\nReferences:\n1. GRID: MS-00000353\nPage 735\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n0.0 Explicitly Not Mapped\nv8\nExplicitly Not Mapped\n9.2 Ensure Only Approved Ports, Protocols and\nServices Are Running\nv7 ● ●\nEnsure that only network ports, protocols, and services listening on a\nsystem with validated business needs, are running on each system.\n18.9.32 PIN Complexity\nThis section is intentionally blank and exists to ensure the structure of Windows\nbenchmarks is consistent.\nThis Group Policy section is provided by the Group Policy template\nPassport.admx/adml that is included with the Microsoft Windows 10 Release 1703\nAdministrative Templates (or newer).\n18.9.33 Power Management\nThis section contains recommendations for Power Management settings.\nThis Group Policy section is provided by the Group Policy template Power.admx/adml\nthat is included with all versions of the Microsoft Windows Administrative Templates.\n18.9.33.1 Button Settings\nThis section is intentionally blank and exists to ensure the structure of Windows\nbenchmarks is consistent.\nThis Group Policy section is provided by the Group Policy template Power.admx/adml\nthat is included with all versions of the Microsoft Windows Administrative Templates.\n18.9.33.2 Energy Saver Settings\nThis section is intentionally blank and exists to ensure the structure of Windows\nbenchmarks is consistent.\nThis Group Policy section is provided by the Group Policy template Power.admx/adml\nthat is included with the Microsoft Windows 10 Release 1607 & Server 2016\nAdministrative Templates (or newer).\nPage 736",
+    "page_number": 736
+  },
+  {
+    "cis_id": "18.9.33.6.1",
+    "title": "Ensure 'Allow network connectivity during\nconnected-standby (on battery)' is set to 'Disabled'",
+    "profile": "L1",
+    "description": "This policy setting allows you to control the network connectivity state in standby on\nmodern standby-capable systems.\nThe recommended state for this setting is: Disabled.",
+    "rationale": "Disabling this setting ensures that the computer will not be accessible to attackers over\na WLAN network while left unattended, on battery and in a sleep state.",
+    "impact": "Network connectivity in standby (while on battery) is not guaranteed. This connectivity\nrestriction currently only applies to WLAN networks only, but is subject to change\n(according to Microsoft).",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed\nby the following registry location with a REG_DWORD value of 0.\nHKLM\\SOFTWARE\\Policies\\Microsoft\\Power\\PowerSettings\\f15576e8-98b7-4186-b944-\neafa664402d9:DCSettingIndex",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nDisabled:\nComputer Configuration\\Policies\\Administrative Templates\\System\\Power\nManagement\\Sleep Settings\\Allow network connectivity during connected-standby\n(on battery)\nNote: This Group Policy path is provided by the Group Policy template\nPower.admx/adml that is included with the Microsoft Windows 10 Release 1607 &\nServer 2016 Administrative Templates (or newer).",
+    "default_value": "Enabled. (Network connectivity will be maintained in standby while on battery.)\nPage 739\nReferences:\n1. https://learn.microsoft.com/en-us/windows-hardware/design/device-\nexperiences/modern-standby\n2. GRID: MS-00000354\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n0.0 Explicitly Not Mapped\nv8\nExplicitly Not Mapped\n9.2 Ensure Only Approved Ports, Protocols and\nServices Are Running\nv7 ● ●\nEnsure that only network ports, protocols, and services listening on a\nsystem with validated business needs, are running on each system.\nPage 740",
+    "page_number": 740
+  },
+  {
+    "cis_id": "18.9.33.6.2",
+    "title": "Ensure 'Allow network connectivity during\nconnected-standby (plugged in)' is set to 'Disabled'",
+    "profile": "L1",
+    "description": "This policy setting allows you to control the network connectivity state in standby on\nmodern standby-capable systems.\nThe recommended state for this setting is: Disabled.",
+    "rationale": "Disabling this setting ensures that the computer will not be accessible to attackers over\na WLAN network while left unattended, plugged in and in a sleep state.",
+    "impact": "Network connectivity in standby (while plugged in) is not guaranteed. This connectivity\nrestriction currently only applies to WLAN networks only, but is subject to change\n(according to Microsoft).",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed\nby the following registry location with a REG_DWORD value of 0.\nHKLM\\SOFTWARE\\Policies\\Microsoft\\Power\\PowerSettings\\f15576e8-98b7-4186-b944-\neafa664402d9:ACSettingIndex",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nDisabled:\nComputer Configuration\\Policies\\Administrative Templates\\System\\Power\nManagement\\Sleep Settings\\Allow network connectivity during connected-standby\n(plugged in)\nNote: This Group Policy path is provided by the Group Policy template\nPower.admx/adml that is included with the Microsoft Windows 10 Release 1607 &\nServer 2016 Administrative Templates (or newer).",
+    "default_value": "Enabled. (Network connectivity will be maintained in standby while plugged in.)\nPage 741\nReferences:\n1. https://learn.microsoft.com/en-us/windows-hardware/design/device-\nexperiences/modern-standby\n2. GRID: MS-00000355\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n0.0 Explicitly Not Mapped\nv8\nExplicitly Not Mapped\n9.2 Ensure Only Approved Ports, Protocols and\nServices Are Running\nv7 ● ●\nEnsure that only network ports, protocols, and services listening on a\nsystem with validated business needs, are running on each system.\nPage 742",
+    "page_number": 742
+  },
+  {
+    "cis_id": "18.9.33.6.3",
+    "title": "Ensure 'Allow standby states (S1-S3) when\nsleeping (on battery)' is set to 'Disabled'",
+    "profile": "BL",
+    "description": "This policy setting manages whether or not Windows is allowed to use standby states\nwhen putting the computer in a sleep state.\nThe recommended state for this setting is: Disabled.",
+    "rationale": "System sleep states (S1-S3) keep power to the RAM which may contain secrets, such\nas the BitLocker volume encryption key. An attacker finding a computer in sleep states\n(S1-S3) could directly attack the memory of the computer and gain access to the\nsecrets through techniques such as RAM reminisce and direct memory access (DMA).",
+    "impact": "Users will not be able to use Sleep (S3) while on battery, which resumes faster than\nHibernation (S4).",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed\nby the following registry location with a REG_DWORD value of 0.\nHKLM\\SOFTWARE\\Policies\\Microsoft\\Power\\PowerSettings\\abfc2519-3608-4c2a-94ea-\n171b0ed546ab:DCSettingIndex",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nDisabled:\nComputer Configuration\\Policies\\Administrative Templates\\System\\Power\nManagement\\Sleep Settings\\Allow standby states (S1-S3) when sleeping (on\nbattery)\nNote: This Group Policy path is provided by the Group Policy template\nPower.admx/adml that is included with the Microsoft Windows 8.0 & Server 2012 (non-\nR2) Administrative Templates (or newer).\nPage 743",
+    "default_value": "Enabled. (Windows is allowed to use standby states when putting the computer in a\nsleep state.)\nReferences:\n1. GRID: MS-00000356\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.1 Establish and Maintain a Secure Configuration Process\nEstablish and maintain a secure configuration process for enterprise assets\nv8 (end-user devices, including portable and mobile, non-computing/IoT devices, and ● ● ●\nservers) and software (operating systems and applications). Review and update\ndocumentation annually, or when significant enterprise changes occur that could\nimpact this Safeguard.\n5.1 Establish Secure Configurations\nv7 ● ● ●\nMaintain documented, standard security configuration standards for all\nauthorized operating systems and software.\nPage 744",
+    "page_number": 744
+  },
+  {
+    "cis_id": "18.9.33.6.4",
+    "title": "Ensure 'Allow standby states (S1-S3) when\nsleeping (plugged in)' is set to 'Disabled'",
+    "profile": "BL",
+    "description": "This policy setting manages whether or not Windows is allowed to use standby states\nwhen putting the computer in a sleep state.\nThe recommended state for this setting is: Disabled.",
+    "rationale": "System sleep states (S1-S3) keep power to the RAM which may contain secrets, such\nas the BitLocker volume encryption key. An attacker finding a computer in sleep states\n(S1-S3) could directly attack the memory of the computer and gain access to the\nsecrets through techniques such as RAM reminisce and direct memory access (DMA).",
+    "impact": "Users will not be able to use Sleep (S3) while plugged in, which resumes faster than\nHibernation (S4).",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed\nby the following registry location with a REG_DWORD value of 0.\nHKLM\\SOFTWARE\\Policies\\Microsoft\\Power\\PowerSettings\\abfc2519-3608-4c2a-94ea-\n171b0ed546ab:ACSettingIndex",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nDisabled:\nComputer Configuration\\Policies\\Administrative Templates\\System\\Power\nManagement\\Sleep Settings\\Allow standby states (S1-S3) when sleeping (plugged\nin)\nNote: This Group Policy path is provided by the Group Policy template\nPower.admx/adml that is included with the Microsoft Windows 8.0 & Server 2012 (non-\nR2) Administrative Templates (or newer).\nPage 745",
+    "default_value": "Enabled. (Windows is allowed to use standby states when putting the computer in a\nsleep state.)\nReferences:\n1. GRID: MS-00000439\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.1 Establish and Maintain a Secure Configuration Process\nEstablish and maintain a secure configuration process for enterprise assets\nv8 (end-user devices, including portable and mobile, non-computing/IoT devices, and ● ● ●\nservers) and software (operating systems and applications). Review and update\ndocumentation annually, or when significant enterprise changes occur that could\nimpact this Safeguard.\n5.1 Establish Secure Configurations\nv7 ● ● ●\nMaintain documented, standard security configuration standards for all\nauthorized operating systems and software.\nPage 746",
+    "page_number": 746
+  },
+  {
+    "cis_id": "18.9.33.6.5",
+    "title": "Ensure 'Require a password when a computer\nwakes (on battery)' is set to 'Enabled'",
+    "profile": "L1",
+    "description": "Specifies whether or not the user is prompted for a password when the system resumes\nfrom sleep.\nThe recommended state for this setting is: Enabled.",
+    "rationale": "Enabling this setting ensures that anyone who wakes an unattended computer from\nsleep state will have to provide logon credentials before they can access the system.",
+    "impact": "None - this is the default behavior.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed\nby the following registry location with a REG_DWORD value of 1.\nHKLM\\SOFTWARE\\Policies\\Microsoft\\Power\\PowerSettings\\0e796bdb-100d-47d6-a2d5-\nf7d2daa51f51:DCSettingIndex",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nComputer Configuration\\Policies\\Administrative Templates\\System\\Power\nManagement\\Sleep Settings\\Require a password when a computer wakes (on\nbattery)\nNote: This Group Policy path is provided by the Group Policy template\nPower.admx/adml that is included with the Microsoft Windows 8.0 & Server 2012 (non-\nR2) Administrative Templates (or newer).",
+    "default_value": "Enabled. (The user is prompted for a password when the system resumes from sleep\nwhile on battery.)\nPage 747\nReferences:\n1. GRID: MS-00000357\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n0.0 Explicitly Not Mapped\nv8\nExplicitly Not Mapped\n16.11 Lock Workstation Sessions After Inactivity\nv7 ● ● ●\nAutomatically lock workstation sessions after a standard period of\ninactivity.\nPage 748",
+    "page_number": 748
+  },
+  {
+    "cis_id": "18.9.33.6.6",
+    "title": "Ensure 'Require a password when a computer\nwakes (plugged in)' is set to 'Enabled'",
+    "profile": "L1",
+    "description": "Specifies whether or not the user is prompted for a password when the system resumes\nfrom sleep.\nThe recommended state for this setting is: Enabled.",
+    "rationale": "Enabling this setting ensures that anyone who wakes an unattended computer from\nsleep state will have to provide logon credentials before they can access the system.",
+    "impact": "None - this is the default behavior.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed\nby the following registry location with a REG_DWORD value of 1.\nHKLM\\SOFTWARE\\Policies\\Microsoft\\Power\\PowerSettings\\0e796bdb-100d-47d6-a2d5-\nf7d2daa51f51:ACSettingIndex",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nComputer Configuration\\Policies\\Administrative Templates\\System\\Power\nManagement\\Sleep Settings\\Require a password when a computer wakes (plugged\nin)\nNote: This Group Policy path is provided by the Group Policy template\nPower.admx/adml that is included with the Microsoft Windows 8.0 & Server 2012 (non-\nR2) Administrative Templates (or newer).",
+    "default_value": "Enabled. (The user is prompted for a password when the system resumes from sleep\nwhile plugged in.)\nPage 749\nReferences:\n1. GRID: MS-00000358\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n0.0 Explicitly Not Mapped\nv8\nExplicitly Not Mapped\n16.11 Lock Workstation Sessions After Inactivity\nv7 ● ● ●\nAutomatically lock workstation sessions after a standard period of\ninactivity.\n18.9.34 Recovery\nThis section is intentionally blank and exists to ensure the structure of Windows\nbenchmarks is consistent.\nThis Group Policy section is provided by the Group Policy template\nReAgent.admx/adml that is included with the Microsoft Windows 7 & Server 2008 R2\nAdministrative Templates (or newer).\nPage 750",
+    "page_number": 750
+  },
+  {
+    "cis_id": "18.9.35.1",
+    "title": "Ensure 'Configure Offer Remote Assistance' is set\nto 'Disabled'",
+    "profile": "L1",
+    "description": "This policy setting allows you to turn on or turn off Offer (Unsolicited) Remote\nAssistance on this computer.\nHelp desk and support personnel will not be able to proactively offer assistance,\nalthough they can still respond to user assistance requests.\nThe recommended state for this setting is: Disabled.",
+    "rationale": "A user might be tricked and accept an unsolicited Remote Assistance offer from a\nmalicious user.",
+    "impact": "None - this is the default behavior.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed\nby the following registry location with a REG_DWORD value of 0.\nHKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal\nServices:fAllowUnsolicited",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nDisabled:\nComputer Configuration\\Policies\\Administrative Templates\\System\\Remote\nAssistance\\Configure Offer Remote Assistance\nNote: This Group Policy path is provided by the Group Policy template\nRemoteAssistance.admx/adml that is included with the Microsoft Windows 8.0 &\nServer 2012 (non-R2) Administrative Templates (or newer).",
+    "default_value": "Disabled. (Users on this computer cannot get help from their corporate technical\nsupport staff using Offer (Unsolicited) Remote Assistance.)\nPage 752\nReferences:\n1. GRID: MS-00000359\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8 ● ●\nUninstall or disable unnecessary services on enterprise assets and software,\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nAre Running\nv7 ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 753",
+    "page_number": 753
+  },
+  {
+    "cis_id": "18.9.35.2",
+    "title": "Ensure 'Configure Solicited Remote Assistance' is\nset to 'Disabled'",
+    "profile": "L1",
+    "description": "This policy setting allows you to turn on or turn off Solicited (Ask for) Remote Assistance\non this computer.\nThe recommended state for this setting is: Disabled.",
+    "rationale": "There is slight risk that a rogue administrator will gain access to another user's desktop\nsession, however, they cannot connect to a user's computer unannounced or control it\nwithout permission from the user. When an expert tries to connect, the user can still\nchoose to deny the connection or give the expert view-only privileges. The user must\nexplicitly click the Yes button to allow the expert to remotely control the workstation.",
+    "impact": "Users on this computer cannot use e-mail or file transfer to ask someone for help. Also,\nusers cannot use instant messaging programs to allow connections to this computer.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed\nby the following registry location with a REG_DWORD value of 0.\nHKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services:fAllowToGetHelp",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nDisabled:\nComputer Configuration\\Policies\\Administrative Templates\\System\\Remote\nAssistance\\Configure Solicited Remote Assistance\nNote: This Group Policy path is provided by the Group Policy template\nRemoteAssistance.admx/adml that is included with the Microsoft Windows 8.0 &\nServer 2012 (non-R2) Administrative Templates (or newer).\nPage 754",
+    "default_value": "Users can turn on or turn off Solicited (Ask for) Remote Assistance themselves in\nSystem Properties in Control Panel. Users can also configure Remote Assistance\nsettings.\nReferences:\n1. GRID: MS-00000360\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8 ● ●\nUninstall or disable unnecessary services on enterprise assets and software,\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nAre Running\nv7 ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 755",
+    "page_number": 755
+  },
+  {
+    "cis_id": "18.9.36.1",
+    "title": "Ensure 'Enable RPC Endpoint Mapper Client\nAuthentication' is set to 'Enabled'",
+    "profile": "L1",
+    "description": "This policy setting controls whether RPC clients authenticate with the Endpoint Mapper\nService when the call they are making contains authentication information. The\nEndpoint Mapper Service on computers running Windows NT4 (all service packs)\ncannot process authentication information supplied in this manner.\nThis policy setting can cause a specific issue with 1-way forest trusts if it is applied to\nthe trusting domain DCs (see Microsoft KB3073942), so we do not recommend applying\nit to Domain Controllers.\nNote: This policy will not in effect until the system is rebooted.\nThe recommended state for this setting is: Enabled.",
+    "rationale": "Anonymous access to RPC services could result in accidental disclosure of information\nto unauthenticated users.",
+    "impact": "RPC clients will authenticate to the Endpoint Mapper Service for calls that contain\nauthentication information. Clients making such calls will not be able to communicate\nwith the Windows NT4 Server Endpoint Mapper Service.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed\nby the following registry location with a REG_DWORD value of 1.\nHKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Rpc:EnableAuthEpResolution\nPage 757",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nComputer Configuration\\Policies\\Administrative Templates\\System\\Remote\nProcedure Call\\Enable RPC Endpoint Mapper Client Authentication\nNote: This Group Policy path is provided by the Group Policy template RPC.admx/adml\nthat is included with the Microsoft Windows 8.0 & Server 2012 (non-R2) Administrative\nTemplates (or newer).",
+    "default_value": "Disabled. (RPC clients will not authenticate to the Endpoint Mapper Service, but they\nwill be able to communicate with the Windows NT4 Server Endpoint Mapper Service.)\nReferences:\n1. https://learn.microsoft.com/en-us/windows/win32/rpc/how-rpc-works\n2. GRID: MS-00000361\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n0.0 Explicitly Not Mapped\nv8\nExplicitly Not Mapped\n9.2 Ensure Only Approved Ports, Protocols and\nServices Are Running\nv7 ● ●\nEnsure that only network ports, protocols, and services listening on a\nsystem with validated business needs, are running on each system.\nPage 758",
+    "page_number": 758
+  }
+]

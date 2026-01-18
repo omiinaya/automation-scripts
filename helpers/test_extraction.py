@@ -8,7 +8,7 @@ sys.path.insert(0, 'helpers')
 from cis_robust_extractor import CISRobustExtractor
 
 def test():
-    pdf_path = "docs/CIS_Microsoft_Windows_11_Stand-alone_Benchmark_v4.0.0.pdf"
+    pdf_path = "../docs/CIS_Microsoft_Windows_11_Stand-alone_Benchmark_v4.0.0.pdf"
     output_dir = "docs/json_test_quick"
     
     # Create extractor with custom page range

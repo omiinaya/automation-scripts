@@ -32,7 +32,7 @@ function Test-Windows11 {
 }
 
 # Import the Windows modules
-$modulePath = Join-Path $PSScriptRoot "modules\ModuleIndex.psm1"
+$modulePath = Join-Path $PSScriptRoot "..\modules\ModuleIndex.psm1"
 Import-Module $modulePath -Force -WarningAction SilentlyContinue
 
 # Check Windows version

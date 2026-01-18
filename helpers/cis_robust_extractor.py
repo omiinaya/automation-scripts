@@ -59,15 +59,17 @@ class CISRobustExtractor:
     # Regex pattern for recommendation start
     # Matches: "1.1.1 (L1) Ensure 'Enforce password history' is set to
     # '24 or more password(s)' (Automated)"
+    # Also matches: "2.3.1.4 (L1) Configure 'Accounts: Rename guest account' (Automated)"
+    # Also matches complex patterns like: "18.6.19.2.1 (L2) Disable IPv6 (Ensure TCPIP6 Parameter...)"
     REC_START_PATTERN = re.compile(
-        r'^(\d+\.\d+(?:\.\d+)*)\s+\((L1|L2|BL)\)\s+(Ensure\s+.+?)\s+'
+        r'^(\d+\.\d+(?:\.\d+)*)\s+\((L1|L2|BL)\)\s+(Ensure|Configure|Disable|Enable|Turn off|Turn on)\s+(.+?)\s+'
         r'\((Automated|Manual)\)',
         re.DOTALL | re.IGNORECASE
     )
     
     # Fallback pattern for variations
     REC_START_FALLBACK = re.compile(
-        r'^(\d+\.\d+(?:\.\d+)*)\s+(Ensure\s+.+?)\s+\((Automated|Manual)\)',
+        r'^(\d+\.\d+(?:\.\d+)*)\s+(Ensure|Configure|Disable|Enable|Turn off|Turn on)\s+(.+?)\s+\((Automated|Manual)\)',
         re.DOTALL | re.IGNORECASE
     )
     
@@ -161,16 +163,53 @@ class CISRobustExtractor:
         # Try primary pattern
         match = self.REC_START_PATTERN.search(text)
         if match:
-            cis_id, profile, title, _ = match.groups()
-            return cis_id, profile, title
+            cis_id, profile, action_type, title, _ = match.groups()
+            # Handle complex title structures with nested requirements
+            full_title = self._parse_complex_title(action_type, title)
+            return cis_id, profile, full_title
         
         # Try fallback pattern (missing profile)
         match = self.REC_START_FALLBACK.search(text)
         if match:
-            cis_id, title, _ = match.groups()
-            return cis_id, "L1", title
+            cis_id, action_type, title, _ = match.groups()
+            # Handle complex title structures with nested requirements
+            full_title = self._parse_complex_title(action_type, title)
+            return cis_id, "L1", full_title
         
         return None
+
+    def _parse_complex_title(self, action_type: str, title: str) -> str:
+        """
+        Parse complex title structures with nested requirements.
+        Handles patterns like "Disable IPv6 (Ensure TCPIP6 Parameter...)"
+        Returns enhanced title with both main action and nested requirement extracted.
+        """
+        # Check if title contains nested Ensure/Configure pattern
+        # Use a more robust pattern that handles nested parentheses
+        nested_pattern = r'\((Ensure|Configure)\s+(.+?)\)(?=[^)]*$)'
+        nested_match = re.search(nested_pattern, title)
+        
+        if nested_match:
+            # Extract the nested requirement
+            nested_action, nested_content = nested_match.groups()
+            
+            # Extract the main action (before parentheses)
+            main_action_pattern = r'^(.+?)\s*\('
+            main_match = re.search(main_action_pattern, title)
+            
+            if main_match:
+                main_content = main_match.group(1).strip()
+                # Return enhanced title with both components
+                return (
+                    f"{action_type} {main_content} "
+                    f"({nested_action} {nested_content})"
+                )
+            else:
+                # Fallback: preserve the full structure
+                return f"{action_type} {title}"
+        else:
+            # Standard title structure
+            return f"{action_type} {title}"
     
     def find_next_recommendation(self, start_index: int) -> Optional[int]:
         """
@@ -446,31 +485,41 @@ class CISRobustExtractor:
     
     def save_to_json_by_section(self):
         """Save extracted recommendations to separate JSON files organized
-        by section"""
+        by section, with maximum 10 items per file"""
         try:
-            # Group recommendations by section (first part of CIS ID)
+            # Group recommendations by section (first two parts of CIS ID)
+            # e.g., "18.6" from "18.6.19.2.1"
             sections = {}
             for rec in self.recommendations:
-                # Get section number (e.g., "1" from "1.1.1")
-                section_id = rec.cis_id.split('.')[0]
+                # Get section number (e.g., "18.6" from "18.6.19.2.1")
+                parts = rec.cis_id.split('.')
+                section_id = '.'.join(parts[:2]) if len(parts) >= 2 else rec.cis_id
                 if section_id not in sections:
                     sections[section_id] = []
                 sections[section_id].append(asdict(rec))
             
-            # Save each section to separate file
+            # Save each section to separate files with max 10 items per file
             for section_id, recommendations_data in sections.items():
-                filename = f"cis_section_{section_id}.json"
-                output_path = Path(self.output_dir) / filename
-                
-                with open(output_path, 'w', encoding='utf-8') as f:
-                    json.dump(
-                        recommendations_data, f, indent=2, ensure_ascii=False
+                # Split recommendations into chunks of max 10 items
+                chunk_size = 10
+                for i in range(0, len(recommendations_data), chunk_size):
+                    chunk = recommendations_data[i:i + chunk_size]
+                    part_number = (i // chunk_size) + 1
+                    
+                    # Create filename with underscores instead of dots
+                    filename_section = section_id.replace('.', '_')
+                    filename = f"cis_section_{filename_section}_{part_number}.json"
+                    output_path = Path(self.output_dir) / filename
+                    
+                    with open(output_path, 'w', encoding='utf-8') as f:
+                        json.dump(
+                            chunk, f, indent=2, ensure_ascii=False
+                        )
+                    
+                    self.logger.info(
+                        f"Saved {len(chunk)} recommendations to "
+                        f"{output_path}"
                     )
-                
-                self.logger.info(
-                    f"Saved {len(recommendations_data)} recommendations to "
-                    f"{output_path}"
-                )
             
             
         except Exception as e:
@@ -514,7 +563,8 @@ class CISRobustExtractor:
 
 def main():
     """Main function"""
-    pdf_path = "docs/CIS_Microsoft_Windows_11_Stand-alone_Benchmark_v4.0.0.pdf"
+    pdf_filename = "CIS_Microsoft_Windows_11_Stand-alone_Benchmark_v4.0.0.pdf"
+    pdf_path = f"docs/{pdf_filename}"
     output_dir = "docs/json"
     
     if not Path(pdf_path).exists():
