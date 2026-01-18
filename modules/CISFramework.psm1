@@ -140,6 +140,14 @@ function Get-CISRecommendation {
                     break
                 }
             }
+            
+            # If still not found, try direct path construction
+            if (-not $jsonFilePath) {
+                $directPath = Join-Path $PSScriptRoot "..\..\docs\json\cis_section_$($CIS_ID.Replace('.','_')).json"
+                if (Test-Path $directPath) {
+                    $jsonFilePath = $directPath
+                }
+            }
         }
         
         # If no JSON file found, return a more specific default recommendation
@@ -301,6 +309,7 @@ function Test-CISCompliance {
         }
         
         # Try to convert both values to the same type for comparison
+        # Only attempt numeric conversion if both values are numeric strings
         if ($CurrentValue -is [int] -and $expectedValueToCompare -is [string]) {
             # Try to convert expected value to integer
             if ([int]::TryParse($expectedValueToCompare, [ref]$expectedValueToCompare)) {
@@ -310,6 +319,14 @@ function Test-CISCompliance {
             # Try to convert current value to integer
             if ([int]::TryParse($CurrentValue, [ref]$currentValueToCompare)) {
                 $currentValueToCompare = [int]$CurrentValue
+            }
+        } elseif ($CurrentValue -is [string] -and $expectedValueToCompare -is [string]) {
+            # For string-to-string comparison, handle non-numeric values gracefully
+            # Don't attempt numeric conversion for non-numeric strings like "*S-1-5-32-544" or "No One"
+            if (-not [int]::TryParse($CurrentValue, [ref]$null) -and -not [int]::TryParse($expectedValueToCompare, [ref]$null)) {
+                # Both are non-numeric strings, compare as-is
+                $currentValueToCompare = $CurrentValue
+                $expectedValueToCompare = $expectedValueToCompare
             }
         }
         
@@ -476,10 +493,15 @@ function Invoke-CISAudit {
         $comparisonOperator = "ge"
         
         # Extract recommendation text from title (remove CIS Benchmark prefix)
-        $recommendationText = $recommendation.title -replace "^.*?Ensure\s+", "" -replace "\s+is\s+set\s+to.*$", ""
+        $recommendationText = $recommendation.title -replace "^.*?Ensure\\s+", "" -replace "\\s+is\\s+set\\s+to.*$", ""
         
         # Handle different recommendation patterns
-        if ($recommendationText -match "(\d+) or more") {
+        # For user rights assignment audits, use string comparison
+        if ($CIS_ID -like "2.2.*" -and $AuditType -eq "Custom") {
+            # User rights assignment - compare strings directly
+            $expectedValue = "Administrators"
+            $comparisonOperator = "eq"
+        } elseif ($recommendationText -match "(\d+) or more") {
             $expectedValue = [int]$matches[1]
             $comparisonOperator = "ge"
         } elseif ($recommendationText -match "(\d+) or fewer") {
@@ -517,11 +539,15 @@ function Invoke-CISAudit {
         # Create result object with proper recommended value
         $recommendedValue = if ($recommendation.default_value -and $recommendation.default_value -ne "Compliant value") {
             $recommendation.default_value
+        } elseif ($recommendation.title -match "Ensure.*is set to '(.*?)'") {
+            $matches[1]
         } elseif ($recommendation.title -match "'(.*?)'") {
+            $matches[1]
+        } elseif ($recommendation.title -match "Ensure.*is set to (.*?)\.") {
             $matches[1]
         } else {
             # Extract meaningful recommendation from title
-            $recommendation.title -replace "^.*?Ensure\s+", "" -replace "\s+is\s+set\s+to.*$", ""
+            $recommendation.title -replace "^.*?Ensure\\s+", "" -replace "\\s+is\\s+set\\s+to.*$", ""
         }
         
         $result = New-CISResultObject -CIS_ID $CIS_ID -Title $recommendation.title -CurrentValue $currentValue -RecommendedValue $recommendedValue -ComplianceStatus $complianceStatus -Source $source -Details $details -Profile $recommendation.profile

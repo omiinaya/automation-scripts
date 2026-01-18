@@ -38,8 +38,7 @@ foreach ($module in $modulesToImport) {
     
     if (Test-Path -Path $modulePath) {
         try {
-            Write-Verbose "Importing module: $module"
-            Import-Module -Name $modulePath -Force -ErrorAction Stop -WarningAction SilentlyContinue
+            Import-Module -Name $modulePath -Force -ErrorAction Stop -WarningAction SilentlyContinue -Verbose:$false
         }
         catch {
             Write-Warning "Failed to import module $module : $_"
@@ -357,4 +356,4 @@ Export-ModuleMember -Function Get-WindowsModuleInfo, Test-WindowsModules, Get-Wi
 
 # Export all functions from imported modules
 $allCommands = Get-Command -Module WindowsUtils, PowerManagement, RegistryUtils, WindowsUI, CISFramework, CISRemediation -ErrorAction SilentlyContinue
-Export-ModuleMember -Function $allCommands.Name -ErrorAction SilentlyContinue
+Export-ModuleMember -Function $allCommands.Name -ErrorAction SilentlyContinue -Verbose:$false

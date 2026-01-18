@@ -100,9 +100,9 @@ function Write-SectionHeader {
     $rightBorder = $borderChar * ($Width - $sidePadding - $titleLength - 2)
     
     Write-Host ""
-    Write-Host $borderChar * $Width -ForegroundColor Cyan
+    Write-Host ($borderChar * $Width) -ForegroundColor Cyan
     Write-Host "$leftBorder$padding$Title$padding$rightBorder" -ForegroundColor Cyan
-    Write-Host $borderChar * $Width -ForegroundColor Cyan
+    Write-Host ($borderChar * $Width) -ForegroundColor Cyan
     Write-Host ""
 }
 
