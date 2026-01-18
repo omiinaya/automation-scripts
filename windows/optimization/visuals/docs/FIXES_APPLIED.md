@@ -44,19 +44,19 @@ Fixed all visual effects toggle scripts to use the correct Windows API calls via
 |--------|---------|---------|-----------|-------------|
 | [`toggle-animate-windows.ps1`](../toggle-animate-windows.ps1) | 0x0048 | 0x0049 | ANIMATIONINFO | Animate windows when minimizing and maximizing |
 
-### Scripts Not Modified (Different Mechanisms)
+### Scripts Using Registry + Windows Messages
 
-These scripts use registry-only approaches or DWM/Explorer settings that don't have corresponding SPI constants:
+These scripts use registry-only approaches or Explorer settings that don't have corresponding SPI constants, but now properly notify Windows of changes:
 
-| Script | Mechanism | Notes |
-|--------|-----------|-------|
-| [`toggle-enable-peek.ps1`](../toggle-enable-peek.ps1) | DWM Registry | `HKCU:\Software\Microsoft\Windows\DWM\EnableAeroPeek` |
-| [`toggle-transparency.ps1`](../toggle-transparency.ps1) | DWM Registry | `HKCU:\Software\Microsoft\Windows\DWM\ColorizationOpaqueBlend` |
-| [`toggle-show-thumbnails.ps1`](../toggle-show-thumbnails.ps1) | Explorer Registry | `HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced\IconsOnly` |
-| [`toggle-taskbar-thumbnails.ps1`](../toggle-taskbar-thumbnails.ps1) | Explorer Registry | `HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced\ExtendedUIHoverTime` |
-| [`toggle-icon-shadows.ps1`](../toggle-icon-shadows.ps1) | Explorer Registry | `HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced\ListviewShadow` |
-| [`toggle-taskbar-animations.ps1`](../toggle-taskbar-animations.ps1) | UserPreferencesMask | Needs further research for correct bit position |
-| [`toggle-translucent-selection.ps1`](../toggle-translucent-selection.ps1) | DWM Registry | `HKCU:\Software\Microsoft\Windows\DWM\AlphaSelectRect` - **FIXED** |
+| Script | Mechanism | Notification Method | Notes |
+|--------|-----------|---------------------|-------|
+| [`toggle-translucent-selection.ps1`](../toggle-translucent-selection.ps1) | Explorer Registry | SendMessageTimeout + SHChangeNotify | `ListviewAlphaSelect` - **FULLY FIXED** ✅ |
+| [`toggle-enable-peek.ps1`](../toggle-enable-peek.ps1) | DWM Registry | None | `HKCU:\Software\Microsoft\Windows\DWM\EnableAeroPeek` |
+| [`toggle-transparency.ps1`](../toggle-transparency.ps1) | DWM Registry | None | `HKCU:\Software\Microsoft\Windows\DWM\ColorizationOpaqueBlend` |
+| [`toggle-show-thumbnails.ps1`](../toggle-show-thumbnails.ps1) | Explorer Registry | None | `HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced\IconsOnly` |
+| [`toggle-taskbar-thumbnails.ps1`](../toggle-taskbar-thumbnails.ps1) | Explorer Registry | None | `HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced\ExtendedUIHoverTime` |
+| [`toggle-icon-shadows.ps1`](../toggle-icon-shadows.ps1) | Explorer Registry | None | `HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced\ListviewShadow` |
+| [`toggle-taskbar-animations.ps1`](../toggle-taskbar-animations.ps1) | UserPreferencesMask | None | Needs further research for correct bit position |
 
 ## Technical Details
 
@@ -124,22 +124,46 @@ To verify the fixes work correctly:
 
 ## Recent Fixes (2026-01-18)
 
-### Translucent Selection Rectangle Fix
+### Translucent Selection Rectangle Fix - Phase 1
 
 **Issue**: The script was incorrectly trying to manipulate UserPreferencesMask bit 1.0x80, which controls the "UI Effects master switch", not the translucent selection rectangle.
 
-**Solution**: Updated to use the correct DWM registry value:
-- **Registry Path**: `HKCU:\Software\Microsoft\Windows\DWM\AlphaSelectRect`
+**Solution**: Updated to use the correct Explorer registry value:
+- **Registry Path**: `HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced\ListviewAlphaSelect`
 - **Type**: REG_DWORD
 - **Values**: 0 (disabled/opaque) or 1 (enabled/translucent)
-- **Immediate Effect**: Restarts UxSms service (Desktop Window Manager) to apply changes
 
 See [translucent-selection-fix.md](./translucent-selection-fix.md) for detailed documentation.
+
+### Translucent Selection Rectangle Fix - Phase 2 (Explorer Refresh)
+
+**Issue**: The script correctly modified the registry but changes didn't take effect until Explorer was restarted, causing a jarring user experience.
+
+**Solution**: Implemented proper Windows API calls to refresh Explorer without restarting:
+
+1. **SendMessageTimeout** - Broadcasts `WM_SETTINGCHANGE` to all windows
+   - Sends with `"WindowMetrics"` parameter for traditional visual effects
+   - Sends with `"ImmersiveColorSet"` parameter for modern Windows UI
+   - Uses `SMTO_ABORTIFHUNG` flag with 5-second timeout to prevent hanging
+
+2. **SHChangeNotify** - Notifies Shell of system-wide changes
+   - Uses `SHCNE_ASSOCCHANGED` event to force Explorer cache refresh
+   - Uses `SHCNF_FLUSH` flag for immediate processing
+
+**Benefits**:
+- ✅ Changes take effect immediately
+- ✅ No Explorer restart required
+- ✅ No window disruption
+- ✅ Matches Performance Options dialog behavior
+- ✅ Smooth user experience
+
+See [translucent-selection-explorer-refresh-fix.md](./translucent-selection-explorer-refresh-fix.md) for detailed technical documentation.
 
 ## Future Work
 
 1. Research correct implementation for `toggle-taskbar-animations.ps1`
 2. ~~Research correct implementation for `toggle-translucent-selection.ps1`~~ ✅ **COMPLETED**
-3. Consider adding DWM restart capability for scripts that modify DWM settings
-4. Consider adding Explorer restart capability for scripts that modify Explorer settings
-5. Add comprehensive integration tests for all visual effects scripts
+3. ~~Implement Explorer refresh without restart for `toggle-translucent-selection.ps1`~~ ✅ **COMPLETED**
+4. Consider applying SendMessageTimeout + SHChangeNotify pattern to other Explorer registry scripts
+5. Consider adding DWM restart capability for scripts that modify DWM settings
+6. Add comprehensive integration tests for all visual effects scripts

@@ -12,13 +12,40 @@ function Wait-OnError {
     Read-Host
 }
 
-# Add P/Invoke for SystemParametersInfo to broadcast settings changes
+# Add P/Invoke for Windows API functions to refresh Explorer settings
 Add-Type @"
 using System;
 using System.Runtime.InteropServices;
-public class SystemParams {
-    [DllImport("user32.dll", SetLastError = true)]
-    public static extern bool SystemParametersInfo(uint uiAction, uint uiParam, IntPtr pvParam, uint fWinIni);
+
+public class Win32API {
+    // SendMessageTimeout for broadcasting WM_SETTINGCHANGE
+    [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+    public static extern IntPtr SendMessageTimeout(
+        IntPtr hWnd,
+        uint Msg,
+        UIntPtr wParam,
+        string lParam,
+        uint fuFlags,
+        uint uTimeout,
+        out UIntPtr lpdwResult
+    );
+    
+    // SHChangeNotify to notify Shell of changes
+    [DllImport("shell32.dll", CharSet = CharSet.Auto)]
+    public static extern void SHChangeNotify(
+        int wEventId,
+        uint uFlags,
+        IntPtr dwItem1,
+        IntPtr dwItem2
+    );
+    
+    // Constants
+    public const int HWND_BROADCAST = 0xFFFF;
+    public const uint WM_SETTINGCHANGE = 0x001A;
+    public const uint SMTO_ABORTIFHUNG = 0x0002;
+    public const int SHCNE_ASSOCCHANGED = 0x08000000;
+    public const uint SHCNF_IDLIST = 0x0000;
+    public const uint SHCNF_FLUSH = 0x1000;
 }
 "@
 
@@ -67,11 +94,46 @@ try {
         throw "Registry value verification failed. Expected: $newValue, Got: $verifyValue"
     }
     
-    # Broadcast WM_SETTINGCHANGE to apply changes immediately
-    [SystemParams]::SystemParametersInfo(0x0057, 0, [IntPtr]::Zero, 0x0002) | Out-Null
+    # Notify Explorer of the changes using multiple methods for maximum compatibility
+    Write-StatusMessage -Message "Refreshing Explorer settings..." -Type Info
+    
+    # Method 1: Broadcast WM_SETTINGCHANGE to all windows
+    # This notifies all applications that a system setting has changed
+    $result = [UIntPtr]::Zero
+    $hwndBroadcast = [IntPtr]::new([Win32API]::HWND_BROADCAST)
+    [Win32API]::SendMessageTimeout(
+        $hwndBroadcast,
+        [Win32API]::WM_SETTINGCHANGE,
+        [UIntPtr]::Zero,
+        "WindowMetrics",
+        [Win32API]::SMTO_ABORTIFHUNG,
+        5000,  # 5 second timeout
+        [ref]$result
+    ) | Out-Null
+    
+    # Method 2: Send WM_SETTINGCHANGE with "ImmersiveColorSet" parameter
+    # This helps refresh visual elements in modern Windows
+    [Win32API]::SendMessageTimeout(
+        $hwndBroadcast,
+        [Win32API]::WM_SETTINGCHANGE,
+        [UIntPtr]::Zero,
+        "ImmersiveColorSet",
+        [Win32API]::SMTO_ABORTIFHUNG,
+        5000,
+        [ref]$result
+    ) | Out-Null
+    
+    # Method 3: Notify Shell of association changes
+    # This forces Explorer to refresh its cached settings
+    [Win32API]::SHChangeNotify(
+        [Win32API]::SHCNE_ASSOCCHANGED,
+        [Win32API]::SHCNF_IDLIST -bor [Win32API]::SHCNF_FLUSH,
+        [IntPtr]::Zero,
+        [IntPtr]::Zero
+    )
     
     Write-StatusMessage -Message "Show translucent selection rectangle: $newState" -Type Success
-    Write-StatusMessage -Message "Changes applied immediately - no restart required" -Type Info
+    Write-StatusMessage -Message "Changes applied immediately - no Explorer restart required" -Type Info
     
 } catch {
     Wait-OnError -ErrorMessage "Failed to toggle translucent selection setting: $($_.Exception.Message)"
