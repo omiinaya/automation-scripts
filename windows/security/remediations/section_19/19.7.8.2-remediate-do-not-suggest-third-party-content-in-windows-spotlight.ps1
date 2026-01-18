@@ -12,7 +12,7 @@
 #>
 
 # Import required modules
-Import-Module "$PSScriptRoot\..\..\modules\CISRemediation.psm1" -Force -WarningAction SilentlyContinue
+Import-Module "$PSScriptRoot\..\..\..\modules\CISRemediation.psm1" -Force -WarningAction SilentlyContinue
 
 # Get CIS recommendation
 $cisId = "19.7.8.2"

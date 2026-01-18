@@ -11,7 +11,7 @@
 #>
 
 # Import the module to test
-Import-Module "$PSScriptRoot\..\..\windows\modules\CISRemediation.psm1" -Force
+Import-Module "$PSScriptRoot\..\..\modules\CISRemediation.psm1" -Force
 
 Describe "CISRemediation Module Tests" {
     Context "New-CISRemediationResult Function" {

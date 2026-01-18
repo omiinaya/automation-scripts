@@ -14,7 +14,7 @@
 #>
 
 # Import required modules
-Import-Module "$PSScriptRoot\..\..\modules\CISFramework.psm1" -Force
+Import-Module "$PSScriptRoot\..\..\..\modules\CISFramework.psm1" -Force
 
 # Perform the audit
 $auditResult = Invoke-CISAudit -CIS_ID "2.2.28" -AuditType "GroupPolicy" -RegistryPath "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" -RegistryValueName "SeBatchLogonRight" -VerboseOutput

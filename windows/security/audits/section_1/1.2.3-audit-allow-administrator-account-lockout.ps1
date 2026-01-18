@@ -8,7 +8,7 @@ param()
 $VerboseOutput = $PSCmdlet.MyInvocation.BoundParameters.ContainsKey('Verbose')
 
 # Import the required modules using ModuleIndex
-$modulePath = Join-Path $PSScriptRoot "..\..\..\modules\ModuleIndex.psm1"
+$modulePath = Join-Path $PSScriptRoot "..\..\..\..\modules\ModuleIndex.psm1"
 Import-Module $modulePath -Force -WarningAction SilentlyContinue
 
 # Check admin rights and handle elevation

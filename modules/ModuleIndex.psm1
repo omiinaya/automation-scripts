@@ -10,11 +10,11 @@
     Prerequisite   : PowerShell 5.1 or later
     
 .EXAMPLE
-    Import-Module .\windows\modules\ModuleIndex.psm1
+    Import-Module .\modules\ModuleIndex.psm1
     Get-Command -Module ModuleIndex
     
 .EXAMPLE
-    Import-Module .\windows\modules\ModuleIndex.psm1
+    Import-Module .\modules\ModuleIndex.psm1
     Test-AdminRights
     Get-PowerSchemes
     Write-StatusMessage -Message "System ready" -Type Success

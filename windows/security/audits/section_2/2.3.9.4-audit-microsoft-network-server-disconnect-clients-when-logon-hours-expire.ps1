@@ -15,8 +15,8 @@
 #>
 
 # Import required modules
-Import-Module "$PSScriptRoot\..\..\modules\CISFramework.psm1" -Force -WarningAction SilentlyContinue
-Import-Module "$PSScriptRoot\..\..\modules\RegistryUtils.psm1" -Force -WarningAction SilentlyContinue
+Import-Module "$PSScriptRoot\..\..\..\modules\CISFramework.psm1" -Force -WarningAction SilentlyContinue
+Import-Module "$PSScriptRoot\..\..\..\modules\RegistryUtils.psm1" -Force -WarningAction SilentlyContinue
 
 # Function to audit Microsoft network server disconnect clients when logon hours expire
 function Audit-MicrosoftNetworkServerDisconnectClientsWhenLogonHoursExpire {

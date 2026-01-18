@@ -14,7 +14,7 @@
 #> 
 
 # Import required modules
-Import-Module "$PSScriptRoot\..\..\modules\CISFramework.psm1" -Force -WarningAction SilentlyContinue
+Import-Module "$PSScriptRoot\..\..\..\modules\CISFramework.psm1" -Force -WarningAction SilentlyContinue
 
 # CIS ID for this audit
 $CIS_ID = "17.7.3"

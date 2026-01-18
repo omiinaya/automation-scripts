@@ -14,7 +14,7 @@
 #>
 
 # Import required modules
-Import-Module "$PSScriptRoot\..\..\modules\CISRemediation.psm1" -Force
+Import-Module "$PSScriptRoot\..\..\..\modules\CISRemediation.psm1" -Force
 
 # Create security policy template content
 $templateContent = @"

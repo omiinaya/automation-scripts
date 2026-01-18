@@ -88,8 +88,8 @@ if ($CodeCoverage) {
     $pesterConfig.CodeCoverage = @{
         Enabled = $true
         Include = @(
-            "..\windows\modules\*.psm1",
-            "..\windows\modules\*.ps1"
+            "..\modules\*.psm1",
+            "..\modules\*.ps1"
         )
         OutputPath = "$resultsPath\coverage.xml"
         OutputFormat = "CoverageGutters"

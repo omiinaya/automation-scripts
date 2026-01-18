@@ -11,7 +11,7 @@
 #>
 
 # Import the module to test
-Import-Module "$PSScriptRoot\..\..\windows\modules\ModuleIndex.psm1" -Force
+Import-Module "$PSScriptRoot\..\..\modules\ModuleIndex.psm1" -Force
 
 Describe "ModuleIndex Module Tests" {
     Context "Get-WindowsModuleInfo Function" {

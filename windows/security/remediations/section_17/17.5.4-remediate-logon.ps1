@@ -14,7 +14,7 @@
 #> 
 
 # Import required modules
-Import-Module "$PSScriptRoot\..\..\modules\CISRemediation.psm1" -Force -WarningAction SilentlyContinue
+Import-Module "$PSScriptRoot\..\..\..\modules\CISRemediation.psm1" -Force -WarningAction SilentlyContinue
 
 # CIS ID for this remediation
 $CIS_ID = "17.5.4"

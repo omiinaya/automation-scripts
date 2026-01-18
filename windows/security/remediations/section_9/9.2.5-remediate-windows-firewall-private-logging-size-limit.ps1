@@ -12,7 +12,7 @@
 #>
 
 # Import required modules
-Import-Module "$PSScriptRoot\..\..\modules\CISRemediation.psm1" -Force
+Import-Module "$PSScriptRoot\..\..\..\modules\CISRemediation.psm1" -Force
 
 # Perform CIS remediation
 $remediationResult = Invoke-CISRemediation -CIS_ID "9.2.5" -RemediationType "Registry" -RegistryPath "HKLM:\SOFTWARE\Policies\Microsoft\WindowsFirewall\PrivateProfile\Logging" -RegistryValueName "LogFileSize" -RegistryValueData 16384 -RegistryValueType "DWord" -Section "9" -VerboseOutput

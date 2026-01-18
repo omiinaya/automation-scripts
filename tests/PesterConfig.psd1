@@ -39,14 +39,14 @@
         
         # Files to include in coverage analysis
         Include = @(
-            'windows/modules/*.psm1',
-            'windows/modules/*.ps1'
+            'modules/*.psm1',
+            'modules/*.ps1'
         )
         
         # Files to exclude from coverage analysis
         Exclude = @(
-            'windows/modules/Test-*.ps1',
-            'windows/modules/Example-*.ps1'
+            'modules/Test-*.ps1',
+            'modules/Example-*.ps1'
         )
         
         # Coverage output settings

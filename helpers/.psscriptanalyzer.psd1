@@ -225,14 +225,14 @@
         Include = @(
             'windows/security/audits/*.ps1',
             'windows/security/remediations/*.ps1',
-            'windows/modules/*.psm1',
+            'modules/*.psm1',
             'windows/*.ps1'
         )
         
         # Exclude paths
         Exclude = @(
-            'windows/modules/Test-*.ps1',
-            'windows/modules/Example-*.ps1',
+            'modules/Test-*.ps1',
+            'modules/Example-*.ps1',
             'windows/security/remediations/secedit.*'
         )
     }

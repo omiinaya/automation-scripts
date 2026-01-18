@@ -11,7 +11,7 @@
 #>
 
 # Import the module to test
-Import-Module "$PSScriptRoot\..\..\windows\modules\CISFramework.psm1" -Force
+Import-Module "$PSScriptRoot\..\..\modules\CISFramework.psm1" -Force
 
 Describe "CISFramework Module Tests" {
     Context "New-CISResultObject Function" {
