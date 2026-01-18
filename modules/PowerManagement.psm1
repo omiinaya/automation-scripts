@@ -147,12 +147,18 @@ function Get-Windows11PowerMode {
                 $result.CurrentModeName = "Unknown"
             }
         } else {
-            # On AC power
+            # On AC power - prioritize AC mode
             $acModeKey = [string]$result.ACMode
             if ($result.ACModes.ContainsKey($acModeKey)) {
                 $result.CurrentModeName = $result.ACModes[$acModeKey]
             } else {
-                $result.CurrentModeName = "Unknown"
+                # Fallback to DC mode if AC mode is not set
+                $dcModeKey = [string]$result.DCMode
+                if ($result.ACModes.ContainsKey($dcModeKey)) {
+                    $result.CurrentModeName = $result.ACModes[$dcModeKey]
+                } else {
+                    $result.CurrentModeName = "Unknown"
+                }
             }
         }
         
@@ -218,10 +224,23 @@ function Set-Windows11PowerMode {
         
         Write-Host "Power mode set to: $($modeNames[$Mode])" -ForegroundColor Green
         
-        # Apply changes
+        # Force Windows to recognize the registry changes
+        # This ensures the Settings UI reflects the changes
         $activeScheme = Get-ActivePowerScheme
         if ($activeScheme) {
-            Set-PowerScheme -SchemeGUID $activeScheme.GUID
+            # Temporarily switch to another scheme and back to refresh
+            $schemes = Get-PowerSchemes
+            $alternateScheme = $schemes | Where-Object { -not $_.Active } | Select-Object -First 1
+            
+            if ($alternateScheme) {
+                # Switch to alternate scheme briefly
+                Set-PowerScheme -SchemeGUID $alternateScheme.GUID
+                # Switch back to original scheme
+                Set-PowerScheme -SchemeGUID $activeScheme.GUID
+            } else {
+                # Just reapply the current scheme
+                Set-PowerScheme -SchemeGUID $activeScheme.GUID
+            }
         }
         
     } catch {

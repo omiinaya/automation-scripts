@@ -43,8 +43,16 @@ try {
         0
     }
     
-    # Set the new power mode
-    Set-Windows11PowerMode -Mode $newModeValue
+    # Set the new power mode with proper AC power focus
+    Set-Windows11PowerMode -Mode $newModeValue -ApplyTo "AC"
+    
+    # Force registry changes to take effect by refreshing power settings
+    # This ensures Windows Settings UI reflects the changes
+    $activeScheme = Get-ActivePowerScheme
+    if ($activeScheme) {
+        # Re-apply the active power scheme to trigger registry refresh
+        Set-PowerScheme -SchemeGUID $activeScheme.GUID
+    }
     
     # Get updated power mode to confirm change
     $updatedPowerMode = Get-Windows11PowerMode
