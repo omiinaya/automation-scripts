@@ -668,4 +668,4 @@ function Convert-HexStringToInt {
 }
 
 # Export the module members
-Export-ModuleMember -Function Get-PowerSchemes, Get-ActivePowerScheme, Set-PowerScheme, Get-PowerSchemeByName, Get-PowerSetting, Set-PowerSetting, Get-PowerSettingGUID, Get-PowerSettings, Get-BatteryInfo, Copy-PowerScheme, Remove-PowerScheme, Convert-HexStringToInt, Get-Windows11PowerMode, Set-Windows11PowerMode, Switch-Windows11PowerMode
+Export-ModuleMember -Function Get-PowerSchemes, Get-ActivePowerScheme, Set-PowerScheme, Get-PowerSchemeByName, Get-PowerSetting, Set-PowerSetting, Get-PowerSettingGUID, Get-PowerSettings, Get-BatteryInfo, Copy-PowerScheme, Remove-PowerScheme, Convert-HexStringToInt, Get-Windows11PowerMode, Set-Windows11PowerMode, Switch-Windows11PowerMode -Verbose:$false

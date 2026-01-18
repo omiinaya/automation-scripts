@@ -436,4 +436,4 @@ function Wait-OnError {
 }
 
 # Export the module members
-Export-ModuleMember -Function Write-StatusMessage, Write-SectionHeader, Write-ProgressBar, Show-Menu, Show-Confirmation, Show-Table, Show-List, Show-Pause, Clear-ScreenWithHeader, Show-SystemBanner, Wait-OnError
+Export-ModuleMember -Function Write-StatusMessage, Write-SectionHeader, Write-ProgressBar, Show-Menu, Show-Confirmation, Show-Table, Show-List, Show-Pause, Clear-ScreenWithHeader, Show-SystemBanner, Wait-OnError -Verbose:$false

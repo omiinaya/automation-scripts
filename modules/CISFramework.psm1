@@ -11,10 +11,19 @@
     Dependencies   : WindowsUtils, RegistryUtils, WindowsUI modules
 #>
 
-# Import required modules
-Import-Module "$PSScriptRoot\WindowsUtils.psm1" -Force -WarningAction SilentlyContinue
-Import-Module "$PSScriptRoot\RegistryUtils.psm1" -Force -WarningAction SilentlyContinue
-Import-Module "$PSScriptRoot\WindowsUI.psm1" -Force -WarningAction SilentlyContinue
+# Import required modules with verbose output suppression
+$originalVerbosePreference = $VerbosePreference
+$VerbosePreference = 'SilentlyContinue'
+
+Import-Module "$PSScriptRoot\WindowsUtils.psm1" -Force -WarningAction SilentlyContinue -Verbose:$false
+Import-Module "$PSScriptRoot\RegistryUtils.psm1" -Force -WarningAction SilentlyContinue -Verbose:$false
+Import-Module "$PSScriptRoot\WindowsUI.psm1" -Force -WarningAction SilentlyContinue -Verbose:$false
+
+# Restore original verbose preference
+$VerbosePreference = $originalVerbosePreference
+
+# Set module-level verbose preference to ensure all internal verbose messages are suppressed
+$script:VerbosePreference = 'SilentlyContinue'
 
 # Function to create standardized CIS audit result object
 function New-CISResultObject {
@@ -130,7 +139,8 @@ function Get-CISRecommendation {
             # Try to find JSON file with various patterns
             $patterns = @(
                 "cis_section_$($CIS_ID.Replace('.','_')).json",
-                "cis_section_$($CIS_ID.Split('.')[0])*.json"
+                "cis_section_$($CIS_ID.Split('.')[0])*.json",
+                "cis_section_$($CIS_ID.Split('.')[0])_$($CIS_ID.Split('.')[1])*.json"
             )
             
             foreach ($pattern in $patterns) {
@@ -165,6 +175,10 @@ function Get-CISRecommendation {
                 "1.2.2" = @{Title="Account lockout threshold"; RecommendedValue="5 or fewer invalid logon attempt(s), but not 0"}
                 "1.2.3" = @{Title="Allow administrator account lockout"; RecommendedValue="Enabled"}
                 "1.2.4" = @{Title="Reset account lockout counter after"; RecommendedValue="15 or more minute(s)"}
+                "2.2.1" = @{Title="Access Credential Manager as a trusted caller"; RecommendedValue="No One"}
+                "2.2.2" = @{Title="Access this computer from the network"; RecommendedValue="Administrators, Remote Desktop Users"}
+                "2.2.3" = @{Title="Act as part of the operating system"; RecommendedValue="No One"}
+                "5.4" = @{Title="Downloaded Maps Manager (MapsBroker)"; RecommendedValue="Disabled"}
                 # Add more CIS IDs as needed
             }
             
@@ -183,9 +197,23 @@ function Get-CISRecommendation {
                     page_number = 0
                 }
             } else {
+                # Create a meaningful title based on CIS_ID pattern
+                $title = switch -Wildcard ($CIS_ID) {
+                    "1.1.*" { "Password Policy Settings" }
+                    "1.2.*" { "Account Lockout Policy Settings" }
+                    "2.2.*" { "User Rights Assignment Settings" }
+                    "2.3.*" { "Security Options Settings" }
+                    "5.*" { "Service Configuration Settings" }
+                    "9.*" { "Windows Firewall Settings" }
+                    "17.*" { "Audit Policy Settings" }
+                    "18.*" { "Administrative Templates Settings" }
+                    "19.*" { "Security Settings" }
+                    default { "CIS Security Setting" }
+                }
+                
                 return [PSCustomObject]@{
                     cis_id = $CIS_ID
-                    title = "CIS Benchmark $CIS_ID"
+                    title = "$title - $CIS_ID"
                     profile = "L1"
                     description = "CIS benchmark recommendation"
                     rationale = "Security compliance requirement"
@@ -290,6 +318,25 @@ function Test-CISCompliance {
         $currentValueToCompare = $CurrentValue
         $expectedValueToCompare = $ExpectedValue
         
+        # First check for service status patterns
+        if ($CurrentValue -is [string] -and $expectedValueToCompare -is [string]) {
+            # Handle service status comparisons
+            if ($CurrentValue -eq "Running" -and $expectedValueToCompare -eq "Disabled") {
+                return $false
+            } elseif ($CurrentValue -eq "Stopped" -and $expectedValueToCompare -eq "Disabled") {
+                return $true
+            } elseif ($CurrentValue -eq "Running" -and $expectedValueToCompare -eq "Enabled") {
+                return $false
+            } elseif ($CurrentValue -eq "Stopped" -and $expectedValueToCompare -eq "Enabled") {
+                return $false
+            }
+            # Handle registry key not found scenarios
+            if ($CurrentValue -eq "Key not found" -or $CurrentValue -eq "Policy not configured" -or $CurrentValue -eq "Service not found") {
+                # These are error conditions, not compliance failures
+                return $false
+            }
+        }
+        
         # Extract numeric value from recommendation strings like "1 or more day(s)"
         if ($ExpectedValue -is [string] -and $ExpectedValue -match "(\d+)\s+or\s+more") {
             $expectedValueToCompare = [int]$matches[1]
@@ -308,8 +355,39 @@ function Test-CISCompliance {
             $expectedValueToCompare = [int]$matches[1]
         }
         
-        # Try to convert both values to the same type for comparison
-        # Only attempt numeric conversion if both values are numeric strings
+        # Improved type conversion logic
+        # Handle string-to-string comparisons first
+        if ($CurrentValue -is [string] -and $expectedValueToCompare -is [string]) {
+            # Check if both strings can be parsed as numbers
+            $currentValueNumeric = $null
+            $expectedValueNumeric = $null
+            $canParseCurrent = [double]::TryParse($CurrentValue, [ref]$currentValueNumeric)
+            $canParseExpected = [double]::TryParse($expectedValueToCompare, [ref]$expectedValueNumeric)
+            
+            if ($canParseCurrent -and $canParseExpected) {
+                # Both are numeric strings - convert to numbers
+                $currentValueToCompare = $currentValueNumeric
+                $expectedValueToCompare = $expectedValueNumeric
+            } else {
+                # Both are non-numeric strings - compare as-is
+                # Handle common CIS string patterns
+                if ($CurrentValue -eq "Enabled" -and $expectedValueToCompare -eq "Enabled") {
+                    $result = $true
+                } elseif ($CurrentValue -eq "Disabled" -and $expectedValueToCompare -eq "Disabled") {
+                    $result = $true
+                } elseif ($CurrentValue -eq "Enabled" -and $expectedValueToCompare -eq "Disabled") {
+                    $result = $false
+                } elseif ($CurrentValue -eq "Disabled" -and $expectedValueToCompare -eq "Enabled") {
+                    $result = $false
+                } else {
+                    # Generic string comparison
+                    $result = $CurrentValue -eq $expectedValueToCompare
+                }
+                return $result
+            }
+        }
+        
+        # Handle mixed types
         if ($CurrentValue -is [int] -and $expectedValueToCompare -is [string]) {
             # Try to convert expected value to integer
             if ([int]::TryParse($expectedValueToCompare, [ref]$expectedValueToCompare)) {
@@ -319,14 +397,6 @@ function Test-CISCompliance {
             # Try to convert current value to integer
             if ([int]::TryParse($CurrentValue, [ref]$currentValueToCompare)) {
                 $currentValueToCompare = [int]$CurrentValue
-            }
-        } elseif ($CurrentValue -is [string] -and $expectedValueToCompare -is [string]) {
-            # For string-to-string comparison, handle non-numeric values gracefully
-            # Don't attempt numeric conversion for non-numeric strings like "*S-1-5-32-544" or "No One"
-            if (-not [int]::TryParse($CurrentValue, [ref]$null) -and -not [int]::TryParse($expectedValueToCompare, [ref]$null)) {
-                # Both are non-numeric strings, compare as-is
-                $currentValueToCompare = $CurrentValue
-                $expectedValueToCompare = $expectedValueToCompare
             }
         }
         
@@ -498,8 +568,15 @@ function Invoke-CISAudit {
         # Handle different recommendation patterns
         # For user rights assignment audits, use string comparison
         if ($CIS_ID -like "2.2.*" -and $AuditType -eq "Custom") {
-            # User rights assignment - compare strings directly
-            $expectedValue = "Administrators"
+            # User rights assignment - extract actual recommendation from title
+            if ($recommendation.title -match "Ensure.*is set to '(.*?)'") {
+                $expectedValue = $matches[1]
+            } elseif ($recommendation.title -match "'(.*?)'") {
+                $expectedValue = $matches[1]
+            } else {
+                # Fallback to default for user rights assignments
+                $expectedValue = "Administrators"
+            }
             $comparisonOperator = "eq"
         } elseif ($recommendationText -match "(\d+) or more") {
             $expectedValue = [int]$matches[1]
@@ -513,6 +590,26 @@ function Invoke-CISAudit {
         } elseif ($recommendationText -match "Disabled") {
             $expectedValue = "Disabled"
             $comparisonOperator = "eq"
+        } elseif ($AuditType -eq "Service" -and $recommendationText -match "Disabled") {
+            # Special handling for service audits - Disabled means service should be Stopped
+            $expectedValue = "Disabled"
+            $comparisonOperator = "eq"
+            # Map service status to Disabled/Enabled for comparison
+            if ($currentValue -eq "Stopped") {
+                $currentValue = "Disabled"
+            } elseif ($currentValue -eq "Running") {
+                $currentValue = "Enabled"
+            }
+        } elseif ($AuditType -eq "Service" -and $recommendationText -match "Enabled") {
+            # Special handling for service audits - Enabled means service should be Running
+            $expectedValue = "Enabled"
+            $comparisonOperator = "eq"
+            # Map service status to Disabled/Enabled for comparison
+            if ($currentValue -eq "Running") {
+                $currentValue = "Enabled"
+            } elseif ($currentValue -eq "Stopped") {
+                $currentValue = "Disabled"
+            }
         } elseif ($recommendationText -match "(\d+)") {
             # Try to extract numeric value
             $expectedValue = [int]$matches[1]
@@ -680,4 +777,4 @@ function Get-CISAuditSummary {
 }
 
 # Export the module members
-Export-ModuleMember -Function New-CISResultObject, Get-CISRecommendation, Test-CISCompliance, Invoke-CISAudit, Test-DomainMember, Export-CISAuditResults, Get-CISAuditSummary
+Export-ModuleMember -Function New-CISResultObject, Get-CISRecommendation, Test-CISCompliance, Invoke-CISAudit, Test-DomainMember, Export-CISAuditResults, Get-CISAuditSummary -Verbose:$false

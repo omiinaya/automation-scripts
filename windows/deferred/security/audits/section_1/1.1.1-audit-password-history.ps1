@@ -78,8 +78,8 @@ try {
         }
     }
     
-    # Return the compliance status
-    $auditResult.IsCompliant
+    # Return the structured audit result
+    return $auditResult
 } catch {
     if ($VerboseOutput) {
         Wait-OnError -ErrorMessage "Failed to perform password policy audit: $($_.Exception.Message)"

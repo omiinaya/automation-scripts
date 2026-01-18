@@ -7,9 +7,14 @@ param()
 
 $VerboseOutput = $PSCmdlet.MyInvocation.BoundParameters.ContainsKey('Verbose')
 
-# Import the required modules using ModuleIndex
+# Import the required modules using ModuleIndex with verbose suppression
 $modulePath = Join-Path $PSScriptRoot "..\..\..\..\modules\ModuleIndex.psm1"
-Import-Module $modulePath -Force -WarningAction SilentlyContinue -Verbose:$false
+
+# Suppress verbose output during module import
+$originalVerbosePreference = $VerbosePreference
+$VerbosePreference = 'SilentlyContinue'
+Import-Module $modulePath -Force -WarningAction SilentlyContinue
+$VerbosePreference = $originalVerbosePreference
 
 # Check admin rights and handle elevation
 if (-not (Test-AdminRights)) {
@@ -73,12 +78,35 @@ try {
         Write-Host "Details: Access Credential Manager as a trusted caller user right assignment audit" -ForegroundColor Gray
     }
     
-    # Return the compliance status
-    $isCompliant
+    # Output the compliance status as a structured object
+    $result = [PSCustomObject]@{
+        CIS_ID = "2.2.1"
+        Title = "Access Credential Manager as a trusted caller"
+        CurrentValue = $currentValue
+        RecommendedValue = $recommendedValue
+        ComplianceStatus = $complianceStatus
+        IsCompliant = $isCompliant
+        Source = $source
+        Timestamp = Get-Date
+    }
+    
+    # Return the structured result
+    $result
 } catch {
     if ($VerboseOutput) {
         Write-Error "Failed to perform user rights assignment audit: $($_.Exception.Message)"
     } else {
-        $false
+        # Return a structured error result
+        [PSCustomObject]@{
+            CIS_ID = "2.2.1"
+            Title = "Access Credential Manager as a trusted caller"
+            CurrentValue = "Error"
+            RecommendedValue = "No One"
+            ComplianceStatus = "Error"
+            IsCompliant = $false
+            Source = "Error"
+            Timestamp = Get-Date
+            Error = $_.Exception.Message
+        }
     }
 }

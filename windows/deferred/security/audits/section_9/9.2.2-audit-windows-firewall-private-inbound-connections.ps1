@@ -11,8 +11,9 @@
     Version: 4.0.0
 #>
 
-# Import required modules
-Import-Module "$PSScriptRoot\..\..\..\modules\CISFramework.psm1" -Force
+# Import required modules using ModuleIndex
+$modulePath = Join-Path $PSScriptRoot "..\..\..\..\modules\ModuleIndex.psm1"
+Import-Module $modulePath -Force -WarningAction SilentlyContinue
 
 # Perform CIS audit
 $auditResult = Invoke-CISAudit -CIS_ID "9.2.2" -AuditType "Registry" -RegistryPath "HKLM:\SOFTWARE\Policies\Microsoft\WindowsFirewall\PrivateProfile" -RegistryValueName "DefaultInboundAction" -Section "9" -VerboseOutput

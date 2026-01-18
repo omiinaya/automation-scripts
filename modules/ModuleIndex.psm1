@@ -38,7 +38,24 @@ foreach ($module in $modulesToImport) {
     
     if (Test-Path -Path $modulePath) {
         try {
-            Import-Module -Name $modulePath -Force -ErrorAction Stop -WarningAction SilentlyContinue -Verbose:$false
+            # Completely suppress verbose output during module import
+            $originalVerbosePreference = $VerbosePreference
+            $VerbosePreference = 'SilentlyContinue'
+            
+            # Use a script block with proper verbose suppression
+            $scriptBlock = {
+                param($ModulePath)
+                # Set verbose preference within the isolated scope
+                $VerbosePreference = 'SilentlyContinue'
+                $WarningPreference = 'SilentlyContinue'
+                Import-Module -Name $ModulePath -Force -ErrorAction Stop -WarningAction SilentlyContinue -Verbose:$false
+            }
+            
+            # Execute in a clean scope with suppressed output
+            $null = & $scriptBlock $modulePath
+            
+            # Restore original verbose preference
+            $VerbosePreference = $originalVerbosePreference
         }
         catch {
             Write-Warning "Failed to import module $module : $_"
@@ -348,11 +365,13 @@ function Initialize-WindowsModules {
 }
 
 # Initialize on import
-Write-Verbose "Windows Module Index loaded successfully"
-Write-Verbose "Use Initialize-WindowsModules to display welcome information"
+if ($VerbosePreference -ne 'SilentlyContinue') {
+    Write-Verbose "Windows Module Index loaded successfully"
+    Write-Verbose "Use Initialize-WindowsModules to display welcome information"
+}
 
 # Export the module members
-Export-ModuleMember -Function Get-WindowsModuleInfo, Test-WindowsModules, Get-WindowsModuleCommands, Show-WindowsModuleHelp, Initialize-WindowsModules
+Export-ModuleMember -Function Get-WindowsModuleInfo, Test-WindowsModules, Get-WindowsModuleCommands, Show-WindowsModuleHelp, Initialize-WindowsModules -Verbose:$false
 
 # Export all functions from imported modules
 $allCommands = Get-Command -Module WindowsUtils, PowerManagement, RegistryUtils, WindowsUI, CISFramework, CISRemediation -ErrorAction SilentlyContinue

@@ -24,8 +24,8 @@ try {
     # Use Invoke-CISAudit with Service audit type
     $auditResult = Invoke-CISAudit -CIS_ID "5.4" -AuditType "Service" -ServiceName "MapsBroker" -VerboseOutput:$VerboseOutput -Section "5"
     
-    # Return the compliance status
-    $auditResult.IsCompliant
+    # Return the structured audit result
+    return $auditResult
 } catch {
     if ($VerboseOutput) {
         Wait-OnError -ErrorMessage "Failed to perform service audit: $($_.Exception.Message)"

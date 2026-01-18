@@ -59,8 +59,8 @@ try {
         }
     }
     
-    # Return the compliance status
-    $auditResult.IsCompliant
+    # Return the structured audit result
+    return $auditResult
 } catch {
     if ($VerboseOutput) {
         Wait-OnError -ErrorMessage "Failed to perform user rights assignment audit: $($_.Exception.Message)"

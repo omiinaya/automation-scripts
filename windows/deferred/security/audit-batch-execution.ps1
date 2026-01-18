@@ -165,7 +165,8 @@ function Invoke-AuditScript {
         Write-Host ""
         
         # Execute the script directly to capture all output streams
-        $scriptOutput = & $scriptPath -Verbose 2>&1
+        # Suppress verbose output from module imports while preserving script functionality
+        $scriptOutput = & $scriptPath 2>&1
         
         # Capture the boolean result separately
         $scriptResult = $?

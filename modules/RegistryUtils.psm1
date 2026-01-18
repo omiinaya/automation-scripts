@@ -400,4 +400,4 @@ function Find-RegistryValue {
 }
 
 # Export the module members
-Export-ModuleMember -Function Test-RegistryKey, Test-RegistryValue, Get-RegistryValue, Set-RegistryValue, Remove-RegistryValue, Remove-RegistryKey, New-RegistryKey, Export-RegistryKey, Import-RegistryFile, Find-RegistryValue
+Export-ModuleMember -Function Test-RegistryKey, Test-RegistryValue, Get-RegistryValue, Set-RegistryValue, Remove-RegistryValue, Remove-RegistryKey, New-RegistryKey, Export-RegistryKey, Import-RegistryFile, Find-RegistryValue -Verbose:$false

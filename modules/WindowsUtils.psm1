@@ -318,4 +318,4 @@ param(
 }
 
 # Export the module members
-Export-ModuleMember -Function Test-AdminRights, Invoke-Elevation, Get-SystemInfo, Get-CurrentUserInfo, Test-ServiceExists, Restart-ServiceSafely, Wait-ProcessExit
+Export-ModuleMember -Function Test-AdminRights, Invoke-Elevation, Get-SystemInfo, Get-CurrentUserInfo, Test-ServiceExists, Restart-ServiceSafely, Wait-ProcessExit -Verbose:$false

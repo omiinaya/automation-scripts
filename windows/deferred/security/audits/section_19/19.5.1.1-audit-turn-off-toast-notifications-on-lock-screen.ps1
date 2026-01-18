@@ -11,8 +11,9 @@
     Prerequisite: PowerShell 5.1 or later
 #>
 
-# Import required modules
-Import-Module "$PSScriptRoot\..\..\..\modules\CISFramework.psm1" -Force -WarningAction SilentlyContinue
+# Import required modules using ModuleIndex
+$modulePath = Join-Path $PSScriptRoot "..\..\..\..\modules\ModuleIndex.psm1"
+Import-Module $modulePath -Force -WarningAction SilentlyContinue
 
 # Get CIS recommendation
 $cisId = "19.5.1.1"

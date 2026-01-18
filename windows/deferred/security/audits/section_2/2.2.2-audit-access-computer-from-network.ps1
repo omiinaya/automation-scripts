@@ -7,9 +7,14 @@ param()
 
 $VerboseOutput = $PSCmdlet.MyInvocation.BoundParameters.ContainsKey('Verbose')
 
-# Import the required modules using ModuleIndex
+# Import the required modules using ModuleIndex with verbose suppression
 $modulePath = Join-Path $PSScriptRoot "..\..\..\..\modules\ModuleIndex.psm1"
+
+# Suppress verbose output during module import
+$originalVerbosePreference = $VerbosePreference
+$VerbosePreference = 'SilentlyContinue'
 Import-Module $modulePath -Force -WarningAction SilentlyContinue
+$VerbosePreference = $originalVerbosePreference
 
 # Check admin rights and handle elevation
 if (-not (Test-AdminRights)) {

@@ -24,8 +24,8 @@ try {
     # Use Invoke-CISAudit with registry audit type
     $auditResult = Invoke-CISAudit -CIS_ID "18.1.1.1" -AuditType "Registry" -RegistryPath "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Personalization" -RegistryValueName "NoLockScreenCamera" -VerboseOutput:$VerboseOutput -Section "18"
     
-    # Return the compliance status
-    $auditResult.IsCompliant
+    # Return the structured audit result
+    return $auditResult
 } catch {
     if ($VerboseOutput) {
         Wait-OnError -ErrorMessage "Failed to perform lock screen camera audit: $($_.Exception.Message)"
