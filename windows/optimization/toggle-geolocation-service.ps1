@@ -37,15 +37,17 @@ try {
     
     # Determine action based on current startup type
     if ($service.StartType -eq "Disabled") {
-        # Enable the service (set to Manual)
+        # Enable the service (set to Manual) and start it
         Set-Service -Name "lfsvc" -StartupType "Manual" -ErrorAction Stop
-        Write-StatusMessage -Message "Geolocation service enabled" -Type Success
-        Write-StatusMessage -Message "Location services will be available when needed" -Type Warning
+        Start-Service -Name "lfsvc" -ErrorAction Stop
+        Write-StatusMessage -Message "Geolocation service enabled and started" -Type Success
+        Write-StatusMessage -Message "Location services are now available" -Type Warning
     } else {
-        # Disable the service
+        # Disable the service and stop it
+        Stop-Service -Name "lfsvc" -ErrorAction Stop
         Set-Service -Name "lfsvc" -StartupType "Disabled" -ErrorAction Stop
-        Write-StatusMessage -Message "Geolocation service disabled" -Type Success
-        Write-StatusMessage -Message "Location services will be disabled" -Type Warning
+        Write-StatusMessage -Message "Geolocation service stopped and disabled" -Type Success
+        Write-StatusMessage -Message "Location services are now disabled" -Type Warning
     }
     
     # Verify the new startup type

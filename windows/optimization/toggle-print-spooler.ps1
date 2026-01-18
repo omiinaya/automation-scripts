@@ -37,15 +37,17 @@ try {
     
     # Determine action based on current startup type
     if ($service.StartType -eq "Disabled") {
-        # Enable the service (set to Automatic)
+        # Enable the service (set to Automatic) and start it
         Set-Service -Name "Spooler" -StartupType "Automatic" -ErrorAction Stop
-        Write-StatusMessage -Message "Print Spooler service enabled" -Type Success
-        Write-StatusMessage -Message "Printing functionality will be available on next boot" -Type Warning
+        Start-Service -Name "Spooler" -ErrorAction Stop
+        Write-StatusMessage -Message "Print Spooler service enabled and started" -Type Success
+        Write-StatusMessage -Message "Printing functionality is now available" -Type Warning
     } else {
-        # Disable the service
+        # Disable the service and stop it
+        Stop-Service -Name "Spooler" -ErrorAction Stop
         Set-Service -Name "Spooler" -StartupType "Disabled" -ErrorAction Stop
-        Write-StatusMessage -Message "Print Spooler service disabled" -Type Success
-        Write-StatusMessage -Message "Printing functionality will be disabled on next boot" -Type Warning
+        Write-StatusMessage -Message "Print Spooler service stopped and disabled" -Type Success
+        Write-StatusMessage -Message "Printing functionality is now disabled" -Type Warning
     }
     
     # Verify the new startup type

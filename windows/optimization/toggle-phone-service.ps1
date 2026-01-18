@@ -37,15 +37,17 @@ try {
     
     # Determine action based on current startup type
     if ($service.StartType -eq "Disabled") {
-        # Enable the service (set to Manual)
+        # Enable the service (set to Manual) and start it
         Set-Service -Name "PhoneSvc" -StartupType "Manual" -ErrorAction Stop
-        Write-StatusMessage -Message "Phone service enabled" -Type Success
-        Write-StatusMessage -Message "Telephony functionality will be available when needed" -Type Warning
+        Start-Service -Name "PhoneSvc" -ErrorAction Stop
+        Write-StatusMessage -Message "Phone service enabled and started" -Type Success
+        Write-StatusMessage -Message "Telephony functionality is now available" -Type Warning
     } else {
-        # Disable the service
+        # Disable the service and stop it
+        Stop-Service -Name "PhoneSvc" -ErrorAction Stop
         Set-Service -Name "PhoneSvc" -StartupType "Disabled" -ErrorAction Stop
-        Write-StatusMessage -Message "Phone service disabled" -Type Success
-        Write-StatusMessage -Message "Telephony functionality will be disabled" -Type Warning
+        Write-StatusMessage -Message "Phone service stopped and disabled" -Type Success
+        Write-StatusMessage -Message "Telephony functionality is now disabled" -Type Warning
     }
     
     # Verify the new startup type
