@@ -13,14 +13,17 @@ function Wait-OnError {
 }
 
 # Add P/Invoke for SystemParametersInfo
-Add-Type @"
+# Check if type already exists to avoid conflicts
+if (-not ([System.Management.Automation.PSTypeName]'SystemParams').Type) {
+    Add-Type @"
 using System;
 using System.Runtime.InteropServices;
 public class SystemParams {
     [DllImport("user32.dll", SetLastError = true)]
-    public static extern bool SystemParametersInfo(uint uiAction, uint uiParam, ref bool pvParam, uint fWinIni);
+    public static extern bool SystemParametersInfo(uint uiAction, uint uiParam, IntPtr pvParam, uint fWinIni);
 }
 "@
+}
 
 # Import the Windows modules
 $modulePath = Join-Path $PSScriptRoot "..\..\..\modules\ModuleIndex.psm1"
@@ -35,18 +38,33 @@ try {
     
     # Get current setting
     $currentValue = $false
-    $result = [SystemParams]::SystemParametersInfo($SPI_GETCURSORSHADOW, 0, [ref]$currentValue, 0)
+    $currentValuePtr = [System.Runtime.InteropServices.Marshal]::AllocHGlobal([System.Runtime.InteropServices.Marshal]::SizeOf([bool]))
+    [System.Runtime.InteropServices.Marshal]::WriteInt32($currentValuePtr, [int]$currentValue)
+    
+    $result = [SystemParams]::SystemParametersInfo($SPI_GETCURSORSHADOW, 0, $currentValuePtr, 0)
     
     if (-not $result) {
+        [System.Runtime.InteropServices.Marshal]::FreeHGlobal($currentValuePtr)
         throw "Failed to get current cursor shadow setting"
     }
+    
+    # Read the boolean value back
+    $currentValue = [bool][System.Runtime.InteropServices.Marshal]::ReadInt32($currentValuePtr)
     
     # Toggle the setting
     $newValue = -not $currentValue
     $newState = if ($newValue) { "enabled" } else { "disabled" }
     
+    # Free the old pointer and allocate new one
+    [System.Runtime.InteropServices.Marshal]::FreeHGlobal($currentValuePtr)
+    $newValuePtr = [System.Runtime.InteropServices.Marshal]::AllocHGlobal([System.Runtime.InteropServices.Marshal]::SizeOf([bool]))
+    [System.Runtime.InteropServices.Marshal]::WriteInt32($newValuePtr, [int]$newValue)
+    
     # Apply the new setting
-    $result = [SystemParams]::SystemParametersInfo($SPI_SETCURSORSHADOW, 0, [ref]$newValue, $SPIF_UPDATEINIFILE -bor $SPIF_SENDCHANGE)
+    $result = [SystemParams]::SystemParametersInfo($SPI_SETCURSORSHADOW, 0, $newValuePtr, $SPIF_UPDATEINIFILE -bor $SPIF_SENDCHANGE)
+    
+    # Free the allocated memory
+    [System.Runtime.InteropServices.Marshal]::FreeHGlobal($newValuePtr)
     
     if (-not $result) {
         throw "Failed to apply cursor shadow setting"

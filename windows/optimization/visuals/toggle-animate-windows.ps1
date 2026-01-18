@@ -13,7 +13,9 @@ function Wait-OnError {
 }
 
 # Add P/Invoke for SystemParametersInfo and ANIMATIONINFO structure
-Add-Type @"
+# Check if types already exist to avoid conflicts
+if (-not ([System.Management.Automation.PSTypeName]'ANIMATIONINFO').Type) {
+    Add-Type @"
 using System;
 using System.Runtime.InteropServices;
 
@@ -22,12 +24,20 @@ public struct ANIMATIONINFO {
     public uint cbSize;
     public int iMinAnimate;
 }
+"@
+}
+
+if (-not ([System.Management.Automation.PSTypeName]'SystemParams').Type) {
+    Add-Type @"
+using System;
+using System.Runtime.InteropServices;
 
 public class SystemParams {
     [DllImport("user32.dll", SetLastError = true)]
-    public static extern bool SystemParametersInfo(uint uiAction, uint uiParam, ref ANIMATIONINFO pvParam, uint fWinIni);
+    public static extern bool SystemParametersInfo(uint uiAction, uint uiParam, IntPtr pvParam, uint fWinIni);
 }
 "@
+}
 
 # Import the Windows modules
 $modulePath = Join-Path $PSScriptRoot "..\..\..\modules\ModuleIndex.psm1"
@@ -44,11 +54,19 @@ try {
     $animInfo = New-Object ANIMATIONINFO
     $animInfo.cbSize = [System.Runtime.InteropServices.Marshal]::SizeOf($animInfo)
     
-    $result = [SystemParams]::SystemParametersInfo($SPI_GETANIMATION, $animInfo.cbSize, [ref]$animInfo, 0)
+    # Allocate unmanaged memory for the struct
+    $animInfoPtr = [System.Runtime.InteropServices.Marshal]::AllocHGlobal($animInfo.cbSize)
+    [System.Runtime.InteropServices.Marshal]::StructureToPtr($animInfo, $animInfoPtr, $false)
+    
+    $result = [SystemParams]::SystemParametersInfo($SPI_GETANIMATION, 0, $animInfoPtr, 0)
     
     if (-not $result) {
+        [System.Runtime.InteropServices.Marshal]::FreeHGlobal($animInfoPtr)
         throw "Failed to get current animation settings"
     }
+    
+    # Read the struct back from unmanaged memory
+    $animInfo = [System.Runtime.InteropServices.Marshal]::PtrToStructure($animInfoPtr, [type]"ANIMATIONINFO")
     
     # Toggle the animation setting (iMinAnimate: 0 = disabled, 1 = enabled)
     if ($animInfo.iMinAnimate -ne 0) {
@@ -59,12 +77,19 @@ try {
         $newState = "enabled"
     }
     
+    # Update the struct in unmanaged memory
+    [System.Runtime.InteropServices.Marshal]::StructureToPtr($animInfo, $animInfoPtr, $false)
+    
     # Apply the new setting
-    $result = [SystemParams]::SystemParametersInfo($SPI_SETANIMATION, $animInfo.cbSize, [ref]$animInfo, $SPIF_UPDATEINIFILE -bor $SPIF_SENDCHANGE)
+    $result = [SystemParams]::SystemParametersInfo($SPI_SETANIMATION, 0, $animInfoPtr, $SPIF_UPDATEINIFILE -bor $SPIF_SENDCHANGE)
     
     if (-not $result) {
+        [System.Runtime.InteropServices.Marshal]::FreeHGlobal($animInfoPtr)
         throw "Failed to apply animation settings"
     }
+    
+    # Free the allocated memory
+    [System.Runtime.InteropServices.Marshal]::FreeHGlobal($animInfoPtr)
     
     Write-StatusMessage -Message "Animate windows when minimizing and maximizing: $newState" -Type Success
     
