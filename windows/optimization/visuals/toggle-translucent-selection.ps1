@@ -17,12 +17,14 @@ $modulePath = Join-Path $PSScriptRoot "..\..\..\modules\ModuleIndex.psm1"
 Import-Module $modulePath -Force -WarningAction SilentlyContinue
 
 try {
-    # The translucent selection rectangle is controlled by DWM AlphaSelectRect
-    $registryPath = "HKCU:\Software\Microsoft\Windows\DWM"
-    $valueName = "AlphaSelectRect"
+    # The translucent selection rectangle is controlled by ListviewAlphaSelect
+    # This is the actual registry value that Performance Options UI modifies
+    $registryPath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"
+    $valueName = "ListviewAlphaSelect"
     
     # Ensure the registry path exists
     if (-not (Test-Path $registryPath)) {
+        Write-StatusMessage -Message "Creating registry path: $registryPath" -Type Info
         New-Item -Path $registryPath -Force | Out-Null
     }
     
@@ -31,8 +33,13 @@ try {
     
     if ($null -eq $currentValue) {
         # If value doesn't exist, assume it's enabled (Windows default)
+        Write-StatusMessage -Message "Registry value not found, assuming enabled (Windows default)" -Type Info
         $currentValue = 1
     }
+    
+    # Display current state
+    $currentState = if ($currentValue -eq 1) { "enabled" } else { "disabled" }
+    Write-StatusMessage -Message "Current state: $currentState" -Type Info
     
     # Toggle the setting
     # 1 = Enabled (translucent selection rectangle)
@@ -41,15 +48,21 @@ try {
     $newState = if ($newValue -eq 1) { "enabled" } else { "disabled" }
     
     # Apply the new setting
+    Write-StatusMessage -Message "Setting ListviewAlphaSelect to $newValue ($newState)..." -Type Info
     Set-ItemProperty -Path $registryPath -Name $valueName -Value $newValue -Type DWord
     
-    # Restart DWM to apply changes immediately
-    # Note: This will cause a brief screen flicker
-    Write-StatusMessage -Message "Restarting Desktop Window Manager to apply changes..." -Type Info
-    Restart-Service -Name "UxSms" -Force -ErrorAction SilentlyContinue
+    # Verify the change was applied
+    $verifyValue = Get-ItemProperty -Path $registryPath -Name $valueName -ErrorAction Stop | Select-Object -ExpandProperty $valueName
+    if ($verifyValue -ne $newValue) {
+        throw "Registry value verification failed. Expected: $newValue, Got: $verifyValue"
+    }
+    
+    # Restart Explorer to apply changes immediately
+    Write-StatusMessage -Message "Restarting Explorer to apply changes..." -Type Info
+    Stop-Process -Name explorer -Force
     
     Write-StatusMessage -Message "Show translucent selection rectangle: $newState" -Type Success
-    Write-StatusMessage -Message "Changes applied - DWM restarted" -Type Info
+    Write-StatusMessage -Message "Changes applied successfully - Explorer restarted" -Type Success
     
 } catch {
     Wait-OnError -ErrorMessage "Failed to toggle translucent selection setting: $($_.Exception.Message)"
