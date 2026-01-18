@@ -12,6 +12,16 @@ function Wait-OnError {
     Read-Host
 }
 
+# Add P/Invoke for SystemParametersInfo to broadcast settings changes
+Add-Type @"
+using System;
+using System.Runtime.InteropServices;
+public class SystemParams {
+    [DllImport("user32.dll", SetLastError = true)]
+    public static extern bool SystemParametersInfo(uint uiAction, uint uiParam, IntPtr pvParam, uint fWinIni);
+}
+"@
+
 # Import the Windows modules
 $modulePath = Join-Path $PSScriptRoot "..\..\..\modules\ModuleIndex.psm1"
 Import-Module $modulePath -Force -WarningAction SilentlyContinue
@@ -57,12 +67,11 @@ try {
         throw "Registry value verification failed. Expected: $newValue, Got: $verifyValue"
     }
     
-    # Restart Explorer to apply changes immediately
-    Write-StatusMessage -Message "Restarting Explorer to apply changes..." -Type Info
-    Stop-Process -Name explorer -Force
+    # Broadcast WM_SETTINGCHANGE to apply changes immediately
+    [SystemParams]::SystemParametersInfo(0x0057, 0, [IntPtr]::Zero, 0x0002) | Out-Null
     
     Write-StatusMessage -Message "Show translucent selection rectangle: $newState" -Type Success
-    Write-StatusMessage -Message "Changes applied successfully - Explorer restarted" -Type Success
+    Write-StatusMessage -Message "Changes applied immediately - no restart required" -Type Info
     
 } catch {
     Wait-OnError -ErrorMessage "Failed to toggle translucent selection setting: $($_.Exception.Message)"
