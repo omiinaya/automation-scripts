@@ -73,19 +73,27 @@ function Write-SectionHeader {
     .PARAMETER Title
         The title of the section.
     .PARAMETER Width
-        The width of the header (default: 60).
+        The width of the header (default: 60, minimum: 20).
     .EXAMPLE
         Write-SectionHeader -Title "System Configuration"
     #>
     param(
         [Parameter(Mandatory=$true)]
         [string]$Title,
+        [ValidateRange(20, 200)]
         [int]$Width = 60
     )
     
     $borderChar = "="
     $padding = " "
     $titleLength = $Title.Length
+    
+    # Ensure title fits within width
+    if ($titleLength -gt ($Width - 4)) {
+        $Title = $Title.Substring(0, $Width - 7) + "..."
+        $titleLength = $Title.Length
+    }
+    
     $sidePadding = [math]::Floor(($Width - $titleLength - 2) / 2)
     
     $leftBorder = $borderChar * $sidePadding
@@ -403,5 +411,29 @@ function Show-SystemBanner {
     Write-Host ""
 }
 
+# Function to wait on error with user interaction
+function Wait-OnError {
+    <#
+    .SYNOPSIS
+        Displays an error message and waits for user input.
+    .DESCRIPTION
+        Shows an error message with red formatting and waits for the user to press Enter before continuing.
+    .PARAMETER ErrorMessage
+        The error message to display.
+    .EXAMPLE
+        Wait-OnError -ErrorMessage "Failed to perform operation"
+    #>
+    param(
+        [Parameter(Mandatory=$true)]
+        [string]$ErrorMessage
+    )
+    
+    Write-Host ""
+    Write-Host "[ERROR]   " -ForegroundColor Red -NoNewline
+    Write-Host $ErrorMessage -ForegroundColor White
+    Write-Host "Press Enter to continue..." -ForegroundColor Yellow -NoNewline
+    $null = Read-Host
+}
+
 # Export the module members
-Export-ModuleMember -Function Write-StatusMessage, Write-SectionHeader, Write-ProgressBar, Show-Menu, Show-Confirmation, Show-Table, Show-List, Show-Pause, Clear-ScreenWithHeader, Show-SystemBanner
+Export-ModuleMember -Function Write-StatusMessage, Write-SectionHeader, Write-ProgressBar, Show-Menu, Show-Confirmation, Show-Table, Show-List, Show-Pause, Clear-ScreenWithHeader, Show-SystemBanner, Wait-OnError

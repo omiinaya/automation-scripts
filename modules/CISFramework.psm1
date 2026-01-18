@@ -153,6 +153,10 @@ function Get-CISRecommendation {
                 "1.1.5" = @{Title="Password complexity requirements"; RecommendedValue="Enabled"}
                 "1.1.6" = @{Title="Relax minimum password length limits"; RecommendedValue="Disabled"}
                 "1.1.7" = @{Title="Store passwords using reversible encryption"; RecommendedValue="Disabled"}
+                "1.2.1" = @{Title="Account lockout duration"; RecommendedValue="15 or more minute(s)"}
+                "1.2.2" = @{Title="Account lockout threshold"; RecommendedValue="5 or fewer invalid logon attempt(s), but not 0"}
+                "1.2.3" = @{Title="Allow administrator account lockout"; RecommendedValue="Enabled"}
+                "1.2.4" = @{Title="Reset account lockout counter after"; RecommendedValue="15 or more minute(s)"}
                 # Add more CIS IDs as needed
             }
             
