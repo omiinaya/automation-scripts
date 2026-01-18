@@ -65,6 +65,12 @@ The UserPreferencesMask is an 8-byte binary value where each bit controls a spec
 - Controlled by UserPreferencesMask (needs verification of exact bit)
 - May also be affected by SPI_SETANIMATION
 
+### Translucent Selection Rectangle
+- **Location**: `HKCU:\Software\Microsoft\Windows\DWM\AlphaSelectRect`
+- **Type**: REG_DWORD
+- **Values**: 0 (disabled/opaque) or 1 (enabled/translucent)
+- **Note**: Requires DWM restart (UxSms service) to take effect immediately
+
 ### Peek (Aero Peek)
 - **Location**: `HKCU:\Software\Microsoft\Windows\DWM\EnableAeroPeek`
 - **Type**: REG_DWORD

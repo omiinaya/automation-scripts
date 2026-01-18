@@ -56,7 +56,7 @@ These scripts use registry-only approaches or DWM/Explorer settings that don't h
 | [`toggle-taskbar-thumbnails.ps1`](../toggle-taskbar-thumbnails.ps1) | Explorer Registry | `HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced\ExtendedUIHoverTime` |
 | [`toggle-icon-shadows.ps1`](../toggle-icon-shadows.ps1) | Explorer Registry | `HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced\ListviewShadow` |
 | [`toggle-taskbar-animations.ps1`](../toggle-taskbar-animations.ps1) | UserPreferencesMask | Needs further research for correct bit position |
-| [`toggle-translucent-selection.ps1`](../toggle-translucent-selection.ps1) | UserPreferencesMask | Needs further research for correct bit position |
+| [`toggle-translucent-selection.ps1`](../toggle-translucent-selection.ps1) | DWM Registry | `HKCU:\Software\Microsoft\Windows\DWM\AlphaSelectRect` - **FIXED** |
 
 ## Technical Details
 
@@ -122,10 +122,24 @@ To verify the fixes work correctly:
 - [ANIMATIONINFO Structure - Microsoft Learn](https://learn.microsoft.com/en-us/windows/win32/api/winuser/ns-winuser-animationinfo)
 - [Visual Effects Registry Mapping](./visual-effects-registry-mapping.md)
 
+## Recent Fixes (2026-01-18)
+
+### Translucent Selection Rectangle Fix
+
+**Issue**: The script was incorrectly trying to manipulate UserPreferencesMask bit 1.0x80, which controls the "UI Effects master switch", not the translucent selection rectangle.
+
+**Solution**: Updated to use the correct DWM registry value:
+- **Registry Path**: `HKCU:\Software\Microsoft\Windows\DWM\AlphaSelectRect`
+- **Type**: REG_DWORD
+- **Values**: 0 (disabled/opaque) or 1 (enabled/translucent)
+- **Immediate Effect**: Restarts UxSms service (Desktop Window Manager) to apply changes
+
+See [translucent-selection-fix.md](./translucent-selection-fix.md) for detailed documentation.
+
 ## Future Work
 
 1. Research correct implementation for `toggle-taskbar-animations.ps1`
-2. Research correct implementation for `toggle-translucent-selection.ps1`
+2. ~~Research correct implementation for `toggle-translucent-selection.ps1`~~ ✅ **COMPLETED**
 3. Consider adding DWM restart capability for scripts that modify DWM settings
 4. Consider adding Explorer restart capability for scripts that modify Explorer settings
 5. Add comprehensive integration tests for all visual effects scripts
