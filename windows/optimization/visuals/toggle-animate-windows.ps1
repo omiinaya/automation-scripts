@@ -67,6 +67,11 @@ try {
     }
     
     Write-StatusMessage -Message "Animate windows when minimizing and maximizing: $newState" -Type Success
+    
+    # Refresh Explorer to apply changes immediately
+    Write-StatusMessage -Message "Refreshing Explorer settings..." -Type Info
+    Invoke-ExplorerRefresh
+    
     Write-StatusMessage -Message "Changes applied immediately - no restart required" -Type Info
     
 } catch {

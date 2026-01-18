@@ -29,6 +29,7 @@ $modulesToImport = @(
     "PowerManagement.psm1"
     "RegistryUtils.psm1"
     "WindowsUI.psm1"
+    "VisualEffects.psm1"
     "CISFramework.psm1"
     "CISRemediation.psm1"
 )
@@ -143,6 +144,13 @@ function Get-WindowsModuleInfo {
                 "Show-Pause",
                 "Clear-ScreenWithHeader",
                 "Show-SystemBanner"
+            )
+        },
+        @{
+            Name = "VisualEffects"
+            Description = "Visual effects management and Explorer refresh functionality"
+            Commands = @(
+                "Invoke-ExplorerRefresh"
             )
         },
         @{
@@ -262,7 +270,7 @@ function Get-WindowsModuleCommands {
     
     $commands = @()
     
-    $moduleCommands = Get-Command -Module WindowsUtils, PowerManagement, RegistryUtils, WindowsUI, CISFramework, CISRemediation -ErrorAction SilentlyContinue
+    $moduleCommands = Get-Command -Module WindowsUtils, PowerManagement, RegistryUtils, WindowsUI, VisualEffects, CISFramework, CISRemediation -ErrorAction SilentlyContinue
     
     foreach ($cmd in $moduleCommands) {
         $commands += [PSCustomObject]@{
@@ -374,5 +382,5 @@ if ($VerbosePreference -ne 'SilentlyContinue') {
 Export-ModuleMember -Function Get-WindowsModuleInfo, Test-WindowsModules, Get-WindowsModuleCommands, Show-WindowsModuleHelp, Initialize-WindowsModules -Verbose:$false
 
 # Export all functions from imported modules
-$allCommands = Get-Command -Module WindowsUtils, PowerManagement, RegistryUtils, WindowsUI, CISFramework, CISRemediation -ErrorAction SilentlyContinue
+$allCommands = Get-Command -Module WindowsUtils, PowerManagement, RegistryUtils, WindowsUI, VisualEffects, CISFramework, CISRemediation -ErrorAction SilentlyContinue
 Export-ModuleMember -Function $allCommands.Name -ErrorAction SilentlyContinue -Verbose:$false

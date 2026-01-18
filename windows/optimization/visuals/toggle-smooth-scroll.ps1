@@ -53,6 +53,11 @@ try {
     }
     
     Write-StatusMessage -Message "Smooth-scroll list boxes: $newState" -Type Success
+    
+    # Refresh Explorer to apply changes immediately
+    Write-StatusMessage -Message "Refreshing Explorer settings..." -Type Info
+    Invoke-ExplorerRefresh
+    
     Write-StatusMessage -Message "Changes applied immediately - no restart required" -Type Info
     
 } catch {

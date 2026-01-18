@@ -11,16 +11,6 @@ function Wait-OnError {
     Read-Host
 }
 
-# Add P/Invoke for SystemParametersInfo to broadcast settings changes
-Add-Type @"
-using System;
-using System.Runtime.InteropServices;
-public class SystemParams {
-    [DllImport("user32.dll", SetLastError = true)]
-    public static extern bool SystemParametersInfo(uint uiAction, uint uiParam, IntPtr pvParam, uint fWinIni);
-}
-"@
-
 # Import the Windows modules
 $modulePath = Join-Path $PSScriptRoot "..\..\..\modules\ModuleIndex.psm1"
 Import-Module $modulePath -Force -WarningAction SilentlyContinue
@@ -32,8 +22,8 @@ try {
     
     Set-RegistryValue -KeyPath $registryPath -ValueName "EnableTransparency" -ValueData $newValue -ValueType DWord
     
-    # Broadcast WM_SETTINGCHANGE to apply changes immediately
-    [SystemParams]::SystemParametersInfo(0x0057, 0, [IntPtr]::Zero, 0x0002) | Out-Null
+    # Refresh Explorer to apply changes immediately
+    Invoke-ExplorerRefresh
     
     if ($newValue) {
         Write-StatusMessage -Message "Transparency effects enabled" -Type Success
