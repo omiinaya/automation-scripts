@@ -1,6 +1,7 @@
 # Log files
 cis_extraction_robust.log
 *.log
+services.md
 
 # Python cache
 __pycache__/
