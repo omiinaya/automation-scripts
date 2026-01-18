@@ -104,8 +104,8 @@ function Get-Windows11PowerMode {
         PSCustomObject
     #>
     $registryPaths = @{
-        AC = "HKLM:\SYSTEM\CurrentControlSet\Control\Power\User\PowerSchemes\ActiveOverlayAcDc\OverlayAc"
-        DC = "HKLM:\SYSTEM\CurrentControlSet\Control\Power\User\PowerSchemes\ActiveOverlayAcDc\OverlayDc"
+        AC = "HKCU:\Software\Microsoft\Windows\CurrentVersion\PowerSchemes\ActiveOverlayAcDc\OverlayAc"
+        DC = "HKCU:\Software\Microsoft\Windows\CurrentVersion\PowerSchemes\ActiveOverlayAcDc\OverlayDc"
     }
     
     $result = [PSCustomObject]@{
@@ -190,8 +190,8 @@ function Set-Windows11PowerMode {
     )
     
     $registryPaths = @{
-        AC = "HKLM:\SYSTEM\CurrentControlSet\Control\Power\User\PowerSchemes\ActiveOverlayAcDc\OverlayAc"
-        DC = "HKLM:\SYSTEM\CurrentControlSet\Control\Power\User\PowerSchemes\ActiveOverlayAcDc\OverlayDc"
+        AC = "HKCU:\Software\Microsoft\Windows\CurrentVersion\PowerSchemes\ActiveOverlayAcDc\OverlayAc"
+        DC = "HKCU:\Software\Microsoft\Windows\CurrentVersion\PowerSchemes\ActiveOverlayAcDc\OverlayDc"
     }
     
     $modeNames = @{
@@ -520,13 +520,14 @@ function Get-BatteryInfo {
         $battery = Get-CimInstance -ClassName Win32_Battery
         
         if ($battery) {
-            $powerStatus = Get-CimInstance -ClassName Win32_PowerPlan
+            # Use Win32_Battery's PowerOnline property instead of non-existent Win32_PowerPlan
+            $powerOnline = $battery.BatteryStatus -eq 2 -or $battery.BatteryStatus -eq 6
             
             return [PSCustomObject]@{
                 ChargeLevel = $battery.EstimatedChargeRemaining
                 Status      = $battery.BatteryStatus
                 EstimatedRuntime = $battery.EstimatedRunTime
-                PowerOnline = $powerStatus.IsPowerOnline
+                PowerOnline = $powerOnline
                 BatteryHealth = $battery.EstimatedChargeRemaining
                 BatteryType = $battery.Description
             }
