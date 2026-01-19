@@ -17,40 +17,16 @@ $modulePath = Join-Path $PSScriptRoot "..\..\..\modules\ModuleIndex.psm1"
 Import-Module $modulePath -Force -WarningAction SilentlyContinue
 
 try {
-    # The mouse pointer shadows are controlled by CursorShadow
-    # This is the actual registry value that Performance Options UI modifies
-    # Windows 11 uses multiple registry locations for visual effects
-    $registryPaths = @(
-        "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced",
-        "HKCU:\Control Panel\Desktop"
-    )
+    # Mouse pointer shadows are controlled by CursorShadow in HKCU\Control Panel\Desktop
+    # This is the registry value that Windows Performance Options reads
+    $registryPath = "HKCU:\Control Panel\Desktop"
     $valueName = "CursorShadow"
     
-    # Check if VisualFXSetting is overriding individual settings
-    $visualFXPath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects"
-    $visualFXValueName = "VisualFXSetting"
+    # Also update the Explorer Advanced key for consistency
+    $explorerPath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"
     
-    # Get current VisualFXSetting value
-    $visualFXValue = Get-ItemProperty -Path $visualFXPath -Name $visualFXValueName -ErrorAction SilentlyContinue | Select-Object -ExpandProperty $visualFXValueName
-    
-    if ($visualFXValue -eq 3) {
-        Write-StatusMessage -Message "VisualFXSetting is set to 3 (custom), allowing individual control" -Type Info
-    } elseif ($visualFXValue -eq 2) {
-        Write-StatusMessage -Message "VisualFXSetting is set to 2 (best appearance), individual settings may be overridden" -Type Warning
-    } elseif ($visualFXValue -eq 1) {
-        Write-StatusMessage -Message "VisualFXSetting is set to 1 (best performance), individual settings may be overridden" -Type Warning
-    }
-    
-    # Ensure registry paths exist
-    foreach ($path in $registryPaths) {
-        if (-not (Test-Path $path)) {
-            Write-StatusMessage -Message "Creating registry path: $path" -Type Info
-            New-Item -Path $path -Force | Out-Null
-        }
-    }
-    
-    # Get current value from primary location (default to 1/enabled if not set)
-    $currentValue = Get-ItemProperty -Path $registryPaths[0] -Name $valueName -ErrorAction SilentlyContinue | Select-Object -ExpandProperty $valueName
+    # Get current value (default to 1/enabled if not set)
+    $currentValue = Get-ItemProperty -Path $registryPath -Name $valueName -ErrorAction SilentlyContinue | Select-Object -ExpandProperty $valueName
     
     if ($null -eq $currentValue) {
         # If value doesn't exist, assume it's enabled (Windows default)
@@ -68,14 +44,16 @@ try {
     $newValue = if ($currentValue -eq 1) { 0 } else { 1 }
     $newState = if ($newValue -eq 1) { "enabled" } else { "disabled" }
     
-    # Apply the new setting to all registry locations
-    foreach ($path in $registryPaths) {
-        Write-StatusMessage -Message "Setting CursorShadow to $newValue ($newState) in $path..." -Type Info
-        Set-ItemProperty -Path $path -Name $valueName -Value $newValue -Type DWord
-    }
+    # Apply the new setting to the primary registry location
+    Write-StatusMessage -Message "Setting CursorShadow to $newValue ($newState) in $registryPath..." -Type Info
+    Set-ItemProperty -Path $registryPath -Name $valueName -Value $newValue -Type String
+    
+    # Also update Explorer Advanced key for UI consistency
+    Write-StatusMessage -Message "Setting CursorShadow to $newValue ($newState) in $explorerPath..." -Type Info
+    Set-ItemProperty -Path $explorerPath -Name $valueName -Value $newValue -Type DWord
     
     # Verify the change was applied to primary location
-    $verifyValue = Get-ItemProperty -Path $registryPaths[0] -Name $valueName -ErrorAction Stop | Select-Object -ExpandProperty $valueName
+    $verifyValue = Get-ItemProperty -Path $registryPath -Name $valueName -ErrorAction Stop | Select-Object -ExpandProperty $valueName
     if ($verifyValue -ne $newValue) {
         throw "Registry value verification failed. Expected: $newValue, Got: $verifyValue"
     }
@@ -85,7 +63,7 @@ try {
     Invoke-ExplorerRefresh
     
     Write-StatusMessage -Message "Show shadows under mouse pointer: $newState" -Type Success
-    Write-StatusMessage -Message "Changes applied immediately - no Explorer restart required" -Type Info
+    Write-StatusMessage -Message "Changes applied immediately - no restart required" -Type Info
     
 } catch {
     Wait-OnError -ErrorMessage "Failed to toggle mouse pointer shadows setting: $($_.Exception.Message)"

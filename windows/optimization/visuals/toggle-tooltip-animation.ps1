@@ -17,40 +17,19 @@ $modulePath = Join-Path $PSScriptRoot "..\..\..\modules\ModuleIndex.psm1"
 Import-Module $modulePath -Force -WarningAction SilentlyContinue
 
 try {
-    # ToolTip animation is partially controlled by SelectionFade
-    # This affects selection fade and some tooltip animations
-    # Windows 11 uses multiple registry locations for visual effects
-    $registryPaths = @(
-        "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced",
-        "HKCU:\Control Panel\Desktop"
-    )
-    $valueName = "SelectionFade"
+    # ToolTip animation is controlled by ToolTipAnimation in HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced
+    # This is the actual registry value that Performance Options UI reads
+    $registryPath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"
+    $valueName = "ToolTipAnimation"
     
-    # Check if VisualFXSetting is overriding individual settings
-    $visualFXPath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects"
-    $visualFXValueName = "VisualFXSetting"
-    
-    # Get current VisualFXSetting value
-    $visualFXValue = Get-ItemProperty -Path $visualFXPath -Name $visualFXValueName -ErrorAction SilentlyContinue | Select-Object -ExpandProperty $visualFXValueName
-    
-    if ($visualFXValue -eq 3) {
-        Write-StatusMessage -Message "VisualFXSetting is set to 3 (custom), allowing individual control" -Type Info
-    } elseif ($visualFXValue -eq 2) {
-        Write-StatusMessage -Message "VisualFXSetting is set to 2 (best appearance), individual settings may be overridden" -Type Warning
-    } elseif ($visualFXValue -eq 1) {
-        Write-StatusMessage -Message "VisualFXSetting is set to 1 (best performance), individual settings may be overridden" -Type Warning
+    # Ensure the registry path exists
+    if (-not (Test-Path $registryPath)) {
+        Write-StatusMessage -Message "Creating registry path: $registryPath" -Type Info
+        New-Item -Path $registryPath -Force | Out-Null
     }
     
-    # Ensure registry paths exist
-    foreach ($path in $registryPaths) {
-        if (-not (Test-Path $path)) {
-            Write-StatusMessage -Message "Creating registry path: $path" -Type Info
-            New-Item -Path $path -Force | Out-Null
-        }
-    }
-    
-    # Get current value from primary location (default to 1/enabled if not set)
-    $currentValue = Get-ItemProperty -Path $registryPaths[0] -Name $valueName -ErrorAction SilentlyContinue | Select-Object -ExpandProperty $valueName
+    # Get current value (default to 1/enabled if not set)
+    $currentValue = Get-ItemProperty -Path $registryPath -Name $valueName -ErrorAction SilentlyContinue | Select-Object -ExpandProperty $valueName
     
     if ($null -eq $currentValue) {
         # If value doesn't exist, assume it's enabled (Windows default)
@@ -68,14 +47,12 @@ try {
     $newValue = if ($currentValue -eq 1) { 0 } else { 1 }
     $newState = if ($newValue -eq 1) { "enabled" } else { "disabled" }
     
-    # Apply the new setting to all registry locations
-    foreach ($path in $registryPaths) {
-        Write-StatusMessage -Message "Setting SelectionFade to $newValue ($newState) in $path..." -Type Info
-        Set-ItemProperty -Path $path -Name $valueName -Value $newValue -Type DWord
-    }
+    # Apply the new setting
+    Write-StatusMessage -Message "Setting ToolTipAnimation to $newValue ($newState)..." -Type Info
+    Set-ItemProperty -Path $registryPath -Name $valueName -Value $newValue -Type DWord
     
-    # Verify the change was applied to primary location
-    $verifyValue = Get-ItemProperty -Path $registryPaths[0] -Name $valueName -ErrorAction Stop | Select-Object -ExpandProperty $valueName
+    # Verify the change was applied
+    $verifyValue = Get-ItemProperty -Path $registryPath -Name $valueName -ErrorAction Stop | Select-Object -ExpandProperty $valueName
     if ($verifyValue -ne $newValue) {
         throw "Registry value verification failed. Expected: $newValue, Got: $verifyValue"
     }
@@ -85,7 +62,7 @@ try {
     Invoke-ExplorerRefresh
     
     Write-StatusMessage -Message "Fade or slide ToolTips into view: $newState" -Type Success
-    Write-StatusMessage -Message "Changes applied immediately - no Explorer restart required" -Type Info
+    Write-StatusMessage -Message "Changes applied immediately - no restart required" -Type Info
     
 } catch {
     Wait-OnError -ErrorMessage "Failed to toggle ToolTip animation setting: $($_.Exception.Message)"
