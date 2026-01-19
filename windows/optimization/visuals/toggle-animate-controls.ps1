@@ -1,6 +1,6 @@
 # Toggle "Animate controls and elements inside windows" setting
 # This controls the checkbox in Performance Options > Visual Effects
-# Uses SystemParametersInfo with SPI_SETANIMATION
+# Controls animation of controls and elements inside windows
 
 # Function to pause on error
 function Wait-OnError {
@@ -12,77 +12,57 @@ function Wait-OnError {
     Read-Host
 }
 
-# Add P/Invoke for SystemParametersInfo with ANIMATIONINFO structure
-# Check if types already exist to avoid conflicts
-if (-not ([System.Management.Automation.PSTypeName]'ANIMATIONINFO').Type) {
-    Add-Type @"
-using System;
-using System.Runtime.InteropServices;
-
-[StructLayout(LayoutKind.Sequential)]
-public struct ANIMATIONINFO
-{
-    public uint cbSize;
-    public int iMinAnimate;
-}
-"@
-}
-
-if (-not ([System.Management.Automation.PSTypeName]'SystemParams').Type) {
-    Add-Type @"
-using System;
-using System.Runtime.InteropServices;
-
-public class SystemParams {
-    [DllImport("user32.dll", SetLastError = true)]
-    public static extern bool SystemParametersInfo(uint uiAction, uint uiParam, ref ANIMATIONINFO pvParam, uint fWinIni);
-}
-"@
-}
-
 # Import the Windows modules
 $modulePath = Join-Path $PSScriptRoot "..\..\..\modules\ModuleIndex.psm1"
 Import-Module $modulePath -Force -WarningAction SilentlyContinue
 
 try {
-    # SPI_GETANIMATION = 0x0048, SPI_SETANIMATION = 0x0049
-    $SPI_GETANIMATION = 0x0048
-    $SPI_SETANIMATION = 0x0049
-    $SPIF_UPDATEINIFILE = 0x0001
-    $SPIF_SENDCHANGE = 0x0002
+    # This setting is controlled by the MinAnimate registry value
+    # 0 = Disabled, 1 = Enabled
+    $registryPath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"
+    $valueName = "MinAnimate"
     
-    # Create ANIMATIONINFO structure
-    $animationInfo = New-Object ANIMATIONINFO
-    $animationInfo.cbSize = [System.Runtime.InteropServices.Marshal]::SizeOf($animationInfo)
-    
-    # Get current setting
-    $result = [SystemParams]::SystemParametersInfo($SPI_GETANIMATION, $animationInfo.cbSize, [ref]$animationInfo, 0)
-    
-    if (-not $result) {
-        throw "Failed to get current animation setting"
+    # Ensure the registry path exists
+    if (-not (Test-Path $registryPath)) {
+        Write-StatusMessage -Message "Creating registry path: $registryPath" -Type Info
+        New-Item -Path $registryPath -Force | Out-Null
     }
+    
+    # Get current value (default to 1/enabled if not set)
+    $currentValue = Get-ItemProperty -Path $registryPath -Name $valueName -ErrorAction SilentlyContinue | Select-Object -ExpandProperty $valueName
+    
+    if ($null -eq $currentValue) {
+        # If value doesn't exist, assume it's enabled (Windows default)
+        Write-StatusMessage -Message "Registry value not found, assuming enabled (Windows default)" -Type Info
+        $currentValue = 1
+    }
+    
+    # Display current state
+    $currentState = if ($currentValue -eq 1) { "enabled" } else { "disabled" }
+    Write-StatusMessage -Message "Current state: $currentState" -Type Info
     
     # Toggle the setting
-    $newValue = if ($animationInfo.iMinAnimate -eq 0) { 1 } else { 0 }
+    # 1 = Enabled (animate controls)
+    # 0 = Disabled (no animation)
+    $newValue = if ($currentValue -eq 1) { 0 } else { 1 }
     $newState = if ($newValue -eq 1) { "enabled" } else { "disabled" }
     
-    # Update the structure
-    $animationInfo.iMinAnimate = $newValue
-    
     # Apply the new setting
-    $result = [SystemParams]::SystemParametersInfo($SPI_SETANIMATION, $animationInfo.cbSize, [ref]$animationInfo, $SPIF_UPDATEINIFILE -bor $SPIF_SENDCHANGE)
+    Write-StatusMessage -Message "Setting MinAnimate to $newValue ($newState)..." -Type Info
+    Set-ItemProperty -Path $registryPath -Name $valueName -Value $newValue -Type DWord
     
-    if (-not $result) {
-        throw "Failed to apply animation setting"
+    # Verify the change was applied
+    $verifyValue = Get-ItemProperty -Path $registryPath -Name $valueName -ErrorAction Stop | Select-Object -ExpandProperty $valueName
+    if ($verifyValue -ne $newValue) {
+        throw "Registry value verification failed. Expected: $newValue, Got: $verifyValue"
     }
-    
-    Write-StatusMessage -Message "Animate controls and elements inside windows: $newState" -Type Success
     
     # Refresh Explorer to apply changes immediately
     Write-StatusMessage -Message "Refreshing Explorer settings..." -Type Info
     Invoke-ExplorerRefresh
     
-    Write-StatusMessage -Message "Changes applied immediately - no restart required" -Type Info
+    Write-StatusMessage -Message "Animate controls and elements inside windows: $newState" -Type Success
+    Write-StatusMessage -Message "Changes applied immediately - no Explorer restart required" -Type Info
     
 } catch {
     Wait-OnError -ErrorMessage "Failed to toggle animate controls setting: $($_.Exception.Message)"
