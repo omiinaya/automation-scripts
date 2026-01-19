@@ -13,7 +13,9 @@ function Wait-OnError {
 }
 
 # Add P/Invoke for SystemParametersInfo with ANIMATIONINFO structure
-Add-Type @"
+# Check if types already exist to avoid conflicts
+if (-not ([System.Management.Automation.PSTypeName]'ANIMATIONINFO').Type) {
+    Add-Type @"
 using System;
 using System.Runtime.InteropServices;
 
@@ -23,12 +25,20 @@ public struct ANIMATIONINFO
     public uint cbSize;
     public int iMinAnimate;
 }
+"@
+}
+
+if (-not ([System.Management.Automation.PSTypeName]'SystemParams').Type) {
+    Add-Type @"
+using System;
+using System.Runtime.InteropServices;
 
 public class SystemParams {
     [DllImport("user32.dll", SetLastError = true)]
     public static extern bool SystemParametersInfo(uint uiAction, uint uiParam, ref ANIMATIONINFO pvParam, uint fWinIni);
 }
 "@
+}
 
 # Import the Windows modules
 $modulePath = Join-Path $PSScriptRoot "..\..\..\modules\ModuleIndex.psm1"

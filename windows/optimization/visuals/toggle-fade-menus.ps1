@@ -13,7 +13,9 @@ function Wait-OnError {
 }
 
 # Add P/Invoke for SystemParametersInfo
-Add-Type @"
+# Check if type already exists to avoid conflicts
+if (-not ([System.Management.Automation.PSTypeName]'SystemParams').Type) {
+    Add-Type @"
 using System;
 using System.Runtime.InteropServices;
 public class SystemParams {
@@ -21,6 +23,7 @@ public class SystemParams {
     public static extern bool SystemParametersInfo(uint uiAction, uint uiParam, ref bool pvParam, uint fWinIni);
 }
 "@
+}
 
 # Import the Windows modules
 $modulePath = Join-Path $PSScriptRoot "..\..\..\modules\ModuleIndex.psm1"
