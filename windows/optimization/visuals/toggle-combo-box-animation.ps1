@@ -1,6 +1,6 @@
 # Toggle "Slide open combo boxes" setting
 # This controls the checkbox in Performance Options > Visual Effects
-# Uses SystemParametersInfo with SPI_SETCOMBOBOXANIMATION
+# Controls whether combo boxes have slide animation when opening
 
 # Function to pause on error
 function Wait-OnError {
@@ -12,71 +12,80 @@ function Wait-OnError {
     Read-Host
 }
 
-# Add P/Invoke for SystemParametersInfo
-# Check if type already exists to avoid conflicts
-if (-not ([System.Management.Automation.PSTypeName]'SystemParams').Type) {
-    Add-Type @"
-using System;
-using System.Runtime.InteropServices;
-
-public class SystemParams {
-    [DllImport("user32.dll", SetLastError = true)]
-    public static extern bool SystemParametersInfo(uint uiAction, uint uiParam, IntPtr pvParam, uint fWinIni);
-}
-"@
-}
-
 # Import the Windows modules
 $modulePath = Join-Path $PSScriptRoot "..\..\..\modules\ModuleIndex.psm1"
 Import-Module $modulePath -Force -WarningAction SilentlyContinue
 
 try {
-    # SPI_GETCOMBOBOXANIMATION = 0x1004, SPI_SETCOMBOBOXANIMATION = 0x1005
-    $SPI_GETCOMBOBOXANIMATION = 0x1004
-    $SPI_SETCOMBOBOXANIMATION = 0x1005
-    $SPIF_UPDATEINIFILE = 0x0001
-    $SPIF_SENDCHANGE = 0x0002
+    # The combo box animation is controlled by ComboBoxAnimation
+    # This is the actual registry value that Performance Options UI modifies
+    # Windows 11 uses multiple registry locations for visual effects
+    $registryPaths = @(
+        "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced",
+        "HKCU:\Control Panel\Desktop"
+    )
+    $valueName = "ComboBoxAnimation"
     
-    # Allocate memory for boolean value
-    $ptr = [System.Runtime.InteropServices.Marshal]::AllocHGlobal(4)  # sizeof(int)
+    # Check if VisualFXSetting is overriding individual settings
+    $visualFXPath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects"
+    $visualFXValueName = "VisualFXSetting"
     
-    try {
-        # Get current setting
-        $result = [SystemParams]::SystemParametersInfo($SPI_GETCOMBOBOXANIMATION, 0, $ptr, 0)
-        
-        if (-not $result) {
-            throw "Failed to get current combo box animation setting"
-        }
-        
-        # Read the current value
-        $currentValue = [System.Runtime.InteropServices.Marshal]::ReadInt32($ptr)
-        $currentValue = $currentValue -ne 0  # Convert to boolean
-        
-        # Toggle the setting
-        $newValue = -not $currentValue
-        $newState = if ($newValue) { "enabled" } else { "disabled" }
-        
-        # Write the new value
-        [System.Runtime.InteropServices.Marshal]::WriteInt32($ptr, [int]$newValue)
-        
-        # Apply the new setting
-        $result = [SystemParams]::SystemParametersInfo($SPI_SETCOMBOBOXANIMATION, 0, $ptr, $SPIF_UPDATEINIFILE -bor $SPIF_SENDCHANGE)
-        
-        if (-not $result) {
-            throw "Failed to apply combo box animation setting"
-        }
-        
-        Write-StatusMessage -Message "Slide open combo boxes: $newState" -Type Success
-        
-        # Refresh Explorer to apply changes immediately
-        Write-StatusMessage -Message "Refreshing Explorer settings..." -Type Info
-        Invoke-ExplorerRefresh
-        
-        Write-StatusMessage -Message "Changes applied immediately - no restart required" -Type Info
-        
-    } finally {
-        [System.Runtime.InteropServices.Marshal]::FreeHGlobal($ptr)
+    # Get current VisualFXSetting value
+    $visualFXValue = Get-ItemProperty -Path $visualFXPath -Name $visualFXValueName -ErrorAction SilentlyContinue | Select-Object -ExpandProperty $visualFXValueName
+    
+    if ($visualFXValue -eq 3) {
+        Write-StatusMessage -Message "VisualFXSetting is set to 3 (custom), allowing individual control" -Type Info
+    } elseif ($visualFXValue -eq 2) {
+        Write-StatusMessage -Message "VisualFXSetting is set to 2 (best appearance), individual settings may be overridden" -Type Warning
+    } elseif ($visualFXValue -eq 1) {
+        Write-StatusMessage -Message "VisualFXSetting is set to 1 (best performance), individual settings may be overridden" -Type Warning
     }
+    
+    # Ensure registry paths exist
+    foreach ($path in $registryPaths) {
+        if (-not (Test-Path $path)) {
+            Write-StatusMessage -Message "Creating registry path: $path" -Type Info
+            New-Item -Path $path -Force | Out-Null
+        }
+    }
+    
+    # Get current value from primary location (default to 1/enabled if not set)
+    $currentValue = Get-ItemProperty -Path $registryPaths[0] -Name $valueName -ErrorAction SilentlyContinue | Select-Object -ExpandProperty $valueName
+    
+    if ($null -eq $currentValue) {
+        # If value doesn't exist, assume it's enabled (Windows default)
+        Write-StatusMessage -Message "Registry value not found, assuming enabled (Windows default)" -Type Info
+        $currentValue = 1
+    }
+    
+    # Display current state
+    $currentState = if ($currentValue -eq 1) { "enabled" } else { "disabled" }
+    Write-StatusMessage -Message "Current state: $currentState" -Type Info
+    
+    # Toggle the setting
+    # 1 = Enabled (slide open combo boxes)
+    # 0 = Disabled (no slide animation for combo boxes)
+    $newValue = if ($currentValue -eq 1) { 0 } else { 1 }
+    $newState = if ($newValue -eq 1) { "enabled" } else { "disabled" }
+    
+    # Apply the new setting to all registry locations
+    foreach ($path in $registryPaths) {
+        Write-StatusMessage -Message "Setting ComboBoxAnimation to $newValue ($newState) in $path..." -Type Info
+        Set-ItemProperty -Path $path -Name $valueName -Value $newValue -Type DWord
+    }
+    
+    # Verify the change was applied to primary location
+    $verifyValue = Get-ItemProperty -Path $registryPaths[0] -Name $valueName -ErrorAction Stop | Select-Object -ExpandProperty $valueName
+    if ($verifyValue -ne $newValue) {
+        throw "Registry value verification failed. Expected: $newValue, Got: $verifyValue"
+    }
+    
+    # Refresh Explorer to apply changes immediately
+    Write-StatusMessage -Message "Refreshing Explorer settings..." -Type Info
+    Invoke-ExplorerRefresh
+    
+    Write-StatusMessage -Message "Slide open combo boxes: $newState" -Type Success
+    Write-StatusMessage -Message "Changes applied immediately - no Explorer restart required" -Type Info
     
 } catch {
     Wait-OnError -ErrorMessage "Failed to toggle combo box animation setting: $($_.Exception.Message)"

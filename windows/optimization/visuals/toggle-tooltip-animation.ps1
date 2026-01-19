@@ -1,6 +1,6 @@
-# Toggle "Show window contents while dragging" setting
+# Toggle "Fade or slide ToolTips into view" setting
 # This controls the checkbox in Performance Options > Visual Effects
-# Controls whether window contents are visible during drag operations
+# Controls whether ToolTips have fade/slide animations
 
 # Function to pause on error
 function Wait-OnError {
@@ -17,14 +17,14 @@ $modulePath = Join-Path $PSScriptRoot "..\..\..\modules\ModuleIndex.psm1"
 Import-Module $modulePath -Force -WarningAction SilentlyContinue
 
 try {
-    # The window contents dragging is controlled by DragFullWindows
-    # This is the actual registry value that Performance Options UI modifies
+    # ToolTip animation is partially controlled by SelectionFade
+    # This affects selection fade and some tooltip animations
     # Windows 11 uses multiple registry locations for visual effects
     $registryPaths = @(
         "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced",
         "HKCU:\Control Panel\Desktop"
     )
-    $valueName = "DragFullWindows"
+    $valueName = "SelectionFade"
     
     # Check if VisualFXSetting is overriding individual settings
     $visualFXPath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects"
@@ -63,14 +63,14 @@ try {
     Write-StatusMessage -Message "Current state: $currentState" -Type Info
     
     # Toggle the setting
-    # 1 = Enabled (show window contents while dragging)
-    # 0 = Disabled (show outline only while dragging)
+    # 1 = Enabled (ToolTip animations)
+    # 0 = Disabled (no ToolTip animations)
     $newValue = if ($currentValue -eq 1) { 0 } else { 1 }
     $newState = if ($newValue -eq 1) { "enabled" } else { "disabled" }
     
     # Apply the new setting to all registry locations
     foreach ($path in $registryPaths) {
-        Write-StatusMessage -Message "Setting DragFullWindows to $newValue ($newState) in $path..." -Type Info
+        Write-StatusMessage -Message "Setting SelectionFade to $newValue ($newState) in $path..." -Type Info
         Set-ItemProperty -Path $path -Name $valueName -Value $newValue -Type DWord
     }
     
@@ -84,9 +84,9 @@ try {
     Write-StatusMessage -Message "Refreshing Explorer settings..." -Type Info
     Invoke-ExplorerRefresh
     
-    Write-StatusMessage -Message "Show window contents while dragging: $newState" -Type Success
+    Write-StatusMessage -Message "Fade or slide ToolTips into view: $newState" -Type Success
     Write-StatusMessage -Message "Changes applied immediately - no Explorer restart required" -Type Info
     
 } catch {
-    Wait-OnError -ErrorMessage "Failed to toggle window contents dragging setting: $($_.Exception.Message)"
+    Wait-OnError -ErrorMessage "Failed to toggle ToolTip animation setting: $($_.Exception.Message)"
 }

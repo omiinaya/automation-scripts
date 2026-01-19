@@ -1,6 +1,6 @@
-# Toggle "Animations in the taskbar" setting
+# Toggle "Use drop shadows for icon labels on the desktop" setting
 # This controls the checkbox in Performance Options > Visual Effects
-# Controls whether taskbar elements have animations
+# Controls whether desktop icon labels have drop shadows
 
 # Function to pause on error
 function Wait-OnError {
@@ -17,10 +17,10 @@ $modulePath = Join-Path $PSScriptRoot "..\..\..\modules\ModuleIndex.psm1"
 Import-Module $modulePath -Force -WarningAction SilentlyContinue
 
 try {
-    # The taskbar animations are controlled by TaskbarAnimations
+    # The icon label shadows are controlled by ListviewShadow
     # This is the actual registry value that Performance Options UI modifies
     $registryPath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"
-    $valueName = "TaskbarAnimations"
+    $valueName = "ListviewShadow"
     
     # Ensure the registry path exists
     if (-not (Test-Path $registryPath)) {
@@ -42,13 +42,13 @@ try {
     Write-StatusMessage -Message "Current state: $currentState" -Type Info
     
     # Toggle the setting
-    # 1 = Enabled (taskbar animations)
-    # 0 = Disabled (no taskbar animations)
+    # 1 = Enabled (drop shadows for icon labels)
+    # 0 = Disabled (no drop shadows for icon labels)
     $newValue = if ($currentValue -eq 1) { 0 } else { 1 }
     $newState = if ($newValue -eq 1) { "enabled" } else { "disabled" }
     
     # Apply the new setting
-    Write-StatusMessage -Message "Setting TaskbarAnimations to $newValue ($newState)..." -Type Info
+    Write-StatusMessage -Message "Setting ListviewShadow to $newValue ($newState)..." -Type Info
     Set-ItemProperty -Path $registryPath -Name $valueName -Value $newValue -Type DWord
     
     # Verify the change was applied
@@ -61,9 +61,9 @@ try {
     Write-StatusMessage -Message "Refreshing Explorer settings..." -Type Info
     Invoke-ExplorerRefresh
     
-    Write-StatusMessage -Message "Animations in the taskbar: $newState" -Type Success
+    Write-StatusMessage -Message "Use drop shadows for icon labels on the desktop: $newState" -Type Success
     Write-StatusMessage -Message "Changes applied immediately - no Explorer restart required" -Type Info
     
 } catch {
-    Wait-OnError -ErrorMessage "Failed to toggle taskbar animations setting: $($_.Exception.Message)"
+    Wait-OnError -ErrorMessage "Failed to toggle icon label shadows setting: $($_.Exception.Message)"
 }

@@ -1,6 +1,6 @@
-# Toggle "Animations in the taskbar" setting
+# Toggle "Show thumbnails instead of icons" setting
 # This controls the checkbox in Performance Options > Visual Effects
-# Controls whether taskbar elements have animations
+# Controls whether file explorer shows thumbnails or icons only
 
 # Function to pause on error
 function Wait-OnError {
@@ -17,10 +17,11 @@ $modulePath = Join-Path $PSScriptRoot "..\..\..\modules\ModuleIndex.psm1"
 Import-Module $modulePath -Force -WarningAction SilentlyContinue
 
 try {
-    # The taskbar animations are controlled by TaskbarAnimations
+    # The thumbnails/icons setting is controlled by IconsOnly
     # This is the actual registry value that Performance Options UI modifies
+    # Note: 0 = thumbnails, 1 = icons only (inverted logic)
     $registryPath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"
-    $valueName = "TaskbarAnimations"
+    $valueName = "IconsOnly"
     
     # Ensure the registry path exists
     if (-not (Test-Path $registryPath)) {
@@ -28,27 +29,27 @@ try {
         New-Item -Path $registryPath -Force | Out-Null
     }
     
-    # Get current value (default to 1/enabled if not set)
+    # Get current value (default to 0/thumbnails if not set)
     $currentValue = Get-ItemProperty -Path $registryPath -Name $valueName -ErrorAction SilentlyContinue | Select-Object -ExpandProperty $valueName
     
     if ($null -eq $currentValue) {
-        # If value doesn't exist, assume it's enabled (Windows default)
-        Write-StatusMessage -Message "Registry value not found, assuming enabled (Windows default)" -Type Info
-        $currentValue = 1
+        # If value doesn't exist, assume thumbnails are enabled (Windows default)
+        Write-StatusMessage -Message "Registry value not found, assuming thumbnails enabled (Windows default)" -Type Info
+        $currentValue = 0
     }
     
     # Display current state
-    $currentState = if ($currentValue -eq 1) { "enabled" } else { "disabled" }
+    $currentState = if ($currentValue -eq 0) { "thumbnails" } else { "icons only" }
     Write-StatusMessage -Message "Current state: $currentState" -Type Info
     
     # Toggle the setting
-    # 1 = Enabled (taskbar animations)
-    # 0 = Disabled (no taskbar animations)
-    $newValue = if ($currentValue -eq 1) { 0 } else { 1 }
-    $newState = if ($newValue -eq 1) { "enabled" } else { "disabled" }
+    # 0 = Enabled (show thumbnails)
+    # 1 = Disabled (show icons only)
+    $newValue = if ($currentValue -eq 0) { 1 } else { 0 }
+    $newState = if ($newValue -eq 0) { "thumbnails" } else { "icons only" }
     
     # Apply the new setting
-    Write-StatusMessage -Message "Setting TaskbarAnimations to $newValue ($newState)..." -Type Info
+    Write-StatusMessage -Message "Setting IconsOnly to $newValue ($newState)..." -Type Info
     Set-ItemProperty -Path $registryPath -Name $valueName -Value $newValue -Type DWord
     
     # Verify the change was applied
@@ -61,9 +62,9 @@ try {
     Write-StatusMessage -Message "Refreshing Explorer settings..." -Type Info
     Invoke-ExplorerRefresh
     
-    Write-StatusMessage -Message "Animations in the taskbar: $newState" -Type Success
+    Write-StatusMessage -Message "Show thumbnails instead of icons: $newState" -Type Success
     Write-StatusMessage -Message "Changes applied immediately - no Explorer restart required" -Type Info
     
 } catch {
-    Wait-OnError -ErrorMessage "Failed to toggle taskbar animations setting: $($_.Exception.Message)"
+    Wait-OnError -ErrorMessage "Failed to toggle thumbnails/icons setting: $($_.Exception.Message)"
 }

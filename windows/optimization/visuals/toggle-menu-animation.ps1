@@ -1,6 +1,6 @@
-# Toggle "Show window contents while dragging" setting
+# Toggle "Fade or slide menus into view" setting
 # This controls the checkbox in Performance Options > Visual Effects
-# Controls whether window contents are visible during drag operations
+# Controls whether menus have fade/slide animations
 
 # Function to pause on error
 function Wait-OnError {
@@ -17,14 +17,15 @@ $modulePath = Join-Path $PSScriptRoot "..\..\..\modules\ModuleIndex.psm1"
 Import-Module $modulePath -Force -WarningAction SilentlyContinue
 
 try {
-    # The window contents dragging is controlled by DragFullWindows
-    # This is the actual registry value that Performance Options UI modifies
+    # Menu animation is controlled by UserPreferencesMask in HKCU:\Control Panel\Desktop
+    # This is a bitmask value that controls multiple visual effects
+    # We need to modify the bitmask to enable/disable menu animations
     # Windows 11 uses multiple registry locations for visual effects
     $registryPaths = @(
-        "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced",
-        "HKCU:\Control Panel\Desktop"
+        "HKCU:\Control Panel\Desktop",
+        "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"
     )
-    $valueName = "DragFullWindows"
+    $valueName = "UserPreferencesMask"
     
     # Check if VisualFXSetting is overriding individual settings
     $visualFXPath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects"
@@ -49,44 +50,53 @@ try {
         }
     }
     
-    # Get current value from primary location (default to 1/enabled if not set)
+    # Get current UserPreferencesMask value from primary location
     $currentValue = Get-ItemProperty -Path $registryPaths[0] -Name $valueName -ErrorAction SilentlyContinue | Select-Object -ExpandProperty $valueName
     
     if ($null -eq $currentValue) {
-        # If value doesn't exist, assume it's enabled (Windows default)
-        Write-StatusMessage -Message "Registry value not found, assuming enabled (Windows default)" -Type Info
-        $currentValue = 1
+        # If value doesn't exist, assume animations are enabled (Windows default)
+        Write-StatusMessage -Message "Registry value not found, assuming animations enabled (Windows default)" -Type Info
+        $currentValue = [byte[]]@(156, 51, 7, 128, 0, 0, 0, 0, 192, 0, 0, 0)
     }
     
-    # Display current state
-    $currentState = if ($currentValue -eq 1) { "enabled" } else { "disabled" }
+    # Check if menu animations are enabled (bit 0x40 in first byte)
+    $menuAnimationsEnabled = ($currentValue[0] -band 0x40) -ne 0
+    $currentState = if ($menuAnimationsEnabled) { "enabled" } else { "disabled" }
     Write-StatusMessage -Message "Current state: $currentState" -Type Info
     
-    # Toggle the setting
-    # 1 = Enabled (show window contents while dragging)
-    # 0 = Disabled (show outline only while dragging)
-    $newValue = if ($currentValue -eq 1) { 0 } else { 1 }
-    $newState = if ($newValue -eq 1) { "enabled" } else { "disabled" }
+    # Toggle the menu animation bit (bit 0x40)
+    $newValue = $currentValue.Clone()
+    if ($menuAnimationsEnabled) {
+        # Disable menu animations
+        $newValue[0] = $newValue[0] -band (-bnot 0x40)
+    } else {
+        # Enable menu animations
+        $newValue[0] = $newValue[0] -bor 0x40
+    }
+    $newState = if (($newValue[0] -band 0x40) -ne 0) { "enabled" } else { "disabled" }
     
     # Apply the new setting to all registry locations
     foreach ($path in $registryPaths) {
-        Write-StatusMessage -Message "Setting DragFullWindows to $newValue ($newState) in $path..." -Type Info
-        Set-ItemProperty -Path $path -Name $valueName -Value $newValue -Type DWord
+        Write-StatusMessage -Message "Setting UserPreferencesMask to enable menu animations: $newState in $path..." -Type Info
+        Set-ItemProperty -Path $path -Name $valueName -Value $newValue -Type Binary
     }
     
     # Verify the change was applied to primary location
     $verifyValue = Get-ItemProperty -Path $registryPaths[0] -Name $valueName -ErrorAction Stop | Select-Object -ExpandProperty $valueName
-    if ($verifyValue -ne $newValue) {
-        throw "Registry value verification failed. Expected: $newValue, Got: $verifyValue"
+    # Compare only the relevant bit (0x40 in first byte) instead of entire array
+    $expectedMenuAnimationsEnabled = ($newValue[0] -band 0x40) -ne 0
+    $actualMenuAnimationsEnabled = ($verifyValue[0] -band 0x40) -ne 0
+    if ($expectedMenuAnimationsEnabled -ne $actualMenuAnimationsEnabled) {
+        throw "Registry value verification failed. Expected menu animations: $expectedMenuAnimationsEnabled, Got: $actualMenuAnimationsEnabled"
     }
     
     # Refresh Explorer to apply changes immediately
     Write-StatusMessage -Message "Refreshing Explorer settings..." -Type Info
     Invoke-ExplorerRefresh
     
-    Write-StatusMessage -Message "Show window contents while dragging: $newState" -Type Success
+    Write-StatusMessage -Message "Fade or slide menus into view: $newState" -Type Success
     Write-StatusMessage -Message "Changes applied immediately - no Explorer restart required" -Type Info
     
 } catch {
-    Wait-OnError -ErrorMessage "Failed to toggle window contents dragging setting: $($_.Exception.Message)"
+    Wait-OnError -ErrorMessage "Failed to toggle menu animation setting: $($_.Exception.Message)"
 }
