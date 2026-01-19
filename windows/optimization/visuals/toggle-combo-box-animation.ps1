@@ -1,6 +1,6 @@
 # Toggle "Slide open combo boxes" setting
 # This controls the checkbox in Performance Options > Visual Effects
-# Controls animation of combo boxes when opening
+# Uses SystemParametersInfo with SPI_SETCOMBOBOXANIMATION
 
 # Function to pause on error
 function Wait-OnError {
@@ -12,64 +12,71 @@ function Wait-OnError {
     Read-Host
 }
 
+# Add P/Invoke for SystemParametersInfo
+# Check if type already exists to avoid conflicts
+if (-not ([System.Management.Automation.PSTypeName]'SystemParams').Type) {
+    Add-Type @"
+using System;
+using System.Runtime.InteropServices;
+
+public class SystemParams {
+    [DllImport("user32.dll", SetLastError = true)]
+    public static extern bool SystemParametersInfo(uint uiAction, uint uiParam, IntPtr pvParam, uint fWinIni);
+}
+"@
+}
+
 # Import the Windows modules
 $modulePath = Join-Path $PSScriptRoot "..\..\..\modules\ModuleIndex.psm1"
 Import-Module $modulePath -Force -WarningAction SilentlyContinue
 
 try {
-    # Combo box animation is controlled by the UserPreferencesMask binary value
-    # Bit 0x20 controls combo box animation
-    $registryPath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects"
-    $valueName = "UserPreferencesMask"
+    # SPI_GETCOMBOBOXANIMATION = 0x1004, SPI_SETCOMBOBOXANIMATION = 0x1005
+    $SPI_GETCOMBOBOXANIMATION = 0x1004
+    $SPI_SETCOMBOBOXANIMATION = 0x1005
+    $SPIF_UPDATEINIFILE = 0x0001
+    $SPIF_SENDCHANGE = 0x0002
     
-    # Ensure the registry path exists
-    if (-not (Test-Path $registryPath)) {
-        Write-StatusMessage -Message "Creating registry path: $registryPath" -Type Info
-        New-Item -Path $registryPath -Force | Out-Null
+    # Allocate memory for boolean value
+    $ptr = [System.Runtime.InteropServices.Marshal]::AllocHGlobal(4)  # sizeof(int)
+    
+    try {
+        # Get current setting
+        $result = [SystemParams]::SystemParametersInfo($SPI_GETCOMBOBOXANIMATION, 0, $ptr, 0)
+        
+        if (-not $result) {
+            throw "Failed to get current combo box animation setting"
+        }
+        
+        # Read the current value
+        $currentValue = [System.Runtime.InteropServices.Marshal]::ReadInt32($ptr)
+        $currentValue = $currentValue -ne 0  # Convert to boolean
+        
+        # Toggle the setting
+        $newValue = -not $currentValue
+        $newState = if ($newValue) { "enabled" } else { "disabled" }
+        
+        # Write the new value
+        [System.Runtime.InteropServices.Marshal]::WriteInt32($ptr, [int]$newValue)
+        
+        # Apply the new setting
+        $result = [SystemParams]::SystemParametersInfo($SPI_SETCOMBOBOXANIMATION, 0, $ptr, $SPIF_UPDATEINIFILE -bor $SPIF_SENDCHANGE)
+        
+        if (-not $result) {
+            throw "Failed to apply combo box animation setting"
+        }
+        
+        Write-StatusMessage -Message "Slide open combo boxes: $newState" -Type Success
+        
+        # Refresh Explorer to apply changes immediately
+        Write-StatusMessage -Message "Refreshing Explorer settings..." -Type Info
+        Invoke-ExplorerRefresh
+        
+        Write-StatusMessage -Message "Changes applied immediately - no restart required" -Type Info
+        
+    } finally {
+        [System.Runtime.InteropServices.Marshal]::FreeHGlobal($ptr)
     }
-    
-    # Get current value (default to enabled if not set)
-    $currentValue = Get-ItemProperty -Path $registryPath -Name $valueName -ErrorAction SilentlyContinue | Select-Object -ExpandProperty $valueName
-    
-    if ($null -eq $currentValue) {
-        # If value doesn't exist, assume it's enabled (Windows default)
-        Write-StatusMessage -Message "Registry value not found, assuming enabled (Windows default)" -Type Info
-        $currentValue = 0x90  # Default value with animations enabled
-    }
-    
-    # Display current state
-    $comboBoxAnimationBit = 0x20
-    $isEnabled = ($currentValue -band $comboBoxAnimationBit) -eq $comboBoxAnimationBit
-    $currentState = if ($isEnabled) { "enabled" } else { "disabled" }
-    Write-StatusMessage -Message "Current state: $currentState" -Type Info
-    
-    # Toggle the setting
-    if ($isEnabled) {
-        # Disable combo box animation
-        $newValue = $currentValue -band (-bnot $comboBoxAnimationBit)
-        $newState = "disabled"
-    } else {
-        # Enable combo box animation
-        $newValue = $currentValue -bor $comboBoxAnimationBit
-        $newState = "enabled"
-    }
-    
-    # Apply the new setting
-    Write-StatusMessage -Message "Setting UserPreferencesMask to $($newValue.ToString('X')) ($newState)..." -Type Info
-    Set-ItemProperty -Path $registryPath -Name $valueName -Value $newValue -Type Binary
-    
-    # Verify the change was applied
-    $verifyValue = Get-ItemProperty -Path $registryPath -Name $valueName -ErrorAction Stop | Select-Object -ExpandProperty $valueName
-    if ($verifyValue -ne $newValue) {
-        throw "Registry value verification failed. Expected: $($newValue.ToString('X')), Got: $($verifyValue.ToString('X'))"
-    }
-    
-    # Refresh Explorer to apply changes immediately
-    Write-StatusMessage -Message "Refreshing Explorer settings..." -Type Info
-    Invoke-ExplorerRefresh
-    
-    Write-StatusMessage -Message "Slide open combo boxes: $newState" -Type Success
-    Write-StatusMessage -Message "Changes applied immediately - no Explorer restart required" -Type Info
     
 } catch {
     Wait-OnError -ErrorMessage "Failed to toggle combo box animation setting: $($_.Exception.Message)"
