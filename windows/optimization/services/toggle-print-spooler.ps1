@@ -29,7 +29,10 @@ try {
     $service = Get-Service -Name "Spooler" -ErrorAction SilentlyContinue
     
     if (-not $service) {
-        throw "Print Spooler service (Spooler) not found on this system"
+        Write-StatusMessage -Message "Print Spooler service (Spooler) not found on this system" -Type Warning
+        Write-StatusMessage -Message "This service may not be available on your Windows version" -Type Info
+        Write-StatusMessage -Message "No action taken" -Type Info
+        return
     }
     
     Write-StatusMessage -Message "Current Print Spooler status: $($service.Status)" -Type Info

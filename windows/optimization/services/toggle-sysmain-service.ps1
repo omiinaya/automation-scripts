@@ -29,7 +29,10 @@ try {
     $service = Get-Service -Name "SysMain" -ErrorAction SilentlyContinue
     
     if (-not $service) {
-        throw "SysMain service (formerly Superfetch/Prefetch) not found on this system"
+        Write-StatusMessage -Message "SysMain service (formerly Superfetch/Prefetch) not found on this system" -Type Warning
+        Write-StatusMessage -Message "This service may not be available on your Windows version" -Type Info
+        Write-StatusMessage -Message "No action taken" -Type Info
+        return
     }
     
     Write-StatusMessage -Message "Current SysMain service status: $($service.Status)" -Type Info

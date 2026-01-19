@@ -29,7 +29,10 @@ try {
     $service = Get-Service -Name "TabletInputService" -ErrorAction SilentlyContinue
     
     if (-not $service) {
-        throw "Tablet Input Service (TabletInputService) not found on this system"
+        Write-StatusMessage -Message "Tablet Input Service (TabletInputService) not found on this system" -Type Warning
+        Write-StatusMessage -Message "This service may not be available on your Windows version" -Type Info
+        Write-StatusMessage -Message "No action taken" -Type Info
+        return
     }
     
     Write-StatusMessage -Message "Current Tablet Input Service status: $($service.Status)" -Type Info

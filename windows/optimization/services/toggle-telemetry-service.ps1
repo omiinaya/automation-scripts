@@ -29,7 +29,10 @@ try {
     $service = Get-Service -Name "DiagTrack" -ErrorAction SilentlyContinue
     
     if (-not $service) {
-        throw "Connected User Experiences and Telemetry service (DiagTrack) not found on this system"
+        Write-StatusMessage -Message "Connected User Experiences and Telemetry service (DiagTrack) not found on this system" -Type Warning
+        Write-StatusMessage -Message "This service may not be available on your Windows version" -Type Info
+        Write-StatusMessage -Message "No action taken" -Type Info
+        return
     }
     
     Write-StatusMessage -Message "Current DiagTrack service status: $($service.Status)" -Type Info

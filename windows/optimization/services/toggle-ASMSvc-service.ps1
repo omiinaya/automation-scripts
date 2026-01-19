@@ -1,4 +1,4 @@
-# Toggle Phone service startup type on Windows
+# Toggle Application Service Management Service (ASMSvc) startup type on Windows
 # Enable/Disable service startup instead of starting/stopping the service
 # Refactored to use modular system
 
@@ -26,41 +26,38 @@ try {
     }
     
     # Get current service status
-    $service = Get-Service -Name "PhoneSvc" -ErrorAction SilentlyContinue
+    $service = Get-Service -Name "ASMSvc" -ErrorAction SilentlyContinue
     
     if (-not $service) {
-        Write-StatusMessage -Message "Phone service (PhoneSvc) not found on this system" -Type Warning
-        Write-StatusMessage -Message "This service may not be available on your Windows version" -Type Info
-        Write-StatusMessage -Message "No action taken" -Type Info
-        return
+        throw "Application Service Management Service (ASMSvc) not found on this system"
     }
     
-    Write-StatusMessage -Message "Current Phone service status: $($service.Status)" -Type Info
+    Write-StatusMessage -Message "Current ASMSvc service status: $($service.Status)" -Type Info
     Write-StatusMessage -Message "Current startup type: $($service.StartType)" -Type Info
     
     # Determine action based on current startup type
     if ($service.StartType -eq "Disabled") {
-        # Enable the service (set to Manual) and start it
-        Set-Service -Name "PhoneSvc" -StartupType "Manual" -ErrorAction Stop
-        Start-Service -Name "PhoneSvc" -ErrorAction Stop
-        Write-StatusMessage -Message "Phone service enabled and started" -Type Success
-        Write-StatusMessage -Message "Telephony functionality is now available" -Type Warning
+        # Enable the service (set to Automatic) and start it
+        Set-Service -Name "ASMSvc" -StartupType "Automatic" -ErrorAction Stop
+        Start-Service -Name "ASMSvc" -ErrorAction Stop
+        Write-StatusMessage -Message "ASMSvc service enabled and started" -Type Success
+        Write-StatusMessage -Message "Application Service Management is now active" -Type Warning
     } else {
         # Disable the service and stop it
-        Stop-Service -Name "PhoneSvc" -ErrorAction Stop
-        Set-Service -Name "PhoneSvc" -StartupType "Disabled" -ErrorAction Stop
-        Write-StatusMessage -Message "Phone service stopped and disabled" -Type Success
-        Write-StatusMessage -Message "Telephony functionality is now disabled" -Type Warning
+        Stop-Service -Name "ASMSvc" -ErrorAction Stop
+        Set-Service -Name "ASMSvc" -StartupType "Disabled" -ErrorAction Stop
+        Write-StatusMessage -Message "ASMSvc service stopped and disabled" -Type Success
+        Write-StatusMessage -Message "Application Service Management is now disabled" -Type Warning
     }
     
     # Verify the new startup type
     Start-Sleep -Seconds 2
-    $newService = Get-Service -Name "PhoneSvc"
-    Write-StatusMessage -Message "New Phone service startup type: $($newService.StartType)" -Type Info
+    $newService = Get-Service -Name "ASMSvc"
+    Write-StatusMessage -Message "New ASMSvc service startup type: $($newService.StartType)" -Type Info
     Write-StatusMessage -Message "Current service status: $($newService.Status)" -Type Info
     
     Write-StatusMessage -Message "Note: Startup type changes require a reboot to take full effect" -Type Warning
     
 } catch {
-    Wait-OnError -ErrorMessage "Failed to toggle Phone service startup type: $($_.Exception.Message)"
+    Wait-OnError -ErrorMessage "Failed to toggle ASMSvc service startup type: $($_.Exception.Message)"
 }
