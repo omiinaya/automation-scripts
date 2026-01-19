@@ -13,14 +13,17 @@ function Wait-OnError {
 }
 
 # Add P/Invoke for SystemParametersInfo
-Add-Type @"
+# Check if type already exists to avoid conflicts
+if (-not ([System.Management.Automation.PSTypeName]'SystemParams').Type) {
+    Add-Type @"
 using System;
 using System.Runtime.InteropServices;
 public class SystemParams {
     [DllImport("user32.dll", SetLastError = true)]
-    public static extern bool SystemParametersInfo(uint uiAction, uint uiParam, ref bool pvParam, uint fWinIni);
+    public static extern bool SystemParametersInfo(uint uiAction, uint uiParam, IntPtr pvParam, uint fWinIni);
 }
 "@
+}
 
 # Import the Windows modules
 $modulePath = Join-Path $PSScriptRoot "..\..\..\modules\ModuleIndex.psm1"
@@ -33,23 +36,36 @@ try {
     $SPIF_UPDATEINIFILE = 0x0001
     $SPIF_SENDCHANGE = 0x0002
     
-    # Get current setting
-    $currentValue = $false
-    $result = [SystemParams]::SystemParametersInfo($SPI_GETDRAGFULLWINDOWS, 0, [ref]$currentValue, 0)
+    # Allocate memory for boolean value
+    $ptr = [System.Runtime.InteropServices.Marshal]::AllocHGlobal(4)  # sizeof(int)
     
-    if (-not $result) {
-        throw "Failed to get current drag full windows setting"
-    }
-    
-    # Toggle the setting
-    $newValue = -not $currentValue
-    $newState = if ($newValue) { "enabled" } else { "disabled" }
-    
-    # Apply the new setting
-    $result = [SystemParams]::SystemParametersInfo($SPI_SETDRAGFULLWINDOWS, $(if ($newValue) { 1 } else { 0 }), [ref]$newValue, $SPIF_UPDATEINIFILE -bor $SPIF_SENDCHANGE)
-    
-    if (-not $result) {
-        throw "Failed to apply drag full windows setting"
+    try {
+        # Get current setting
+        $result = [SystemParams]::SystemParametersInfo($SPI_GETDRAGFULLWINDOWS, 0, $ptr, 0)
+        
+        if (-not $result) {
+            throw "Failed to get current drag full windows setting"
+        }
+        
+        # Read the current value
+        $currentValue = [System.Runtime.InteropServices.Marshal]::ReadInt32($ptr)
+        $currentValue = $currentValue -ne 0  # Convert to boolean
+        
+        # Toggle the setting
+        $newValue = -not $currentValue
+        $newState = if ($newValue) { "enabled" } else { "disabled" }
+        
+        # Write the new value
+        [System.Runtime.InteropServices.Marshal]::WriteInt32($ptr, [int]$newValue)
+        
+        # Apply the new setting
+        $result = [SystemParams]::SystemParametersInfo($SPI_SETDRAGFULLWINDOWS, 0, $ptr, $SPIF_UPDATEINIFILE -bor $SPIF_SENDCHANGE)
+        
+        if (-not $result) {
+            throw "Failed to apply drag full windows setting"
+        }
+    } finally {
+        [System.Runtime.InteropServices.Marshal]::FreeHGlobal($ptr)
     }
     
     Write-StatusMessage -Message "Show window contents while dragging: $newState" -Type Success
