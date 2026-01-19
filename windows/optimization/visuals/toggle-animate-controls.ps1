@@ -1,6 +1,6 @@
 # Toggle "Animate controls and elements inside windows" setting
 # This controls the checkbox in Performance Options > Visual Effects
-# Uses SystemParametersInfo with SPI_SETMENUANIMATION
+# Uses SystemParametersInfo with SPI_SETANIMATION
 
 # Function to pause on error
 function Wait-OnError {
@@ -12,13 +12,21 @@ function Wait-OnError {
     Read-Host
 }
 
-# Add P/Invoke for SystemParametersInfo
+# Add P/Invoke for SystemParametersInfo with ANIMATIONINFO structure
 Add-Type @"
 using System;
 using System.Runtime.InteropServices;
+
+[StructLayout(LayoutKind.Sequential)]
+public struct ANIMATIONINFO
+{
+    public uint cbSize;
+    public int iMinAnimate;
+}
+
 public class SystemParams {
     [DllImport("user32.dll", SetLastError = true)]
-    public static extern bool SystemParametersInfo(uint uiAction, uint uiParam, ref bool pvParam, uint fWinIni);
+    public static extern bool SystemParametersInfo(uint uiAction, uint uiParam, ref ANIMATIONINFO pvParam, uint fWinIni);
 }
 "@
 
@@ -27,29 +35,35 @@ $modulePath = Join-Path $PSScriptRoot "..\..\..\modules\ModuleIndex.psm1"
 Import-Module $modulePath -Force -WarningAction SilentlyContinue
 
 try {
-    # SPI_GETMENUANIMATION = 0x1002, SPI_SETMENUANIMATION = 0x1003
-    $SPI_GETMENUANIMATION = 0x1002
-    $SPI_SETMENUANIMATION = 0x1003
+    # SPI_GETANIMATION = 0x0048, SPI_SETANIMATION = 0x0049
+    $SPI_GETANIMATION = 0x0048
+    $SPI_SETANIMATION = 0x0049
     $SPIF_UPDATEINIFILE = 0x0001
     $SPIF_SENDCHANGE = 0x0002
     
+    # Create ANIMATIONINFO structure
+    $animationInfo = New-Object ANIMATIONINFO
+    $animationInfo.cbSize = [System.Runtime.InteropServices.Marshal]::SizeOf($animationInfo)
+    
     # Get current setting
-    $currentValue = $false
-    $result = [SystemParams]::SystemParametersInfo($SPI_GETMENUANIMATION, 0, [ref]$currentValue, 0)
+    $result = [SystemParams]::SystemParametersInfo($SPI_GETANIMATION, $animationInfo.cbSize, [ref]$animationInfo, 0)
     
     if (-not $result) {
-        throw "Failed to get current menu animation setting"
+        throw "Failed to get current animation setting"
     }
     
     # Toggle the setting
-    $newValue = -not $currentValue
-    $newState = if ($newValue) { "enabled" } else { "disabled" }
+    $newValue = if ($animationInfo.iMinAnimate -eq 0) { 1 } else { 0 }
+    $newState = if ($newValue -eq 1) { "enabled" } else { "disabled" }
+    
+    # Update the structure
+    $animationInfo.iMinAnimate = $newValue
     
     # Apply the new setting
-    $result = [SystemParams]::SystemParametersInfo($SPI_SETMENUANIMATION, 0, [ref]$newValue, $SPIF_UPDATEINIFILE -bor $SPIF_SENDCHANGE)
+    $result = [SystemParams]::SystemParametersInfo($SPI_SETANIMATION, $animationInfo.cbSize, [ref]$animationInfo, $SPIF_UPDATEINIFILE -bor $SPIF_SENDCHANGE)
     
     if (-not $result) {
-        throw "Failed to apply menu animation setting"
+        throw "Failed to apply animation setting"
     }
     
     Write-StatusMessage -Message "Animate controls and elements inside windows: $newState" -Type Success

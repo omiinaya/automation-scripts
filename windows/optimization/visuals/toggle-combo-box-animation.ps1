@@ -27,13 +27,34 @@ $modulePath = Join-Path $PSScriptRoot "..\..\..\modules\ModuleIndex.psm1"
 Import-Module $modulePath -Force -WarningAction SilentlyContinue
 
 try {
-    # SPI_GETCOMBOBOXANIMATION = 0x1004, SPI_SETCOMBOBOXANIMATION = 0x1005
+    # SPI_GETUIEFFECTS = 0x103E, SPI_SETUIEFFECTS = 0x103F
+    $SPI_GETUIEFFECTS = 0x103E
+    $SPI_SETUIEFFECTS = 0x103F
     $SPI_GETCOMBOBOXANIMATION = 0x1004
     $SPI_SETCOMBOBOXANIMATION = 0x1005
     $SPIF_UPDATEINIFILE = 0x0001
     $SPIF_SENDCHANGE = 0x0002
     
-    # Get current setting
+    # First, ensure UI effects are enabled (master switch)
+    $uiEffectsValue = $false
+    $result = [SystemParams]::SystemParametersInfo($SPI_GETUIEFFECTS, 0, [ref]$uiEffectsValue, 0)
+    
+    if (-not $result) {
+        throw "Failed to get UI effects setting"
+    }
+    
+    # Enable UI effects if disabled
+    if (-not $uiEffectsValue) {
+        $uiEffectsValue = $true
+        $result = [SystemParams]::SystemParametersInfo($SPI_SETUIEFFECTS, 0, [ref]$uiEffectsValue, $SPIF_UPDATEINIFILE -bor $SPIF_SENDCHANGE)
+        
+        if (-not $result) {
+            throw "Failed to enable UI effects"
+        }
+        Write-StatusMessage -Message "Enabled UI effects (required for combo box animation)" -Type Info
+    }
+    
+    # Get current combo box animation setting
     $currentValue = $false
     $result = [SystemParams]::SystemParametersInfo($SPI_GETCOMBOBOXANIMATION, 0, [ref]$currentValue, 0)
     

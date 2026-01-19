@@ -20,7 +20,7 @@ using System;
 using System.Runtime.InteropServices;
 public class SystemParams {
     [DllImport("user32.dll", SetLastError = true)]
-    public static extern bool SystemParametersInfo(uint uiAction, uint uiParam, IntPtr pvParam, uint fWinIni);
+    public static extern bool SystemParametersInfo(uint uiAction, uint uiParam, ref bool pvParam, uint fWinIni);
 }
 "@
 }
@@ -30,41 +30,47 @@ $modulePath = Join-Path $PSScriptRoot "..\..\..\modules\ModuleIndex.psm1"
 Import-Module $modulePath -Force -WarningAction SilentlyContinue
 
 try {
-    # SPI_GETDROPSHADOW = 0x1024, SPI_SETDROPSHADOW = 0x1025
+    # SPI_GETUIEFFECTS = 0x103E, SPI_SETUIEFFECTS = 0x103F
+    $SPI_GETUIEFFECTS = 0x103E
+    $SPI_SETUIEFFECTS = 0x103F
     $SPI_GETDROPSHADOW = 0x1024
     $SPI_SETDROPSHADOW = 0x1025
     $SPIF_UPDATEINIFILE = 0x0001
     $SPIF_SENDCHANGE = 0x0002
     
-    # Get current setting
-    $currentValue = $false
-    $currentValuePtr = [System.Runtime.InteropServices.Marshal]::AllocHGlobal([System.Runtime.InteropServices.Marshal]::SizeOf([bool]))
-    [System.Runtime.InteropServices.Marshal]::WriteInt32($currentValuePtr, [int]$currentValue)
-    
-    $result = [SystemParams]::SystemParametersInfo($SPI_GETDROPSHADOW, 0, $currentValuePtr, 0)
+    # First, ensure UI effects are enabled (master switch)
+    $uiEffectsValue = $false
+    $result = [SystemParams]::SystemParametersInfo($SPI_GETUIEFFECTS, 0, [ref]$uiEffectsValue, 0)
     
     if (-not $result) {
-        [System.Runtime.InteropServices.Marshal]::FreeHGlobal($currentValuePtr)
-        throw "Failed to get current drop shadow setting"
+        throw "Failed to get UI effects setting"
     }
     
-    # Read the boolean value back
-    $currentValue = [bool][System.Runtime.InteropServices.Marshal]::ReadInt32($currentValuePtr)
+    # Enable UI effects if disabled
+    if (-not $uiEffectsValue) {
+        $uiEffectsValue = $true
+        $result = [SystemParams]::SystemParametersInfo($SPI_SETUIEFFECTS, 0, [ref]$uiEffectsValue, $SPIF_UPDATEINIFILE -bor $SPIF_SENDCHANGE)
+        
+        if (-not $result) {
+            throw "Failed to enable UI effects"
+        }
+        Write-StatusMessage -Message "Enabled UI effects (required for drop shadow)" -Type Info
+    }
+    
+    # Get current drop shadow setting
+    $currentValue = $false
+    $result = [SystemParams]::SystemParametersInfo($SPI_GETDROPSHADOW, 0, [ref]$currentValue, 0)
+    
+    if (-not $result) {
+        throw "Failed to get current drop shadow setting"
+    }
     
     # Toggle the setting
     $newValue = -not $currentValue
     $newState = if ($newValue) { "enabled" } else { "disabled" }
     
-    # Free the old pointer and allocate new one
-    [System.Runtime.InteropServices.Marshal]::FreeHGlobal($currentValuePtr)
-    $newValuePtr = [System.Runtime.InteropServices.Marshal]::AllocHGlobal([System.Runtime.InteropServices.Marshal]::SizeOf([bool]))
-    [System.Runtime.InteropServices.Marshal]::WriteInt32($newValuePtr, [int]$newValue)
-    
     # Apply the new setting
-    $result = [SystemParams]::SystemParametersInfo($SPI_SETDROPSHADOW, 0, $newValuePtr, $SPIF_UPDATEINIFILE -bor $SPIF_SENDCHANGE)
-    
-    # Free the allocated memory
-    [System.Runtime.InteropServices.Marshal]::FreeHGlobal($newValuePtr)
+    $result = [SystemParams]::SystemParametersInfo($SPI_SETDROPSHADOW, 0, [ref]$newValue, $SPIF_UPDATEINIFILE -bor $SPIF_SENDCHANGE)
     
     if (-not $result) {
         throw "Failed to apply drop shadow setting"

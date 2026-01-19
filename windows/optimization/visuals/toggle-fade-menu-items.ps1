@@ -1,6 +1,7 @@
 # Toggle "Fade out menu items after clicking" setting
 # This controls the checkbox in Performance Options > Visual Effects
 # Uses SystemParametersInfo with SPI_SETSELECTIONFADE
+# Note: This is separate from "Fade or slide menus into view" (SPI_SETMENUFADE)
 
 # Function to pause on error
 function Wait-OnError {
@@ -27,13 +28,34 @@ $modulePath = Join-Path $PSScriptRoot "..\..\..\modules\ModuleIndex.psm1"
 Import-Module $modulePath -Force -WarningAction SilentlyContinue
 
 try {
-    # SPI_GETSELECTIONFADE = 0x1014, SPI_SETSELECTIONFADE = 0x1015
+    # SPI_GETUIEFFECTS = 0x103E, SPI_SETUIEFFECTS = 0x103F
+    $SPI_GETUIEFFECTS = 0x103E
+    $SPI_SETUIEFFECTS = 0x103F
     $SPI_GETSELECTIONFADE = 0x1014
     $SPI_SETSELECTIONFADE = 0x1015
     $SPIF_UPDATEINIFILE = 0x0001
     $SPIF_SENDCHANGE = 0x0002
     
-    # Get current setting
+    # First, ensure UI effects are enabled (master switch)
+    $uiEffectsValue = $false
+    $result = [SystemParams]::SystemParametersInfo($SPI_GETUIEFFECTS, 0, [ref]$uiEffectsValue, 0)
+    
+    if (-not $result) {
+        throw "Failed to get UI effects setting"
+    }
+    
+    # Enable UI effects if disabled
+    if (-not $uiEffectsValue) {
+        $uiEffectsValue = $true
+        $result = [SystemParams]::SystemParametersInfo($SPI_SETUIEFFECTS, 0, [ref]$uiEffectsValue, $SPIF_UPDATEINIFILE -bor $SPIF_SENDCHANGE)
+        
+        if (-not $result) {
+            throw "Failed to enable UI effects"
+        }
+        Write-StatusMessage -Message "Enabled UI effects (required for selection fade)" -Type Info
+    }
+    
+    # Get current selection fade setting
     $currentValue = $false
     $result = [SystemParams]::SystemParametersInfo($SPI_GETSELECTIONFADE, 0, [ref]$currentValue, 0)
     

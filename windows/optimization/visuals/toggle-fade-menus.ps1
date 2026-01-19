@@ -27,13 +27,34 @@ $modulePath = Join-Path $PSScriptRoot "..\..\..\modules\ModuleIndex.psm1"
 Import-Module $modulePath -Force -WarningAction SilentlyContinue
 
 try {
-    # SPI_GETMENUFADE = 0x1012, SPI_SETMENUFADE = 0x1013
+    # SPI_GETUIEFFECTS = 0x103E, SPI_SETUIEFFECTS = 0x103F
+    $SPI_GETUIEFFECTS = 0x103E
+    $SPI_SETUIEFFECTS = 0x103F
     $SPI_GETMENUFADE = 0x1012
     $SPI_SETMENUFADE = 0x1013
     $SPIF_UPDATEINIFILE = 0x0001
     $SPIF_SENDCHANGE = 0x0002
     
-    # Get current setting
+    # First, ensure UI effects are enabled (master switch)
+    $uiEffectsValue = $false
+    $result = [SystemParams]::SystemParametersInfo($SPI_GETUIEFFECTS, 0, [ref]$uiEffectsValue, 0)
+    
+    if (-not $result) {
+        throw "Failed to get UI effects setting"
+    }
+    
+    # Enable UI effects if disabled
+    if (-not $uiEffectsValue) {
+        $uiEffectsValue = $true
+        $result = [SystemParams]::SystemParametersInfo($SPI_SETUIEFFECTS, 0, [ref]$uiEffectsValue, $SPIF_UPDATEINIFILE -bor $SPIF_SENDCHANGE)
+        
+        if (-not $result) {
+            throw "Failed to enable UI effects"
+        }
+        Write-StatusMessage -Message "Enabled UI effects (required for menu fade)" -Type Info
+    }
+    
+    # Get current menu fade setting
     $currentValue = $false
     $result = [SystemParams]::SystemParametersInfo($SPI_GETMENUFADE, 0, [ref]$currentValue, 0)
     
