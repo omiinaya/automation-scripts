@@ -17,9 +17,9 @@
     Test-ServiceToggleRequirements -ServiceName "BDESVC"
 #>
 
-# Import required modules
-$modulePath = Join-Path $PSScriptRoot "ModuleIndex.psm1"
-Import-Module $modulePath -Force -WarningAction SilentlyContinue
+# Import only the specific modules needed to avoid circular dependencies
+Import-Module "$PSScriptRoot\WindowsUtils.psm1" -Force -WarningAction SilentlyContinue
+Import-Module "$PSScriptRoot\WindowsUI.psm1" -Force -WarningAction SilentlyContinue
 
 function Invoke-ServiceToggle {
 <#
