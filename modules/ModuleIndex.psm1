@@ -32,6 +32,7 @@ $modulesToImport = @(
     "VisualEffects.psm1"
     "CISFramework.psm1"
     "CISRemediation.psm1"
+    "ServiceManager.psm1"
 )
 
 foreach ($module in $modulesToImport) {
@@ -177,6 +178,15 @@ function Get-WindowsModuleInfo {
                 "Export-CISRemediationResults",
                 "Get-CISRemediationSummary"
             )
+        },
+        @{
+            Name = "ServiceManager"
+            Description = "Service toggle operations and management"
+            Commands = @(
+                "Invoke-ServiceToggle",
+                "Get-ServiceToggleStatus",
+                "Test-ServiceToggleRequirements"
+            )
         }
     )
     
@@ -270,7 +280,7 @@ function Get-WindowsModuleCommands {
     
     $commands = @()
     
-    $moduleCommands = Get-Command -Module WindowsUtils, PowerManagement, RegistryUtils, WindowsUI, VisualEffects, CISFramework, CISRemediation -ErrorAction SilentlyContinue
+    $moduleCommands = Get-Command -Module WindowsUtils, PowerManagement, RegistryUtils, WindowsUI, VisualEffects, CISFramework, CISRemediation, ServiceManager -ErrorAction SilentlyContinue
     
     foreach ($cmd in $moduleCommands) {
         $commands += [PSCustomObject]@{
@@ -382,5 +392,5 @@ if ($VerbosePreference -ne 'SilentlyContinue') {
 Export-ModuleMember -Function Get-WindowsModuleInfo, Test-WindowsModules, Get-WindowsModuleCommands, Show-WindowsModuleHelp, Initialize-WindowsModules -Verbose:$false
 
 # Export all functions from imported modules
-$allCommands = Get-Command -Module WindowsUtils, PowerManagement, RegistryUtils, WindowsUI, VisualEffects, CISFramework, CISRemediation -ErrorAction SilentlyContinue
+$allCommands = Get-Command -Module WindowsUtils, PowerManagement, RegistryUtils, WindowsUI, VisualEffects, CISFramework, CISRemediation, ServiceManager -ErrorAction SilentlyContinue
 Export-ModuleMember -Function $allCommands.Name -ErrorAction SilentlyContinue -Verbose:$false
