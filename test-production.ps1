@@ -30,7 +30,7 @@ param(
 )
 
 # Import required modules
-Import-Module "$PSScriptRoot\..\modules\ModuleIndex.psm1" -Force -WarningAction SilentlyContinue
+Import-Module ".\modules\ModuleIndex.psm1" -Force -WarningAction SilentlyContinue
 
 # Initialize logging
 Initialize-EnterpriseLogging -LogLevel "INFO" -ApplicationName "CISAutomationTest"

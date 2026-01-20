@@ -386,8 +386,12 @@ function Generate-CISScriptsFromJSON {
             
             foreach ($scriptType in $ScriptTypes) {
                 # Generate script filename
-                $filename = "$cisID-$($scriptType.ToLower())-$($recommendation.title.ToLower().Replace(' ', '-').Replace('\'', '').Replace('"', ''))"
-                $filename = $filename -replace '[^a-zA-Z0-9\-\._]', ''
+                $title = $recommendation.title.ToLower()
+                $title = $title.Replace(' ', '-')
+                $title = $title.Replace([char]39, '')
+                $title = $title.Replace([char]34, '')
+                $filename = "$cisID-$($scriptType.ToLower())-$title"
+                $filename = $filename -replace "[^a-zA-Z0-9\-\._]", ""
                 $filename += ".ps1"
                 
                 $outputPath = Join-Path $OutputDirectory $filename

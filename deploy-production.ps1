@@ -30,7 +30,7 @@ param(
 )
 
 # Import required modules
-Import-Module "$PSScriptRoot\..\modules\ModuleIndex.psm1" -Force -WarningAction SilentlyContinue
+Import-Module ".\modules\ModuleIndex.psm1" -Force -WarningAction SilentlyContinue
 
 # Initialize logging
 Initialize-EnterpriseLogging -LogLevel "INFO" -ApplicationName "CISAutomationDeploy"
@@ -93,7 +93,7 @@ try {
 
     # Create deployment package
     Write-StatusMessage -Message "Creating deployment package..." -Type Info
-    $package = New-DeploymentPackage -SourcePath "$PSScriptRoot\.." -PackageName "CISAutomation" -Version "1.0.0"
+    $package = New-DeploymentPackage -SourcePath "." -PackageName "CISAutomation" -Version "1.0.0"
     Write-Host "  Package: $($package.PackageName)" -ForegroundColor White
     Write-Host "  Version: $($package.Version)" -ForegroundColor White
     Write-Host "  Files: $($package.FileCount)" -ForegroundColor White
@@ -130,7 +130,7 @@ try {
     
     # Test module loading
     Write-Host "  Testing module loading..." -ForegroundColor White
-    Import-Module "$PSScriptRoot\..\modules\ModuleIndex.psm1" -Force -ErrorAction Stop
+    Import-Module ".\modules\ModuleIndex.psm1" -Force -ErrorAction Stop
     Write-Host "    Module loading: PASS" -ForegroundColor Green
 
     # Test basic functionality

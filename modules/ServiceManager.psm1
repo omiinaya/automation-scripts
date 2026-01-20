@@ -173,6 +173,7 @@ function Test-ServiceToggleRequirements {
     Tests all requirements for a service toggle operation.
 .DESCRIPTION
     Validates service existence, admin privileges, and system readiness for service toggle operations.
+    Note: Admin privilege checking is now handled by Invoke-CISScript with AutoElevate parameter.
 .PARAMETER ServiceName
     The name of the service to validate.
 .PARAMETER ServiceDisplayName
@@ -206,21 +207,8 @@ param(
         return $false
     }
     
-    # Check admin privileges if not skipped
-    if (-not $SkipAdminCheck) {
-        $isAdmin = Test-AdminRights
-        
-        if (-not $isAdmin) {
-            Write-StatusMessage -Message "WARNING: This operation may require administrator privileges" -Type Warning
-            Write-StatusMessage -Message "Some service operations may fail without elevated permissions" -Type Warning
-            
-            $continue = Show-Confirmation -Message "Continue without administrator privileges?" -DefaultChoice "No"
-            if (-not $continue) {
-                Write-StatusMessage -Message "Operation cancelled" -Type Info
-                return $false
-            }
-        }
-    }
+    # Admin privilege checking is now handled by Invoke-CISScript with AutoElevate parameter
+    # This function only validates service existence when SkipAdminCheck is used
     
     return $true
 }

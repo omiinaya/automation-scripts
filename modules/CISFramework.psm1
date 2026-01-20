@@ -989,7 +989,7 @@ function Invoke-CISScript {
                 Import-Module "$PSScriptRoot\CISFramework.psm1" -Force -WarningAction SilentlyContinue -Verbose:$false
                 Import-Module "$PSScriptRoot\CISRemediation.psm1" -Force -WarningAction SilentlyContinue -Verbose:$false
             }
-            "ServiceToggle" { 
+            "ServiceToggle" {
                 Import-Module "$PSScriptRoot\ServiceManager.psm1" -Force -WarningAction SilentlyContinue -Verbose:$false
             }
         }
