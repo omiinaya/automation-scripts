@@ -225,5 +225,167 @@ param(
     return $true
 }
 
+# Function to set service compliance state with unified service management
+function Set-ServiceCompliance {
+    <#
+    .SYNOPSIS
+        Unified service compliance management function.
+    .DESCRIPTION
+        Eliminates duplicate service toggle logic by providing a single function
+        for service compliance management across all scripts.
+    .PARAMETER ServiceName
+        The name of the service to manage.
+    .PARAMETER ServiceDisplayName
+        The display name of the service for user-friendly output.
+    .PARAMETER ComplianceState
+        The desired compliance state (Compliant, NonCompliant).
+    .PARAMETER CIS_ID
+        CIS benchmark ID for audit tracking.
+    .PARAMETER ExpectedStartupType
+        Expected startup type for compliant state (Manual, Automatic, Disabled).
+    .PARAMETER ExpectedServiceState
+        Expected service state for compliant state (Running, Stopped).
+    .PARAMETER VerboseOutput
+        Enable verbose output.
+    .EXAMPLE
+        Set-ServiceCompliance -ServiceName "BDESVC" -ServiceDisplayName "BitLocker Drive Encryption" -ComplianceState "Compliant" -CIS_ID "2.3.1.1"
+    .EXAMPLE
+        Set-ServiceCompliance -ServiceName "lfsvc" -ServiceDisplayName "Geolocation Service" -ComplianceState "NonCompliant" -ExpectedStartupType "Disabled"
+    .OUTPUTS
+        PSCustomObject containing service compliance result.
+    #>
+    param(
+        [Parameter(Mandatory=$true)]
+        [ValidateNotNullOrEmpty()]
+        [string]$ServiceName,
+        
+        [Parameter(Mandatory=$true)]
+        [ValidateNotNullOrEmpty()]
+        [string]$ServiceDisplayName,
+        
+        [Parameter(Mandatory=$true)]
+        [ValidateSet("Compliant", "NonCompliant")]
+        [string]$ComplianceState,
+        
+        [string]$CIS_ID,
+        
+        [ValidateSet("Manual", "Automatic", "Disabled")]
+        [string]$ExpectedStartupType,
+        
+        [ValidateSet("Running", "Stopped")]
+        [string]$ExpectedServiceState,
+        
+        [switch]$VerboseOutput
+    )
+    
+    try {
+        # Check service requirements
+        if (-not (Test-ServiceToggleRequirements -ServiceName $ServiceName -ServiceDisplayName $ServiceDisplayName)) {
+            return [PSCustomObject]@{
+                ServiceName = $ServiceName
+                ServiceDisplayName = $ServiceDisplayName
+                ComplianceState = "Error"
+                Status = "Service requirements not met"
+                IsCompliant = $false
+                RequiresManualAction = $true
+                ErrorMessage = "Service requirements validation failed"
+            }
+        }
+        
+        # Get current service status
+        $service = Get-Service -Name $ServiceName -ErrorAction Stop
+        
+        if ($VerboseOutput) {
+            Write-StatusMessage -Message "Current $ServiceDisplayName status: $($service.Status)" -Type Info
+            Write-StatusMessage -Message "Current startup type: $($service.StartType)" -Type Info
+        }
+        
+        # Determine target state based on compliance state
+        switch ($ComplianceState) {
+            "Compliant" {
+                # Set service to compliant state
+                if ($service.StartType -eq "Disabled") {
+                    # Enable the service
+                    $targetStartupType = if ($ExpectedStartupType) { $ExpectedStartupType } else { "Manual" }
+                    Set-Service -Name $ServiceName -StartupType $targetStartupType -ErrorAction Stop
+                    
+                    # Start the service if expected state is Running
+                    if ($ExpectedServiceState -eq "Running" -or (-not $ExpectedServiceState)) {
+                        Start-Service -Name $ServiceName -ErrorAction Stop
+                    }
+                    
+                    $statusMessage = "$ServiceDisplayName enabled and set to $targetStartupType"
+                    $isCompliant = $true
+                } else {
+                    # Service is already enabled, verify state
+                    if ($ExpectedServiceState -and $service.Status -ne $ExpectedServiceState) {
+                        if ($ExpectedServiceState -eq "Running") {
+                            Start-Service -Name $ServiceName -ErrorAction Stop
+                        } else {
+                            Stop-Service -Name $ServiceName -ErrorAction Stop
+                        }
+                        $statusMessage = "$ServiceDisplayName state adjusted to $ExpectedServiceState"
+                    } else {
+                        $statusMessage = "$ServiceDisplayName already compliant"
+                    }
+                    $isCompliant = $true
+                }
+            }
+            "NonCompliant" {
+                # Set service to non-compliant state (disabled)
+                if ($service.StartType -ne "Disabled") {
+                    Stop-Service -Name $ServiceName -ErrorAction Stop
+                    Set-Service -Name $ServiceName -StartupType "Disabled" -ErrorAction Stop
+                    $statusMessage = "$ServiceDisplayName stopped and disabled"
+                } else {
+                    $statusMessage = "$ServiceDisplayName already non-compliant"
+                }
+                $isCompliant = $false
+            }
+        }
+        
+        # Verify the new state
+        Start-Sleep -Seconds 2
+        $newService = Get-Service -Name $ServiceName
+        
+        if ($VerboseOutput) {
+            Write-StatusMessage -Message "New $ServiceDisplayName startup type: $($newService.StartType)" -Type Info
+            Write-StatusMessage -Message "Current service status: $($newService.Status)" -Type Info
+            Write-StatusMessage -Message "Service compliance operation completed" -Type Success
+        }
+        
+        return [PSCustomObject]@{
+            ServiceName = $ServiceName
+            ServiceDisplayName = $ServiceDisplayName
+            ComplianceState = $ComplianceState
+            Status = $statusMessage
+            IsCompliant = $isCompliant
+            RequiresManualAction = $false
+            PreviousStartupType = $service.StartType
+            NewStartupType = $newService.StartType
+            PreviousServiceState = $service.Status
+            NewServiceState = $newService.Status
+            CIS_ID = $CIS_ID
+            Timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+            ComputerName = $env:COMPUTERNAME
+        }
+        
+    } catch {
+        $errorInfo = Handle-CISError -ErrorRecord $_ -ScriptType "ServiceToggle" -ServiceName $ServiceName -CIS_ID $CIS_ID
+        
+        return [PSCustomObject]@{
+            ServiceName = $ServiceName
+            ServiceDisplayName = $ServiceDisplayName
+            ComplianceState = "Error"
+            Status = "Service compliance operation failed"
+            IsCompliant = $false
+            RequiresManualAction = $true
+            ErrorMessage = $errorInfo.ErrorMessage
+            Recommendation = $errorInfo.Recommendation
+            Timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+        }
+    }
+}
+
 # Export the module members
-Export-ModuleMember -Function Invoke-ServiceToggle, Get-ServiceToggleStatus, Test-ServiceToggleRequirements -Verbose:$false
+Export-ModuleMember -Function Invoke-ServiceToggle, Get-ServiceToggleStatus, Test-ServiceToggleRequirements, Set-ServiceCompliance -Verbose:$false

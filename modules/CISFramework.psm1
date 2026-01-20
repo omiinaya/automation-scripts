@@ -731,6 +731,147 @@ function Export-CISAuditResults {
     }
 }
 
+# Function to handle CIS errors with standardized error classification
+function Handle-CISError {
+    <#
+    .SYNOPSIS
+        Standardized error handling function for CIS scripts.
+    .DESCRIPTION
+        Provides structured error classification, logging with timestamps,
+        and context-aware error recommendations.
+    .PARAMETER ErrorRecord
+        The PowerShell error record to handle.
+    .PARAMETER ScriptType
+        Type of script where the error occurred.
+    .PARAMETER CIS_ID
+        CIS benchmark ID related to the error.
+    .PARAMETER ServiceName
+        Service name related to the error.
+    .PARAMETER CustomContext
+        Additional context information.
+    .EXAMPLE
+        try {
+            # Some operation
+        } catch {
+            $errorInfo = Handle-CISError -ErrorRecord $_ -ScriptType "Audit" -CIS_ID "1.1.1"
+            Write-Error $errorInfo.ErrorMessage
+        }
+    .OUTPUTS
+        PSCustomObject containing structured error information.
+    #>
+    param(
+        [Parameter(Mandatory=$true)]
+        [System.Management.Automation.ErrorRecord]$ErrorRecord,
+        
+        [string]$ScriptType = "Unknown",
+        
+        [string]$CIS_ID,
+        
+        [string]$ServiceName,
+        
+        [string]$CustomContext
+    )
+    
+    $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+    $errorMessage = $ErrorRecord.Exception.Message
+    $stackTrace = $ErrorRecord.ScriptStackTrace
+    
+    # Error classification logic
+    $errorType = "Unknown"
+    $recommendation = "Check the error details and try again."
+    
+    # Classify errors based on common patterns
+    switch -Wildcard ($errorMessage) {
+        "*Access denied*" {
+            $errorType = "PermissionError"
+            $recommendation = "Run the script as administrator or check user permissions."
+        }
+        "*Cannot find path*" {
+            $errorType = "PathNotFoundError"
+            $recommendation = "Verify the file or registry path exists."
+        }
+        "*Service was not found*" {
+            $errorType = "ServiceNotFoundError"
+            $recommendation = "The specified service may not exist on this Windows version."
+        }
+        "*Registry key does not exist*" {
+            $errorType = "RegistryKeyNotFoundError"
+            $recommendation = "The registry key may not exist or may require administrator access."
+        }
+        "*Group Policy*" {
+            $errorType = "GroupPolicyError"
+            $recommendation = "This may require domain administrator privileges."
+        }
+        "*The RPC server is unavailable*" {
+            $errorType = "RPCError"
+            $recommendation = "Check if the RPC service is running and accessible."
+        }
+        "*Timeout*" {
+            $errorType = "TimeoutError"
+            $recommendation = "The operation timed out. Try again or increase timeout settings."
+        }
+        "*Insufficient system resources*" {
+            $errorType = "ResourceError"
+            $recommendation = "Check system resources and try again."
+        }
+    }
+    
+    # Script-type specific recommendations
+    switch ($ScriptType) {
+        "Audit" {
+            if ($errorType -eq "Unknown") {
+                $recommendation = "Check audit configuration and ensure all required modules are loaded."
+            }
+        }
+        "Remediation" {
+            if ($errorType -eq "Unknown") {
+                $recommendation = "Verify remediation prerequisites and ensure administrator privileges."
+            }
+        }
+        "ServiceToggle" {
+            if ($errorType -eq "Unknown") {
+                $recommendation = "Check service dependencies and ensure service exists on this system."
+            }
+        }
+    }
+    
+    # Structured logging
+    $logEntry = [PSCustomObject]@{
+        Timestamp = $timestamp
+        ErrorType = $errorType
+        ErrorMessage = $errorMessage
+        ScriptType = $ScriptType
+        CIS_ID = $CIS_ID
+        ServiceName = $ServiceName
+        CustomContext = $CustomContext
+        ComputerName = $env:COMPUTERNAME
+        UserName = $env:USERNAME
+        Recommendation = $recommendation
+        StackTrace = $stackTrace
+    }
+    
+    # Log to structured error log
+    $logPath = Join-Path $PSScriptRoot "..\..\logs\cis-errors.log"
+    $logDir = Split-Path $logPath -Parent
+    
+    if (-not (Test-Path $logDir)) {
+        New-Item -ItemType Directory -Path $logDir -Force | Out-Null
+    }
+    
+    # Append to error log
+    $logEntry | Export-Csv -Path $logPath -Append -NoTypeInformation
+    
+    return [PSCustomObject]@{
+        ErrorType = $errorType
+        ErrorMessage = $errorMessage
+        Recommendation = $recommendation
+        Timestamp = $timestamp
+        LogPath = $logPath
+        ScriptType = $ScriptType
+        CIS_ID = $CIS_ID
+    }
+}
+
 # Function to generate audit summary report
 function Get-CISAuditSummary {
     <#
@@ -776,5 +917,152 @@ function Get-CISAuditSummary {
     }
 }
 
+# Function to centralize script execution with admin rights checking and module imports
+function Invoke-CISScript {
+    <#
+    .SYNOPSIS
+        Centralized entry point function for CIS scripts.
+    .DESCRIPTION
+        Combines admin rights checking, module imports, and error handling in a single function.
+        Reduces boilerplate code in individual scripts.
+    .PARAMETER ScriptType
+        Type of script being executed (Audit, Remediation, ServiceToggle, Optimization).
+    .PARAMETER CIS_ID
+        CIS benchmark ID for audit/remediation scripts.
+    .PARAMETER ServiceName
+        Service name for service toggle operations.
+    .PARAMETER ServiceDisplayName
+        Display name of the service for user-friendly output.
+    .PARAMETER ScriptBlock
+        Script block containing the main script logic.
+    .PARAMETER VerboseOutput
+        Enable verbose output.
+    .PARAMETER AutoElevate
+        Automatically elevate privileges if admin rights are missing.
+    .EXAMPLE
+        Invoke-CISScript -ScriptType "Audit" -CIS_ID "1.1.1" -ScriptBlock {
+            # Audit logic here
+            $result = Invoke-CISAudit -CIS_ID "1.1.1" -AuditType "Registry" -RegistryPath "HKLM:\SOFTWARE\Policies\Microsoft\Windows" -RegistryValueName "PasswordHistorySize"
+            return $result
+        }
+    .EXAMPLE
+        Invoke-CISScript -ScriptType "ServiceToggle" -ServiceName "BDESVC" -ServiceDisplayName "BitLocker Drive Encryption" -ScriptBlock {
+            Invoke-ServiceToggle -ServiceName "BDESVC" -ServiceDisplayName "BitLocker Drive Encryption"
+        }
+    .OUTPUTS
+        Script execution result object.
+    #>
+    param(
+        [Parameter(Mandatory=$true)]
+        [ValidateSet("Audit", "Remediation", "ServiceToggle", "Optimization", "Custom")]
+        [string]$ScriptType,
+        
+        [string]$CIS_ID,
+        
+        [string]$ServiceName,
+        
+        [string]$ServiceDisplayName,
+        
+        [Parameter(Mandatory=$true)]
+        [scriptblock]$ScriptBlock,
+        
+        [switch]$VerboseOutput,
+        
+        [switch]$AutoElevate
+    )
+    
+    try {
+        # Import required modules
+        $originalVerbosePreference = $VerbosePreference
+        $VerbosePreference = 'SilentlyContinue'
+        
+        Import-Module "$PSScriptRoot\WindowsUtils.psm1" -Force -WarningAction SilentlyContinue -Verbose:$false
+        Import-Module "$PSScriptRoot\RegistryUtils.psm1" -Force -WarningAction SilentlyContinue -Verbose:$false
+        Import-Module "$PSScriptRoot\WindowsUI.psm1" -Force -WarningAction SilentlyContinue -Verbose:$false
+        
+        # Import additional modules based on script type
+        switch ($ScriptType) {
+            "Audit" { 
+                Import-Module "$PSScriptRoot\CISFramework.psm1" -Force -WarningAction SilentlyContinue -Verbose:$false 
+            }
+            "Remediation" { 
+                Import-Module "$PSScriptRoot\CISFramework.psm1" -Force -WarningAction SilentlyContinue -Verbose:$false
+                Import-Module "$PSScriptRoot\CISRemediation.psm1" -Force -WarningAction SilentlyContinue -Verbose:$false
+            }
+            "ServiceToggle" { 
+                Import-Module "$PSScriptRoot\ServiceManager.psm1" -Force -WarningAction SilentlyContinue -Verbose:$false
+            }
+        }
+        
+        $VerbosePreference = $originalVerbosePreference
+        
+        # Check admin rights and handle elevation
+        $isAdmin = Test-AdminRights
+        
+        if (-not $isAdmin) {
+            if ($AutoElevate) {
+                if ($VerboseOutput) {
+                    Write-StatusMessage -Message "Elevating privileges..." -Type Info
+                }
+                Invoke-Elevation
+                # If elevation succeeds, this script won't continue
+                return [PSCustomObject]@{
+                    Status = "Elevated"
+                    Message = "Script execution elevated to administrator context"
+                }
+            } else {
+                Write-StatusMessage -Message "WARNING: This operation may require administrator privileges" -Type Warning
+                Write-StatusMessage -Message "Some operations may fail without elevated permissions" -Type Warning
+                
+                $continue = Show-Confirmation -Message "Continue without administrator privileges?" -DefaultChoice "No"
+                if (-not $continue) {
+                    return [PSCustomObject]@{
+                        Status = "Cancelled"
+                        Message = "Operation cancelled by user"
+                    }
+                }
+            }
+        }
+        
+        # Execute the script block with error handling
+        if ($VerboseOutput) {
+            Write-SectionHeader -Title "CIS Script Execution"
+            Write-Host "Script Type: $ScriptType" -ForegroundColor White
+            if ($CIS_ID) { Write-Host "CIS ID: $CIS_ID" -ForegroundColor White }
+            if ($ServiceName) { Write-Host "Service: $ServiceName" -ForegroundColor White }
+            Write-Host "Admin Rights: $(if ($isAdmin) { 'Yes' } else { 'No' })" -ForegroundColor White
+            Write-Host ""
+        }
+        
+        # Execute the script block
+        $result = & $ScriptBlock
+        
+        if ($VerboseOutput) {
+            Write-StatusMessage -Message "Script execution completed successfully" -Type Success
+        }
+        
+        return $result
+        
+    } catch {
+        # Enhanced error handling with structured error information
+        $errorInfo = Handle-CISError -ErrorRecord $_ -ScriptType $ScriptType -CIS_ID $CIS_ID -ServiceName $ServiceName
+        
+        if ($VerboseOutput) {
+            Write-StatusMessage -Message "Script execution failed" -Type Error
+            Write-Host "Error Details: $($errorInfo.ErrorMessage)" -ForegroundColor Red
+            Write-Host "Error Type: $($errorInfo.ErrorType)" -ForegroundColor Red
+            Write-Host "Recommendation: $($errorInfo.Recommendation)" -ForegroundColor Yellow
+        }
+        
+        return [PSCustomObject]@{
+            Status = "Failed"
+            ErrorMessage = $errorInfo.ErrorMessage
+            ErrorType = $errorInfo.ErrorType
+            Recommendation = $errorInfo.Recommendation
+            Timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+        }
+    }
+}
+
 # Export the module members
-Export-ModuleMember -Function New-CISResultObject, Get-CISRecommendation, Test-CISCompliance, Invoke-CISAudit, Test-DomainMember, Export-CISAuditResults, Get-CISAuditSummary -Verbose:$false
+Export-ModuleMember -Function New-CISResultObject, Get-CISRecommendation, Test-CISCompliance, Invoke-CISAudit, Test-DomainMember, Export-CISAuditResults, Get-CISAuditSummary, Invoke-CISScript -Verbose:$false

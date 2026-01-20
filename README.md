@@ -1,12 +1,32 @@
-# Windows Automation Scripts
+# Automation Scripts
 
-A collection of PowerShell scripts for automating common Windows 11 configuration tasks. These scripts provide quick, one-click solutions for managing system settings without navigating through multiple Windows UI menus.
+A collection of automation scripts for Windows and other operating systems. This project provides modular, reusable scripts for system configuration, security compliance, and optimization tasks.
 
 ## 🚀 Quick Start
 
-1. **Prerequisites**: Windows 11 (some scripts may work on Windows 10)
+### Development Environment
+1. **Prerequisites**: Windows 11 (for Windows scripts) or appropriate OS
 2. **Run Setup**: See [SETUP.md](./SETUP.md) for PowerShell execution policy configuration
-3. **Run Scripts**: Right-click any `.ps1` file and select "Run with PowerShell"
+3. **Run Scripts**: Right-click any `.ps1` file and select "Run with PowerShell" (Windows) or use appropriate execution method for your OS
+
+### Production Environment
+1. **Prerequisites**: Windows Server 2016+ or Windows 11 Enterprise
+2. **Security Review**: Review security implications in production environments
+3. **Deployment**: Use production deployment scripts
+4. **Testing**: Execute comprehensive test suite before production use
+
+### Enterprise Deployment
+```powershell
+# Deploy to production environment
+.\scripts\deploy-production.ps1 -Environment "Production" -DeploymentType "Full"
+
+# Run comprehensive tests
+.\scripts\test-production.ps1 -TestType "Comprehensive" -IncludePerformance -IncludeSecurity
+
+# Monitor system health
+Import-Module .\modules\HealthMonitor.psm1
+$health = Get-SystemHealth -CheckType "Comprehensive"
+```
 
 ## 📁 Project Structure
 
@@ -14,91 +34,124 @@ A collection of PowerShell scripts for automating common Windows 11 configuratio
 automation-scripts/
 ├── README.md                    # This file
 ├── SETUP.md                    # Setup instructions
+├── config/                     # Configuration files
 ├── docs/                       # Documentation
-│   └── windows-refactoring-summary.md
-└── windows/                    # Windows automation scripts
-    ├── set-high-performance.ps1    # Set power plan to high performance
-    ├── toggle-lid-close.ps1        # Toggle laptop lid close action
-    ├── toggle-location-services.ps1 # Toggle Windows location services
-    ├── toggle-screen-never.ps1     # Toggle screen timeout never/15min
-    ├── toggle-sleep-never.ps1      # Toggle sleep never/15min
-    ├── toggle-taskbar-alignment.ps1 # Toggle taskbar left/center alignment
-    ├── toggle-theme.ps1            # Toggle Windows light/dark theme
-    ├── enable-powershell.bat       # Permanent PowerShell execution policy toggle
-    ├── deferred/                   # Scripts requiring further development
-    │   └── toggle-power-mode.ps1   # Toggle between power modes (deferred)
-    ├── optimization/               # Optimization scripts
-    │   ├── toggle-game-mode.ps1   # Toggle Windows Game Mode
-    │   └── toggle-transparency.ps1 # Toggle transparency effects
-    ├── modules/                    # PowerShell modules
-    │   ├── ModuleIndex.psm1        # Main module loader
-    │   ├── PowerManagement.psm1    # Power management functions
-    │   ├── RegistryUtils.psm1      # Registry manipulation utilities
-    │   ├── WindowsUI.psm1          # Windows UI configuration functions
-    │   ├── WindowsUtils.psm1       # General Windows utilities
-    │   └── README.md               # Module documentation
-    └── security/                  # Security audit and remediation scripts
-        ├── audits/                 # Security audit scripts
-        │   ├── 1.1.1-audit-password-history.ps1
-        │   ├── 1.1.2-audit-maximum-password-age.ps1
-        │   ├── 1.1.3-audit-minimum-password-age.ps1
-        │   ├── 1.1.4-audit-minimum-password-length.ps1
-        │   ├── 1.1.5-audit-password-complexity.ps1
-        │   ├── 1.1.6-audit-relax-minimum-password-length-limits.ps1
-        │   ├── 1.1.7-audit-store-passwords-using-reversible-encryption.ps1
-        │   ├── 1.2.1-audit-account-lockout-duration.ps1
-        │   ├── 1.2.2-audit-account-lockout-threshold.ps1
-        │   ├── 1.2.3-audit-allow-administrator-account-lockout.ps1
-        │   └── 1.2.4-audit-reset-account-lockout-counter-after.ps1
-        └── remediations/           # Security remediation scripts
-            ├── 1.1.1-remediate-password-history.ps1
-            ├── 1.1.2-remediate-maximum-password-age.ps1
-            ├── 1.1.3-remediate-minimum-password-age.ps1
-            └── 1.1.4-remediate-minimum-password-length.ps1
+├── examples/                   # Example usage scripts
+├── helpers/                    # Helper utilities and analysis tools
+├── modules/                    # PowerShell modules
+├── scripts/                    # Cross-platform executable scripts
+├── tests/                      # Test files
+│   ├── integration/            # Integration tests
+│   ├── python/                 # Python test files
+│   └── unit/                   # Unit tests
+└── windows/                    # Windows-specific automation scripts
+    ├── enable-powershell.bat   # Permanent PowerShell execution policy toggle
+    ├── deferred/               # Scripts requiring further development
+    │   ├── toggle-power-mode.ps1
+    │   └── security/           # Security audit and remediation scripts
+    │       ├── audit-batch-execution.ps1
+    │       ├── audits/         # Security audit scripts
+    │       └── remediations/   # Security remediation scripts
+    ├── optimization/           # Optimization scripts
+    │   ├── toggle-game-mode.ps1
+    │   ├── services/           # Service optimization scripts
+    │   └── visuals/            # Visual optimization scripts
+    └── modules/                # Windows-specific PowerShell modules
+        ├── ModuleIndex.psm1
+        ├── PowerManagement.psm1
+        ├── RegistryUtils.psm1
+        ├── WindowsUI.psm1
+        ├── WindowsUtils.psm1
+        └── README.md
 ```
 
 ## 📋 Available Scripts
 
-### System Configuration Scripts
+### Cross-Platform Scripts (scripts/)
 
+| Script | Description | Admin Required |
+|--------|-------------|----------------|
+| `enable-powershell.bat` | Permanent PowerShell execution policy toggle | Yes (Windows) |
+| `toggle-power-mode.ps1` | Switches between balanced/high performance | Yes |
+| `deploy-production.ps1` | Enterprise deployment with validation and rollback | Yes |
+| `test-production.ps1` | Comprehensive testing suite for production validation | No |
+
+### Enterprise Modules (modules/)
+
+| Module | Description | Production Ready |
+|--------|-------------|------------------|
+| `EnterpriseLogger.psm1` | Structured logging with audit trail | ✅ |
+| `SecurityManager.psm1` | Security validation and privilege escalation | ✅ |
+| `DeploymentManager.psm1` | Environment-specific deployment management | ✅ |
+| `HealthMonitor.psm1` | System health monitoring and performance tracking | ✅ |
+| `TestFramework.psm1` | Comprehensive testing and validation framework | ✅ |
+| `CISFramework.psm1` | CIS benchmark auditing framework | ✅ |
+| `ServiceManager.psm1` | Service management with compliance tracking | ✅ |
+| `ConfigurationManager.psm1` | Dynamic configuration management | ✅ |
+
+### Windows-Specific Scripts (windows/)
+
+#### System Configuration
 | Script | Description | Admin Required |
 |--------|-------------|----------------|
 | `set-high-performance.ps1` | Sets power plan to high performance | Yes |
 | `toggle-lid-close.ps1` | Toggles laptop lid close behavior | Yes |
-| `toggle-location-services.ps1` | Toggle Windows location services with modular design, Windows version check, and improved error handling | Yes |
+| `toggle-location-services.ps1` | Toggle Windows location services | Yes |
 | `toggle-screen-never.ps1` | Toggles screen timeout (never vs 15min) | Yes |
 | `toggle-sleep-never.ps1` | Toggles sleep mode (never vs 15min) | Yes |
 | `toggle-taskbar-alignment.ps1` | Moves taskbar icons left/center | No |
 | `toggle-theme.ps1` | Switches between light/dark theme | No |
 | `toggle-transparency.ps1` | Toggles transparency effects | No |
-| `deferred/toggle-power-mode.ps1` | Switches between balanced/high performance (deferred - requires further development) | Yes |
 
-### Security Scripts
+#### Optimization Scripts
+| Script | Description | Admin Required |
+|--------|-------------|----------------|
+| `toggle-game-mode.ps1` | Toggle Windows Game Mode | No |
 
-#### Audit Scripts
+#### Security Scripts (Deferred - In Development)
+* Comprehensive CIS benchmark audit and remediation scripts
+* Organized by CIS section numbers
+* Located in `windows/deferred/security/`
 
-| Script | Description | CIS Benchmark | Admin Required |
-|--------|-------------|---------------|----------------|
-| `security/audits/1.1.1-audit-password-history.ps1` | Audits password history enforcement setting | 1.1.1 (L1) | Yes |
-| `security/audits/1.1.2-audit-maximum-password-age.ps1` | Audits maximum password age setting | 1.1.2 (L1) | Yes |
-| `security/audits/1.1.3-audit-minimum-password-age.ps1` | Audits minimum password age setting | 1.1.3 (L1) | Yes |
-| `security/audits/1.1.4-audit-minimum-password-length.ps1` | Audits minimum password length setting | 1.1.4 (L1) | Yes |
-| `security/audits/1.1.5-audit-password-complexity.ps1` | Audits password complexity requirements setting | 1.1.5 (L1) | Yes |
-| `security/audits/1.1.6-audit-relax-minimum-password-length-limits.ps1` | Audits relax minimum password length limits setting | 1.1.6 (L1) | Yes |
-| `security/audits/1.1.7-audit-store-passwords-using-reversible-encryption.ps1` | Audits store passwords using reversible encryption setting | 1.1.7 (L1) | Yes |
-| `security/audits/1.2.1-audit-account-lockout-duration.ps1` | Audits account lockout duration setting | 1.2.1 (L1) | Yes |
-| `security/audits/1.2.2-audit-account-lockout-threshold.ps1` | Audits account lockout threshold setting | 1.2.2 (L1) | Yes |
-| `security/audits/1.2.3-audit-allow-administrator-account-lockout.ps1` | Audits allow administrator account lockout setting | 1.2.3 (L1) | Yes |
-| `security/audits/1.2.4-audit-reset-account-lockout-counter-after.ps1` | Audits reset account lockout counter after setting | 1.2.4 (L1) | Yes |
+## 🏢 Enterprise Features
 
-#### Remediation Scripts
+### Production-Ready Improvements
 
-| Script | Description | CIS Benchmark | Admin Required |
-|--------|-------------|---------------|----------------|
-| `security/remediations/1.1.1-remediate-password-history.ps1` | Remediate password history enforcement setting | 1.1.1 (L1) | Yes |
-| `security/remediations/1.1.2-remediate-maximum-password-age.ps1` | Remediate maximum password age setting | 1.1.2 (L1) | Yes |
-| `security/remediations/1.1.3-remediate-minimum-password-age.ps1` | Remediate minimum password age setting | 1.1.3 (L1) | Yes |
-| `security/remediations/1.1.4-remediate-minimum-password-length.ps1` | Remediate minimum password length setting | 1.1.4 (L1) | Yes |
+#### 1. Comprehensive Error Handling & Logging
+- **Structured Logging**: Multi-level logging (DEBUG, INFO, WARN, ERROR, FATAL)
+- **Audit Trail**: Compliance tracking with detailed audit entries
+- **Error Recovery**: Robust error classification and recovery mechanisms
+- **Log Rotation**: Automatic log rotation and retention management
+
+#### 2. Enhanced Security & Permissions
+- **Security Validation**: Comprehensive security prerequisite checks
+- **Privilege Escalation**: Secure privilege escalation patterns
+- **Configuration Security**: Environment-specific security baselines
+- **Sensitive Data Protection**: Encryption and secure handling
+
+#### 3. Deployment & Configuration Management
+- **Environment Support**: Development, Testing, Staging, Production
+- **Configuration Templates**: Environment-specific configuration templates
+- **Deployment Scripts**: Full, incremental, and rolling deployments
+- **Validation Framework**: Pre-flight checks and post-deployment validation
+
+#### 4. Monitoring & Health Checks
+- **System Health Monitoring**: Comprehensive health assessment
+- **Performance Metrics**: Real-time performance tracking
+- **Alerting System**: Health alerts with severity levels
+- **Resource Monitoring**: CPU, memory, disk, and network monitoring
+
+#### 5. Testing & Validation Framework
+- **Test Suites**: Unit, integration, system, performance, and security tests
+- **Automated Validation**: Automated pre-flight checks
+- **Compliance Testing**: Security and compliance validation
+- **Performance Testing**: Load and performance testing
+
+#### 6. Documentation & User Experience
+- **Production Documentation**: Enterprise deployment guides
+- **Troubleshooting Guides**: Comprehensive troubleshooting
+- **User-Friendly Messages**: Clear, actionable error messages
+- **Audit-Ready**: Compliance-ready logging and reporting
 
 ## 🔧 Features
 
@@ -107,48 +160,71 @@ automation-scripts/
 - **Admin Detection**: Automatic elevation requests when needed
 - **Status Reporting**: Clear success/failure feedback
 - **No External Dependencies**: Uses only built-in Windows tools
+- **Enterprise-Grade**: Production-ready with security, monitoring, and testing
 
 ## ⚡ Quick Examples
 
-### System Configuration Examples
+### Cross-Platform Scripts
+
+```powershell
+# Enable PowerShell execution policy
+.\scripts\enable-powershell.bat
+
+# Toggle power mode (requires admin)
+.\scripts\toggle-power-mode.ps1
+```
+
+### Windows-Specific Examples
 
 ```powershell
 # Enable high performance mode
-.\set-high-performance.ps1
+.\windows\set-high-performance.ps1
 
 # Toggle dark theme
-.\toggle-theme.ps1
+.\windows\toggle-theme.ps1
 
 # Disable sleep when plugged in
-.\toggle-sleep-never.ps1
+.\windows\toggle-sleep-never.ps1
+
+# Toggle Game Mode
+.\windows\optimization\toggle-game-mode.ps1
 ```
 
-### Security Compliance Examples
+### Enterprise Production Examples
 
 ```powershell
-# Audit all password policy settings
-.\windows\security\audits\1.1.1-audit-password-history.ps1
-.\windows\security\audits\1.1.2-audit-maximum-password-age.ps1
-.\windows\security\audits\1.1.3-audit-minimum-password-age.ps1
-.\windows\security\audits\1.1.4-audit-minimum-password-length.ps1
-.\windows\security\audits\1.1.5-audit-password-complexity.ps1
-.\windows\security\audits\1.1.6-audit-relax-minimum-password-length-limits.ps1
-.\windows\security\audits\1.1.7-audit-store-passwords-using-reversible-encryption.ps1
+# Production deployment with validation
+.\scripts\deploy-production.ps1 -Environment "Production" -DeploymentType "Full"
 
-# Audit all account lockout policy settings
-.\windows\security\audits\1.2.1-audit-account-lockout-duration.ps1
-.\windows\security\audits\1.2.2-audit-account-lockout-threshold.ps1
-.\windows\security\audits\1.2.3-audit-allow-administrator-account-lockout.ps1
-.\windows\security\audits\1.2.4-audit-reset-account-lockout-counter-after.ps1
+# Comprehensive production testing
+.\scripts\test-production.ps1 -TestType "Comprehensive" -IncludePerformance -IncludeSecurity
 
-# Remediate non-compliant password settings
-.\windows\security\remediations\1.1.1-remediate-password-history.ps1
-.\windows\security\remediations\1.1.2-remediate-maximum-password-age.ps1
-.\windows\security\remediations\1.1.3-remediate-minimum-password-age.ps1
-.\windows\security\remediations\1.1.4-remediate-minimum-password-length.ps1
+# Enterprise logging and monitoring
+Import-Module .\modules\EnterpriseLogger.psm1
+Initialize-EnterpriseLogging -LogLevel "INFO" -ApplicationName "CISAutomation"
+Add-EnterpriseLog -Level "INFO" -Message "Production operation started" -Category "Audit"
 
-# Verify remediation success
-.\windows\security\audits\1.1.1-audit-password-history.ps1
+# Security validation
+Import-Module .\modules\SecurityManager.psm1
+$security = Test-SecurityPrerequisites -Operation "RegistryModification" -RequireAdmin $true
+
+# System health monitoring
+Import-Module .\modules\HealthMonitor.psm1
+$health = Get-SystemHealth -CheckType "Comprehensive"
+
+# Security audit
+$audit = Invoke-SecurityAudit -AuditType "Comprehensive"
+```
+
+### Security Compliance Examples (Deferred Scripts)
+
+```powershell
+# Run security audit batch
+.\windows\deferred\security\audit-batch-execution.ps1
+
+# Individual CIS benchmark audits
+.\windows\deferred\security\audits\section_2\2.2.1-audit-access-credential-manager-trusted-caller.ps1
+.\windows\deferred\security\audits\section_5\5.1-audit-bluetooth-audio-gateway-service.ps1
 ```
 
 ## 🔐 Security
@@ -161,8 +237,9 @@ automation-scripts/
 ## 📖 Documentation
 
 - [Setup Guide](./SETUP.md) - PowerShell configuration and prerequisites
-- [Windows Refactoring Summary](./docs/windows-refactoring-summary.md) - Technical details
-- [Module Documentation](./windows/modules/README.md) - PowerShell module reference
+- [Project Documentation](./docs/) - Technical specifications and analysis
+- [Module Documentation](./modules/README.md) - PowerShell module reference
+- [Test Documentation](./tests/README.md) - Testing framework and procedures
 
 ## 🤝 Contributing
 
@@ -173,11 +250,25 @@ automation-scripts/
 
 ## 🐛 Troubleshooting
 
-**"Execution policy" errors**: See [SETUP.md](./SETUP.md) (for a permanent toggle, run `windows/enable-powershell.bat` as administrator)
+### Development Environment
+**"Execution policy" errors**: See [SETUP.md](./SETUP.md) (for a permanent toggle, run `scripts/enable-powershell.bat` as administrator)
 
 **"Access denied" errors**: Run PowerShell as Administrator
 
 **Scripts won't run**: Check file execution policy with `Get-ExecutionPolicy`
+
+**Windows-specific scripts**: Ensure you're running on Windows for Windows-specific scripts in `windows/` directory
+
+### Production Environment
+**Deployment validation failures**: Review security prerequisites and system health before deployment
+
+**Module loading errors**: Check module dependencies and ensure all enterprise modules are properly imported
+
+**Logging issues**: Verify log directory permissions and disk space availability
+
+**Security validation failures**: Ensure proper administrative privileges and security configuration
+
+**Performance issues**: Monitor system resources and adjust performance thresholds as needed
 
 ## 📄 License
 
