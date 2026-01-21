@@ -1,0 +1,4 @@
+# Essential dependencies for CIS extractor script
+pdfplumber>=0.10.3
+
+# Standard library imports are sufficient for the rest
