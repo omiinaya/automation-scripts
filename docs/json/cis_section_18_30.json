@@ -1,0 +1,122 @@
+[
+  {
+    "cis_id": "18.10.89.1.1",
+    "title": "Ensure 'Allow Basic authentication' is set to\n'Disabled'",
+    "profile": "L1",
+    "description": "This policy setting allows you to manage whether the Windows Remote Management\n(WinRM) client uses Basic authentication.\nThe recommended state for this setting is: Disabled.",
+    "rationale": "Basic authentication is less robust than other authentication methods available in\nWinRM because credentials including passwords are transmitted in plain text. An\nattacker who is able to capture packets on the network where WinRM is running may be\nable to determine the credentials used for accessing remote hosts via WinRM.",
+    "impact": "None - this is the default behavior.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 0.\nHKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WinRM\\Client:AllowBasic",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nDisabled:\nComputer Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\Windows Remote Management (WinRM)\\WinRM Client\\Allow Basic\nauthentication\nNote: This Group Policy path is provided by the Group Policy template\nWindowsRemoteManagement.admx/adml that is included with all versions of the\nMicrosoft Windows Administrative Templates.",
+    "default_value": "Disabled. (The WinRM client does not use Basic authentication.)\nPage 1195\nReferences:\n1. https://learn.microsoft.com/en-us/windows/win32/winrm/portal\n2. GRID: MS-00000538\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n3.10 Encrypt Sensitive Data in Transit\nv8 ● ●\nEncrypt sensitive data in transit. Example implementations can include:\nTransport Layer Security (TLS) and Open Secure Shell (OpenSSH).\n16.5 Encrypt Transmittal of Username and\nAuthentication Credentials\nv7 ● ●\nEnsure that all account usernames and authentication credentials are\ntransmitted across networks using encrypted channels.\nPage 1196",
+    "page_number": 1196
+  },
+  {
+    "cis_id": "18.10.89.1.2",
+    "title": "Ensure 'Allow unencrypted traffic' is set to\n'Disabled'",
+    "profile": "L1",
+    "description": "This policy setting allows you to manage whether the Windows Remote Management\n(WinRM) client sends and receives unencrypted messages over the network.\nThe recommended state for this setting is: Disabled.",
+    "rationale": "Encrypting WinRM network traffic reduces the risk of an attacker viewing or modifying\nWinRM messages as they transit the network.",
+    "impact": "None - this is the default behavior.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 0.\nHKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WinRM\\Client:AllowUnencryptedTraffic",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nDisabled:\nComputer Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\Windows Remote Management (WinRM)\\WinRM Client\\Allow unencrypted\ntraffic\nNote: This Group Policy path is provided by the Group Policy template\nWindowsRemoteManagement.admx/adml that is included with all versions of the\nMicrosoft Windows Administrative Templates.",
+    "default_value": "Disabled. (The WinRM client sends or receives only encrypted messages over the\nnetwork.)\nPage 1197\nReferences:\n1. https://learn.microsoft.com/en-us/windows/win32/winrm/portal\n2. GRID: MS-00000539\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n3.10 Encrypt Sensitive Data in Transit\nv8 ● ●\nEncrypt sensitive data in transit. Example implementations can include:\nTransport Layer Security (TLS) and Open Secure Shell (OpenSSH).\n14.4 Encrypt All Sensitive Information in Transit\nv7 ● ●\nEncrypt all sensitive information in transit.\nPage 1198",
+    "page_number": 1198
+  },
+  {
+    "cis_id": "18.10.89.1.3",
+    "title": "Ensure 'Disallow Digest authentication' is set to\n'Enabled'",
+    "profile": "L1",
+    "description": "This policy setting allows you to manage whether the Windows Remote Management\n(WinRM) client will not use Digest authentication.\nThe recommended state for this setting is: Enabled.",
+    "rationale": "Digest authentication is less robust than other authentication methods available in\nWinRM, an attacker who is able to capture packets on the network where WinRM is\nrunning may be able to determine the credentials used for accessing remote hosts via\nWinRM.",
+    "impact": "The WinRM client will not use Digest authentication.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 0.\nHKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WinRM\\Client:AllowDigest",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nComputer Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\Windows Remote Management (WinRM)\\WinRM Client\\Disallow Digest\nauthentication\nNote: This Group Policy path is provided by the Group Policy template\nWindowsRemoteManagement.admx/adml that is included with all versions of the\nMicrosoft Windows Administrative Templates.",
+    "default_value": "Disabled. (The WinRM client will use Digest authentication.)\nPage 1199\nReferences:\n1. https://learn.microsoft.com/en-us/windows/win32/winrm/portal\n2. GRID: MS-00000540\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n3.10 Encrypt Sensitive Data in Transit\nv8 ● ●\nEncrypt sensitive data in transit. Example implementations can include:\nTransport Layer Security (TLS) and Open Secure Shell (OpenSSH).\n16.5 Encrypt Transmittal of Username and\nAuthentication Credentials\nv7 ● ●\nEnsure that all account usernames and authentication credentials are\ntransmitted across networks using encrypted channels.\nPage 1200",
+    "page_number": 1200
+  },
+  {
+    "cis_id": "18.10.89.2.1",
+    "title": "Ensure 'Allow Basic authentication' is set to\n'Disabled'",
+    "profile": "L1",
+    "description": "This policy setting allows you to manage whether the Windows Remote Management\n(WinRM) service accepts Basic authentication from a remote client.\nThe recommended state for this setting is: Disabled.",
+    "rationale": "Basic authentication is less robust than other authentication methods available in\nWinRM because credentials including passwords are transmitted in plain text. An\nattacker who is able to capture packets on the network where WinRM is running may be\nable to determine the credentials used for accessing remote hosts via WinRM.",
+    "impact": "None - this is the default behavior.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 0.\nHKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WinRM\\Service:AllowBasic",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nDisabled:\nComputer Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\Windows Remote Management (WinRM)\\WinRM Service\\Allow Basic\nauthentication\nNote: This Group Policy path is provided by the Group Policy template\nWindowsRemoteManagement.admx/adml that is included with all versions of the\nMicrosoft Windows Administrative Templates.",
+    "default_value": "Disabled. (The WinRM service will not accept Basic authentication from a remote\nclient.)\nPage 1202\nReferences:\n1. https://learn.microsoft.com/en-us/windows/win32/winrm/portal\n2. GRID: MS-00000541\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n3.10 Encrypt Sensitive Data in Transit\nv8 ● ●\nEncrypt sensitive data in transit. Example implementations can include:\nTransport Layer Security (TLS) and Open Secure Shell (OpenSSH).\n16.5 Encrypt Transmittal of Username and\nAuthentication Credentials\nv7 ● ●\nEnsure that all account usernames and authentication credentials are\ntransmitted across networks using encrypted channels.\nPage 1203",
+    "page_number": 1203
+  },
+  {
+    "cis_id": "18.10.89.2.2",
+    "title": "Ensure 'Allow remote server management\nthrough WinRM' is set to 'Disabled'",
+    "profile": "L2",
+    "description": "This policy setting allows you to manage whether the Windows Remote Management\n(WinRM) service automatically listens on the network for requests on the HTTP\ntransport over the default HTTP port.\nThe recommended state for this setting is: Disabled.",
+    "rationale": "Any feature is a potential avenue of attack, those that enable inbound network\nconnections are particularly risky. Only enable the use of the Windows Remote\nManagement (WinRM) service on trusted networks and when feasible employ additional\ncontrols such as IPsec.",
+    "impact": "None - this is the default behavior.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 0.\nHKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WinRM\\Service:AllowAutoConfig",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nDisabled:\nComputer Configuration\\Administrative Templates\\Windows Components\\Windows\nRemote Management (WinRM)\\WinRM Service\\Allow remote server management\nthrough WinRM\nNote: This Group Policy path is provided by the Group Policy template\nWindowsRemoteManagement.admx/adml that is included with all versions of the\nMicrosoft Windows Administrative Templates.\nNote #2: In older Microsoft Windows Administrative Templates, this setting was initially\nnamed Allow automatic configuration of listeners, but it was renamed starting with the\nWindows 8.0 & Server 2012 (non-R2) Administrative Templates.\nPage 1204",
+    "default_value": "Disabled. (The WinRM service will not respond to requests from a remote computer,\nregardless of whether or not any WinRM listeners are configured.)\nReferences:\n1. https://learn.microsoft.com/en-us/windows/win32/winrm/portal\n2. GRID: MS-00000542\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8 ● ●\nUninstall or disable unnecessary services on enterprise assets and software,\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nAre Running\nv7 ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 1205",
+    "page_number": 1205
+  },
+  {
+    "cis_id": "18.10.89.2.3",
+    "title": "Ensure 'Allow unencrypted traffic' is set to\n'Disabled'",
+    "profile": "L1",
+    "description": "This policy setting allows you to manage whether the Windows Remote Management\n(WinRM) service sends and receives unencrypted messages over the network.\nThe recommended state for this setting is: Disabled.",
+    "rationale": "Encrypting WinRM network traffic reduces the risk of an attacker viewing or modifying\nWinRM messages as they transit the network.",
+    "impact": "None - this is the default behavior.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 0.\nHKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WinRM\\Service:AllowUnencryptedTraffi\nc",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nDisabled:\nComputer Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\Windows Remote Management (WinRM)\\WinRM Service\\Allow unencrypted\ntraffic\nNote: This Group Policy path is provided by the Group Policy template\nWindowsRemoteManagement.admx/adml that is included with all versions of the\nMicrosoft Windows Administrative Templates.",
+    "default_value": "Disabled. (The WinRM service sends or receives only encrypted messages over the\nnetwork.)\nPage 1206\nReferences:\n1. https://learn.microsoft.com/en-us/windows/win32/winrm/portal\n2. GRID: MS-00000543\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n3.10 Encrypt Sensitive Data in Transit\nv8 ● ●\nEncrypt sensitive data in transit. Example implementations can include:\nTransport Layer Security (TLS) and Open Secure Shell (OpenSSH).\n14.4 Encrypt All Sensitive Information in Transit\nv7 ● ●\nEncrypt all sensitive information in transit.\nPage 1207",
+    "page_number": 1207
+  },
+  {
+    "cis_id": "18.10.89.2.4",
+    "title": "Ensure 'Disallow WinRM from storing RunAs\ncredentials' is set to 'Enabled'",
+    "profile": "L1",
+    "description": "This policy setting allows you to manage whether the Windows Remote Management\n(WinRM) service will allow RunAs credentials to be stored for any plug-ins.\nThe recommended state for this setting is: Enabled.\nNote: If you enable and then disable this policy setting, any values that were previously\nconfigured for RunAsPassword will need to be reset.",
+    "rationale": "Although the ability to store RunAs credentials is a convenient feature it increases the\nrisk of account compromise slightly. For example, if you forget to lock your desktop\nbefore leaving it unattended for a few minutes another person could access not only the\ndesktop of your computer but also any hosts you manage via WinRM with cached\nRunAs credentials.",
+    "impact": "The WinRM service will not allow the RunAsUser or RunAsPassword configuration\nvalues to be set for any plug-ins. If a plug-in has already set the RunAsUser and\nRunAsPassword configuration values, the RunAsPassword configuration value will be\nerased from the credential store on the computer.\nIf this setting is later Disabled again, any values that were previously configured for\nRunAsPassword will need to be reset.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WinRM\\Service:DisableRunAs\nPage 1208",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nComputer Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\Windows Remote Management (WinRM)\\WinRM Service\\Disallow WinRM\nfrom storing RunAs credentials\nNote: This Group Policy path is provided by the Group Policy template\nWindowsRemoteManagement.admx/adml that is included with the Microsoft Windows\n8.0 & Server 2012 (non-R2) Administrative Templates (or newer).",
+    "default_value": "Disabled. (The WinRM service will allow the RunAsUser and RunAsPassword\nconfiguration values to be set for plug-ins and the RunAsPassword value will be stored\nsecurely.)\nReferences:\n1. https://learn.microsoft.com/en-us/windows/win32/winrm/portal\n2. GRID: MS-00000544\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n0.0 Explicitly Not Mapped\nv8\nExplicitly Not Mapped\n14.3 Disable Workstation to Workstation Communication\nv7 Disable all workstation to workstation communication to limit an attacker's ● ●\nability to move laterally and compromise neighboring systems, through\ntechnologies such as Private VLANs or microsegmentation.\nPage 1209",
+    "page_number": 1209
+  },
+  {
+    "cis_id": "18.10.90.1",
+    "title": "Ensure 'Allow Remote Shell Access' is set to\n'Disabled'",
+    "profile": "L2",
+    "description": "This policy setting allows you to manage configuration of remote access to all supported\nshells to execute scripts and commands.\nThe recommended state for this setting is: Disabled.\nNote: The GPME help text for this setting is incorrectly worded, implying that\nconfiguring it to Enabled will reject new Remote Shell connections, and setting it to\nDisabled will allow Remote Shell connections. The opposite is true (and is consistent\nwith the title of the setting). This is a wording mistake by Microsoft in the Administrative\nTemplate.",
+    "rationale": "Any feature is a potential avenue of attack, those that enable inbound network\nconnections are particularly risky. Only enable the use of the Windows Remote Shell on\ntrusted networks and when feasible employ additional controls such as IPsec.",
+    "impact": "New Remote Shell connections are not allowed and are rejected by the workstation.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 0.\nHKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WinRM\\Service\\WinRS:AllowRemoteShell\nAccess",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nDisabled:\nComputer Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\Windows Remote Shell\\Allow Remote Shell Access\nNote: This Group Policy path is provided by the Group Policy template\nWindowsRemoteShell.admx/adml that is included with all versions of the Microsoft\nWindows Administrative Templates.\nPage 1211",
+    "default_value": "Enabled. (New Remote Shell connections are allowed.)\nReferences:\n1. GRID: MS-00000545\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8 ● ●\nUninstall or disable unnecessary services on enterprise assets and software,\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nAre Running\nv7 ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 1212",
+    "page_number": 1212
+  },
+  {
+    "cis_id": "18.10.91.1",
+    "title": "Ensure 'Allow clipboard sharing with Windows\nSandbox' is set to 'Disabled'",
+    "profile": "L1",
+    "description": "This policy setting enables or disables clipboard sharing with the Windows Sandbox.\nThe recommended state for this setting is: Disabled.\nNote: The Windows Sandbox feature was first introduced in Windows 10 R1903, and\nallows a temporary \"clean install\" virtual instance of Windows to be run inside the host,\nfor the ostensible purpose of testing applications without making changes to the host.",
+    "rationale": "Disabling copy and paste decreases the attack surface exposed by the Windows\nSandbox and possible exposure of untrusted applications to the internal network.",
+    "impact": "The copy and paste function to/from the Windows Sandbox will be disabled. Therefore,\nfiles will not be able to be moved to/from the Windows Sandbox via the clipboard.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 0.\nHKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\Sandbox:AllowClipboardRedirection",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nDisabled:\nComputer Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\Windows Sandbox\\Allow clipboard sharing with Windows Sandbox\nNote: This Group Policy path is provided by the Group Policy template\nWindowsSandbox.admx/adml that is included with the Microsoft Windows 11 Release\n21H2 Administrative Templates (or newer).",
+    "default_value": "Enabled. (Copy and paste between the host and Windows Sandbox are permitted.)\nPage 1214\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/windows-\nsandbox/windows-sandbox-configure-using-wsb-file\n2. GRID: MS-00000546\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8 ● ●\nUninstall or disable unnecessary services on enterprise assets and software,\nsuch as an unused file sharing service, web application module, or service\nfunction.\nPage 1215",
+    "page_number": 1215
+  },
+  {
+    "cis_id": "18.10.91.2",
+    "title": "Ensure 'Allow mapping folders into Windows\nSandbox' is set to 'Disabled'",
+    "profile": "L2",
+    "description": "This policy setting controls whether folders are allowed to be mapped into Windows\nSandbox.\nThe recommended state for this setting is: Disabled.\nNote: The Windows Sandbox feature was first introduced in Windows 10 R1903, and\nallows a temporary \"clean install\" virtual instance of Windows to be run inside the host,\nfor the ostensible purpose of testing applications without making changes to the host.",
+    "rationale": "Disabling the ability to map folders from the host to the sandbox decreases the attack\nsurface exposed by the Windows Sandbox and exposure of untrusted application and\nfiles to the internal network.",
+    "impact": "Mapped folder access into the Windows Sandbox will be disabled. Therefore,\napplications and files in the Sandbox will not be accessible to the host system.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 0.\nHKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\Sandbox:AllowWriteToMappedFolders",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nDisabled:\nComputer Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\Windows Sandbox\\Allow mapping folders into Windows Sandbox\nNote: This Group Policy path is provided by the Group Policy template\nWindowsSandbox.admx/adml that is included with the Microsoft Windows 11 Release\n24H2 Administrative Templates (or newer).",
+    "default_value": "Enabled. (Mapped folders into the Sandbox will be allowed.)\nPage 1216\nReferences:\n1. https://learn.microsoft.com/en-us/windows/security/threat-protection/windows-\nsandbox/windows-sandbox-configure-using-wsb-file\n2. GRID: MS-00000616\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8 ● ●\nUninstall or disable unnecessary services on enterprise assets and software,\nsuch as an unused file sharing service, web application module, or service\nfunction.\nPage 1217",
+    "page_number": 1217
+  }
+]

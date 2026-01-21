@@ -526,8 +526,8 @@ class CISRobustExtractor:
 def main():
     """Main function"""
     pdf_filename = "CIS_Microsoft_Windows_11_Stand-alone_Benchmark_v4.0.0.pdf"
-    pdf_path = f"../docs/{pdf_filename}"
-    output_dir = "../docs/json"
+    pdf_path = f"docs/{pdf_filename}"
+    output_dir = "docs/json"
     
     if not Path(pdf_path).exists():
         print(f"Error: PDF file not found at {pdf_path}")

@@ -1,0 +1,122 @@
+[
+  {
+    "cis_id": "18.10.13.2",
+    "title": "Ensure 'Turn off cloud optimized content' is set to\n'Enabled'",
+    "profile": "L2",
+    "description": "This policy setting turns off cloud optimized content in all Windows experiences.\nThe recommended state for this setting is: Enabled.",
+    "rationale": "Due to privacy concerns, data should never be sent to any third-party since this data\ncould contain sensitive information.",
+    "impact": "Windows experiences that use the cloud optimized content client component, will\npresent the default fallback content instead of customized content.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\CloudContent:DisableCloudOptimizedCo\nntent",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nComputer Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\Cloud Content\\Turn off cloud optimized content\nNote: This Group Policy path is provided by the Group Policy template\nCloudContent.admx/adml that is included with the Microsoft Windows 10 Release\n20H2 Administrative Templates (or newer).",
+    "default_value": "Disabled. (Windows experiences will be able to use cloud optimized content.)\nReferences:\n1. GRID: MS-00000426\nPage 891\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8 ● ●\nUninstall or disable unnecessary services on enterprise assets and software,\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nAre Running\nv7 ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 892",
+    "page_number": 892
+  },
+  {
+    "cis_id": "18.10.13.3",
+    "title": "Ensure 'Turn off Microsoft consumer experiences'\nis set to 'Enabled'",
+    "profile": "L1",
+    "description": "This policy setting turns off experiences that help consumers make the most of their\ndevices and Microsoft account.\nThe recommended state for this setting is: Enabled.\nNote: Per Microsoft TechNet, this policy setting only applies to Windows 10 Enterprise\nand Windows 10 Education editions.",
+    "rationale": "Having apps silently install in an enterprise managed environment is not good security\npractice - especially if the apps send data back to a third-party.",
+    "impact": "Users will no longer see personalized recommendations from Microsoft and notifications\nabout their Microsoft account.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\CloudContent:DisableWindowsConsumerF\neatures",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nComputer Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\Cloud Content\\Turn off Microsoft consumer experiences\nNote: This Group Policy path is provided by the Group Policy template\nCloudContent.admx/adml that is included with the Microsoft Windows 10 Release\n1511 Administrative Templates (or newer).",
+    "default_value": "Disabled. (Users may see suggestions from Microsoft and notifications about their\nMicrosoft account.)\nPage 893\nReferences:\n1. GRID: MS-00000427\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8 ● ●\nUninstall or disable unnecessary services on enterprise assets and software,\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nAre Running\nv7 ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 894",
+    "page_number": 894
+  },
+  {
+    "cis_id": "18.10.14.1",
+    "title": "Ensure 'Require pin for pairing' is set to 'Enabled:\nFirst Time' OR 'Enabled: Always'",
+    "profile": "L1",
+    "description": "This policy setting controls whether or not a PIN is required for pairing to a wireless\ndisplay device.\nThe recommended state for this setting is: Enabled: First Time OR Enabled:\nAlways.",
+    "rationale": "If this setting is not configured or disabled then a PIN would not be required when\npairing wireless display devices to the system, increasing the risk of unauthorized use.",
+    "impact": "The pairing ceremony for connecting to new wireless display devices will always require\na PIN.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1 or 2.\nHKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\Connect:RequirePinForPairing",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled: First Time OR Enabled: Always:\nComputer Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\Connect\\Require pin for pairing\nNote: This Group Policy path is provided by the Group Policy template\nWirelessDisplay.admx/adml that is included with the Microsoft Windows 10 Release\n1607 & Server 2016 Administrative Templates (or newer). The new Choose one of\nthe following actions sub-option was later added as of the Windows 10 Release\n1809 Administrative Templates. Choosing Enabled in the older templates is the\nequivalent of choosing Enabled: First Time in the newer templates.",
+    "default_value": "Disabled. (A PIN is not required for pairing to a wireless display device.)\nPage 896\nReferences:\n1. GRID: MS-00000428\nCIS Controls:\nControls Version Control IG 1 IG 2 IG 3\n0.0 Explicitly Not Mapped\nv8\nExplicitly Not Mapped\n0.0 Explicitly Not Mapped\nv7\nExplicitly Not Mapped\nPage 897",
+    "page_number": 897
+  },
+  {
+    "cis_id": "18.10.15.1",
+    "title": "Ensure 'Do not display the password reveal\nbutton' is set to 'Enabled'",
+    "profile": "L1",
+    "description": "This policy setting allows you to configure the display of the password reveal button in\npassword entry user experiences.\nThe recommended state for this setting is: Enabled.",
+    "rationale": "This is a useful feature when entering a long and complex password, especially when\nusing a touchscreen. The potential risk is that someone else may see your password\nwhile surreptitiously observing your screen.",
+    "impact": "The password reveal button will not be displayed after a user types a password in the\npassword entry text box.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\CredUI:DisablePasswordReveal",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nComputer Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\Credential User Interface\\Do not display the password reveal\nbutton\nNote: This Group Policy path is provided by the Group Policy template\nCredUI.admx/adml that is included with the Microsoft Windows 8.0 & Server 2012\n(non-R2) Administrative Templates (or newer).",
+    "default_value": "Disabled. (The password reveal button is displayed after a user types a password in the\npassword entry text box. If the user clicks on the button, the typed password is\ndisplayed on-screen in plain text.)\nPage 899\nReferences:\n1. GRID: MS-00000429\nCIS Controls:\nControls Version Control IG 1 IG 2 IG 3\n0.0 Explicitly Not Mapped\nv8\nExplicitly Not Mapped\n0.0 Explicitly Not Mapped\nv7\nExplicitly Not Mapped\nPage 900",
+    "page_number": 900
+  },
+  {
+    "cis_id": "18.10.15.2",
+    "title": "Ensure 'Enumerate administrator accounts on\nelevation' is set to 'Disabled'",
+    "profile": "L1",
+    "description": "This policy setting controls whether administrator accounts are displayed when a user\nattempts to elevate a running application.\nThe recommended state for this setting is: Disabled.",
+    "rationale": "Users could see the list of administrator accounts, making it slightly easier for a\nmalicious user who has logged onto a console session to try to crack the passwords of\nthose accounts.",
+    "impact": "None - this is the default behavior.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 0.\nHKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\CredUI:EnumerateAdmin\nistrators",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nDisabled:\nComputer Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\Credential User Interface\\Enumerate administrator accounts on\nelevation\nNote: This Group Policy path is provided by the Group Policy template\nCredUI.admx/adml that is included with all versions of the Microsoft Windows\nAdministrative Templates.",
+    "default_value": "Disabled. (Users will be required to always type in a username and password to\nelevate.)\nPage 901\nReferences:\n1. GRID: MS-00000430\nCIS Controls:\nControls Version Control IG 1 IG 2 IG 3\n0.0 Explicitly Not Mapped\nv8\nExplicitly Not Mapped\n0.0 Explicitly Not Mapped\nv7\nExplicitly Not Mapped\nPage 902",
+    "page_number": 902
+  },
+  {
+    "cis_id": "18.10.15.3",
+    "title": "Ensure 'Prevent the use of security questions for\nlocal accounts' is set to 'Enabled'",
+    "profile": "L1",
+    "description": "This policy setting controls whether security questions can be used to reset local\naccount passwords. The security question feature does not apply to domain accounts,\nonly local accounts on the workstation.\nThe recommended state for this setting is: Enabled.",
+    "rationale": "Users could establish security questions that are easily guessed or sleuthed by\nobserving the user’s social media accounts, making it easier for a malicious actor to\nchange the local user account password and gain access to the computer as that user\naccount.",
+    "impact": "Local user accounts will not be able to set up and use security questions to reset their\npasswords.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\System:NoLocalPasswordResetQuestions",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nComputer Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\Credential User Interface\\Prevent the use of security questions\nfor local accounts\nNote: This Group Policy path is provided by the Group Policy template\nCredUI.admx/adml that is included with the Microsoft Windows 10 Release 1903\nAdministrative Templates (or newer).\nPage 903",
+    "default_value": "Not Configured. (Local user accounts are able to set up and use security questions to\nreset their passwords.)\nReferences:\n1. GRID: MS-00000431\nCIS Controls:\nControls Version Control IG 1 IG 2 IG 3\n0.0 Explicitly Not Mapped\nv8\nExplicitly Not Mapped\n0.0 Explicitly Not Mapped\nv7\nExplicitly Not Mapped\nPage 904",
+    "page_number": 904
+  },
+  {
+    "cis_id": "18.10.16.1",
+    "title": "Ensure 'Allow Diagnostic Data' is set to 'Enabled:\nDiagnostic data off (not recommended)' or 'Enabled: Send\nrequired diagnostic data'",
+    "profile": "L1",
+    "description": "This policy setting determines the amount of diagnostic and usage data reported to\nMicrosoft:\n• A value of (0) Diagnostic data off (not recommended). Using this value, no\ndiagnostic data is sent from the device. This value is only supported on\nEnterprise, Education, and Server editions. If you choose this setting, devices in\nyour organization will still be secure.\n• A value of (1) Send required diagnostic data. This is the minimum\ndiagnostic data necessary to keep Windows secure, up to date, and performing\nas expected. Using this value disables the Optional diagnostic data control in the\nSettings app.\n• A value of (3) Send optional diagnostic data. Additional diagnostic data is\ncollected that helps us to detect, diagnose and fix issues, as well as make\nproduct improvements. Required diagnostic data will always be included when\nyou choose to send optional diagnostic data. Optional diagnostic data can also\ninclude diagnostic log files and crash dumps. Use the Limit Dump Collection and\nthe Limit Diagnostic Log Collection policies for more granular control of what\noptional diagnostic data is sent.\nWindows telemetry settings apply to the Windows operating system and some first party\napps. This setting does not apply to third party apps running on Windows 10/11.\nThe recommended state for this setting is: Enabled: Diagnostic data off (not\nrecommended) or Enabled: Send required diagnostic data.\nNote: If your organization relies on Windows Update, the minimum recommended\nsetting is Required diagnostic data. Because no Windows Update information is\ncollected when diagnostic data is off, important information about update failures is not\nsent. Microsoft uses this information to fix the causes of those failures and improve the\nquality of updates.\nNote #2: The Configure diagnostic data opt-in settings user interface group policy can\nbe used to prevent end users from changing their data collection settings.\nPage 906\nNote #3: Enhanced diagnostic data setting is not available on Windows 11 and\nWindows Server 2022 and has been replaced with policies that can control the amount\nof optional diagnostic data that is sent. For more information on these settings visit\nManage diagnostic data using Group Policy and MDM",
+    "rationale": "Sending any data to a third-party vendor is a security concern and should only be done\non an as needed basis.",
+    "impact": "Note that setting values of 0 or 1 will degrade certain experiences on the device.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 0 or 1.\nHKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DataCollection:AllowTelemetry",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled: Diagnostic data off (not recommended) or Enabled: Send required\ndiagnostic data:\nComputer Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\Data Collection and Preview Builds\\Allow Diagnostic Data\nNote: This Group Policy path is provided by the Group Policy template\nDataCollection.admx/adml that is included with the Microsoft Windows 10 RTM\n(Release 1507) Administrative Templates (or newer).\nNote #2: In older Microsoft Windows Administrative Templates, this setting was initially\nnamed Allow Telemetry, but it was renamed to Allow Diagnostic Data starting with the\nWindows 11 Release 21H2 Administrative Templates.",
+    "default_value": "Disabled. (The device will send required diagnostic data and the end user can choose\nwhether to send optional diagnostic data from the Settings app.)\nReferences:\n1. https://learn.microsoft.com/en-us/windows/privacy/configure-windows-diagnostic-\ndata-in-your-organization\n2. GRID: MS-00000432\nPage 907\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n0.0 Explicitly Not Mapped\nv8\nExplicitly Not Mapped\n9.2 Ensure Only Approved Ports, Protocols and\nServices Are Running\nv7 ● ●\nEnsure that only network ports, protocols, and services listening on a\nsystem with validated business needs, are running on each system.\nPage 908",
+    "page_number": 907
+  },
+  {
+    "cis_id": "18.10.16.2",
+    "title": "Ensure 'Configure Authenticated Proxy usage for\nthe Connected User Experience and Telemetry service' is set to\n'Enabled: Disable Authenticated Proxy usage'",
+    "profile": "L2",
+    "description": "This policy setting controls whether the Connected User Experience and Telemetry\nservice can automatically use an authenticated proxy to send data back to Microsoft.\nThe recommended state for this setting is: Enabled: Disable Authenticated Proxy\nusage.",
+    "rationale": "Sending any data to a third-party vendor is a security concern and should only be done\non an as needed basis.",
+    "impact": "The Connected User Experience and Telemetry service will be blocked from\nautomatically using an authenticated proxy.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DataCollection:DisableEnterpriseAuth\nProxy",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled: Disable Authenticated Proxy usage:\nComputer Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\Data Collection and Preview Builds\\Configure Authenticated Proxy\nusage for the Connected User Experience and Telemetry service\nNote: This Group Policy path is provided by the Group Policy template\nDataCollection.admx/adml that is included with the Microsoft Windows 10 Release\n1703 Administrative Templates (or newer).\nPage 909",
+    "default_value": "Disabled. (The Connected User Experience and Telemetry service will automatically\nuse an authenticated proxy to send data back to Microsoft.)\nReferences:\n1. GRID: MS-00000433\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n0.0 Explicitly Not Mapped\nv8\nExplicitly Not Mapped\n9.2 Ensure Only Approved Ports, Protocols and\nServices Are Running\nv7 ● ●\nEnsure that only network ports, protocols, and services listening on a\nsystem with validated business needs, are running on each system.\nPage 910",
+    "page_number": 910
+  },
+  {
+    "cis_id": "18.10.16.3",
+    "title": "Ensure 'Disable OneSettings Downloads' is set to\n'Enabled'",
+    "profile": "L1",
+    "description": "This policy setting controls whether Windows attempts to connect with the OneSettings\nservice to download configuration settings.\nThe recommended state for this setting is: Enabled.",
+    "rationale": "Sending data to a third-party vendor is a security concern and should only be done on\nan as-needed basis.",
+    "impact": "Windows will not connect to the OneSettings service to download configuration settings.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DataCollection:DisableOneSettingsDow\nnloads",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nComputer Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\Data Collection and Preview Builds\\Disable OneSettings Downloads\nNote: This Group Policy path is provided by the Group Policy template\nDataCollection.admx/adml that is included with the Microsoft Windows 11 Release\n21H2 Administrative Templates (or newer).",
+    "default_value": "Disabled. (Windows will periodically attempt to connect with the OneSettings service to\ndownload configuration settings.)\nReferences:\n1. GRID: MS-00000434\nPage 911\nCIS Controls:\nControls Version Control IG 1 IG 2 IG 3\n0.0 Explicitly Not Mapped\nv8\nExplicitly Not Mapped\n0.0 Explicitly Not Mapped\nv7\nExplicitly Not Mapped\nPage 912",
+    "page_number": 912
+  },
+  {
+    "cis_id": "18.10.16.4",
+    "title": "Ensure 'Do not show feedback notifications' is set\nto 'Enabled'",
+    "profile": "L1",
+    "description": "This policy setting allows an organization to prevent its devices from showing feedback\nquestions from Microsoft.\nThe recommended state for this setting is: Enabled.",
+    "rationale": "Users should not be sending any feedback to third-party vendors in an enterprise\nmanaged environment.",
+    "impact": "Users will no longer see feedback notifications through the Windows Feedback app.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 1.\nHKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DataCollection:DoNotShowFeedbackNoti\nfications",
+    "remediation_procedure": "To establish the recommended configuration via GP, set the following UI path to\nEnabled:\nComputer Configuration\\Policies\\Administrative Templates\\Windows\nComponents\\Data Collection and Preview Builds\\Do not show feedback\nnotifications\nNote: This Group Policy path is provided by the Group Policy template\nFeedbackNotifications.admx/adml that is included with the Microsoft Windows 10\nRelease 1511 Administrative Templates (or newer).",
+    "default_value": "Disabled. (Users may see notifications through the Windows Feedback app asking\nusers for feedback. Users can control how often they receive feedback questions.)\nPage 913\nReferences:\n1. GRID: MS-00000435\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n0.0 Explicitly Not Mapped\nv8\nExplicitly Not Mapped\n9.2 Ensure Only Approved Ports, Protocols and\nServices Are Running\nv7 ● ●\nEnsure that only network ports, protocols, and services listening on a\nsystem with validated business needs, are running on each system.\nPage 914",
+    "page_number": 914
+  }
+]

@@ -1,0 +1,122 @@
+[
+  {
+    "cis_id": "5.31",
+    "title": "Ensure 'Windows Media Player Network Sharing\nService (WMPNetworkSvc)' is set to 'Disabled' or 'Not Installed'",
+    "profile": "L1",
+    "description": "Shares Windows Media Player libraries to other networked players and media devices\nusing Universal Plug and Play.\nThe recommended state for this setting is: Disabled or Not Installed.",
+    "rationale": "Network sharing of media from Media Player has no place in an enterprise managed\nenvironment.",
+    "impact": "Windows Media Player libraries will not be shared over the network to other devices and\nsystems.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 4 or that the key does not exist.\nHKLM\\SYSTEM\\CurrentControlSet\\Services\\WMPNetworkSvc:Start",
+    "remediation_procedure": "To establish the recommended configuration, run the following PowerShell command or\nensure the service is not installed.\nSet-Service -Name WMPNetworkSvc -StartupType Disabled",
+    "default_value": "Manual\nReferences:\n1. GRID: MS-00000163\nPage 344\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8\nUninstall or disable unnecessary services on enterprise assets and software,\n● ●\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nv7 Are Running ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 345",
+    "page_number": 345
+  },
+  {
+    "cis_id": "5.32",
+    "title": "Ensure 'Windows Mobile Hotspot Service (icssvc)' is set\nto 'Disabled'",
+    "profile": "L1",
+    "description": "Provides the ability to share a cellular data connection with another device.\nThe recommended state for this setting is: Disabled.",
+    "rationale": "The capability to run a mobile hotspot from a domain-connected computer could easily\nexpose the internal network to wardrivers or other hackers.",
+    "impact": "The Windows Mobile Hotspot feature will not be available.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 4.\nHKLM\\SYSTEM\\CurrentControlSet\\Services\\icssvc:Start",
+    "remediation_procedure": "To establish the recommended configuration, run the following PowerShell command:\nSet-Service -Name icssvc -StartupType Disabled",
+    "default_value": "Manual (Trigger Start)\nReferences:\n1. GRID: MS-00000164\nPage 346\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8\nUninstall or disable unnecessary services on enterprise assets and software,\n● ●\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nv7 Are Running ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 347",
+    "page_number": 347
+  },
+  {
+    "cis_id": "5.33",
+    "title": "Ensure 'Windows Push Notifications System Service\n(WpnService)' is set to 'Disabled'",
+    "profile": "L2",
+    "description": "This service runs in session 0 and hosts the notification platform and connection\nprovider which handles the connection between the device and WNS server.\nThe recommended state for this setting is: Disabled.\nNote: In the first two releases of Windows 10 (R1507 & R1511), the display name of\nthis service was initially named Windows Push Notifications Service - but it was\nrenamed to Windows Push Notifications System Service starting with Windows 10\nR1607.",
+    "rationale": "Windows Push Notification Services (WNS) is a mechanism to receive third-party\nnotifications and updates from the cloud/Internet. In a high security environment,\nexternal systems, especially those hosted outside the organization, should be prevented\nfrom having an impact on the secure workstations.",
+    "impact": "Live Tiles and other features will not get live updates.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 4.\nHKLM\\SYSTEM\\CurrentControlSet\\Services\\WpnService:Start",
+    "remediation_procedure": "To establish the recommended configuration, run the following PowerShell command:\nSet-Service -Name WpnService -StartupType Disabled",
+    "default_value": "Automatic\nReferences:\n1. GRID: MS-00000165\nPage 348\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8\nUninstall or disable unnecessary services on enterprise assets and software,\n● ●\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nv7 Are Running ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 349",
+    "page_number": 349
+  },
+  {
+    "cis_id": "5.34",
+    "title": "Ensure 'Windows PushToInstall Service (PushToInstall)'\nis set to 'Disabled'",
+    "profile": "L2",
+    "description": "This service manages Apps that are pushed to the device from the Microsoft Store App\nrunning on other devices or the web.\nThe recommended state for this setting is: Disabled.",
+    "rationale": "In a high security managed environment, application installations should be managed\ncentrally by IT staff, not by end users.",
+    "impact": "Users will not be able to push Apps to this device from the Microsoft Store running on\nother devices or the web.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 4.\nHKLM\\SYSTEM\\CurrentControlSet\\Services\\PushToInstall:Start",
+    "remediation_procedure": "To establish the recommended configuration, run the following PowerShell command:\nSet-Service -Name PushToInstall -StartupType Disabled",
+    "default_value": "Manual (Trigger Start)\nReferences:\n1. GRID: MS-00000166\nPage 350\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8\nUninstall or disable unnecessary services on enterprise assets and software,\n● ●\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nv7 Are Running ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 351",
+    "page_number": 351
+  },
+  {
+    "cis_id": "5.35",
+    "title": "Ensure 'Windows Remote Management (WS-\nManagement) (WinRM)' is set to 'Disabled'",
+    "profile": "L2",
+    "description": "Windows Remote Management (WinRM) service implements the WS-Management\nprotocol for remote management. WS-Management is a standard web services protocol\nused for remote software and hardware management. The WinRM service listens on\nthe network for WS-Management requests and processes them.\nThe recommended state for this setting is: Disabled.",
+    "rationale": "Features that enable inbound network connections increase the attack surface. In a\nhigh security environment, management of secure workstations should be handled\nlocally.",
+    "impact": "The ability to remotely manage the system with WinRM will be lost.\nNote: Many remote administration tools, such as System Center Configuration Manager\n(SCCM), may require the WinRM service to be operational for remote management.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 4.\nHKLM\\SYSTEM\\CurrentControlSet\\Services\\WinRM:Start",
+    "remediation_procedure": "To establish the recommended configuration, run the following PowerShell command:\nSet-Service -Name WinRM -StartupType Disabled",
+    "default_value": "Manual\nReferences:\n1. GRID: MS-00000167\nPage 352\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8\nUninstall or disable unnecessary services on enterprise assets and software,\n● ●\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nv7 Are Running ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 353",
+    "page_number": 353
+  },
+  {
+    "cis_id": "5.36",
+    "title": "Ensure 'WinHTTP Web Proxy Auto-Discovery Service\n(WinHttpAutoProxySvc)' is set to 'Disabled'",
+    "profile": "L2",
+    "description": "WinHTTP implements the client HTTP stack and provides developers with a Win32 API\nand COM Automation component for sending HTTP requests and receiving responses.\nIn addition, WinHTTP provides support for auto-discovering a proxy configuration via its\nimplementation of the Web Proxy Auto-Discovery (WPAD) protocol.\nThe recommended state for this setting is: Disabled.\nNote: Although CIS categorizes this as a L2 recommendation, if none of the cases\nlisted in the Impact Section apply, we highly recommend disabling this service.",
+    "rationale": "This service is primarily needed to support Web Proxy Auto-Discovery (WPAD), which\nis an auto-proxy discovery mechanism that could expose the computer to Man-In-The-\nMiddle (MITM) attacks. If an organization depends on HTTP proxy configuration, it is\nrecommended that other client configuration mechanisms be used instead, such as\nGroup Policy.",
+    "impact": "WPAD will cease to function for automatic HTTP proxy routing, which may prevent\nInternet connectivity for workstations in organizations that currently use WPAD.\nMicrosoft also cautions that some software that uses the network stack may have a\nfunctional dependency on this service, so it is advised that you test disabling this\nservice on a representation of user workstations and applications before disabling it\nacross the entire organization.\nBeginning with Windows 10 Release 1709, Microsoft changed the WPAD service to\ntightly integrate it with all proxy activity. Disabling this service now has these additional\nimpacts:\n• The ability to set a manual (not just auto) proxy configuration.\n• Some VPN clients require the WPAD service, so disabling WPAD breaks them.\n• Some network-related applications will not work without WPAD running (e.g.\nFiddler).\nPage 354",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 4.\nHKLM\\SYSTEM\\CurrentControlSet\\Services\\WinHttpAutoProxySvc:Start",
+    "remediation_procedure": "To establish the recommended configuration, run the following PowerShell command:\nSet-Service -Name WinHttpAutoProxySvc -StartupType Disabled",
+    "default_value": "Manual\nReferences:\n1. GRID: MS-00000573\n2. https://learn.microsoft.com/en-us/windows/win32/winhttp/winhttp-autoproxy-\nsupport\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8\nUninstall or disable unnecessary services on enterprise assets and software,\n● ●\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nv7 Are Running ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 355",
+    "page_number": 355
+  },
+  {
+    "cis_id": "5.37",
+    "title": "Ensure 'World Wide Web Publishing Service (W3SVC)'\nis set to 'Disabled' or 'Not Installed'",
+    "profile": "L1",
+    "description": "Provides Web connectivity and administration through the Internet Information Services\nManager.\nThe recommended state for this setting is: Disabled or Not Installed.\nNote: This service is not installed by default. It is supplied with Windows, but is installed\nby enabling an optional Windows feature (Internet Information Services - World Wide\nWeb Services).\nNote #2: An organization may choose to selectively grant exceptions to web developers\nto allow IIS (or another web server) on their workstation, in order for them to locally test\nand develop web pages. However, the organization should track those machines and\nensure the security controls and mitigations are kept up to date, to reduce risk of\ncompromise.",
+    "rationale": "Hosting a website from a workstation is an increased security risk, as the attack surface\nof that workstation is then greatly increased. If proper security mitigations are not\nfollowed, the chance of successful attack increases significantly.\nNote: This security concern applies to any web server application installed on a\nworkstation, not just IIS.",
+    "impact": "IIS Web Services will not function.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 4 or that the key does not exist.\nHKLM\\SYSTEM\\CurrentControlSet\\Services\\W3SVC:Start\nPage 356",
+    "remediation_procedure": "To establish the recommended configuration, run the following PowerShell command or\nensure the service is not installed.\nSet-Service -Name W3SVC -StartupType Disabled",
+    "default_value": "Not Installed (Automatic when installed)\nReferences:\n1. GRID: MS-00000168\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8\nUninstall or disable unnecessary services on enterprise assets and software,\n● ●\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nv7 Are Running ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 357",
+    "page_number": 357
+  },
+  {
+    "cis_id": "5.38",
+    "title": "Ensure 'Xbox Accessory Management Service\n(XboxGipSvc)' is set to 'Disabled'",
+    "profile": "L1",
+    "description": "This service manages connected Xbox Accessories.\nThe recommended state for this setting is: Disabled.",
+    "rationale": "Xbox Live is a gaming service and has no place in an enterprise managed environment\n(perhaps unless it is a gaming company).",
+    "impact": "Connected Xbox accessories may not function.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 4.\nHKLM\\SYSTEM\\CurrentControlSet\\Services\\XboxGipSvc:Start",
+    "remediation_procedure": "To establish the recommended configuration, run the following PowerShell command:\nSet-Service -Name XboxGipSvc -StartupType Disabled",
+    "default_value": "Windows 10 R1703: Manual\nWindows 10 R1709 or newer: Manual (Trigger Start)\nReferences:\n1. https://www.cisecurity.org/insights/blog/update-cis-microsoft-windows-10-\nenterprise-release-1703-benchmark-v1-0-0\n2. GRID: MS-00000169\nPage 358\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8\nUninstall or disable unnecessary services on enterprise assets and software,\n● ●\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nv7 Are Running ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 359",
+    "page_number": 359
+  },
+  {
+    "cis_id": "5.39",
+    "title": "Ensure 'Xbox Live Auth Manager (XblAuthManager)' is\nset to 'Disabled'",
+    "profile": "L1",
+    "description": "Provides authentication and authorization services for interacting with Xbox Live.\nThe recommended state for this setting is: Disabled.",
+    "rationale": "Xbox Live is a gaming service and has no place in an enterprise managed environment\n(perhaps unless it is a gaming company).",
+    "impact": "Connections to Xbox Live may fail and applications that interact with that service may\nalso fail.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 4.\nHKLM\\SYSTEM\\CurrentControlSet\\Services\\XblAuthManager:Start",
+    "remediation_procedure": "To establish the recommended configuration, run the following PowerShell command:\nSet-Service -Name XblAuthManager -StartupType Disabled",
+    "default_value": "Manual\nReferences:\n1. https://www.cisecurity.org/insights/blog/update-cis-microsoft-windows-10-\nenterprise-release-1703-benchmark-v1-0-0\n2. GRID: MS-00000170\nPage 360\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8\nUninstall or disable unnecessary services on enterprise assets and software,\n● ●\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nv7 Are Running ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 361",
+    "page_number": 361
+  },
+  {
+    "cis_id": "5.40",
+    "title": "Ensure 'Xbox Live Game Save (XblGameSave)' is set to\n'Disabled'",
+    "profile": "L1",
+    "description": "This service syncs save data for Xbox Live save enabled games.\nThe recommended state for this setting is: Disabled.",
+    "rationale": "Xbox Live is a gaming service and has no place in an enterprise managed environment\n(perhaps unless it is a gaming company).",
+    "impact": "Game save data will not upload to or download from Xbox Live.",
+    "audit_procedure": "Navigate to the UI Path articulated in the Remediation section and confirm it is set as\nprescribed. This group policy setting is backed by the following registry location with a\nREG_DWORD value of 4.\nHKLM\\SYSTEM\\CurrentControlSet\\Services\\XblGameSave:Start",
+    "remediation_procedure": "To establish the recommended configuration, run the following PowerShell command:\nSet-Service -Name XblGameSave -StartupType Disabled",
+    "default_value": "Windows 10 R1507 and R1511: Manual\nWindows 10 R1607 or newer: Manual (Trigger Start)\nReferences:\n1. https://www.cisecurity.org/insights/blog/update-cis-microsoft-windows-10-\nenterprise-release-1703-benchmark-v1-0-0\n2. GRID: MS-00000171\nPage 362\nCIS Controls:\nControls\nControl IG 1 IG 2 IG 3\nVersion\n4.8 Uninstall or Disable Unnecessary Services on\nEnterprise Assets and Software\nv8\nUninstall or disable unnecessary services on enterprise assets and software,\n● ●\nsuch as an unused file sharing service, web application module, or service\nfunction.\n9.2 Ensure Only Approved Ports, Protocols and Services\nv7 Are Running ● ●\nEnsure that only network ports, protocols, and services listening on a system\nwith validated business needs, are running on each system.\nPage 363",
+    "page_number": 363
+  }
+]
