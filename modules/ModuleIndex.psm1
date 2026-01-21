@@ -25,7 +25,6 @@ $script:ModuleRoot = $PSScriptRoot
 
 # Import all modules
 $modulesToImport = @(
-    "ConfigurationManager.psm1"
     "WindowsUtils.psm1"
     "PowerManagement.psm1"
     "RegistryUtils.psm1"
@@ -34,12 +33,6 @@ $modulesToImport = @(
     "CISFramework.psm1"
     "CISRemediation.psm1"
     "ServiceManager.psm1"
-    "ScriptGenerator.psm1"
-    "EnterpriseLogger.psm1"
-    "SecurityManager.psm1"
-    "DeploymentManager.psm1"
-    "HealthMonitor.psm1"
-    "TestFramework.psm1"
 )
 
 foreach ($module in $modulesToImport) {
@@ -194,85 +187,6 @@ function Get-WindowsModuleInfo {
                 "Get-ServiceToggleStatus",
                 "Test-ServiceToggleRequirements",
                 "Set-ServiceCompliance"
-            )
-        },
-        @{
-            Name = "ConfigurationManager"
-            Description = "Configuration management with dynamic path resolution"
-            Commands = @(
-                "Get-CISConfiguration",
-                "Set-CISConfiguration",
-                "Resolve-CISPath",
-                "Test-CISConfiguration",
-                "Get-CISEnvironmentSettings",
-                "Import-CISModule"
-            )
-        },
-        @{
-            Name = "ScriptGenerator"
-            Description = "Template-based script generation from JSON recommendations"
-            Commands = @(
-                "Get-CISScriptTemplate",
-                "New-CISScript",
-                "Generate-CISScriptsFromJSON",
-                "Get-ServiceNameFromCISID"
-            )
-        },
-        @{
-            Name = "EnterpriseLogger"
-            Description = "Enterprise-grade structured logging with audit trail capabilities"
-            Commands = @(
-                "Initialize-EnterpriseLogging",
-                "Add-EnterpriseLog",
-                "Add-AuditTrailEntry",
-                "Get-LogStatistics",
-                "Set-LogConfiguration",
-                "Clear-OldLogs",
-                "New-CorrelationId"
-            )
-        },
-        @{
-            Name = "SecurityManager"
-            Description = "Enterprise security management with validation and privilege escalation"
-            Commands = @(
-                "Test-SecurityPrerequisites",
-                "Invoke-WithElevatedPrivileges",
-                "Test-SecureConfiguration",
-                "Protect-SensitiveData",
-                "Invoke-SecurityAudit",
-                "Test-SystemSecurityState"
-            )
-        },
-        @{
-            Name = "DeploymentManager"
-            Description = "Enterprise deployment and configuration management"
-            Commands = @(
-                "Get-EnvironmentConfiguration",
-                "Test-DeploymentConfiguration",
-                "Invoke-Deployment",
-                "New-DeploymentPackage"
-            )
-        },
-        @{
-            Name = "HealthMonitor"
-            Description = "System health monitoring and performance tracking"
-            Commands = @(
-                "Get-SystemHealth",
-                "Start-HealthMonitoring",
-                "Get-PerformanceMetrics",
-                "New-HealthAlert"
-            )
-        },
-        @{
-            Name = "TestFramework"
-            Description = "Comprehensive testing and validation framework"
-            Commands = @(
-                "Invoke-TestSuite",
-                "Invoke-UnitTests",
-                "Invoke-IntegrationTests",
-                "Invoke-SystemTests",
-                "Invoke-PerformanceTests",
-                "Invoke-SecurityTests"
             )
         }
     )
@@ -479,5 +393,5 @@ if ($VerbosePreference -ne 'SilentlyContinue') {
 Export-ModuleMember -Function Get-WindowsModuleInfo, Test-WindowsModules, Get-WindowsModuleCommands, Show-WindowsModuleHelp, Initialize-WindowsModules -Verbose:$false
 
 # Export all functions from imported modules
-$allCommands = Get-Command -Module ConfigurationManager, WindowsUtils, PowerManagement, RegistryUtils, WindowsUI, VisualEffects, CISFramework, CISRemediation, ServiceManager, ScriptGenerator, EnterpriseLogger, SecurityManager, DeploymentManager, HealthMonitor, TestFramework -ErrorAction SilentlyContinue
+$allCommands = Get-Command -Module WindowsUtils, PowerManagement, RegistryUtils, WindowsUI, VisualEffects, CISFramework, CISRemediation, ServiceManager -ErrorAction SilentlyContinue
 Export-ModuleMember -Function $allCommands.Name -ErrorAction SilentlyContinue -Verbose:$false
