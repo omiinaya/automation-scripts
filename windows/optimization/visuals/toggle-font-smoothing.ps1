@@ -38,12 +38,10 @@ public class SystemParams {
 "@
 
     # Constants for SystemParametersInfo
-    $SPI_GETFONTSMOOTHING     = 0x004A
-    $SPI_SETFONTSMOOTHING     = 0x004B
-    $SPI_GETFONTSMOOTHINGTYPE = 0x200A
-    $SPI_SETFONTSMOOTHINGTYPE = 0x200B
-    $SPIF_UPDATEINIFILE       = 0x0001
-    $SPIF_SENDCHANGE          = 0x0002
+    $SPI_GETFONTSMOOTHING = 0x004A
+    $SPI_SETFONTSMOOTHING = 0x004B
+    $SPIF_UPDATEINIFILE = 0x0001
+    $SPIF_SENDCHANGE = 0x0002
     
     # Get current font smoothing setting
     $currentSmoothing = $false
@@ -52,10 +50,6 @@ public class SystemParams {
     if (-not $result) {
         throw "Failed to get current font smoothing setting"
     }
-    
-    # Get current font smoothing type (ClearType vs Standard)
-    $currentSmoothingType = 0
-    $typeResult = [SystemParams]::SystemParametersInfoUInt($SPI_GETFONTSMOOTHINGTYPE, 0, [ref]$currentSmoothingType, 0)
     
     # Toggle the smoothing setting
     $newSmoothingValue = -not $currentSmoothing
@@ -74,7 +68,8 @@ public class SystemParams {
     if ($newSmoothingValue) {
         Set-RegistryValue -KeyPath $desktopPath -ValueName "FontSmoothing" -ValueData "2" -ValueType String
         Set-RegistryValue -KeyPath $desktopPath -ValueName "FontSmoothingType" -ValueData 2 -ValueType DWord
-    } else {
+    }
+    else {
         Set-RegistryValue -KeyPath $desktopPath -ValueName "FontSmoothing" -ValueData "0" -ValueType String
         Set-RegistryValue -KeyPath $desktopPath -ValueName "FontSmoothingType" -ValueData 0 -ValueType DWord
     }
@@ -87,6 +82,7 @@ public class SystemParams {
     
     Write-StatusMessage -Message "Changes applied immediately - no restart required" -Type Info
     
-} catch {
+}
+catch {
     Wait-OnError -ErrorMessage "Failed to toggle font smoothing setting: $($_.Exception.Message)"
 }
