@@ -69,56 +69,6 @@ public class SystemParams {
         throw "Failed to apply font smoothing setting"
     }
     
-    # Configure ClearType registry settings based on toggle state
-    $avalonPath1 = "HKCU:\Software\Microsoft\Avalon.Graphics\DISPLAY1"
-    $avalonPath2 = "HKCU:\Software\Microsoft\Avalon.Graphics\DISPLAY2"  # in case multi-monitor
-    
-    if ($newSmoothingValue) {
-        # Enable ClearType - set registry values for optimal font rendering
-        Write-StatusMessage -Message "Configuring ClearType tuning..." -Type Info
-        
-        # Create registry keys if they don't exist
-        New-Item -Path $avalonPath1 -Force | Out-Null
-        New-Item -Path $avalonPath2 -Force | Out-Null
-        
-        # Set ClearType tuning values for DISPLAY1
-        Set-RegistryValue -KeyPath $avalonPath1 -ValueName "ClearTypeLevel" -ValueData 100 -ValueType DWord
-        Set-RegistryValue -KeyPath $avalonPath1 -ValueName "EnhancedContrastLevel" -ValueData 100 -ValueType DWord
-        Set-RegistryValue -KeyPath $avalonPath1 -ValueName "PixelStructure" -ValueData 1 -ValueType DWord
-        Set-RegistryValue -KeyPath $avalonPath1 -ValueName "TextContrastLevel" -ValueData 1 -ValueType DWord
-        
-        # Set ClearType tuning values for DISPLAY2 (multi-monitor)
-        Set-RegistryValue -KeyPath $avalonPath2 -ValueName "ClearTypeLevel" -ValueData 100 -ValueType DWord
-        Set-RegistryValue -KeyPath $avalonPath2 -ValueName "EnhancedContrastLevel" -ValueData 100 -ValueType DWord
-        Set-RegistryValue -KeyPath $avalonPath2 -ValueName "PixelStructure" -ValueData 1 -ValueType DWord
-        Set-RegistryValue -KeyPath $avalonPath2 -ValueName "TextContrastLevel" -ValueData 1 -ValueType DWord
-        
-        # Set font smoothing type to ClearType (2)
-        [void][SystemParams]::SystemParametersInfoSet($SPI_SETFONTSMOOTHINGTYPE, 0, 2, $SPIF_UPDATEINIFILE -bor $SPIF_SENDCHANGE)
-        
-        Write-StatusMessage -Message "ClearType tuning applied" -Type Success
-    } else {
-        # Disable font smoothing - clear ClearType registry values
-        Write-StatusMessage -Message "Clearing ClearType tuning..." -Type Info
-        
-        # Remove ClearType tuning values for DISPLAY1
-        Remove-RegistryValue -KeyPath $avalonPath1 -ValueName "ClearTypeLevel" -ErrorAction SilentlyContinue
-        Remove-RegistryValue -KeyPath $avalonPath1 -ValueName "EnhancedContrastLevel" -ErrorAction SilentlyContinue
-        Remove-RegistryValue -KeyPath $avalonPath1 -ValueName "PixelStructure" -ErrorAction SilentlyContinue
-        Remove-RegistryValue -KeyPath $avalonPath1 -ValueName "TextContrastLevel" -ErrorAction SilentlyContinue
-        
-        # Remove ClearType tuning values for DISPLAY2
-        Remove-RegistryValue -KeyPath $avalonPath2 -ValueName "ClearTypeLevel" -ErrorAction SilentlyContinue
-        Remove-RegistryValue -KeyPath $avalonPath2 -ValueName "EnhancedContrastLevel" -ErrorAction SilentlyContinue
-        Remove-RegistryValue -KeyPath $avalonPath2 -ValueName "PixelStructure" -ErrorAction SilentlyContinue
-        Remove-RegistryValue -KeyPath $avalonPath2 -ValueName "TextContrastLevel" -ErrorAction SilentlyContinue
-        
-        # Set font smoothing type to Standard (0)
-        [void][SystemParams]::SystemParametersInfoSet($SPI_SETFONTSMOOTHINGTYPE, 0, 0, $SPIF_UPDATEINIFILE -bor $SPIF_SENDCHANGE)
-        
-        Write-StatusMessage -Message "ClearType tuning cleared" -Type Success
-    }
-    
     # Also update registry settings for compatibility
     $desktopPath = "HKCU:\Control Panel\Desktop"
     if ($newSmoothingValue) {
