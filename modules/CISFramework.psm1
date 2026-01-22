@@ -972,29 +972,27 @@ function Invoke-CISScript {
     )
     
     try {
-        # Import required modules
-        $originalVerbosePreference = $VerbosePreference
-        $VerbosePreference = 'SilentlyContinue'
+        # Skip module imports - modules should already be imported via ModuleIndex
+        # This prevents circular dependencies and module re-import issues
+        # Verify required modules are available, but import them if needed
+        $requiredModules = @("WindowsUtils", "RegistryUtils", "WindowsUI")
         
-        Import-Module "$PSScriptRoot\WindowsUtils.psm1" -Force -WarningAction SilentlyContinue -Verbose:$false
-        Import-Module "$PSScriptRoot\RegistryUtils.psm1" -Force -WarningAction SilentlyContinue -Verbose:$false
-        Import-Module "$PSScriptRoot\WindowsUI.psm1" -Force -WarningAction SilentlyContinue -Verbose:$false
-        
-        # Import additional modules based on script type
-        switch ($ScriptType) {
-            "Audit" { 
-                Import-Module "$PSScriptRoot\CISFramework.psm1" -Force -WarningAction SilentlyContinue -Verbose:$false 
-            }
-            "Remediation" { 
-                Import-Module "$PSScriptRoot\CISFramework.psm1" -Force -WarningAction SilentlyContinue -Verbose:$false
-                Import-Module "$PSScriptRoot\CISRemediation.psm1" -Force -WarningAction SilentlyContinue -Verbose:$false
-            }
-            "ServiceToggle" {
-                Import-Module "$PSScriptRoot\ServiceManager.psm1" -Force -WarningAction SilentlyContinue -Verbose:$false
+        foreach ($moduleName in $requiredModules) {
+            if (-not (Get-Module -Name $moduleName -ErrorAction SilentlyContinue)) {
+                # Try to import the module if it's not loaded
+                $modulePath = Join-Path $PSScriptRoot "$moduleName.psm1"
+                if (Test-Path $modulePath) {
+                    Import-Module $modulePath -Force -WarningAction SilentlyContinue -Verbose:$false
+                } else {
+                    Write-Error "Required module '$moduleName' is not loaded and module file not found."
+                    return [PSCustomObject]@{
+                        Status = "Failed"
+                        ErrorMessage = "Module '$moduleName' not loaded and file not found"
+                        Recommendation = "Ensure all module files are present in the modules directory"
+                    }
+                }
             }
         }
-        
-        $VerbosePreference = $originalVerbosePreference
         
         # Check admin rights and handle elevation
         $isAdmin = Test-AdminRights
@@ -1004,11 +1002,28 @@ function Invoke-CISScript {
                 if ($VerboseOutput) {
                     Write-StatusMessage -Message "Elevating privileges..." -Type Info
                 }
-                Invoke-Elevation
-                # If elevation succeeds, this script won't continue
-                return [PSCustomObject]@{
-                    Status = "Elevated"
-                    Message = "Script execution elevated to administrator context"
+                
+                # Get the current script path and re-launch with elevation
+                $currentScript = $MyInvocation.MyCommand.Path
+                if (-not $currentScript) {
+                    # If running interactively, use the script that called this function
+                    $currentScript = (Get-Variable MyInvocation -Scope 1).Value.MyCommand.Path
+                }
+                
+                if ($currentScript -and (Test-Path $currentScript)) {
+                    # Re-launch the script with elevation
+                    $arguments = "-ExecutionPolicy Bypass -File `"$currentScript`""
+                    Start-Process -FilePath "powershell.exe" -ArgumentList $arguments -Verb RunAs -Wait
+                    
+                    # Exit the current script instance
+                    exit 0
+                } else {
+                    Write-Error "Cannot determine script path for elevation. Please run PowerShell as administrator."
+                    return [PSCustomObject]@{
+                        Status = "Failed"
+                        ErrorMessage = "Cannot elevate privileges - script path not available"
+                        Recommendation = "Run PowerShell as administrator"
+                    }
                 }
             } else {
                 Write-StatusMessage -Message "WARNING: This operation may require administrator privileges" -Type Warning
