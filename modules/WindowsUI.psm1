@@ -9,6 +9,23 @@
     Prerequisite   : PowerShell 5.1 or later
 #>
 
+# ============================================================================
+# CENTRALIZED MODULE IMPORT APPROACH
+# ============================================================================
+# This module uses the centralized import approach via CommonUtilities.
+# Common utility functions (Wait-OnError, etc.) are imported from CommonUtilities
+# to eliminate code duplication.
+# ============================================================================
+
+# Import CommonUtilities module for centralized utilities
+$originalVerbosePreference = $VerbosePreference
+$VerbosePreference = 'SilentlyContinue'
+
+Import-Module "$PSScriptRoot\CommonUtilities.psm1" -Force -WarningAction SilentlyContinue -Verbose:$false
+
+# Restore original verbose preference
+$VerbosePreference = $originalVerbosePreference
+
 # Function to write colored status messages
 function Write-StatusMessage {
 <#
@@ -411,28 +428,33 @@ function Show-SystemBanner {
     Write-Host ""
 }
 
-# Function to wait on error with user interaction
+# Function to wait on error with user interaction (wrapper for CommonUtilities)
 function Wait-OnError {
     <#
     .SYNOPSIS
         Displays an error message and waits for user input.
     .DESCRIPTION
         Shows an error message with red formatting and waits for the user to press Enter before continuing.
+        This is a wrapper function that calls CommonUtilities\Wait-OnError.
     .PARAMETER ErrorMessage
         The error message to display.
+    .PARAMETER Troubleshooting
+        Optional troubleshooting steps to display.
+    .PARAMETER ExitCode
+        Optional exit code to use when exiting (default: 1).
     .EXAMPLE
         Wait-OnError -ErrorMessage "Failed to perform operation"
+    .EXAMPLE
+        Wait-OnError -ErrorMessage "Failed to perform operation" -Troubleshooting "Check permissions" -ExitCode 2
     #>
     param(
         [Parameter(Mandatory=$true)]
-        [string]$ErrorMessage
+        [string]$ErrorMessage,
+        [string]$Troubleshooting = "",
+        [int]$ExitCode = 1
     )
     
-    Write-Host ""
-    Write-Host "[ERROR]   " -ForegroundColor Red -NoNewline
-    Write-Host $ErrorMessage -ForegroundColor White
-    Write-Host "Press Enter to continue..." -ForegroundColor Yellow -NoNewline
-    $null = Read-Host
+    CommonUtilities\Wait-OnError -ErrorMessage $ErrorMessage -Troubleshooting $Troubleshooting -ExitCode $ExitCode
 }
 
 # Export the module members

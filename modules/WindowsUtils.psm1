@@ -9,21 +9,37 @@
     Prerequisite   : PowerShell 5.1 or later
 #>
 
-# Function to check if running with administrative privileges
+# ============================================================================
+# CENTRALIZED MODULE IMPORT APPROACH
+# ============================================================================
+# This module uses the centralized import approach via CommonUtilities.
+# Common utility functions (Test-AdminRights, Test-ServiceExists, etc.) are
+# imported from CommonUtilities to eliminate code duplication.
+# ============================================================================
+
+# Import CommonUtilities module for centralized utilities
+$originalVerbosePreference = $VerbosePreference
+$VerbosePreference = 'SilentlyContinue'
+
+Import-Module "$PSScriptRoot\CommonUtilities.psm1" -Force -WarningAction SilentlyContinue -Verbose:$false
+
+# Restore original verbose preference
+$VerbosePreference = $originalVerbosePreference
+
+# Function to check if running with administrative privileges (wrapper for CommonUtilities)
 function Test-AdminRights {
     <#
     .SYNOPSIS
         Checks if the current PowerShell session has administrative privileges.
     .DESCRIPTION
         Returns $true if running with admin rights, $false otherwise.
+        This is a wrapper function that calls CommonUtilities\Test-AdminRights.
     .EXAMPLE
         if (Test-AdminRights) { Write-Host "Running as Administrator" }
     .OUTPUTS
         System.Boolean
     #>
-    $currentUser = [Security.Principal.WindowsIdentity]::GetCurrent()
-    $principal = New-Object Security.Principal.WindowsPrincipal($currentUser)
-    return $principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+    return CommonUtilities\Test-AdminRights
 }
 
 # Function to elevate the current script if not running as admin
@@ -209,13 +225,14 @@ function Get-CurrentUserInfo {
     }
 }
 
-# Function to test if a service exists
+# Function to test if a service exists (wrapper for CommonUtilities)
 function Test-ServiceExists {
 <#
 .SYNOPSIS
     Checks if a Windows service exists.
 .DESCRIPTION
     Returns $true if the service exists, $false otherwise.
+    This is a wrapper function that calls CommonUtilities\Test-ServiceExists.
 .PARAMETER ServiceName
     The name of the service to check.
 .EXAMPLE
@@ -233,17 +250,17 @@ param(
     [string]$ServiceName
 )
     
-    $service = Get-Service -Name $ServiceName -ErrorAction SilentlyContinue
-    return ($null -ne $service)
+    return CommonUtilities\Test-ServiceExists -ServiceName $ServiceName
 }
 
-# Function to restart a service safely
+# Function to restart a service safely (wrapper for CommonUtilities)
 function Restart-ServiceSafely {
 <#
 .SYNOPSIS
     Restarts a Windows service with error handling.
 .DESCRIPTION
     Attempts to restart a service and provides feedback on success/failure.
+    This is a wrapper function that calls CommonUtilities\Restart-ServiceSafely.
 .PARAMETER ServiceName
     The name of the service to restart.
 .EXAMPLE
@@ -261,28 +278,17 @@ param(
     [string]$ServiceName
 )
     
-    if (-not (Test-ServiceExists -ServiceName $ServiceName)) {
-        Write-Warning "Service '$ServiceName' does not exist"
-        return
-    }
-    
-    try {
-        Write-Host "Restarting service '$ServiceName'..." -ForegroundColor Cyan
-        Restart-Service -Name $ServiceName -Force -ErrorAction Stop
-        Write-Host "Service '$ServiceName' restarted successfully" -ForegroundColor Green
-    }
-    catch {
-        Write-Error "Failed to restart service '$ServiceName': $_"
-    }
+    CommonUtilities\Restart-ServiceSafely -ServiceName $ServiceName
 }
 
-# Function to wait for a process to exit
+# Function to wait for a process to exit (wrapper for CommonUtilities)
 function Wait-ProcessExit {
 <#
 .SYNOPSIS
     Waits for a process to exit.
 .DESCRIPTION
     Monitors a process and waits until it terminates.
+    This is a wrapper function that calls CommonUtilities\Wait-ProcessExit.
 .PARAMETER ProcessName
     The name of the process to wait for.
 .PARAMETER TimeoutSeconds
@@ -304,17 +310,7 @@ param(
     [int]$TimeoutSeconds = 30
 )
     
-    $startTime = Get-Date
-    while ((Get-Process -Name $ProcessName -ErrorAction SilentlyContinue) -and ((Get-Date) - $startTime).TotalSeconds -lt $TimeoutSeconds) {
-        Start-Sleep -Seconds 1
-    }
-    
-    $process = Get-Process -Name $ProcessName -ErrorAction SilentlyContinue
-    if ($process) {
-        Write-Warning "Process '$ProcessName' did not exit within $TimeoutSeconds seconds"
-    } else {
-        Write-Host "Process '$ProcessName' has exited" -ForegroundColor Green
-    }
+    CommonUtilities\Wait-ProcessExit -ProcessName $ProcessName -TimeoutSeconds $TimeoutSeconds
 }
 
 # Export the module members

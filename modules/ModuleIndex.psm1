@@ -25,6 +25,7 @@ $script:ModuleRoot = $PSScriptRoot
 
 # Import all modules
 $modulesToImport = @(
+    "CommonUtilities.psm1"
     "WindowsUtils.psm1"
     "PowerManagement.psm1"
     "RegistryUtils.psm1"
@@ -81,6 +82,20 @@ function Get-WindowsModuleInfo {
     #>
     
     $modules = @(
+        @{
+            Name = "CommonUtilities"
+            Description = "Common utility functions for error handling, admin rights checking, and service management"
+            Commands = @(
+                "Wait-OnError",
+                "Test-AdminRights",
+                "Test-ServiceExists",
+                "Handle-CommonError",
+                "Get-ModulePath",
+                "Test-ScriptRequirements",
+                "Restart-ServiceSafely",
+                "Wait-ProcessExit"
+            )
+        },
         @{
             Name = "WindowsUtils"
             Description = "Administrative privilege checks, elevation, and common utilities"
@@ -281,7 +296,7 @@ function Get-WindowsModuleCommands {
     
     $commands = @()
     
-    $moduleCommands = Get-Command -Module WindowsUtils, PowerManagement, RegistryUtils, WindowsUI, VisualEffects, CISFramework, CISRemediation, ServiceManager -ErrorAction SilentlyContinue
+    $moduleCommands = Get-Command -Module CommonUtilities, WindowsUtils, PowerManagement, RegistryUtils, WindowsUI, VisualEffects, CISFramework, CISRemediation, ServiceManager -ErrorAction SilentlyContinue
     
     foreach ($cmd in $moduleCommands) {
         $commands += [PSCustomObject]@{
@@ -393,5 +408,5 @@ if ($VerbosePreference -ne 'SilentlyContinue') {
 Export-ModuleMember -Function Get-WindowsModuleInfo, Test-WindowsModules, Get-WindowsModuleCommands, Show-WindowsModuleHelp, Initialize-WindowsModules -Verbose:$false
 
 # Export all functions from imported modules
-$allCommands = Get-Command -Module WindowsUtils, PowerManagement, RegistryUtils, WindowsUI, VisualEffects, CISFramework, CISRemediation, ServiceManager -ErrorAction SilentlyContinue
+$allCommands = Get-Command -Module CommonUtilities, WindowsUtils, PowerManagement, RegistryUtils, WindowsUI, VisualEffects, CISFramework, CISRemediation, ServiceManager -ErrorAction SilentlyContinue
 Export-ModuleMember -Function $allCommands.Name -ErrorAction SilentlyContinue -Verbose:$false

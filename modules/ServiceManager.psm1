@@ -17,9 +17,28 @@
     Test-ServiceToggleRequirements -ServiceName "BDESVC"
 #>
 
-# Import only the specific modules needed to avoid circular dependencies
-Import-Module "$PSScriptRoot\WindowsUtils.psm1" -Force -WarningAction SilentlyContinue
-Import-Module "$PSScriptRoot\WindowsUI.psm1" -Force -WarningAction SilentlyContinue
+# ============================================================================
+# CENTRALIZED MODULE IMPORT APPROACH
+# ============================================================================
+# This module uses the centralized import approach via CommonUtilities.
+# All module paths are resolved using Get-ModulePath function for consistency.
+# Common utility functions (Test-AdminRights, Test-ServiceExists, Wait-OnError, etc.)
+# are imported from CommonUtilities to eliminate code duplication.
+# ============================================================================
+
+# Import CommonUtilities module first for centralized utilities
+$originalVerbosePreference = $VerbosePreference
+$VerbosePreference = 'SilentlyContinue'
+
+Import-Module "$PSScriptRoot\CommonUtilities.psm1" -Force -WarningAction SilentlyContinue -Verbose:$false
+
+# Import required modules using Get-ModulePath for centralized path resolution
+$modulePath = Get-ModulePath
+Import-Module "$modulePath\WindowsUtils.psm1" -Force -WarningAction SilentlyContinue -Verbose:$false
+Import-Module "$modulePath\WindowsUI.psm1" -Force -WarningAction SilentlyContinue -Verbose:$false
+
+# Restore original verbose preference
+$VerbosePreference = $originalVerbosePreference
 
 function Invoke-ServiceToggle {
 <#
@@ -94,7 +113,7 @@ param(
         Write-StatusMessage -Message "Note: Startup type changes require a reboot to take full effect" -Type Warning
         
     } catch {
-        Wait-OnError -ErrorMessage "Failed to toggle $ServiceDisplayName startup type: $($_.Exception.Message)"
+        CommonUtilities\Wait-OnError -ErrorMessage "Failed to toggle $ServiceDisplayName startup type: $($_.Exception.Message)"
     }
 }
 
@@ -199,8 +218,8 @@ param(
     [switch]$SkipAdminCheck
 )
 
-    # Check if service exists
-    if (-not (Test-ServiceExists -ServiceName $ServiceName)) {
+    # Check if service exists (using CommonUtilities)
+    if (-not (CommonUtilities\Test-ServiceExists -ServiceName $ServiceName)) {
         Write-StatusMessage -Message "$ServiceDisplayName not found on this system" -Type Warning
         Write-StatusMessage -Message "This service may not be available on your Windows version" -Type Info
         Write-StatusMessage -Message "No action taken" -Type Info

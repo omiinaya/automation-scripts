@@ -22,6 +22,14 @@
     Invoke-ExplorerRefresh
 #>
 
+# ============================================================================
+# CENTRALIZED MODULE IMPORT APPROACH
+# ============================================================================
+# This module is standalone and does not require other module imports.
+# If dependencies are added in the future, use Get-ModulePath from CommonUtilities
+# for centralized path resolution.
+# ============================================================================
+
 # Add P/Invoke for Windows API functions to refresh Explorer settings
 # This type is only added if it doesn't already exist
 if (-not ([System.Management.Automation.PSTypeName]'Win32API').Type) {

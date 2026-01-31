@@ -8,16 +8,29 @@
     File Name      : CISFramework.psm1
     Author         : System Administrator
     Prerequisite   : PowerShell 5.1 or later
-    Dependencies   : WindowsUtils, RegistryUtils, WindowsUI modules
+    Dependencies   : CommonUtilities, WindowsUtils, RegistryUtils, WindowsUI modules
 #>
 
-# Import required modules with verbose output suppression
+# ============================================================================
+# CENTRALIZED MODULE IMPORT APPROACH
+# ============================================================================
+# This module uses the centralized import approach via CommonUtilities.
+# All module paths are resolved using Get-ModulePath function for consistency.
+# Common utility functions (Test-AdminRights, Test-ServiceExists, etc.) are
+# imported from CommonUtilities to eliminate code duplication.
+# ============================================================================
+
+# Import CommonUtilities module first for centralized utilities
 $originalVerbosePreference = $VerbosePreference
 $VerbosePreference = 'SilentlyContinue'
 
-Import-Module "$PSScriptRoot\WindowsUtils.psm1" -Force -WarningAction SilentlyContinue -Verbose:$false
-Import-Module "$PSScriptRoot\RegistryUtils.psm1" -Force -WarningAction SilentlyContinue -Verbose:$false
-Import-Module "$PSScriptRoot\WindowsUI.psm1" -Force -WarningAction SilentlyContinue -Verbose:$false
+Import-Module "$PSScriptRoot\CommonUtilities.psm1" -Force -WarningAction SilentlyContinue -Verbose:$false
+
+# Import required modules using Get-ModulePath for centralized path resolution
+$modulePath = Get-ModulePath
+Import-Module "$modulePath\WindowsUtils.psm1" -Force -WarningAction SilentlyContinue -Verbose:$false
+Import-Module "$modulePath\RegistryUtils.psm1" -Force -WarningAction SilentlyContinue -Verbose:$false
+Import-Module "$modulePath\WindowsUI.psm1" -Force -WarningAction SilentlyContinue -Verbose:$false
 
 # Restore original verbose preference
 $VerbosePreference = $originalVerbosePreference
@@ -526,7 +539,7 @@ function Invoke-CISAudit {
                     return New-CISResultObject -CIS_ID $CIS_ID -Title $recommendation.title -CurrentValue "N/A" -RecommendedValue "N/A" -ComplianceStatus "Error" -ErrorMessage "Service name required for service audit"
                 }
                 
-                if (Test-ServiceExists -ServiceName $ServiceName) {
+                if (CommonUtilities\Test-ServiceExists -ServiceName $ServiceName) {
                     $service = Get-Service -Name $ServiceName
                     $currentValue = $service.Status.ToString()
                     $source = "Service Control Manager"
@@ -994,8 +1007,8 @@ function Invoke-CISScript {
             }
         }
         
-        # Check admin rights and handle elevation
-        $isAdmin = Test-AdminRights
+        # Check admin rights and handle elevation (using CommonUtilities)
+        $isAdmin = CommonUtilities\Test-AdminRights
         
         if (-not $isAdmin) {
             if ($AutoElevate) {
