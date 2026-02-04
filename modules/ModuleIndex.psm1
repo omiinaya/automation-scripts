@@ -26,14 +26,22 @@ $script:ModuleRoot = $PSScriptRoot
 # Import all modules
 $modulesToImport = @(
     "CommonUtilities.psm1"
+    # New utility modules (added after CommonUtilities as they depend on it)
+    "AuditUtils.psm1"
+    "UserRightsUtils.psm1"
+    "SeceditUtils.psm1"
     "WindowsUtils.psm1"
     "PowerManagement.psm1"
     "RegistryUtils.psm1"
     "WindowsUI.psm1"
+    # New Win32 API module (added before VisualEffects as it may be used by it)
+    "Win32API.psm1"
     "VisualEffects.psm1"
     "CISFramework.psm1"
     "CISRemediation.psm1"
     "ServiceManager.psm1"
+    # New ScriptTemplates module (added last as it may depend on other modules)
+    "ScriptTemplates.psm1"
 )
 
 foreach ($module in $modulesToImport) {
@@ -94,6 +102,40 @@ function Get-WindowsModuleInfo {
                 "Test-ScriptRequirements",
                 "Restart-ServiceSafely",
                 "Wait-ProcessExit"
+            )
+        },
+        # New utility modules
+        @{
+            Name = "AuditUtils"
+            Description = "Audit policy management and configuration utilities"
+            Commands = @(
+                "Get-AuditPolicy",
+                "Set-AuditPolicy",
+                "Test-AuditPolicy",
+                "Export-AuditPolicy",
+                "Import-AuditPolicy"
+            )
+        },
+        @{
+            Name = "UserRightsUtils"
+            Description = "User rights assignment and management utilities"
+            Commands = @(
+                "Get-UserRightsAssignment",
+                "Set-UserRightsAssignment",
+                "Test-UserRightsAssignment",
+                "Grant-UserRight",
+                "Revoke-UserRight"
+            )
+        },
+        @{
+            Name = "SeceditUtils"
+            Description = "Security policy configuration using secedit.exe"
+            Commands = @(
+                "Export-SecurityPolicy",
+                "Import-SecurityPolicy",
+                "Test-SecurityPolicy",
+                "Get-SecurityPolicyValue",
+                "Set-SecurityPolicyValue"
             )
         },
         @{
@@ -169,6 +211,16 @@ function Get-WindowsModuleInfo {
                 "Invoke-ExplorerRefresh"
             )
         },
+        # New Win32 API module
+        @{
+            Name = "Win32API"
+            Description = "Windows API function wrappers and low-level system operations"
+            Commands = @(
+                "Invoke-Win32API",
+                "Get-Win32LastError",
+                "Test-Win32API"
+            )
+        },
         @{
             Name = "CISFramework"
             Description = "CIS benchmark auditing framework for Windows security compliance"
@@ -202,6 +254,18 @@ function Get-WindowsModuleInfo {
                 "Get-ServiceToggleStatus",
                 "Test-ServiceToggleRequirements",
                 "Set-ServiceCompliance"
+            )
+        },
+        # New ScriptTemplates module
+        @{
+            Name = "ScriptTemplates"
+            Description = "Script templates and code generation utilities"
+            Commands = @(
+                "New-AuditScript",
+                "New-RemediationScript",
+                "New-ServiceToggleScript",
+                "Get-ScriptTemplate",
+                "Export-ScriptTemplate"
             )
         }
     )
@@ -296,7 +360,7 @@ function Get-WindowsModuleCommands {
     
     $commands = @()
     
-    $moduleCommands = Get-Command -Module CommonUtilities, WindowsUtils, PowerManagement, RegistryUtils, WindowsUI, VisualEffects, CISFramework, CISRemediation, ServiceManager -ErrorAction SilentlyContinue
+    $moduleCommands = Get-Command -Module CommonUtilities, AuditUtils, UserRightsUtils, SeceditUtils, WindowsUtils, PowerManagement, RegistryUtils, WindowsUI, VisualEffects, Win32API, CISFramework, CISRemediation, ServiceManager, ScriptTemplates -ErrorAction SilentlyContinue
     
     foreach ($cmd in $moduleCommands) {
         $commands += [PSCustomObject]@{
@@ -408,5 +472,5 @@ if ($VerbosePreference -ne 'SilentlyContinue') {
 Export-ModuleMember -Function Get-WindowsModuleInfo, Test-WindowsModules, Get-WindowsModuleCommands, Show-WindowsModuleHelp, Initialize-WindowsModules -Verbose:$false
 
 # Export all functions from imported modules
-$allCommands = Get-Command -Module CommonUtilities, WindowsUtils, PowerManagement, RegistryUtils, WindowsUI, VisualEffects, CISFramework, CISRemediation, ServiceManager -ErrorAction SilentlyContinue
+$allCommands = Get-Command -Module CommonUtilities, AuditUtils, UserRightsUtils, SeceditUtils, WindowsUtils, PowerManagement, RegistryUtils, WindowsUI, VisualEffects, Win32API, CISFramework, CISRemediation, ServiceManager, ScriptTemplates -ErrorAction SilentlyContinue
 Export-ModuleMember -Function $allCommands.Name -ErrorAction SilentlyContinue -Verbose:$false

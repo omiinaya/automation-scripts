@@ -6,35 +6,17 @@
 .NOTES
     CIS ID: 19.6.6.1.1
     Profile: L2
-    File Name: 19.6.6.1.1-audit-turn-off-help-experience-improvement-program.ps1
-    Author: System Administrator
-    Prerequisite: PowerShell 5.1 or later
 #>
 
-# Import required modules
-Import-Module "$PSScriptRoot\..\..\..\modules\CISFramework.psm1" -Force -WarningAction SilentlyContinue
+[CmdletBinding()]
+param()
 
-# Get CIS recommendation
-$cisId = "19.6.6.1.1"
-$recommendation = Get-CISRecommendation -CIS_ID $cisId -Section "19"
+# Import ScriptTemplates module and invoke audit with boilerplate handling
+$scriptRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
+$modulePath = Join-Path $scriptRoot "..\..\..\..\modules\ScriptTemplates.psm1"
+Import-Module $modulePath -Force -WarningAction SilentlyContinue
 
-if (-not $recommendation) {
-    Write-Error "CIS recommendation '$cisId' not found"
-    exit 1
-}
-
-Write-Host ""
-Write-SectionHeader -Title "CIS Audit: $cisId"
-Write-Host "Setting: $($recommendation.title)" -ForegroundColor White
-Write-Host "Profile: $($recommendation.profile)" -ForegroundColor White
-Write-Host ""
-
-# Audit Help Experience Improvement Program setting
-# This setting is stored in user registry hive: HKU\[USER SID]\Software\Policies\Microsoft\Assistance\Client\1.0
-# The value name is: NoImplicitFeedback
-# Expected value: 1 (Enabled)
-
-try {
+Invoke-CISAuditScript -ScriptRoot $scriptRoot -AuditBlock {
     # Get current user SID
     $currentUserSid = [System.Security.Principal.WindowsIdentity]::GetCurrent().User.Value
     
@@ -47,25 +29,29 @@ try {
         $currentValue = Get-ItemProperty -Path $registryPath -Name $valueName -ErrorAction SilentlyContinue
         
         if ($currentValue -and $currentValue.$valueName -eq 1) {
-            $result = New-CISResultObject -CIS_ID $cisId -Title $recommendation.title -CurrentValue "Enabled (1)" -RecommendedValue "Enabled" -ComplianceStatus "Compliant" -Source "Registry" -Details "Help Experience Improvement Program is disabled" -Profile $recommendation.profile
+            return @{
+                CurrentValue = "Enabled (1)"
+                RecommendedValue = "Enabled"
+                IsCompliant = $true
+                Source = "Registry"
+                Details = "Help Experience Improvement Program is disabled"
+            }
         } else {
-            $result = New-CISResultObject -CIS_ID $cisId -Title $recommendation.title -CurrentValue "Disabled or Not Configured" -RecommendedValue "Enabled" -ComplianceStatus "Non-Compliant" -Source "Registry" -Details "Help Experience Improvement Program is enabled" -Profile $recommendation.profile
+            return @{
+                CurrentValue = "Disabled or Not Configured"
+                RecommendedValue = "Enabled"
+                IsCompliant = $false
+                Source = "Registry"
+                Details = "Help Experience Improvement Program is enabled"
+            }
         }
     } else {
-        $result = New-CISResultObject -CIS_ID $cisId -Title $recommendation.title -CurrentValue "Not Configured" -RecommendedValue "Enabled" -ComplianceStatus "Non-Compliant" -Source "Registry" -Details "Registry key does not exist" -Profile $recommendation.profile
+        return @{
+            CurrentValue = "Not Configured"
+            RecommendedValue = "Enabled"
+            IsCompliant = $false
+            Source = "Registry"
+            Details = "Registry key does not exist"
+        }
     }
-} catch {
-    $result = New-CISResultObject -CIS_ID $cisId -Title $recommendation.title -CurrentValue "Error" -RecommendedValue "Enabled" -ComplianceStatus "Error" -Source "Registry" -ErrorMessage "Audit failed: $_" -Profile $recommendation.profile
 }
-
-# Output results
-Write-Host "Current Value: $($result.CurrentValue)" -ForegroundColor White
-Write-Host "Recommended: $($result.RecommendedValue)" -ForegroundColor White
-Write-Host "Compliance: $($result.ComplianceStatus)" -ForegroundColor $(if ($result.IsCompliant) { "Green" } else { "Red" })
-Write-Host "Source: $($result.Source)" -ForegroundColor White
-if ($result.Details) {
-    Write-Host "Details: $($result.Details)" -ForegroundColor Gray
-}
-
-# Return the result object
-return $result

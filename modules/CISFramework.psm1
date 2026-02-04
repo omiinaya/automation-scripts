@@ -38,6 +38,908 @@ $VerbosePreference = $originalVerbosePreference
 # Set module-level verbose preference to ensure all internal verbose messages are suppressed
 $script:VerbosePreference = 'SilentlyContinue'
 
+# ============================================================================
+# HELPER FUNCTIONS FOR Get-CISRecommendation
+# ============================================================================
+
+function Private-GetJsonPatterns {
+    <#
+    .SYNOPSIS
+        Returns JSON file patterns for CIS ID lookup.
+    #>
+    param([string]$CIS_ID)
+    
+    return @(
+        "cis_section_$($CIS_ID.Replace('.','_')).json",
+        "cis_section_$($CIS_ID.Split('.')[0])*.json",
+        "cis_section_$($CIS_ID.Split('.')[0])_$($CIS_ID.Split('.')[1])*.json"
+    )
+}
+
+function Private-FindJsonFile {
+    <#
+    .SYNOPSIS
+        Finds JSON file matching patterns.
+    #>
+    param([string[]]$Patterns, [string]$BasePath)
+    
+    foreach ($pattern in $Patterns) {
+        $testPath = Join-Path $BasePath $pattern
+        if (Test-Path $testPath) { return $testPath }
+    }
+    return $null
+}
+
+function Private-GetJsonFilePath {
+    <#
+    .SYNOPSIS
+        Resolves JSON file path for CIS recommendation.
+    #>
+    param([string]$CIS_ID, [string]$JsonPath, [string]$BasePath)
+    
+    if ($JsonPath) { return $JsonPath }
+    
+    $patterns = Private-GetJsonPatterns -CIS_ID $CIS_ID
+    $foundPath = Private-FindJsonFile -Patterns $patterns -BasePath $BasePath
+    
+    if ($foundPath) { return $foundPath }
+    
+    $directPath = Join-Path $BasePath "cis_section_$($CIS_ID.Replace('.','_')).json"
+    if (Test-Path $directPath) { return $directPath }
+    
+    return $null
+}
+
+function Private-GetPasswordPolicyDefaults {
+    <#
+    .SYNOPSIS
+        Returns password policy default recommendations.
+    #>
+    return @{
+        "1.1.1" = @{Title="Enforce password history"; RecommendedValue="24 or more passwords remembered"}
+        "1.1.2" = @{Title="Maximum password age"; RecommendedValue="365 or fewer days, but not 0"}
+        "1.1.3" = @{Title="Minimum password age"; RecommendedValue="1 or more day(s)"}
+        "1.1.4" = @{Title="Minimum password length"; RecommendedValue="14 or more character(s)"}
+        "1.1.5" = @{Title="Password complexity requirements"; RecommendedValue="Enabled"}
+        "1.1.6" = @{Title="Relax minimum password length limits"; RecommendedValue="Disabled"}
+        "1.1.7" = @{Title="Store passwords using reversible encryption"; RecommendedValue="Disabled"}
+    }
+}
+
+function Private-GetLockoutPolicyDefaults {
+    <#
+    .SYNOPSIS
+        Returns account lockout policy default recommendations.
+    #>
+    return @{
+        "1.2.1" = @{Title="Account lockout duration"; RecommendedValue="15 or more minute(s)"}
+        "1.2.2" = @{Title="Account lockout threshold"; RecommendedValue="5 or fewer invalid logon attempt(s), but not 0"}
+        "1.2.3" = @{Title="Allow administrator account lockout"; RecommendedValue="Enabled"}
+        "1.2.4" = @{Title="Reset account lockout counter after"; RecommendedValue="15 or more minute(s)"}
+    }
+}
+
+function Private-GetOtherDefaults {
+    <#
+    .SYNOPSIS
+        Returns other default recommendations.
+    #>
+    return @{
+        "2.2.1" = @{Title="Access Credential Manager as a trusted caller"; RecommendedValue="No One"}
+        "2.2.2" = @{Title="Access this computer from the network"; RecommendedValue="Administrators, Remote Desktop Users"}
+        "2.2.3" = @{Title="Act as part of the operating system"; RecommendedValue="No One"}
+        "5.4" = @{Title="Downloaded Maps Manager (MapsBroker)"; RecommendedValue="Disabled"}
+    }
+}
+
+function Private-GetDefaultRecommendations {
+    <#
+    .SYNOPSIS
+        Returns all default recommendations dictionary.
+    #>
+    $defaults = @{}
+    $defaults += Private-GetPasswordPolicyDefaults
+    $defaults += Private-GetLockoutPolicyDefaults
+    $defaults += Private-GetOtherDefaults
+    return $defaults
+}
+
+function Private-CreateRecommendationObject {
+    <#
+    .SYNOPSIS
+        Creates recommendation object with properties.
+    #>
+    param([string]$CIS_ID, [string]$Title, [string]$RecommendedValue)
+    
+    return [PSCustomObject]@{
+        cis_id = $CIS_ID
+        title = $Title
+        profile = "L1"
+        description = "CIS benchmark recommendation"
+        rationale = "Security compliance requirement"
+        impact = "Improves security posture"
+        audit_procedure = "Check system configuration"
+        remediation_procedure = "Apply security settings"
+        default_value = $RecommendedValue
+        page_number = 0
+    }
+}
+
+function Private-GetTitleFromCISID {
+    <#
+    .SYNOPSIS
+        Generates title from CIS ID pattern.
+    #>
+    param([string]$CIS_ID)
+    
+    return switch -Wildcard ($CIS_ID) {
+        "1.1.*" { "Password Policy Settings" }
+        "1.2.*" { "Account Lockout Policy Settings" }
+        "2.2.*" { "User Rights Assignment Settings" }
+        "2.3.*" { "Security Options Settings" }
+        "5.*" { "Service Configuration Settings" }
+        "9.*" { "Windows Firewall Settings" }
+        "17.*" { "Audit Policy Settings" }
+        "18.*" { "Administrative Templates Settings" }
+        "19.*" { "Security Settings" }
+        default { "CIS Security Setting" }
+    }
+}
+
+function Private-GetDefaultRecommendation {
+    <#
+    .SYNOPSIS
+        Gets default recommendation for CIS ID.
+    #>
+    param([string]$CIS_ID)
+    
+    $defaults = Private-GetDefaultRecommendations
+    
+    if ($defaults.ContainsKey($CIS_ID)) {
+        $defaultRec = $defaults[$CIS_ID]
+        return Private-CreateRecommendationObject -CIS_ID $CIS_ID -Title $defaultRec.Title -RecommendedValue $defaultRec.RecommendedValue
+    }
+    
+    $title = Private-GetTitleFromCISID -CIS_ID $CIS_ID
+    return Private-CreateRecommendationObject -CIS_ID $CIS_ID -Title "$title - $CIS_ID" -RecommendedValue "Compliant value"
+}
+
+function Private-LoadAndParseJson {
+    <#
+    .SYNOPSIS
+        Loads and parses JSON file.
+    #>
+    param([string]$JsonFilePath)
+    
+    if (-not (Test-Path $JsonFilePath)) {
+        Write-Warning "CIS JSON file not found: $JsonFilePath"
+        return $null
+    }
+    
+    return Get-Content $JsonFilePath -Raw | ConvertFrom-Json
+}
+
+function Private-FindRecommendationInJson {
+    <#
+    .SYNOPSIS
+        Finds specific recommendation in JSON content.
+    #>
+    param([object]$JsonContent, [string]$CIS_ID)
+    
+    $recommendation = $JsonContent | Where-Object { $_.cis_id -eq $CIS_ID }
+    
+    if (-not $recommendation) {
+        Write-Warning "CIS recommendation '$CIS_ID' not found in JSON"
+        return $null
+    }
+    
+    return $recommendation
+}
+
+function Private-LoadJsonRecommendation {
+    <#
+    .SYNOPSIS
+        Loads and parses JSON recommendation file.
+    #>
+    param([string]$JsonFilePath, [string]$CIS_ID)
+    
+    $jsonContent = Private-LoadAndParseJson -JsonFilePath $JsonFilePath
+    if (-not $jsonContent) { return $null }
+    
+    return Private-FindRecommendationInJson -JsonContent $jsonContent -CIS_ID $CIS_ID
+}
+
+# ============================================================================
+# HELPER FUNCTIONS FOR Test-CISCompliance
+# ============================================================================
+
+function Private-CompareServiceStatus {
+    <#
+    .SYNOPSIS
+        Compares service status with expected value.
+    #>
+    param([string]$CurrentValue, [string]$ExpectedValue)
+    
+    if ($CurrentValue -eq "Running" -and $ExpectedValue -eq "Disabled") { return $false }
+    if ($CurrentValue -eq "Stopped" -and $ExpectedValue -eq "Disabled") { return $true }
+    if ($CurrentValue -eq "Running" -and $ExpectedValue -eq "Enabled") { return $false }
+    if ($CurrentValue -eq "Stopped" -and $ExpectedValue -eq "Enabled") { return $false }
+    
+    return $null
+}
+
+function Private-IsErrorCondition {
+    <#
+    .SYNOPSIS
+        Checks if current value indicates error condition.
+    #>
+    param([string]$CurrentValue)
+    
+    $errorConditions = @("Key not found", "Policy not configured", "Service not found")
+    return $errorConditions -contains $CurrentValue
+}
+
+function Private-ExtractMoreOrFewer {
+    <#
+    .SYNOPSIS
+        Extracts numeric value from "or more" or "or fewer" patterns.
+    #>
+    param([string]$ExpectedValue, [ref]$ComparisonOperator)
+    
+    if ($ExpectedValue -match "(\d+)\s+or\s+more") {
+        $ComparisonOperator.Value = "ge"
+        return [int]$matches[1]
+    }
+    
+    if ($ExpectedValue -match "(\d+)\s+or\s+fewer") {
+        $ComparisonOperator.Value = "le"
+        return [int]$matches[1]
+    }
+    
+    return $null
+}
+
+function Private-ExtractAnyNumeric {
+    <#
+    .SYNOPSIS
+        Extracts any numeric value from string.
+    #>
+    param([string]$ExpectedValue)
+    
+    if ($ExpectedValue -match "(\d+)") {
+        return [int]$matches[1]
+    }
+    
+    return $null
+}
+
+function Private-ExtractNumericValue {
+    <#
+    .SYNOPSIS
+        Extracts numeric value from recommendation string.
+    #>
+    param([string]$ExpectedValue, [ref]$ComparisonOperator)
+    
+    $result = Private-ExtractMoreOrFewer -ExpectedValue $ExpectedValue -ComparisonOperator $ComparisonOperator
+    if ($result) { return $result }
+    
+    return Private-ExtractAnyNumeric -ExpectedValue $ExpectedValue
+}
+
+function Private-TryParseNumericStrings {
+    <#
+    .SYNOPSIS
+        Attempts to parse both strings as numbers.
+    #>
+    param([string]$CurrentValue, [string]$ExpectedValue, [ref]$CurrentNum, [ref]$ExpectedNum)
+    
+    $canParseCurrent = [double]::TryParse($CurrentValue, [ref]$CurrentNum.Value)
+    $canParseExpected = [double]::TryParse($ExpectedValue, [ref]$ExpectedNum.Value)
+    
+    return $canParseCurrent -and $canParseExpected
+}
+
+function Private-CompareStringValues {
+    <#
+    .SYNOPSIS
+        Compares string values with common CIS patterns.
+    #>
+    param([string]$CurrentValue, [string]$ExpectedValue)
+    
+    if ($CurrentValue -eq $ExpectedValue) { return $true }
+    if ($CurrentValue -eq "Enabled" -and $ExpectedValue -eq "Disabled") { return $false }
+    if ($CurrentValue -eq "Disabled" -and $ExpectedValue -eq "Enabled") { return $false }
+    
+    return $CurrentValue -eq $ExpectedValue
+}
+
+function Private-ConvertIntToString {
+    <#
+    .SYNOPSIS
+        Converts int to string for comparison.
+    #>
+    param([object]$IntValue, [object]$StringValue, [ref]$Result)
+    
+    [int]$temp = 0
+    if ([int]::TryParse($StringValue, [ref]$temp)) {
+        $Result.Value = $temp
+        return $true
+    }
+    return $false
+}
+
+function Private-ConvertStringToInt {
+    <#
+    .SYNOPSIS
+        Converts string to int for comparison.
+    #>
+    param([object]$StringValue, [object]$IntValue, [ref]$Result)
+    
+    [int]$temp = 0
+    if ([int]::TryParse($StringValue, [ref]$temp)) {
+        $Result.Value = $temp
+        return $true
+    }
+    return $false
+}
+
+function Private-ConvertTypesForComparison {
+    <#
+    .SYNOPSIS
+        Converts types for comparison.
+    #>
+    param([object]$CurrentValue, [object]$ExpectedValue, [ref]$CurrentToCompare, [ref]$ExpectedToCompare)
+    
+    $CurrentToCompare.Value = $CurrentValue
+    $ExpectedToCompare.Value = $ExpectedValue
+    
+    if ($CurrentValue -is [int] -and $ExpectedValue -is [string]) {
+        Private-ConvertIntToString -IntValue $CurrentValue -StringValue $ExpectedValue -Result ([ref]$ExpectedToCompare.Value)
+    }
+    
+    if ($CurrentValue -is [string] -and $ExpectedValue -is [int]) {
+        Private-ConvertStringToInt -StringValue $CurrentValue -IntValue $ExpectedValue -Result ([ref]$CurrentToCompare.Value)
+    }
+}
+
+function Private-PerformComparison {
+    <#
+    .SYNOPSIS
+        Performs comparison based on operator.
+    #>
+    param([object]$CurrentValue, [object]$ExpectedValue, [string]$ComparisonOperator)
+    
+    return switch ($ComparisonOperator) {
+        "eq" { $CurrentValue -eq $ExpectedValue }
+        "ne" { $CurrentValue -ne $ExpectedValue }
+        "gt" { $CurrentValue -gt $ExpectedValue }
+        "ge" { $CurrentValue -ge $ExpectedValue }
+        "lt" { $CurrentValue -lt $ExpectedValue }
+        "le" { $CurrentValue -le $ExpectedValue }
+        default { $CurrentValue -eq $ExpectedValue }
+    }
+}
+
+# ============================================================================
+# HELPER FUNCTIONS FOR Invoke-CISAudit
+# ============================================================================
+
+function Private-PerformRegistryAudit {
+    <#
+    .SYNOPSIS
+        Performs registry-based audit.
+    #>
+    param([string]$RegistryPath, [string]$RegistryValueName)
+    
+    if (Test-RegistryKey -KeyPath $RegistryPath) {
+        $currentValue = Get-RegistryValue -KeyPath $RegistryPath -ValueName $RegistryValueName -DefaultValue "Not Set"
+        return @{ CurrentValue = $currentValue; Source = "Registry"; Details = "Registry path: $RegistryPath" }
+    }
+    
+    return @{ CurrentValue = "Key not found"; Source = "Registry"; Details = "Registry key does not exist: $RegistryPath" }
+}
+
+function Private-PerformGroupPolicyAudit {
+    <#
+    .SYNOPSIS
+        Performs group policy-based audit.
+    #>
+    param([string]$RegistryPath, [string]$RegistryValueName)
+    
+    if (Test-RegistryKey -KeyPath $RegistryPath) {
+        $currentValue = Get-RegistryValue -KeyPath $RegistryPath -ValueName $RegistryValueName -DefaultValue "Not Configured"
+        return @{ CurrentValue = $currentValue; Source = "Group Policy"; Details = "Group Policy registry path: $RegistryPath" }
+    }
+    
+    return @{ CurrentValue = "Policy not configured"; Source = "Group Policy"; Details = "Group Policy setting not configured: $RegistryPath" }
+}
+
+function Private-PerformServiceAudit {
+    <#
+    .SYNOPSIS
+        Performs service-based audit.
+    #>
+    param([string]$ServiceName)
+    
+    if (CommonUtilities\Test-ServiceExists -ServiceName $ServiceName) {
+        $service = Get-Service -Name $ServiceName
+        return @{ CurrentValue = $service.Status.ToString(); Source = "Service Control Manager"; Details = "Service: $ServiceName, Status: $($service.Status)" }
+    }
+    
+    return @{ CurrentValue = "Service not found"; Source = "Service Control Manager"; Details = "Service does not exist: $ServiceName" }
+}
+
+function Private-PerformCustomAudit {
+    <#
+    .SYNOPSIS
+        Performs custom script block audit.
+    #>
+    param([scriptblock]$CustomScriptBlock)
+    
+    try {
+        $customResult = & $CustomScriptBlock
+        return @{ CurrentValue = $customResult.CurrentValue; Source = $customResult.Source; Details = $customResult.Details }
+    }
+    catch {
+        throw "Custom audit failed: $_"
+    }
+}
+
+function Private-GetRecommendationText {
+    <#
+    .SYNOPSIS
+        Extracts recommendation text from title.
+    #>
+    param([object]$Recommendation)
+    
+    return $Recommendation.title -replace "^.*?Ensure\s+", "" -replace "\s+is\s+set\s+to.*$", ""
+}
+
+function Private-ExtractUserRightsValue {
+    <#
+    .SYNOPSIS
+        Extracts user rights assignment value.
+    #>
+    param([object]$Recommendation, [ref]$ExpectedValue)
+    
+    if ($Recommendation.title -match "Ensure.*is set to '(.*?)'") {
+        $ExpectedValue.Value = $matches[1]
+        return $true
+    }
+    
+    if ($Recommendation.title -match "'(.*?)'") {
+        $ExpectedValue.Value = $matches[1]
+        return $true
+    }
+    
+    return $false
+}
+
+function Private-HandleUserRightsAudit {
+    <#
+    .SYNOPSIS
+        Handles user rights assignment audit extraction.
+    #>
+    param([string]$CIS_ID, [string]$AuditType, [object]$Recommendation, [ref]$ExpectedValue, [ref]$ComparisonOperator)
+    
+    if ($CIS_ID -like "2.2.*" -and $AuditType -eq "Custom") {
+        if (Private-ExtractUserRightsValue -Recommendation $Recommendation -ExpectedValue ([ref]$ExpectedValue.Value)) {
+            $ComparisonOperator.Value = "eq"
+            return $true
+        }
+        $ExpectedValue.Value = "Administrators"
+        $ComparisonOperator.Value = "eq"
+        return $true
+    }
+    return $false
+}
+
+function Private-HandleMoreOrFewerPattern {
+    <#
+    .SYNOPSIS
+        Handles "or more" or "or fewer" numeric patterns.
+    #>
+    param([string]$RecommendationText, [ref]$ExpectedValue, [ref]$ComparisonOperator)
+    
+    if ($RecommendationText -match "(\d+) or more") {
+        $ExpectedValue.Value = [int]$matches[1]
+        $ComparisonOperator.Value = "ge"
+        return $true
+    }
+    
+    if ($RecommendationText -match "(\d+) or fewer") {
+        $ExpectedValue.Value = [int]$matches[1]
+        $ComparisonOperator.Value = "le"
+        return $true
+    }
+    
+    return $false
+}
+
+function Private-HandleAnyNumericPattern {
+    <#
+    .SYNOPSIS
+        Handles any numeric pattern.
+    #>
+    param([string]$RecommendationText, [ref]$ExpectedValue, [ref]$ComparisonOperator)
+    
+    if ($RecommendationText -match "(\d+)") {
+        $ExpectedValue.Value = [int]$matches[1]
+        $ComparisonOperator.Value = "eq"
+        return $true
+    }
+    
+    return $false
+}
+
+function Private-HandleNumericRecommendation {
+    <#
+    .SYNOPSIS
+        Handles numeric recommendation patterns.
+    #>
+    param([string]$RecommendationText, [ref]$ExpectedValue, [ref]$ComparisonOperator)
+    
+    if (Private-HandleMoreOrFewerPattern -RecommendationText $RecommendationText -ExpectedValue ([ref]$ExpectedValue.Value) -ComparisonOperator ([ref]$ComparisonOperator.Value)) {
+        return $true
+    }
+    
+    return Private-HandleAnyNumericPattern -RecommendationText $RecommendationText -ExpectedValue ([ref]$ExpectedValue.Value) -ComparisonOperator ([ref]$ComparisonOperator.Value)
+}
+
+function Private-HandleEnabledDisabledRecommendation {
+    <#
+    .SYNOPSIS
+        Handles Enabled/Disabled recommendation patterns.
+    #>
+    param([string]$RecommendationText, [ref]$ExpectedValue, [ref]$ComparisonOperator)
+    
+    if ($RecommendationText -match "Enabled") {
+        $ExpectedValue.Value = "Enabled"
+        $ComparisonOperator.Value = "eq"
+        return $true
+    }
+    
+    if ($RecommendationText -match "Disabled") {
+        $ExpectedValue.Value = "Disabled"
+        $ComparisonOperator.Value = "eq"
+        return $true
+    }
+    
+    return $false
+}
+
+function Private-HandleDefaultValueRecommendation {
+    <#
+    .SYNOPSIS
+        Handles default value recommendation.
+    #>
+    param([object]$Recommendation, [ref]$ExpectedValue, [ref]$ComparisonOperator)
+    
+    if ($Recommendation.default_value -and $Recommendation.default_value -ne "Compliant value") {
+        $ExpectedValue.Value = $Recommendation.default_value
+        $ComparisonOperator.Value = "eq"
+        return $true
+    }
+    return $false
+}
+
+function Private-InitializeExtractionDefaults {
+    <#
+    .SYNOPSIS
+        Initializes default values for extraction.
+    #>
+    param([object]$Recommendation, [ref]$ExpectedValue, [ref]$ComparisonOperator)
+    
+    $ExpectedValue.Value = $null
+    $ComparisonOperator.Value = "ge"
+    return Private-GetRecommendationText -Recommendation $Recommendation
+}
+
+function Private-SetFallbackExpectedValue {
+    <#
+    .SYNOPSIS
+        Sets fallback expected value from recommendation text.
+    #>
+    param([string]$RecommendationText, [ref]$ExpectedValue, [ref]$ComparisonOperator)
+    
+    $ExpectedValue.Value = $RecommendationText
+    $ComparisonOperator.Value = "eq"
+}
+
+function Private-ExtractExpectedValueFromRecommendation {
+    <#
+    .SYNOPSIS
+        Extracts expected value and comparison operator from recommendation.
+    #>
+    param([string]$CIS_ID, [string]$AuditType, [object]$Recommendation, [ref]$ExpectedValue, [ref]$ComparisonOperator)
+    
+    $recommendationText = Private-InitializeExtractionDefaults -Recommendation $Recommendation -ExpectedValue ([ref]$ExpectedValue.Value) -ComparisonOperator ([ref]$ComparisonOperator.Value)
+    
+    if (Private-HandleUserRightsAudit -CIS_ID $CIS_ID -AuditType $AuditType -Recommendation $Recommendation -ExpectedValue ([ref]$ExpectedValue.Value) -ComparisonOperator ([ref]$ComparisonOperator.Value)) { return }
+    if (Private-HandleNumericRecommendation -RecommendationText $recommendationText -ExpectedValue ([ref]$ExpectedValue.Value) -ComparisonOperator ([ref]$ComparisonOperator.Value)) { return }
+    if (Private-HandleEnabledDisabledRecommendation -RecommendationText $recommendationText -ExpectedValue ([ref]$ExpectedValue.Value) -ComparisonOperator ([ref]$ComparisonOperator.Value)) { return }
+    if (Private-HandleDefaultValueRecommendation -Recommendation $Recommendation -ExpectedValue ([ref]$ExpectedValue.Value) -ComparisonOperator ([ref]$ComparisonOperator.Value)) { return }
+    
+    Private-SetFallbackExpectedValue -RecommendationText $recommendationText -ExpectedValue ([ref]$ExpectedValue.Value) -ComparisonOperator ([ref]$ComparisonOperator.Value)
+}
+
+function Private-MapDisabledServiceStatus {
+    <#
+    .SYNOPSIS
+        Maps service status for Disabled recommendation.
+    #>
+    param([ref]$CurrentValue, [ref]$ExpectedValue)
+    
+    $ExpectedValue.Value = "Disabled"
+    if ($CurrentValue.Value -eq "Stopped") { $CurrentValue.Value = "Disabled" }
+    elseif ($CurrentValue.Value -eq "Running") { $CurrentValue.Value = "Enabled" }
+}
+
+function Private-MapEnabledServiceStatus {
+    <#
+    .SYNOPSIS
+        Maps service status for Enabled recommendation.
+    #>
+    param([ref]$CurrentValue, [ref]$ExpectedValue)
+    
+    $ExpectedValue.Value = "Enabled"
+    if ($CurrentValue.Value -eq "Running") { $CurrentValue.Value = "Enabled" }
+    elseif ($CurrentValue.Value -eq "Stopped") { $CurrentValue.Value = "Disabled" }
+}
+
+function Private-MapServiceStatusForComparison {
+    <#
+    .SYNOPSIS
+        Maps service status to Disabled/Enabled for comparison.
+    #>
+    param([string]$AuditType, [string]$RecommendationText, [ref]$CurrentValue, [ref]$ExpectedValue)
+    
+    if ($AuditType -ne "Service") { return }
+    
+    if ($RecommendationText -match "Disabled") {
+        Private-MapDisabledServiceStatus -CurrentValue ([ref]$CurrentValue.Value) -ExpectedValue ([ref]$ExpectedValue.Value)
+    }
+    elseif ($RecommendationText -match "Enabled") {
+        Private-MapEnabledServiceStatus -CurrentValue ([ref]$CurrentValue.Value) -ExpectedValue ([ref]$ExpectedValue.Value)
+    }
+}
+
+function Private-ExtractFromTitlePatterns {
+    <#
+    .SYNOPSIS
+        Extracts value from title patterns.
+    #>
+    param([object]$Recommendation)
+    
+    if ($Recommendation.title -match "Ensure.*is set to '(.*?)'") { return $matches[1] }
+    if ($Recommendation.title -match "'(.*?)'") { return $matches[1] }
+    if ($Recommendation.title -match "Ensure.*is set to (.*?)\.") { return $matches[1] }
+    
+    return $null
+}
+
+function Private-ExtractRecommendedValue {
+    <#
+    .SYNOPSIS
+        Extracts recommended value from recommendation object.
+    #>
+    param([object]$Recommendation)
+    
+    if ($Recommendation.default_value -and $Recommendation.default_value -ne "Compliant value") {
+        return $Recommendation.default_value
+    }
+    
+    $extracted = Private-ExtractFromTitlePatterns -Recommendation $Recommendation
+    if ($extracted) { return $extracted }
+    
+    return Private-GetRecommendationText -Recommendation $Recommendation
+}
+
+function Private-GetComplianceColor {
+    <#
+    .SYNOPSIS
+        Gets color based on compliance status.
+    #>
+    param([PSCustomObject]$Result)
+    
+    return if ($Result.IsCompliant) { "Green" } else { "Red" }
+}
+
+function Private-WriteVerboseAuditOutput {
+    <#
+    .SYNOPSIS
+        Writes verbose audit output to console.
+    #>
+    param([PSCustomObject]$Result)
+    
+    Write-Host ""
+    Write-SectionHeader -Title "CIS Audit: $($Result.CIS_ID)"
+    Write-Host "Setting: $($Result.Title)" -ForegroundColor White
+    Write-Host "Current Value: $($Result.CurrentValue)" -ForegroundColor White
+    Write-Host "Recommended: $($Result.RecommendedValue)" -ForegroundColor White
+    $color = Private-GetComplianceColor -Result $Result
+    Write-Host "Compliance: $($Result.ComplianceStatus)" -ForegroundColor $color
+    Write-Host "Source: $($Result.Source)" -ForegroundColor White
+    if ($Result.Details) { Write-Host "Details: $($Result.Details)" -ForegroundColor Gray }
+}
+
+# ============================================================================
+# HELPER FUNCTIONS FOR Invoke-CISScript
+# ============================================================================
+
+function Private-ImportModuleIfNeeded {
+    <#
+    .SYNOPSIS
+        Imports module if not already loaded.
+    #>
+    param([string]$ModuleName, [string]$ModulePath)
+    
+    if (-not (Get-Module -Name $ModuleName -ErrorAction SilentlyContinue)) {
+        $moduleFilePath = Join-Path $ModulePath "$ModuleName.psm1"
+        if (Test-Path $moduleFilePath) {
+            Import-Module $moduleFilePath -Force -WarningAction SilentlyContinue -Verbose:$false
+        }
+        else {
+            throw "Required module '$ModuleName' is not loaded and module file not found."
+        }
+    }
+}
+
+function Private-VerifyRequiredModules {
+    <#
+    .SYNOPSIS
+        Verifies and imports required modules.
+    #>
+    param([string[]]$RequiredModules, [string]$ModulePath)
+    
+    foreach ($moduleName in $RequiredModules) {
+        Private-ImportModuleIfNeeded -ModuleName $moduleName -ModulePath $ModulePath
+    }
+}
+
+function Private-HandleAutoElevate {
+    <#
+    .SYNOPSIS
+        Handles auto-elevation scenario.
+    #>
+    param([switch]$VerboseOutput)
+    
+    if ($VerboseOutput) { Write-StatusMessage -Message "Elevating privileges..." -Type Info }
+    return "Elevate"
+}
+
+function Private-HandleManualElevation {
+    <#
+    .SYNOPSIS
+        Handles manual elevation scenario.
+    #>
+    param()
+    
+    Write-StatusMessage -Message "WARNING: This operation may require administrator privileges" -Type Warning
+    Write-StatusMessage -Message "Some operations may fail without elevated permissions" -Type Warning
+    
+    $continue = Show-Confirmation -Message "Continue without administrator privileges?" -DefaultChoice "No"
+    return if ($continue) { "Continue" } else { "Cancel" }
+}
+
+function Private-HandleMissingAdminRights {
+    <#
+    .SYNOPSIS
+        Handles missing administrator rights.
+    #>
+    param([switch]$AutoElevate, [switch]$VerboseOutput)
+    
+    if ($AutoElevate) {
+        return Private-HandleAutoElevate -VerboseOutput:$VerboseOutput
+    }
+    
+    return Private-HandleManualElevation
+}
+
+function Private-ElevatePrivileges {
+    <#
+    .SYNOPSIS
+        Elevates script privileges.
+    #>
+    param([string]$CurrentScript)
+    
+    if (-not $currentScript -or -not (Test-Path $currentScript)) {
+        throw "Cannot determine script path for elevation. Please run PowerShell as administrator."
+    }
+    
+    $arguments = "-ExecutionPolicy Bypass -File `"$currentScript`""
+    Start-Process -FilePath "powershell.exe" -ArgumentList $arguments -Verb RunAs -Wait
+    exit 0
+}
+
+function Private-GetCurrentScriptPath {
+    <#
+    .SYNOPSIS
+        Gets the current script path.
+    #>
+    param([System.Management.Automation.InvocationInfo]$Invocation)
+    
+    $currentScript = $Invocation.MyCommand.Path
+    if (-not $currentScript) {
+        $currentScript = (Get-Variable MyInvocation -Scope 1).Value.MyCommand.Path
+    }
+    return $currentScript
+}
+
+function Private-WriteVerboseScriptHeader {
+    <#
+    .SYNOPSIS
+        Writes verbose script execution header.
+    #>
+    param([string]$ScriptType, [string]$CIS_ID, [string]$ServiceName, [bool]$IsAdmin)
+    
+    Write-SectionHeader -Title "CIS Script Execution"
+    Write-Host "Script Type: $ScriptType" -ForegroundColor White
+    if ($CIS_ID) { Write-Host "CIS ID: $CIS_ID" -ForegroundColor White }
+    if ($ServiceName) { Write-Host "Service: $ServiceName" -ForegroundColor White }
+    Write-Host "Admin Rights: $(if ($IsAdmin) { 'Yes' } else { 'No' })" -ForegroundColor White
+    Write-Host ""
+}
+
+function Private-WriteScriptErrorOutput {
+    <#
+    .SYNOPSIS
+        Writes script error output to console.
+    #>
+    param([PSCustomObject]$ErrorInfo)
+    
+    Write-StatusMessage -Message "Script execution failed" -Type Error
+    Write-Host "Error Details: $($ErrorInfo.ErrorMessage)" -ForegroundColor Red
+    Write-Host "Error Type: $($ErrorInfo.ErrorType)" -ForegroundColor Red
+    Write-Host "Recommendation: $($ErrorInfo.Recommendation)" -ForegroundColor Yellow
+}
+
+# ============================================================================
+# PUBLIC FUNCTIONS
+# ============================================================================
+
+function Private-CreateResultTimestamp {
+    <#
+    .SYNOPSIS
+        Creates audit timestamp.
+    #>
+    return Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+}
+
+function Private-GetComplianceFlag {
+    <#
+    .SYNOPSIS
+        Gets compliance flag from status.
+    #>
+    param([string]$ComplianceStatus)
+    
+    return ($ComplianceStatus -eq "Compliant")
+}
+
+function Private-BuildResultObject {
+    <#
+    .SYNOPSIS
+        Builds result object from parameters.
+    #>
+    param([string]$CIS_ID, [string]$Title, [object]$CurrentValue, [string]$RecommendedValue, [string]$ComplianceStatus, [bool]$IsCompliant, [string]$Source, [string]$Details, [string]$ErrorMessage, [string]$Profile, [string]$AuditTimestamp)
+    
+    return [PSCustomObject]@{
+        CIS_ID = $CIS_ID
+        Title = $Title
+        CurrentValue = $CurrentValue
+        RecommendedValue = $RecommendedValue
+        ComplianceStatus = $ComplianceStatus
+        IsCompliant = $IsCompliant
+        Source = $Source
+        Details = $Details
+        ErrorMessage = $ErrorMessage
+        Profile = $Profile
+        AuditTimestamp = $AuditTimestamp
+        ComputerName = $env:COMPUTERNAME
+        UserName = $env:USERNAME
+    }
+}
+
 # Function to create standardized CIS audit result object
 function New-CISResultObject {
     <#
@@ -95,24 +997,10 @@ function New-CISResultObject {
         [string]$Profile = "L1"
     )
     
-    $auditTimestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
-    $isCompliant = ($ComplianceStatus -eq "Compliant")
+    $auditTimestamp = Private-CreateResultTimestamp
+    $isCompliant = Private-GetComplianceFlag -ComplianceStatus $ComplianceStatus
     
-    return [PSCustomObject]@{
-        CIS_ID = $CIS_ID
-        Title = $Title
-        CurrentValue = $CurrentValue
-        RecommendedValue = $RecommendedValue
-        ComplianceStatus = $ComplianceStatus
-        IsCompliant = $isCompliant
-        Source = $Source
-        Details = $Details
-        ErrorMessage = $ErrorMessage
-        Profile = $Profile
-        AuditTimestamp = $auditTimestamp
-        ComputerName = $env:COMPUTERNAME
-        UserName = $env:USERNAME
-    }
+    return Private-BuildResultObject -CIS_ID $CIS_ID -Title $Title -CurrentValue $CurrentValue -RecommendedValue $RecommendedValue -ComplianceStatus $ComplianceStatus -IsCompliant $isCompliant -Source $Source -Details $Details -ErrorMessage $ErrorMessage -Profile $Profile -AuditTimestamp $auditTimestamp
 }
 
 # Function to retrieve CIS recommendation data from JSON
@@ -145,118 +1033,12 @@ function Get-CISRecommendation {
     )
     
     try {
-        # Determine JSON file path
-        if ($JsonPath) {
-            $jsonFilePath = $JsonPath
-        } else {
-            # Try to find JSON file with various patterns
-            $patterns = @(
-                "cis_section_$($CIS_ID.Replace('.','_')).json",
-                "cis_section_$($CIS_ID.Split('.')[0])*.json",
-                "cis_section_$($CIS_ID.Split('.')[0])_$($CIS_ID.Split('.')[1])*.json"
-            )
-            
-            foreach ($pattern in $patterns) {
-                $testPath = Join-Path $PSScriptRoot "..\..\docs\json\$pattern"
-                if (Test-Path $testPath) {
-                    $jsonFilePath = $testPath
-                    break
-                }
-            }
-            
-            # If still not found, try direct path construction
-            if (-not $jsonFilePath) {
-                $directPath = Join-Path $PSScriptRoot "..\..\docs\json\cis_section_$($CIS_ID.Replace('.','_')).json"
-                if (Test-Path $directPath) {
-                    $jsonFilePath = $directPath
-                }
-            }
-        }
+        $basePath = Join-Path $PSScriptRoot "..\..\docs\json"
+        $jsonFilePath = Private-GetJsonFilePath -CIS_ID $CIS_ID -JsonPath $JsonPath -BasePath $basePath
         
-        # If no JSON file found, return a more specific default recommendation
-        if (-not $jsonFilePath) {
-            # Create a more meaningful default recommendation based on CIS_ID
-            $defaultRecommendations = @{
-                "1.1.1" = @{Title="Enforce password history"; RecommendedValue="24 or more passwords remembered"}
-                "1.1.2" = @{Title="Maximum password age"; RecommendedValue="365 or fewer days, but not 0"}
-                "1.1.3" = @{Title="Minimum password age"; RecommendedValue="1 or more day(s)"}
-                "1.1.4" = @{Title="Minimum password length"; RecommendedValue="14 or more character(s)"}
-                "1.1.5" = @{Title="Password complexity requirements"; RecommendedValue="Enabled"}
-                "1.1.6" = @{Title="Relax minimum password length limits"; RecommendedValue="Disabled"}
-                "1.1.7" = @{Title="Store passwords using reversible encryption"; RecommendedValue="Disabled"}
-                "1.2.1" = @{Title="Account lockout duration"; RecommendedValue="15 or more minute(s)"}
-                "1.2.2" = @{Title="Account lockout threshold"; RecommendedValue="5 or fewer invalid logon attempt(s), but not 0"}
-                "1.2.3" = @{Title="Allow administrator account lockout"; RecommendedValue="Enabled"}
-                "1.2.4" = @{Title="Reset account lockout counter after"; RecommendedValue="15 or more minute(s)"}
-                "2.2.1" = @{Title="Access Credential Manager as a trusted caller"; RecommendedValue="No One"}
-                "2.2.2" = @{Title="Access this computer from the network"; RecommendedValue="Administrators, Remote Desktop Users"}
-                "2.2.3" = @{Title="Act as part of the operating system"; RecommendedValue="No One"}
-                "5.4" = @{Title="Downloaded Maps Manager (MapsBroker)"; RecommendedValue="Disabled"}
-                # Add more CIS IDs as needed
-            }
-            
-            if ($defaultRecommendations.ContainsKey($CIS_ID)) {
-                $defaultRec = $defaultRecommendations[$CIS_ID]
-                return [PSCustomObject]@{
-                    cis_id = $CIS_ID
-                    title = $defaultRec.Title
-                    profile = "L1"
-                    description = "CIS benchmark recommendation"
-                    rationale = "Security compliance requirement"
-                    impact = "Improves security posture"
-                    audit_procedure = "Check system configuration"
-                    remediation_procedure = "Apply security settings"
-                    default_value = $defaultRec.RecommendedValue
-                    page_number = 0
-                }
-            } else {
-                # Create a meaningful title based on CIS_ID pattern
-                $title = switch -Wildcard ($CIS_ID) {
-                    "1.1.*" { "Password Policy Settings" }
-                    "1.2.*" { "Account Lockout Policy Settings" }
-                    "2.2.*" { "User Rights Assignment Settings" }
-                    "2.3.*" { "Security Options Settings" }
-                    "5.*" { "Service Configuration Settings" }
-                    "9.*" { "Windows Firewall Settings" }
-                    "17.*" { "Audit Policy Settings" }
-                    "18.*" { "Administrative Templates Settings" }
-                    "19.*" { "Security Settings" }
-                    default { "CIS Security Setting" }
-                }
-                
-                return [PSCustomObject]@{
-                    cis_id = $CIS_ID
-                    title = "$title - $CIS_ID"
-                    profile = "L1"
-                    description = "CIS benchmark recommendation"
-                    rationale = "Security compliance requirement"
-                    impact = "Improves security posture"
-                    audit_procedure = "Check system configuration"
-                    remediation_procedure = "Apply security settings"
-                    default_value = "Compliant value"
-                    page_number = 0
-                }
-            }
-        }
+        if (-not $jsonFilePath) { return Private-GetDefaultRecommendation -CIS_ID $CIS_ID }
         
-        # Validate JSON file path
-        if (-not (Test-Path $jsonFilePath)) {
-            Write-Warning "CIS JSON file not found: $jsonFilePath"
-            return $null
-        }
-        
-        # Load and parse JSON
-        $jsonContent = Get-Content $jsonFilePath -Raw | ConvertFrom-Json
-        
-        # Find the specific recommendation
-        $recommendation = $jsonContent | Where-Object { $_.cis_id -eq $CIS_ID }
-        
-        if (-not $recommendation) {
-            Write-Warning "CIS recommendation '$CIS_ID' not found in $jsonFilePath"
-            return $null
-        }
-        
-        return $recommendation
+        return Private-LoadJsonRecommendation -JsonFilePath $jsonFilePath -CIS_ID $CIS_ID
     }
     catch {
         Write-Error "Failed to retrieve CIS recommendation '$CIS_ID': $_"
@@ -318,118 +1100,117 @@ function Test-CISCompliance {
     )
     
     try {
-        # If recommendation is provided, extract expected value from it
         if ($Recommendation -and -not $ExpectedValue) {
-            # Parse recommendation text to extract expected value
-            $recommendationText = $Recommendation.title
-            if ($recommendationText -match "'(.*?)'") {
-                $ExpectedValue = $matches[1]
-            }
+            if ($Recommendation.title -match "'(.*?)'") { $ExpectedValue = $matches[1] }
         }
         
-        # Handle type conversion for comparison
         $currentValueToCompare = $CurrentValue
         $expectedValueToCompare = $ExpectedValue
         
-        # First check for service status patterns
         if ($CurrentValue -is [string] -and $expectedValueToCompare -is [string]) {
-            # Handle service status comparisons
-            if ($CurrentValue -eq "Running" -and $expectedValueToCompare -eq "Disabled") {
-                return $false
-            } elseif ($CurrentValue -eq "Stopped" -and $expectedValueToCompare -eq "Disabled") {
-                return $true
-            } elseif ($CurrentValue -eq "Running" -and $expectedValueToCompare -eq "Enabled") {
-                return $false
-            } elseif ($CurrentValue -eq "Stopped" -and $expectedValueToCompare -eq "Enabled") {
-                return $false
-            }
-            # Handle registry key not found scenarios
-            if ($CurrentValue -eq "Key not found" -or $CurrentValue -eq "Policy not configured" -or $CurrentValue -eq "Service not found") {
-                # These are error conditions, not compliance failures
-                return $false
-            }
+            $serviceResult = Private-CompareServiceStatus -CurrentValue $CurrentValue -ExpectedValue $expectedValueToCompare
+            if ($serviceResult -ne $null) { return $serviceResult }
+            if (Private-IsErrorCondition -CurrentValue $CurrentValue) { return $false }
         }
         
-        # Extract numeric value from recommendation strings like "1 or more day(s)"
-        if ($ExpectedValue -is [string] -and $ExpectedValue -match "(\d+)\s+or\s+more") {
-            $expectedValueToCompare = [int]$matches[1]
-            # For "or more" recommendations, use greater than or equal comparison
-            if ($ComparisonOperator -eq "eq") {
-                $ComparisonOperator = "ge"
-            }
-        } elseif ($ExpectedValue -is [string] -and $ExpectedValue -match "(\d+)\s+or\s+fewer") {
-            $expectedValueToCompare = [int]$matches[1]
-            # For "or fewer" recommendations, use less than or equal comparison
-            if ($ComparisonOperator -eq "eq") {
-                $ComparisonOperator = "le"
-            }
-        } elseif ($ExpectedValue -is [string] -and $ExpectedValue -match "(\d+)") {
-            # Try to extract any numeric value
-            $expectedValueToCompare = [int]$matches[1]
-        }
+        $numericValue = Private-ExtractNumericValue -ExpectedValue $ExpectedValue -ComparisonOperator ([ref]$ComparisonOperator)
+        if ($numericValue) { $expectedValueToCompare = $numericValue }
         
-        # Improved type conversion logic
-        # Handle string-to-string comparisons first
         if ($CurrentValue -is [string] -and $expectedValueToCompare -is [string]) {
-            # Check if both strings can be parsed as numbers
-            $currentValueNumeric = $null
-            $expectedValueNumeric = $null
-            $canParseCurrent = [double]::TryParse($CurrentValue, [ref]$currentValueNumeric)
-            $canParseExpected = [double]::TryParse($expectedValueToCompare, [ref]$expectedValueNumeric)
-            
-            if ($canParseCurrent -and $canParseExpected) {
-                # Both are numeric strings - convert to numbers
-                $currentValueToCompare = $currentValueNumeric
-                $expectedValueToCompare = $expectedValueNumeric
-            } else {
-                # Both are non-numeric strings - compare as-is
-                # Handle common CIS string patterns
-                if ($CurrentValue -eq "Enabled" -and $expectedValueToCompare -eq "Enabled") {
-                    $result = $true
-                } elseif ($CurrentValue -eq "Disabled" -and $expectedValueToCompare -eq "Disabled") {
-                    $result = $true
-                } elseif ($CurrentValue -eq "Enabled" -and $expectedValueToCompare -eq "Disabled") {
-                    $result = $false
-                } elseif ($CurrentValue -eq "Disabled" -and $expectedValueToCompare -eq "Enabled") {
-                    $result = $false
-                } else {
-                    # Generic string comparison
-                    $result = $CurrentValue -eq $expectedValueToCompare
-                }
-                return $result
+            $currentNum = 0; $expectedNum = 0
+            if (Private-TryParseNumericStrings -CurrentValue $CurrentValue -ExpectedValue $expectedValueToCompare -CurrentNum ([ref]$currentNum) -ExpectedNum ([ref]$expectedNum)) {
+                $currentValueToCompare = $currentNum
+                $expectedValueToCompare = $expectedNum
             }
+            else { return Private-CompareStringValues -CurrentValue $CurrentValue -ExpectedValue $expectedValueToCompare }
         }
         
-        # Handle mixed types
-        if ($CurrentValue -is [int] -and $expectedValueToCompare -is [string]) {
-            # Try to convert expected value to integer
-            if ([int]::TryParse($expectedValueToCompare, [ref]$expectedValueToCompare)) {
-                $expectedValueToCompare = [int]$expectedValueToCompare
-            }
-        } elseif ($CurrentValue -is [string] -and $expectedValueToCompare -is [int]) {
-            # Try to convert current value to integer
-            if ([int]::TryParse($CurrentValue, [ref]$currentValueToCompare)) {
-                $currentValueToCompare = [int]$CurrentValue
-            }
-        }
+        Private-ConvertTypesForComparison -CurrentValue $CurrentValue -ExpectedValue $ExpectedValue -CurrentToCompare ([ref]$currentValueToCompare) -ExpectedToCompare ([ref]$expectedValueToCompare)
         
-        # Perform comparison based on operator
-        switch ($ComparisonOperator) {
-            "eq" { $result = $currentValueToCompare -eq $expectedValueToCompare }
-            "ne" { $result = $currentValueToCompare -ne $expectedValueToCompare }
-            "gt" { $result = $currentValueToCompare -gt $expectedValueToCompare }
-            "ge" { $result = $currentValueToCompare -ge $expectedValueToCompare }
-            "lt" { $result = $currentValueToCompare -lt $expectedValueToCompare }
-            "le" { $result = $currentValueToCompare -le $expectedValueToCompare }
-            default { $result = $currentValueToCompare -eq $expectedValueToCompare }
-        }
-        
-        return $result
+        return Private-PerformComparison -CurrentValue $currentValueToCompare -ExpectedValue $expectedValueToCompare -ComparisonOperator $ComparisonOperator
     }
     catch {
         Write-Error "Failed to test CIS compliance for '$CIS_ID': $_"
         return $false
     }
+}
+
+function Private-GetRecommendationOrDefault {
+    <#
+    .SYNOPSIS
+        Gets recommendation or creates default.
+    #>
+    param([string]$CIS_ID, [string]$Section)
+    
+    $recommendation = Get-CISRecommendation -CIS_ID $CIS_ID -Section $Section
+    if (-not $recommendation) {
+        $recommendation = [PSCustomObject]@{ title = "CIS Benchmark $CIS_ID" }
+    }
+    return $recommendation
+}
+
+function Private-PerformAuditByType {
+    <#
+    .SYNOPSIS
+        Performs audit based on type.
+    #>
+    param([string]$AuditType, [string]$CIS_ID, [string]$RegistryPath, [string]$RegistryValueName, [string]$ServiceName, [scriptblock]$CustomScriptBlock, [object]$Recommendation)
+    
+    switch ($AuditType) {
+        "Registry" {
+            if (-not $RegistryPath -or -not $RegistryValueName) {
+                return New-CISResultObject -CIS_ID $CIS_ID -Title $recommendation.title -CurrentValue "N/A" -RecommendedValue "N/A" -ComplianceStatus "Error" -ErrorMessage "Registry path and value name required for registry audit"
+            }
+            return Private-PerformRegistryAudit -RegistryPath $RegistryPath -RegistryValueName $RegistryValueName
+        }
+        "GroupPolicy" {
+            if (-not $RegistryPath -or -not $RegistryValueName) {
+                return New-CISResultObject -CIS_ID $CIS_ID -Title $recommendation.title -CurrentValue "N/A" -RecommendedValue "N/A" -ComplianceStatus "Error" -ErrorMessage "Registry path and value name required for group policy audit"
+            }
+            return Private-PerformGroupPolicyAudit -RegistryPath $RegistryPath -RegistryValueName $RegistryValueName
+        }
+        "Service" {
+            if (-not $ServiceName) {
+                return New-CISResultObject -CIS_ID $CIS_ID -Title $recommendation.title -CurrentValue "N/A" -RecommendedValue "N/A" -ComplianceStatus "Error" -ErrorMessage "Service name required for service audit"
+            }
+            return Private-PerformServiceAudit -ServiceName $ServiceName
+        }
+        "Custom" {
+            if (-not $CustomScriptBlock) {
+                return New-CISResultObject -CIS_ID $CIS_ID -Title $recommendation.title -CurrentValue "N/A" -RecommendedValue "N/A" -ComplianceStatus "Error" -ErrorMessage "Custom script block required for custom audit"
+            }
+            return Private-PerformCustomAudit -CustomScriptBlock $CustomScriptBlock
+        }
+    }
+}
+
+function Private-ProcessAuditResult {
+    <#
+    .SYNOPSIS
+        Processes audit result and returns final result.
+    #>
+    param([hashtable]$AuditResult, [string]$CIS_ID, [string]$AuditType, [object]$Recommendation, [switch]$VerboseOutput)
+    
+    $currentValue = $auditResult.CurrentValue
+    $source = $auditResult.Source
+    $details = $auditResult.Details
+    
+    $expectedValue = $null
+    $comparisonOperator = "ge"
+    Private-ExtractExpectedValueFromRecommendation -CIS_ID $CIS_ID -AuditType $AuditType -Recommendation $recommendation -ExpectedValue ([ref]$expectedValue) -ComparisonOperator ([ref]$comparisonOperator)
+    
+    $recommendationText = Private-GetRecommendationText -Recommendation $recommendation
+    Private-MapServiceStatusForComparison -AuditType $AuditType -RecommendationText $recommendationText -CurrentValue ([ref]$currentValue) -ExpectedValue ([ref]$expectedValue)
+    
+    $isCompliant = Test-CISCompliance -CIS_ID $CIS_ID -CurrentValue $currentValue -ExpectedValue $expectedValue -ComparisonOperator $comparisonOperator
+    $complianceStatus = if ($isCompliant) { "Compliant" } else { "Non-Compliant" }
+    
+    $recommendedValue = Private-ExtractRecommendedValue -Recommendation $recommendation
+    $result = New-CISResultObject -CIS_ID $CIS_ID -Title $recommendation.title -CurrentValue $currentValue -RecommendedValue $recommendedValue -ComplianceStatus $complianceStatus -Source $source -Details $details -Profile $recommendation.profile
+    
+    if ($VerboseOutput) { Private-WriteVerboseAuditOutput -Result $result }
+    
+    return $result
 }
 
 # Function to invoke CIS audit with common patterns
@@ -485,198 +1266,10 @@ function Invoke-CISAudit {
     )
     
     try {
-        # Get CIS recommendation
-        $recommendation = Get-CISRecommendation -CIS_ID $CIS_ID -Section $Section
+        $recommendation = Private-GetRecommendationOrDefault -CIS_ID $CIS_ID -Section $Section
+        $auditResult = Private-PerformAuditByType -AuditType $AuditType -CIS_ID $CIS_ID -RegistryPath $RegistryPath -RegistryValueName $RegistryValueName -ServiceName $ServiceName -CustomScriptBlock $CustomScriptBlock -Recommendation $recommendation
         
-        # Use default recommendation if not found
-        if (-not $recommendation) {
-            $recommendation = [PSCustomObject]@{
-                title = "CIS Benchmark $CIS_ID"
-            }
-        }
-        
-        # Perform audit based on type
-        $currentValue = $null
-        $source = "Unknown"
-        $details = ""
-        
-        switch ($AuditType) {
-            "Registry" {
-                if (-not $RegistryPath -or -not $RegistryValueName) {
-                    return New-CISResultObject -CIS_ID $CIS_ID -Title $recommendation.title -CurrentValue "N/A" -RecommendedValue "N/A" -ComplianceStatus "Error" -ErrorMessage "Registry path and value name required for registry audit"
-                }
-                
-                if (Test-RegistryKey -KeyPath $RegistryPath) {
-                    $currentValue = Get-RegistryValue -KeyPath $RegistryPath -ValueName $RegistryValueName -DefaultValue "Not Set"
-                    $source = "Registry"
-                    $details = "Registry path: $RegistryPath"
-                } else {
-                    $currentValue = "Key not found"
-                    $source = "Registry"
-                    $details = "Registry key does not exist: $RegistryPath"
-                }
-            }
-            
-            "GroupPolicy" {
-                # For group policy, we typically check registry paths that store policy settings
-                if (-not $RegistryPath -or -not $RegistryValueName) {
-                    return New-CISResultObject -CIS_ID $CIS_ID -Title $recommendation.title -CurrentValue "N/A" -RecommendedValue "N/A" -ComplianceStatus "Error" -ErrorMessage "Registry path and value name required for group policy audit"
-                }
-                
-                if (Test-RegistryKey -KeyPath $RegistryPath) {
-                    $currentValue = Get-RegistryValue -KeyPath $RegistryPath -ValueName $RegistryValueName -DefaultValue "Not Configured"
-                    $source = "Group Policy"
-                    $details = "Group Policy registry path: $RegistryPath"
-                } else {
-                    $currentValue = "Policy not configured"
-                    $source = "Group Policy"
-                    $details = "Group Policy setting not configured: $RegistryPath"
-                }
-            }
-            
-            "Service" {
-                if (-not $ServiceName) {
-                    return New-CISResultObject -CIS_ID $CIS_ID -Title $recommendation.title -CurrentValue "N/A" -RecommendedValue "N/A" -ComplianceStatus "Error" -ErrorMessage "Service name required for service audit"
-                }
-                
-                if (CommonUtilities\Test-ServiceExists -ServiceName $ServiceName) {
-                    $service = Get-Service -Name $ServiceName
-                    $currentValue = $service.Status.ToString()
-                    $source = "Service Control Manager"
-                    $details = "Service: $ServiceName, Status: $currentValue"
-                } else {
-                    $currentValue = "Service not found"
-                    $source = "Service Control Manager"
-                    $details = "Service does not exist: $ServiceName"
-                }
-            }
-            
-            "Custom" {
-                if (-not $CustomScriptBlock) {
-                    return New-CISResultObject -CIS_ID $CIS_ID -Title $recommendation.title -CurrentValue "N/A" -RecommendedValue "N/A" -ComplianceStatus "Error" -ErrorMessage "Custom script block required for custom audit"
-                }
-                
-                try {
-                    $customResult = & $CustomScriptBlock
-                    $currentValue = $customResult.CurrentValue
-                    $source = $customResult.Source
-                    $details = $customResult.Details
-                }
-                catch {
-                    return New-CISResultObject -CIS_ID $CIS_ID -Title $recommendation.title -CurrentValue "Error" -RecommendedValue "N/A" -ComplianceStatus "Error" -ErrorMessage "Custom audit failed: $_"
-                }
-            }
-        }
-        
-        # Determine compliance status
-        $complianceStatus = "Non-Compliant"
-        
-        # Parse recommendation to extract expected value
-        $expectedValue = $null
-        $comparisonOperator = "ge"
-        
-        # Extract recommendation text from title (remove CIS Benchmark prefix)
-        $recommendationText = $recommendation.title -replace "^.*?Ensure\\s+", "" -replace "\\s+is\\s+set\\s+to.*$", ""
-        
-        # Handle different recommendation patterns
-        # For user rights assignment audits, use string comparison
-        if ($CIS_ID -like "2.2.*" -and $AuditType -eq "Custom") {
-            # User rights assignment - extract actual recommendation from title
-            if ($recommendation.title -match "Ensure.*is set to '(.*?)'") {
-                $expectedValue = $matches[1]
-            } elseif ($recommendation.title -match "'(.*?)'") {
-                $expectedValue = $matches[1]
-            } else {
-                # Fallback to default for user rights assignments
-                $expectedValue = "Administrators"
-            }
-            $comparisonOperator = "eq"
-        } elseif ($recommendationText -match "(\d+) or more") {
-            $expectedValue = [int]$matches[1]
-            $comparisonOperator = "ge"
-        } elseif ($recommendationText -match "(\d+) or fewer") {
-            $expectedValue = [int]$matches[1]
-            $comparisonOperator = "le"
-        } elseif ($recommendationText -match "Enabled") {
-            $expectedValue = "Enabled"
-            $comparisonOperator = "eq"
-        } elseif ($recommendationText -match "Disabled") {
-            $expectedValue = "Disabled"
-            $comparisonOperator = "eq"
-        } elseif ($AuditType -eq "Service" -and $recommendationText -match "Disabled") {
-            # Special handling for service audits - Disabled means service should be Stopped
-            $expectedValue = "Disabled"
-            $comparisonOperator = "eq"
-            # Map service status to Disabled/Enabled for comparison
-            if ($currentValue -eq "Stopped") {
-                $currentValue = "Disabled"
-            } elseif ($currentValue -eq "Running") {
-                $currentValue = "Enabled"
-            }
-        } elseif ($AuditType -eq "Service" -and $recommendationText -match "Enabled") {
-            # Special handling for service audits - Enabled means service should be Running
-            $expectedValue = "Enabled"
-            $comparisonOperator = "eq"
-            # Map service status to Disabled/Enabled for comparison
-            if ($currentValue -eq "Running") {
-                $currentValue = "Enabled"
-            } elseif ($currentValue -eq "Stopped") {
-                $currentValue = "Disabled"
-            }
-        } elseif ($recommendationText -match "(\d+)") {
-            # Try to extract numeric value
-            $expectedValue = [int]$matches[1]
-            $comparisonOperator = "eq"
-        } else {
-            # Use default value from recommendation if available
-            if ($recommendation.default_value -and $recommendation.default_value -ne "Compliant value") {
-                $expectedValue = $recommendation.default_value
-                $comparisonOperator = "eq"
-            } else {
-                # Fallback to generic comparison
-                $expectedValue = $recommendationText
-                $comparisonOperator = "eq"
-            }
-        }
-        
-        # Test compliance
-        $isCompliant = Test-CISCompliance -CIS_ID $CIS_ID -CurrentValue $currentValue -ExpectedValue $expectedValue -ComparisonOperator $comparisonOperator
-        
-        if ($isCompliant) {
-            $complianceStatus = "Compliant"
-        }
-        
-        # Create result object with proper recommended value
-        $recommendedValue = if ($recommendation.default_value -and $recommendation.default_value -ne "Compliant value") {
-            $recommendation.default_value
-        } elseif ($recommendation.title -match "Ensure.*is set to '(.*?)'") {
-            $matches[1]
-        } elseif ($recommendation.title -match "'(.*?)'") {
-            $matches[1]
-        } elseif ($recommendation.title -match "Ensure.*is set to (.*?)\.") {
-            $matches[1]
-        } else {
-            # Extract meaningful recommendation from title
-            $recommendation.title -replace "^.*?Ensure\\s+", "" -replace "\\s+is\\s+set\\s+to.*$", ""
-        }
-        
-        $result = New-CISResultObject -CIS_ID $CIS_ID -Title $recommendation.title -CurrentValue $currentValue -RecommendedValue $recommendedValue -ComplianceStatus $complianceStatus -Source $source -Details $details -Profile $recommendation.profile
-        
-        # Output verbose information if requested
-        if ($VerboseOutput) {
-            Write-Host ""
-            Write-SectionHeader -Title "CIS Audit: $CIS_ID"
-            Write-Host "Setting: $($result.Title)" -ForegroundColor White
-            Write-Host "Current Value: $($result.CurrentValue)" -ForegroundColor White
-            Write-Host "Recommended: $($result.RecommendedValue)" -ForegroundColor White
-            Write-Host "Compliance: $($result.ComplianceStatus)" -ForegroundColor $(if ($result.IsCompliant) { "Green" } else { "Red" })
-            Write-Host "Source: $($result.Source)" -ForegroundColor White
-            if ($result.Details) {
-                Write-Host "Details: $($result.Details)" -ForegroundColor Gray
-            }
-        }
-        
-        return $result
+        return Private-ProcessAuditResult -AuditResult $auditResult -CIS_ID $CIS_ID -AuditType $AuditType -Recommendation $recommendation -VerboseOutput:$VerboseOutput
     }
     catch {
         return New-CISResultObject -CIS_ID $CIS_ID -Title "Error" -CurrentValue "Error" -RecommendedValue "N/A" -ComplianceStatus "Error" -ErrorMessage "Audit failed: $_"
@@ -728,19 +1321,216 @@ function Export-CISAuditResults {
     )
     
     try {
-        # Ensure output directory exists
         $outputDir = Split-Path $OutputPath -Parent
         if (-not (Test-Path $outputDir)) {
             New-Item -ItemType Directory -Path $outputDir -Force | Out-Null
         }
         
-        # Export to CSV
         $Results | Export-Csv -Path $OutputPath -NoTypeInformation
-        
         Write-StatusMessage -Message "Audit results exported to: $OutputPath" -Type Success
     }
     catch {
         Write-Error "Failed to export audit results: $_"
+    }
+}
+
+function Private-ClassifyError {
+    <#
+    .SYNOPSIS
+        Classifies error based on message pattern.
+    #>
+    param([string]$ErrorMessage)
+    
+    return switch -Wildcard ($errorMessage) {
+        "*Access denied*" { "PermissionError", "Run the script as administrator or check user permissions." }
+        "*Cannot find path*" { "PathNotFoundError", "Verify the file or registry path exists." }
+        "*Service was not found*" { "ServiceNotFoundError", "The specified service may not exist on this Windows version." }
+        "*Registry key does not exist*" { "RegistryKeyNotFoundError", "The registry key may not exist or may require administrator access." }
+        "*Group Policy*" { "GroupPolicyError", "This may require domain administrator privileges." }
+        "*The RPC server is unavailable*" { "RPCError", "Check if the RPC service is running and accessible." }
+        "*Timeout*" { "TimeoutError", "The operation timed out. Try again or increase timeout settings." }
+        "*Insufficient system resources*" { "ResourceError", "Check system resources and try again." }
+        default { "Unknown", "Check the error details and try again." }
+    }
+}
+
+function Private-GetScriptTypeRecommendation {
+    <#
+    .SYNOPSIS
+        Gets recommendation based on script type.
+    #>
+    param([string]$ScriptType)
+    
+    return switch ($ScriptType) {
+        "Audit" { "Check audit configuration and ensure all required modules are loaded." }
+        "Remediation" { "Verify remediation prerequisites and ensure administrator privileges." }
+        "ServiceToggle" { "Check service dependencies and ensure service exists on this system." }
+        default { "Check the error details and try again." }
+    }
+}
+
+function Private-CreateErrorLogEntry {
+    <#
+    .SYNOPSIS
+        Creates error log entry object.
+    #>
+    param([string]$Timestamp, [string]$ErrorType, [string]$ErrorMessage, [string]$ScriptType, [string]$CIS_ID, [string]$ServiceName, [string]$CustomContext, [string]$Recommendation, [string]$StackTrace)
+    
+    return [PSCustomObject]@{
+        Timestamp = $Timestamp
+        ErrorType = $ErrorType
+        ErrorMessage = $ErrorMessage
+        ScriptType = $ScriptType
+        CIS_ID = $CIS_ID
+        ServiceName = $ServiceName
+        CustomContext = $CustomContext
+        ComputerName = $env:COMPUTERNAME
+        UserName = $env:USERNAME
+        Recommendation = $Recommendation
+        StackTrace = $StackTrace
+    }
+}
+
+function Private-WriteErrorLog {
+    <#
+    .SYNOPSIS
+        Writes error log to file.
+    #>
+    param([PSCustomObject]$LogEntry, [string]$LogPath)
+    
+    $logDir = Split-Path $LogPath -Parent
+    if (-not (Test-Path $logDir)) {
+        New-Item -ItemType Directory -Path $logDir -Force | Out-Null
+    }
+    
+    $LogEntry | Export-Csv -Path $LogPath -Append -NoTypeInformation
+}
+
+function Private-BuildErrorResult {
+    <#
+    .SYNOPSIS
+        Builds error result object.
+    #>
+    param([string]$ErrorType, [string]$ErrorMessage, [string]$Recommendation, [string]$Timestamp, [string]$LogPath, [string]$ScriptType, [string]$CIS_ID)
+    
+    return [PSCustomObject]@{
+        ErrorType = $ErrorType
+        ErrorMessage = $ErrorMessage
+        Recommendation = $Recommendation
+        Timestamp = $Timestamp
+        LogPath = $LogPath
+        ScriptType = $ScriptType
+        CIS_ID = $CIS_ID
+    }
+}
+
+function Private-CountAuditStatus {
+    <#
+    .SYNOPSIS
+        Counts audits by status.
+    #>
+    param([array]$Results, [string]$Status)
+    
+    return ($Results | Where-Object { $_.ComplianceStatus -eq $Status }).Count
+}
+
+function Private-CalculateCompliancePercentage {
+    <#
+    .SYNOPSIS
+        Calculates compliance percentage.
+    #>
+    param([int]$CompliantAudits, [int]$TotalAudits)
+    
+    return if ($TotalAudits -gt 0) { [math]::Round(($CompliantAudits / $TotalAudits) * 100, 2) } else { 0 }
+}
+
+function Private-DetermineOverallStatus {
+    <#
+    .SYNOPSIS
+        Determines overall status based on percentage.
+    #>
+    param([double]$CompliancePercentage)
+    
+    return if ($CompliancePercentage -ge 90) { "Excellent" }
+           elseif ($CompliancePercentage -ge 75) { "Good" }
+           elseif ($CompliancePercentage -ge 50) { "Fair" }
+           else { "Poor" }
+}
+
+function Private-BuildSummaryObject {
+    <#
+    .SYNOPSIS
+        Builds summary object.
+    #>
+    param([int]$TotalAudits, [int]$CompliantAudits, [int]$NonCompliantAudits, [int]$ErrorAudits, [int]$NotApplicableAudits, [double]$CompliancePercentage, [string]$OverallStatus, [string]$AuditTimestamp)
+    
+    return [PSCustomObject]@{
+        TotalAudits = $TotalAudits
+        CompliantAudits = $CompliantAudits
+        NonCompliantAudits = $NonCompliantAudits
+        ErrorAudits = $ErrorAudits
+        NotApplicableAudits = $NotApplicableAudits
+        CompliancePercentage = $CompliancePercentage
+        OverallStatus = $OverallStatus
+        AuditTimestamp = $AuditTimestamp
+        ComputerName = $env:COMPUTERNAME
+    }
+}
+
+function Private-HandleAdminRightsCheck {
+    <#
+    .SYNOPSIS
+        Handles admin rights check and elevation.
+    #>
+    param([switch]$AutoElevate, [switch]$VerboseOutput, [System.Management.Automation.InvocationInfo]$Invocation)
+    
+    $isAdmin = CommonUtilities\Test-AdminRights
+    
+    if (-not $isAdmin) {
+        $adminAction = Private-HandleMissingAdminRights -AutoElevate:$AutoElevate -VerboseOutput:$VerboseOutput
+        
+        if ($adminAction -eq "Elevate") {
+            $currentScript = Private-GetCurrentScriptPath -Invocation $Invocation
+            Private-ElevatePrivileges -CurrentScript $currentScript
+        }
+        elseif ($adminAction -eq "Cancel") {
+            return [PSCustomObject]@{ Status = "Cancelled"; Message = "Operation cancelled by user" }
+        }
+    }
+    
+    return $isAdmin
+}
+
+function Private-ExecuteScriptBlock {
+    <#
+    .SYNOPSIS
+        Executes the script block with error handling.
+    #>
+    param([scriptblock]$ScriptBlock, [switch]$VerboseOutput, [string]$ScriptType, [string]$CIS_ID, [string]$ServiceName)
+    
+    try {
+        $result = & $ScriptBlock
+        
+        if ($VerboseOutput) {
+            Write-StatusMessage -Message "Script execution completed successfully" -Type Success
+        }
+        
+        return $result
+    }
+    catch {
+        $errorInfo = Handle-CISError -ErrorRecord $_ -ScriptType $ScriptType -CIS_ID $CIS_ID -ServiceName $ServiceName
+        
+        if ($VerboseOutput) {
+            Private-WriteScriptErrorOutput -ErrorInfo $errorInfo
+        }
+        
+        return [PSCustomObject]@{
+            Status = "Failed"
+            ErrorMessage = $errorInfo.ErrorMessage
+            ErrorType = $errorInfo.ErrorType
+            Recommendation = $errorInfo.Recommendation
+            Timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+        }
     }
 }
 
@@ -789,100 +1579,16 @@ function Handle-CISError {
     $errorMessage = $ErrorRecord.Exception.Message
     $stackTrace = $ErrorRecord.ScriptStackTrace
     
-    # Error classification logic
-    $errorType = "Unknown"
-    $recommendation = "Check the error details and try again."
+    $errorType, $recommendation = Private-ClassifyError -ErrorMessage $errorMessage
     
-    # Classify errors based on common patterns
-    switch -Wildcard ($errorMessage) {
-        "*Access denied*" {
-            $errorType = "PermissionError"
-            $recommendation = "Run the script as administrator or check user permissions."
-        }
-        "*Cannot find path*" {
-            $errorType = "PathNotFoundError"
-            $recommendation = "Verify the file or registry path exists."
-        }
-        "*Service was not found*" {
-            $errorType = "ServiceNotFoundError"
-            $recommendation = "The specified service may not exist on this Windows version."
-        }
-        "*Registry key does not exist*" {
-            $errorType = "RegistryKeyNotFoundError"
-            $recommendation = "The registry key may not exist or may require administrator access."
-        }
-        "*Group Policy*" {
-            $errorType = "GroupPolicyError"
-            $recommendation = "This may require domain administrator privileges."
-        }
-        "*The RPC server is unavailable*" {
-            $errorType = "RPCError"
-            $recommendation = "Check if the RPC service is running and accessible."
-        }
-        "*Timeout*" {
-            $errorType = "TimeoutError"
-            $recommendation = "The operation timed out. Try again or increase timeout settings."
-        }
-        "*Insufficient system resources*" {
-            $errorType = "ResourceError"
-            $recommendation = "Check system resources and try again."
-        }
-    }
+    if ($errorType -eq "Unknown") { $recommendation = Private-GetScriptTypeRecommendation -ScriptType $ScriptType }
     
-    # Script-type specific recommendations
-    switch ($ScriptType) {
-        "Audit" {
-            if ($errorType -eq "Unknown") {
-                $recommendation = "Check audit configuration and ensure all required modules are loaded."
-            }
-        }
-        "Remediation" {
-            if ($errorType -eq "Unknown") {
-                $recommendation = "Verify remediation prerequisites and ensure administrator privileges."
-            }
-        }
-        "ServiceToggle" {
-            if ($errorType -eq "Unknown") {
-                $recommendation = "Check service dependencies and ensure service exists on this system."
-            }
-        }
-    }
+    $logEntry = Private-CreateErrorLogEntry -Timestamp $timestamp -ErrorType $errorType -ErrorMessage $errorMessage -ScriptType $ScriptType -CIS_ID $CIS_ID -ServiceName $ServiceName -CustomContext $CustomContext -Recommendation $recommendation -StackTrace $stackTrace
     
-    # Structured logging
-    $logEntry = [PSCustomObject]@{
-        Timestamp = $timestamp
-        ErrorType = $errorType
-        ErrorMessage = $errorMessage
-        ScriptType = $ScriptType
-        CIS_ID = $CIS_ID
-        ServiceName = $ServiceName
-        CustomContext = $CustomContext
-        ComputerName = $env:COMPUTERNAME
-        UserName = $env:USERNAME
-        Recommendation = $recommendation
-        StackTrace = $stackTrace
-    }
-    
-    # Log to structured error log
     $logPath = Join-Path $PSScriptRoot "..\..\logs\cis-errors.log"
-    $logDir = Split-Path $logPath -Parent
+    Private-WriteErrorLog -LogEntry $logEntry -LogPath $logPath
     
-    if (-not (Test-Path $logDir)) {
-        New-Item -ItemType Directory -Path $logDir -Force | Out-Null
-    }
-    
-    # Append to error log
-    $logEntry | Export-Csv -Path $logPath -Append -NoTypeInformation
-    
-    return [PSCustomObject]@{
-        ErrorType = $errorType
-        ErrorMessage = $errorMessage
-        Recommendation = $recommendation
-        Timestamp = $timestamp
-        LogPath = $logPath
-        ScriptType = $ScriptType
-        CIS_ID = $CIS_ID
-    }
+    return Private-BuildErrorResult -ErrorType $errorType -ErrorMessage $errorMessage -Recommendation $recommendation -Timestamp $timestamp -LogPath $logPath -ScriptType $ScriptType -CIS_ID $CIS_ID
 }
 
 # Function to generate audit summary report
@@ -906,28 +1612,15 @@ function Get-CISAuditSummary {
     
     $totalAudits = $Results.Count
     $compliantAudits = ($Results | Where-Object { $_.IsCompliant }).Count
-    $nonCompliantAudits = ($Results | Where-Object { $_.ComplianceStatus -eq "Non-Compliant" }).Count
-    $errorAudits = ($Results | Where-Object { $_.ComplianceStatus -eq "Error" }).Count
-    $notApplicableAudits = ($Results | Where-Object { $_.ComplianceStatus -eq "Not Applicable" }).Count
+    $nonCompliantAudits = Private-CountAuditStatus -Results $Results -Status "Non-Compliant"
+    $errorAudits = Private-CountAuditStatus -Results $Results -Status "Error"
+    $notApplicableAudits = Private-CountAuditStatus -Results $Results -Status "Not Applicable"
     
-    $compliancePercentage = if ($totalAudits -gt 0) { [math]::Round(($compliantAudits / $totalAudits) * 100, 2) } else { 0 }
+    $compliancePercentage = Private-CalculateCompliancePercentage -CompliantAudits $compliantAudits -TotalAudits $totalAudits
+    $overallStatus = Private-DetermineOverallStatus -CompliancePercentage $compliancePercentage
+    $auditTimestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
     
-    $overallStatus = if ($compliancePercentage -ge 90) { "Excellent" }
-                     elseif ($compliancePercentage -ge 75) { "Good" }
-                     elseif ($compliancePercentage -ge 50) { "Fair" }
-                     else { "Poor" }
-    
-    return [PSCustomObject]@{
-        TotalAudits = $totalAudits
-        CompliantAudits = $compliantAudits
-        NonCompliantAudits = $nonCompliantAudits
-        ErrorAudits = $errorAudits
-        NotApplicableAudits = $notApplicableAudits
-        CompliancePercentage = $compliancePercentage
-        OverallStatus = $overallStatus
-        AuditTimestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
-        ComputerName = $env:COMPUTERNAME
-    }
+    return Private-BuildSummaryObject -TotalAudits $totalAudits -CompliantAudits $compliantAudits -NonCompliantAudits $nonCompliantAudits -ErrorAudits $errorAudits -NotApplicableAudits $notApplicableAudits -CompliancePercentage $compliancePercentage -OverallStatus $overallStatus -AuditTimestamp $auditTimestamp
 }
 
 # Function to centralize script execution with admin rights checking and module imports
@@ -985,102 +1678,21 @@ function Invoke-CISScript {
     )
     
     try {
-        # Skip module imports - modules should already be imported via ModuleIndex
-        # This prevents circular dependencies and module re-import issues
-        # Verify required modules are available, but import them if needed
         $requiredModules = @("WindowsUtils", "RegistryUtils", "WindowsUI")
+        Private-VerifyRequiredModules -RequiredModules $requiredModules -ModulePath $PSScriptRoot
         
-        foreach ($moduleName in $requiredModules) {
-            if (-not (Get-Module -Name $moduleName -ErrorAction SilentlyContinue)) {
-                # Try to import the module if it's not loaded
-                $modulePath = Join-Path $PSScriptRoot "$moduleName.psm1"
-                if (Test-Path $modulePath) {
-                    Import-Module $modulePath -Force -WarningAction SilentlyContinue -Verbose:$false
-                } else {
-                    Write-Error "Required module '$moduleName' is not loaded and module file not found."
-                    return [PSCustomObject]@{
-                        Status = "Failed"
-                        ErrorMessage = "Module '$moduleName' not loaded and file not found"
-                        Recommendation = "Ensure all module files are present in the modules directory"
-                    }
-                }
-            }
-        }
+        $isAdmin = Private-HandleAdminRightsCheck -AutoElevate:$AutoElevate -VerboseOutput:$VerboseOutput -Invocation $MyInvocation
         
-        # Check admin rights and handle elevation (using CommonUtilities)
-        $isAdmin = CommonUtilities\Test-AdminRights
+        if ($VerboseOutput) { Private-WriteVerboseScriptHeader -ScriptType $ScriptType -CIS_ID $CIS_ID -ServiceName $ServiceName -IsAdmin $isAdmin }
         
-        if (-not $isAdmin) {
-            if ($AutoElevate) {
-                if ($VerboseOutput) {
-                    Write-StatusMessage -Message "Elevating privileges..." -Type Info
-                }
-                
-                # Get the current script path and re-launch with elevation
-                $currentScript = $MyInvocation.MyCommand.Path
-                if (-not $currentScript) {
-                    # If running interactively, use the script that called this function
-                    $currentScript = (Get-Variable MyInvocation -Scope 1).Value.MyCommand.Path
-                }
-                
-                if ($currentScript -and (Test-Path $currentScript)) {
-                    # Re-launch the script with elevation
-                    $arguments = "-ExecutionPolicy Bypass -File `"$currentScript`""
-                    Start-Process -FilePath "powershell.exe" -ArgumentList $arguments -Verb RunAs -Wait
-                    
-                    # Exit the current script instance
-                    exit 0
-                } else {
-                    Write-Error "Cannot determine script path for elevation. Please run PowerShell as administrator."
-                    return [PSCustomObject]@{
-                        Status = "Failed"
-                        ErrorMessage = "Cannot elevate privileges - script path not available"
-                        Recommendation = "Run PowerShell as administrator"
-                    }
-                }
-            } else {
-                Write-StatusMessage -Message "WARNING: This operation may require administrator privileges" -Type Warning
-                Write-StatusMessage -Message "Some operations may fail without elevated permissions" -Type Warning
-                
-                $continue = Show-Confirmation -Message "Continue without administrator privileges?" -DefaultChoice "No"
-                if (-not $continue) {
-                    return [PSCustomObject]@{
-                        Status = "Cancelled"
-                        Message = "Operation cancelled by user"
-                    }
-                }
-            }
-        }
+        if ($isAdmin -eq $true) { return Private-ExecuteScriptBlock -ScriptBlock $ScriptBlock -VerboseOutput:$VerboseOutput -ScriptType $ScriptType -CIS_ID $CIS_ID -ServiceName $ServiceName }
         
-        # Execute the script block with error handling
-        if ($VerboseOutput) {
-            Write-SectionHeader -Title "CIS Script Execution"
-            Write-Host "Script Type: $ScriptType" -ForegroundColor White
-            if ($CIS_ID) { Write-Host "CIS ID: $CIS_ID" -ForegroundColor White }
-            if ($ServiceName) { Write-Host "Service: $ServiceName" -ForegroundColor White }
-            Write-Host "Admin Rights: $(if ($isAdmin) { 'Yes' } else { 'No' })" -ForegroundColor White
-            Write-Host ""
-        }
-        
-        # Execute the script block
-        $result = & $ScriptBlock
-        
-        if ($VerboseOutput) {
-            Write-StatusMessage -Message "Script execution completed successfully" -Type Success
-        }
-        
-        return $result
-        
-    } catch {
-        # Enhanced error handling with structured error information
+        return $isAdmin
+    }
+    catch {
         $errorInfo = Handle-CISError -ErrorRecord $_ -ScriptType $ScriptType -CIS_ID $CIS_ID -ServiceName $ServiceName
         
-        if ($VerboseOutput) {
-            Write-StatusMessage -Message "Script execution failed" -Type Error
-            Write-Host "Error Details: $($errorInfo.ErrorMessage)" -ForegroundColor Red
-            Write-Host "Error Type: $($errorInfo.ErrorType)" -ForegroundColor Red
-            Write-Host "Recommendation: $($errorInfo.Recommendation)" -ForegroundColor Yellow
-        }
+        if ($VerboseOutput) { Private-WriteScriptErrorOutput -ErrorInfo $errorInfo }
         
         return [PSCustomObject]@{
             Status = "Failed"

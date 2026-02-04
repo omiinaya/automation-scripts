@@ -1,0 +1,348 @@
+{
+  "services": [
+    {
+      "name": "AxInstSV",
+      "displayName": "ActiveX Installer",
+      "description": "Provides User Account Control validation for the installation of ActiveX controls from the Internet",
+      "defaultStartupType": "Manual",
+      "safeToDisable": true,
+      "category": "System"
+    },
+    {
+      "name": "ALG",
+      "displayName": "Application Layer Gateway Service",
+      "description": "Provides support for 3rd party protocol plug-ins for Internet Connection Sharing",
+      "defaultStartupType": "Manual",
+      "safeToDisable": true,
+      "category": "Network"
+    },
+    {
+      "name": "AJRouter",
+      "displayName": "AllJoyn Router Service",
+      "description": "Routes AllJoyn messages for the AllJoyn system",
+      "defaultStartupType": "Manual",
+      "safeToDisable": true,
+      "category": "IoT"
+    },
+    {
+      "name": "AppMgmt",
+      "displayName": "Application Management",
+      "description": "Processes installation, removal, and enumeration requests for software deployed through Group Policy",
+      "defaultStartupType": "Manual",
+      "safeToDisable": true,
+      "category": "System"
+    },
+    {
+      "name": "ASMSvc",
+      "displayName": "ASMSvc Service",
+      "description": "Provides Application Specific Memory Service",
+      "defaultStartupType": "Manual",
+      "safeToDisable": true,
+      "category": "System"
+    },
+    {
+      "name": "tzautoupdate",
+      "displayName": "Auto Time Zone Updater",
+      "description": "Automatically updates the system time zone",
+      "defaultStartupType": "Manual",
+      "safeToDisable": true,
+      "category": "System"
+    },
+    {
+      "name": "AVCTP",
+      "displayName": "AVCTP Service",
+      "description": "Audio/Video Control Transport Protocol service",
+      "defaultStartupType": "Manual",
+      "safeToDisable": true,
+      "category": "Bluetooth"
+    },
+    {
+      "name": "BITS",
+      "displayName": "Background Intelligent Transfer Service",
+      "description": "Transfers files in the background using idle network bandwidth",
+      "defaultStartupType": "Manual",
+      "safeToDisable": true,
+      "category": "Network"
+    },
+    {
+      "name": "BDESVC",
+      "displayName": "BitLocker Drive Encryption Service",
+      "description": "Provides BitLocker encryption services",
+      "defaultStartupType": "Manual",
+      "safeToDisable": false,
+      "category": "Security"
+    },
+    {
+      "name": "bthserv",
+      "displayName": "Bluetooth Support Service",
+      "description": "Supports Bluetooth device discovery and association",
+      "defaultStartupType": "Manual",
+      "safeToDisable": true,
+      "category": "Bluetooth"
+    },
+    {
+      "name": "BluetoothUserService",
+      "displayName": "Bluetooth User Support Service",
+      "description": "Supports Bluetooth peripheral devices",
+      "defaultStartupType": "Manual",
+      "safeToDisable": true,
+      "category": "Bluetooth"
+    },
+    {
+      "name": "PeerDistSvc",
+      "displayName": "BranchCache Service",
+      "description": "Caches content from peers on the local subnet",
+      "defaultStartupType": "Manual",
+      "safeToDisable": true,
+      "category": "Network"
+    },
+    {
+      "name": "TknSvc",
+      "displayName": "Capability Access Manager Service",
+      "description": "Manages app capabilities for privacy settings",
+      "defaultStartupType": "Manual",
+      "safeToDisable": true,
+      "category": "Privacy"
+    },
+    {
+      "name": "CaptureService",
+      "displayName": "Capture Service",
+      "description": "Provides screen capture functionality",
+      "defaultStartupType": "Manual",
+      "safeToDisable": true,
+      "category": "System"
+    },
+    {
+      "name": "W32Time",
+      "displayName": "Cellular Time Service",
+      "description": "Maintains date and time synchronization",
+      "defaultStartupType": "Manual",
+      "safeToDisable": true,
+      "category": "System"
+    },
+    {
+      "name": "CDPSvc",
+      "displayName": "Connected Devices Platform Service",
+      "description": "Enables connected devices and universal apps",
+      "defaultStartupType": "Manual",
+      "safeToDisable": true,
+      "category": "System"
+    },
+    {
+      "name": "DusmSvc",
+      "displayName": "Data Usage Service",
+      "description": "Tracks data usage for network connections",
+      "defaultStartupType": "Manual",
+      "safeToDisable": true,
+      "category": "Network"
+    },
+    {
+      "name": "DeviceAssociationService",
+      "displayName": "Device Association Service",
+      "description": "Enables pairing between the system and wired or wireless devices",
+      "defaultStartupType": "Manual",
+      "safeToDisable": true,
+      "category": "System"
+    },
+    {
+      "name": "dmwappushservice",
+      "displayName": "Device Management WAP Push Service",
+      "description": "Provides device management services",
+      "defaultStartupType": "Manual",
+      "safeToDisable": true,
+      "category": "Telemetry"
+    },
+    {
+      "name": "TrkWks",
+      "displayName": "Distributed Link Tracking Client",
+      "description": "Maintains links between NTFS files within a computer or across computers",
+      "defaultStartupType": "Manual",
+      "safeToDisable": true,
+      "category": "System"
+    },
+    {
+      "name": "EFS",
+      "displayName": "Encrypting File System",
+      "description": "Provides the core file encryption technology used to store encrypted files",
+      "defaultStartupType": "Manual",
+      "safeToDisable": false,
+      "category": "Security"
+    },
+    {
+      "name": "fhsvc",
+      "displayName": "File History Service",
+      "description": "Provides user file backup and restore functionality",
+      "defaultStartupType": "Manual",
+      "safeToDisable": true,
+      "category": "Backup"
+    },
+    {
+      "name": "fdPHost",
+      "displayName": "Function Discovery Provider Host",
+      "description": "Hosts Function Discovery providers",
+      "defaultStartupType": "Manual",
+      "safeToDisable": true,
+      "category": "Network"
+    },
+    {
+      "name": "FDResPub",
+      "displayName": "Function Discovery Resource Publication",
+      "description": "Publishes the computer and resources attached to the computer",
+      "defaultStartupType": "Manual",
+      "safeToDisable": true,
+      "category": "Network"
+    },
+    {
+      "name": "lfsvc",
+      "displayName": "Geolocation Service",
+      "description": "Manages the current location of the system",
+      "defaultStartupType": "Manual",
+      "safeToDisable": true,
+      "category": "Privacy"
+    },
+    {
+      "name": "hvboot",
+      "displayName": "Hyper-V Services",
+      "description": "Provides virtualization services",
+      "defaultStartupType": "Manual",
+      "safeToDisable": true,
+      "category": "Virtualization"
+    },
+    {
+      "name": "SharedAccess",
+      "displayName": "Internet Connection Sharing",
+      "description": "Provides network address translation, addressing, name resolution and intrusion prevention",
+      "defaultStartupType": "Manual",
+      "safeToDisable": true,
+      "category": "Network"
+    },
+    {
+      "name": "IpHelper",
+      "displayName": "IP Helper Service",
+      "description": "Provides tunnel connectivity using IPv6 transition technologies",
+      "defaultStartupType": "Manual",
+      "safeToDisable": true,
+      "category": "Network"
+    },
+    {
+      "name": "lltdsvc",
+      "displayName": "Link Layer Topology Discovery Mapper",
+      "description": "Creates a network map of the local network",
+      "defaultStartupType": "Manual",
+      "safeToDisable": true,
+      "category": "Network"
+    },
+    {
+      "name": "MapsBroker",
+      "displayName": "Downloaded Maps Manager",
+      "description": "Manages downloaded maps for offline use",
+      "defaultStartupType": "Manual",
+      "safeToDisable": true,
+      "category": "System"
+    },
+    {
+      "name": "wlidsvc",
+      "displayName": "Microsoft Account Sign-in Assistant",
+      "description": "Enables user sign-in through Microsoft account identity",
+      "defaultStartupType": "Manual",
+      "safeToDisable": true,
+      "category": "System"
+    },
+    {
+      "name": "NetTcpPortSharing",
+      "displayName": "Net.Tcp Port Sharing Service",
+      "description": "Provides ability to share TCP ports over the net.tcp protocol",
+      "defaultStartupType": "Manual",
+      "safeToDisable": true,
+      "category": "Network"
+    },
+    {
+      "name": "WpcMonSvc",
+      "displayName": "Parental Controls Service",
+      "description": "Monitors and enforces parental control settings",
+      "defaultStartupType": "Manual",
+      "safeToDisable": true,
+      "category": "System"
+    },
+    {
+      "name": "SEMgrSvc",
+      "displayName": "Payments and NFC/SE Manager",
+      "description": "Manages Near Field Communication and Secure Element services",
+      "defaultStartupType": "Manual",
+      "safeToDisable": true,
+      "category": "System"
+    },
+    {
+      "name": "PenService",
+      "displayName": "Pen Service",
+      "description": "Provides pen and touch input functionality",
+      "defaultStartupType": "Manual",
+      "safeToDisable": true,
+      "category": "System"
+    },
+    {
+      "name": "PhoneSvc",
+      "displayName": "Phone Service",
+      "description": "Manages telephony functionality",
+      "defaultStartupType": "Manual",
+      "safeToDisable": true,
+      "category": "System"
+    },
+    {
+      "name": "Spooler",
+      "displayName": "Print Spooler",
+      "description": "Manages all local and network print queues",
+      "defaultStartupType": "Manual",
+      "safeToDisable": true,
+      "category": "System"
+    },
+    {
+      "name": "PcaSvc",
+      "displayName": "Program Compatibility Assistant Service",
+      "description": "Provides compatibility support for programs",
+      "defaultStartupType": "Manual",
+      "safeToDisable": true,
+      "category": "System"
+    },
+    {
+      "name": "TermService",
+      "displayName": "Remote Desktop Services",
+      "description": "Allows users to connect interactively to a remote computer",
+      "defaultStartupType": "Manual",
+      "safeToDisable": true,
+      "category": "Remote"
+    },
+    {
+      "name": "RemoteRegistry",
+      "displayName": "Remote Registry",
+      "description": "Allows remote users to modify registry settings",
+      "defaultStartupType": "Manual",
+      "safeToDisable": true,
+      "category": "Remote"
+    },
+    {
+      "name": "SysMain",
+      "displayName": "SysMain Service",
+      "description": "Improves system performance by preloading applications",
+      "defaultStartupType": "Manual",
+      "safeToDisable": true,
+      "category": "Performance"
+    },
+    {
+      "name": "DiagTrack",
+      "displayName": "Connected User Experiences and Telemetry",
+      "description": "Collects and sends telemetry data to Microsoft",
+      "defaultStartupType": "Manual",
+      "safeToDisable": true,
+      "category": "Telemetry"
+    },
+    {
+      "name": "WSearch",
+      "displayName": "Windows Search",
+      "description": "Provides content indexing and property caching for files",
+      "defaultStartupType": "Manual",
+      "safeToDisable": true,
+      "category": "System"
+    }
+  ]
+}

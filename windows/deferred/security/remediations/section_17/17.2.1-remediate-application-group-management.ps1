@@ -1,27 +1,17 @@
-<#
-.SYNOPSIS
-    CIS Remediation Script for 17.2.1 - Ensure 'Audit Application Group Management' is set to 'Success and Failure'
-.DESCRIPTION
-    This script remediates the configuration of Audit Application Group Management settings using auditpol.exe.
-    It configures the subcategory for both success and failure auditing.
-.NOTES
-    CIS ID: 17.2.1
-    Profile: L1
-    File Name: 17.2.1-remediate-application-group-management.ps1
-    Author: System Administrator
-    Prerequisite: PowerShell 5.1 or later
-    Dependencies: CISRemediation.psm1
-#> 
+# Remediation: Audit Application Group Management setting on Windows
+# CIS Benchmark: 17.2.1 (L1) Ensure 'Audit Application Group Management' is set to 'Success and Failure'
 
-# Import required modules
-Import-Module "$PSScriptRoot\..\..\..\modules\CISRemediation.psm1" -Force -WarningAction SilentlyContinue
+[CmdletBinding()]
+param()
 
-# CIS ID for this remediation
-$CIS_ID = "17.2.1"
+# Import ScriptTemplates module
+$modulePath = Join-Path $PSScriptRoot "..\..\..\..\modules\ScriptTemplates.psm1"
+Import-Module $modulePath -Force -WarningAction SilentlyContinue
 
-# Custom remediation script block for auditpol.exe subcategory configuration
-$remediationScriptBlock = {
-    try {
+# Remediation-specific logic: Configure audit policy using auditpol.exe
+$remediationBlock = {
+    # Use Custom remediation type for auditpol.exe configuration
+    Invoke-CISRemediation -CIS_ID "17.2.1" -RemediationType "Custom" -VerboseOutput:$VerboseOutput -Section "17" -CustomScriptBlock {
         # Get current setting first
         $auditResult = auditpol /get /subcategory:"{0cce9239-69ae-11d9-bed3-505054503030}"
         $previousSetting = "Unknown"
@@ -70,32 +60,7 @@ $remediationScriptBlock = {
             }
         }
     }
-    catch {
-        return @{
-            PreviousValue = "Error"
-            NewValue = "Error"
-            IsCompliant = $false
-        }
-    }
 }
 
-# Invoke the remediation using CISRemediation
-$remediationResult = Invoke-CISRemediation -CIS_ID $CIS_ID -RemediationType "Custom" -CustomScriptBlock $remediationScriptBlock -VerboseOutput
-
-# Output the result
-if ($remediationResult.IsCompliant) {
-    Write-Host "SUCCESS: $($remediationResult.Title)" -ForegroundColor Green
-    Write-Host "Previous Value: $($remediationResult.PreviousValue)" -ForegroundColor Yellow
-    Write-Host "New Value: $($remediationResult.NewValue)" -ForegroundColor Green
-    Write-Host "Status: $($remediationResult.Status)" -ForegroundColor Green
-    exit 0
-} else {
-    Write-Host "FAILED: $($remediationResult.Title)" -ForegroundColor Red
-    Write-Host "Previous Value: $($remediationResult.PreviousValue)" -ForegroundColor Yellow
-    Write-Host "New Value: $($remediationResult.NewValue)" -ForegroundColor Red
-    Write-Host "Status: $($remediationResult.Status)" -ForegroundColor Red
-    if ($remediationResult.ErrorMessage) {
-        Write-Host "Error: $($remediationResult.ErrorMessage)" -ForegroundColor Red
-    }
-    exit 1
-}
+# Execute remediation using template function
+Invoke-CISRemediationScript -ScriptRoot $PSScriptRoot -RemediationBlock $remediationBlock
