@@ -1,21 +1,13 @@
-<#
-.SYNOPSIS
-    CIS Audit Script for Windows Firewall: Private: Settings: Display a notification (CIS ID 9.2.3)
-.DESCRIPTION
-    Audits whether Windows Firewall: Private profile display notification setting is set to 'No'
-    according to CIS benchmark recommendations.
-.NOTES
-    CIS ID: 9.2.3
-    Profile: L1
-    Section: Windows Firewall
-    Version: 4.0.0
-#>
+# Audit: 9.2.3
+# CIS Benchmark: 9.2.3 (L1)
 
-# Import required modules
-Import-Module "$PSScriptRoot\..\..\..\modules\CISFramework.psm1" -Force
+[CmdletBinding()]
+param()
 
-# Perform CIS audit
-$auditResult = Invoke-CISAudit -CIS_ID "9.2.3" -AuditType "Registry" -RegistryPath "HKLM:\SOFTWARE\Policies\Microsoft\WindowsFirewall\PrivateProfile" -RegistryValueName "DisableNotifications" -Section "9" -VerboseOutput
+$scriptRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
+$modulePath = Join-Path $scriptRoot "..\..\..\modules\ScriptTemplates.psm1"
+Import-Module $modulePath -Force -WarningAction SilentlyContinue
 
-# Output the result
-return $auditResult
+Invoke-CISAuditScript -ScriptRoot $scriptRoot -AuditBlock {
+
+}

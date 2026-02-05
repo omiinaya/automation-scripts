@@ -1,37 +1,15 @@
-<#
-.SYNOPSIS
-    CIS Audit Script for 17.6.4 - Ensure 'Audit Removable Storage' is set to 'Success and Failure'
-.DESCRIPTION
-    This script audits the configuration of Audit Removable Storage settings using auditpol.exe.
-    It checks if the subcategory is properly configured to include both success and failure auditing.
-.NOTES
-    CIS ID: 17.6.4
-    Profile: L1
-    File Name: 17.6.4-audit-removable-storage.ps1
-    Author: System Administrator
-    Prerequisite: PowerShell 5.1 or later
-    Dependencies: CISFramework.psm1
-#> 
+# Audit: 17.6.4
+# CIS Benchmark: 17.6.4 (L1)
 
-# Import required modules using ModuleIndex
-$modulePath = Join-Path $PSScriptRoot "..\..\..\..\modules\ModuleIndex.psm1"
+[CmdletBinding()]
+param()
+
+$scriptRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
+$modulePath = Join-Path $scriptRoot "..\..\..\modules\ScriptTemplates.psm1"
 Import-Module $modulePath -Force -WarningAction SilentlyContinue
 
-# CIS ID for this audit
-$CIS_ID = "17.6.4"
-
-# Get CIS recommendation
-$recommendation = Get-CISRecommendation -CIS_ID $CIS_ID -Section "17"
-
-if (-not $recommendation) {
-    Write-Error "CIS recommendation for $CIS_ID not found"
-    exit 1
-}
-
-# Custom audit script block for auditpol.exe subcategory checking
-$auditScriptBlock = {
-    try {
-        # Run auditpol.exe to get the current configuration
+Invoke-CISAuditScript -ScriptRoot $scriptRoot -AuditBlock {
+# Run auditpol.exe to get the current configuration
         $auditResult = auditpol /get /subcategory:"{0cce9245-69ae-11d9-bed3-505054503030}"
         
         # Parse the output to extract the current setting
@@ -60,28 +38,4 @@ $auditScriptBlock = {
             Details = "Subcategory GUID: {0cce9245-69ae-11d9-bed3-505054503030}"
             IsCompliant = $isCompliant
         }
-    }
-    catch {
-        return @{
-            CurrentValue = "Error"
-            Source = "auditpol.exe"
-            Details = "Failed to execute auditpol.exe: $_"
-            IsCompliant = $false
-        }
-    }
-}
-
-# Invoke the audit using CISFramework
-$auditResult = Invoke-CISAudit -CIS_ID $CIS_ID -AuditType "Custom" -CustomScriptBlock $auditScriptBlock -VerboseOutput
-
-# Output the result
-if ($auditResult.IsCompliant) {
-    Write-Host "COMPLIANT: $($auditResult.Title)" -ForegroundColor Green
-    Write-Host "Current Value: $($auditResult.CurrentValue)" -ForegroundColor Green
-    exit 0
-} else {
-    Write-Host "NON-COMPLIANT: $($auditResult.Title)" -ForegroundColor Red
-    Write-Host "Current Value: $($auditResult.CurrentValue)" -ForegroundColor Red
-    Write-Host "Recommended: $($auditResult.RecommendedValue)" -ForegroundColor Yellow
-    exit 1
 }

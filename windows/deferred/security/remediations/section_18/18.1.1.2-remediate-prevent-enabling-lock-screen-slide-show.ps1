@@ -1,23 +1,15 @@
-# Remediation: Prevent enabling lock screen slide show setting on Windows
-# CIS Benchmark: 18.1.1.2 (L1) Ensure 'Prevent enabling lock screen slide show' is set to 'Enabled'
-# Refactored to use CISRemediation framework
+# Remediation: 18.1.1.2
+# CIS Benchmark: 18.1.1.2 (L1)
 
 [CmdletBinding()]
 param()
 
-$VerboseOutput = $PSCmdlet.MyInvocation.BoundParameters.ContainsKey('Verbose')
-
-# Import the Windows modules
-$modulePath = Join-Path $PSScriptRoot "..\..\..\..\modules\ModuleIndex.psm1"
+$scriptRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
+$modulePath = Join-Path $scriptRoot "..\..\..\modules\ScriptTemplates.psm1"
 Import-Module $modulePath -Force -WarningAction SilentlyContinue
 
-# Check admin rights and handle elevation
-if (-not (Test-AdminRights)) {
-    Invoke-Elevation
-}
-
-try {
-    if ($VerboseOutput) {
+Invoke-CISRemediationScript -ScriptRoot $scriptRoot -RemediationBlock {
+if ($VerboseOutput) {
         Write-SectionHeader -Title "Lock Screen Slide Show Remediation: Prevent Enabling Lock Screen Slide Show"
     }
     

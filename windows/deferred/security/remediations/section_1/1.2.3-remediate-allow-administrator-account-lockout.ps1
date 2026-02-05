@@ -1,23 +1,15 @@
-# Remediation: Allow Administrator account lockout setting on Windows
-# CIS Benchmark: 1.2.3 (L1) Ensure 'Allow Administrator account lockout' is set to 'Enabled'
-# Refactored to use CISRemediation framework
+# Remediation: 1.2.3
+# CIS Benchmark: 1.2.3 (L1)
 
 [CmdletBinding()]
 param()
 
-$VerboseOutput = $PSCmdlet.MyInvocation.BoundParameters.ContainsKey('Verbose')
-
-# Import the Windows modules
-$modulePath = Join-Path $PSScriptRoot "..\..\..\..\modules\ModuleIndex.psm1"
+$scriptRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
+$modulePath = Join-Path $scriptRoot "..\..\..\modules\ScriptTemplates.psm1"
 Import-Module $modulePath -Force -WarningAction SilentlyContinue
 
-# Check admin rights and handle elevation
-if (-not (Test-AdminRights)) {
-    Invoke-Elevation
-}
-
-try {
-    if ($VerboseOutput) {
+Invoke-CISRemediationScript -ScriptRoot $scriptRoot -RemediationBlock {
+if ($VerboseOutput) {
         Write-SectionHeader -Title "Account Lockout Policy Remediation: Allow Administrator Account Lockout"
     }
     

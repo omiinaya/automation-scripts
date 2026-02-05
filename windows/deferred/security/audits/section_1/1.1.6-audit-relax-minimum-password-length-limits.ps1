@@ -1,23 +1,15 @@
-# Audit: Relax minimum password length limits setting on Windows
-# CIS Benchmark: 1.1.6 (L1) Ensure 'Relax minimum password length limits' is set to 'Enabled'
-# Refactored to use CIS Framework Module
+# Audit: 1.1.6
+# CIS Benchmark: 1.1.6 (L1)
 
 [CmdletBinding()]
 param()
 
-$VerboseOutput = $PSCmdlet.MyInvocation.BoundParameters.ContainsKey('Verbose')
-
-# Import the required modules using ModuleIndex
-$modulePath = Join-Path $PSScriptRoot "..\..\..\..\modules\ModuleIndex.psm1"
+$scriptRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
+$modulePath = Join-Path $scriptRoot "..\..\..\modules\ScriptTemplates.psm1"
 Import-Module $modulePath -Force -WarningAction SilentlyContinue
 
-# Check admin rights and handle elevation
-if (-not (Test-AdminRights)) {
-    Invoke-Elevation
-}
-
-try {
-    if ($VerboseOutput) {
+Invoke-CISAuditScript -ScriptRoot $scriptRoot -AuditBlock {
+if ($VerboseOutput) {
         Write-SectionHeader -Title "Password Policy Audit: Relax Minimum Password Length Limits"
     }
     

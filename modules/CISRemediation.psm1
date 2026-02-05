@@ -14,24 +14,16 @@
 # ============================================================================
 # CENTRALIZED MODULE IMPORT APPROACH
 # ============================================================================
-# This module uses the centralized import approach via CommonUtilities.
-# All module paths are resolved using Get-ModulePath function for consistency.
-# Common utility functions (Test-AdminRights, Test-ServiceExists, etc.) are
-# imported from CommonUtilities to eliminate code duplication.
+# This module uses ModuleIndex for all imports, which handles dependency
+# resolution automatically. This eliminates duplicate imports across modules.
 # ============================================================================
 
-# Import CommonUtilities module first for centralized utilities
+# Suppress verbose output during module import
 $originalVerbosePreference = $VerbosePreference
 $VerbosePreference = 'SilentlyContinue'
 
-Import-Module "$PSScriptRoot\CommonUtilities.psm1" -Force -WarningAction SilentlyContinue -Verbose:$false
-
-# Import required modules using Get-ModulePath for centralized path resolution
-$modulePath = Get-ModulePath
-Import-Module "$modulePath\WindowsUtils.psm1" -Force -WarningAction SilentlyContinue -Verbose:$false
-Import-Module "$modulePath\RegistryUtils.psm1" -Force -WarningAction SilentlyContinue -Verbose:$false
-Import-Module "$modulePath\WindowsUI.psm1" -Force -WarningAction SilentlyContinue -Verbose:$false
-Import-Module "$modulePath\CISFramework.psm1" -Force -WarningAction SilentlyContinue -Verbose:$false
+# Import all dependencies via ModuleIndex (single source of truth)
+Import-Module "$PSScriptRoot\ModuleIndex.psm1" -Force -WarningAction SilentlyContinue -Verbose:$false
 
 # Restore original verbose preference
 $VerbosePreference = $originalVerbosePreference

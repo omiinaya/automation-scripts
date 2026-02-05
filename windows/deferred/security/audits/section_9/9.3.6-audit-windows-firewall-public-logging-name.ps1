@@ -1,21 +1,13 @@
-<#
-.SYNOPSIS
-    CIS Audit Script for Windows Firewall: Public: Logging: Name (CIS ID 9.3.6)
-.DESCRIPTION
-    Audits whether Windows Firewall: Public profile logging name is set to '%SystemRoot%\System32\logfiles\firewall\publicfw.log'
-    according to CIS benchmark recommendations.
-.NOTES
-    CIS ID: 9.3.6
-    Profile: L1
-    Section: Windows Firewall
-    Version: 4.0.0
-#>
+# Audit: 9.3.6
+# CIS Benchmark: 9.3.6 (L1)
 
-# Import required modules
-Import-Module "$PSScriptRoot\..\..\..\modules\CISFramework.psm1" -Force
+[CmdletBinding()]
+param()
 
-# Perform CIS audit
-$auditResult = Invoke-CISAudit -CIS_ID "9.3.6" -AuditType "Registry" -RegistryPath "HKLM:\SOFTWARE\Policies\Microsoft\WindowsFirewall\PublicProfile\Logging" -RegistryValueName "LogFilePath" -Section "9" -VerboseOutput
+$scriptRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
+$modulePath = Join-Path $scriptRoot "..\..\..\modules\ScriptTemplates.psm1"
+Import-Module $modulePath -Force -WarningAction SilentlyContinue
 
-# Output the result
-return $auditResult
+Invoke-CISAuditScript -ScriptRoot $scriptRoot -AuditBlock {
+
+}

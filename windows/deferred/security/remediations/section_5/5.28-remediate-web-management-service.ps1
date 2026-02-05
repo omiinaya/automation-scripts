@@ -1,29 +1,20 @@
-# Remediation: Web Management Service (WMSvc) setting on Windows
-# CIS Benchmark: 5.28 (L1) Ensure 'Web Management Service (WMSvc)' is set to 'Disabled' or 'Not Installed'
-# Refactored to use CIS Remediation Framework Module
+# Remediation: 5.28
+# CIS Benchmark: 5.28 (L1)
 
 [CmdletBinding()]
 param()
 
-$VerboseOutput = $PSCmdlet.MyInvocation.BoundParameters.ContainsKey('Verbose')
-
-# Import the required modules using ModuleIndex
-$modulePath = Join-Path $PSScriptRoot "..\..\..\..\modules\ModuleIndex.psm1"
+$scriptRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
+$modulePath = Join-Path $scriptRoot "..\..\..\modules\ScriptTemplates.psm1"
 Import-Module $modulePath -Force -WarningAction SilentlyContinue
 
-# Check admin rights and handle elevation
-if (-not (Test-AdminRights)) {
-    Invoke-Elevation
-}
-
-try {
-    if ($VerboseOutput) {
+Invoke-CISRemediationScript -ScriptRoot $scriptRoot -RemediationBlock {
+if ($VerboseOutput) {
         Write-SectionHeader -Title "Service Remediation: Web Management Service (WMSvc)"
     }
     
     # Use Invoke-CISRemediation with Custom remediation type for service configuration
     $remediationResult = Invoke-CISRemediation -CIS_ID "5.28" -RemediationType "Custom" -VerboseOutput:$VerboseOutput -Section "5" -CustomScriptBlock {
-        try {
             # Check if service exists
             if (Test-ServiceExists -ServiceName "WMSvc") {
                 # Get current service status
@@ -54,15 +45,4 @@ try {
             }
         } catch {
             throw "Failed to remediate WMSvc: $($_.Exception.Message)"
-        }
-    }
-    
-    # Return the remediation status
-    $remediationResult.IsCompliant
-} catch {
-    if ($VerboseOutput) {
-        Wait-OnError -ErrorMessage "Failed to perform service remediation: $($_.Exception.Message)"
-    } else {
-        $false
-    }
 }

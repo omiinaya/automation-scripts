@@ -1,29 +1,20 @@
-# Remediation: Configure SMB v1 client driver setting on Windows
-# CIS Benchmark: 18.4.1 (L1) Ensure 'Configure SMB v1 client driver' is set to 'Enabled: Disable driver (recommended)'
-# Refactored to use CISRemediation framework
+# Remediation: 18.4.1
+# CIS Benchmark: 18.4.1 (L1)
 
 [CmdletBinding()]
 param()
 
-$VerboseOutput = $PSCmdlet.MyInvocation.BoundParameters.ContainsKey('Verbose')
-
-# Import the Windows modules
-$modulePath = Join-Path $PSScriptRoot "..\..\..\..\modules\ModuleIndex.psm1"
+$scriptRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
+$modulePath = Join-Path $scriptRoot "..\..\..\modules\ScriptTemplates.psm1"
 Import-Module $modulePath -Force -WarningAction SilentlyContinue
 
-# Check admin rights and handle elevation
-if (-not (Test-AdminRights)) {
-    Invoke-Elevation
-}
-
-try {
-    if ($VerboseOutput) {
+Invoke-CISRemediationScript -ScriptRoot $scriptRoot -RemediationBlock {
+if ($VerboseOutput) {
         Write-SectionHeader -Title "SMB v1 Client Driver Remediation: Configure SMB v1 Client Driver"
     }
     
     # Invoke remediation using CISRemediation framework with custom script block
     $result = Invoke-CISRemediation -CIS_ID "18.4.1" -RemediationType "Custom" -VerboseOutput:$VerboseOutput -Section "18" -CustomScriptBlock {
-        try {
             # Check if the service exists
             $service = Get-Service -Name "mrxsmb10" -ErrorAction SilentlyContinue
             
@@ -62,20 +53,4 @@ try {
             }
         } catch {
             throw "Failed to disable SMB v1 client driver: $($_.Exception.Message)"
-        }
-    }
-    
-    # Return appropriate result based on verbose mode
-    if ($VerboseOutput) {
-        $result
-    } else {
-        $result.IsCompliant
-    }
-    
-} catch {
-    if ($VerboseOutput) {
-        Wait-OnError -ErrorMessage "Failed to perform SMB v1 client driver remediation: $($_.Exception.Message)"
-    } else {
-        $false
-    }
 }

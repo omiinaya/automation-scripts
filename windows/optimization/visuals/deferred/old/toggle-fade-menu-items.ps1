@@ -1,17 +1,3 @@
-# Toggle "Fade out menu items after clicking" setting
-# This controls the checkbox in Performance Options > Visual Effects
-# Controls fading out of menu items after clicking
-
-# Function to pause on error
-function Wait-OnError {
-    param(
-        [string]$ErrorMessage
-    )
-    Write-Host "`nERROR: $ErrorMessage" -ForegroundColor Red
-    Write-Host "Press Enter to close this window..." -ForegroundColor Yellow
-    Read-Host
-}
-
 # Import the Windows modules
 $modulePath = Join-Path $PSScriptRoot "..\..\..\modules\ModuleIndex.psm1"
 Import-Module $modulePath -Force -WarningAction SilentlyContinue

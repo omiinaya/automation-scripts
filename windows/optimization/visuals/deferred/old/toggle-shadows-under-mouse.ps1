@@ -1,17 +1,3 @@
-# Toggle "Show shadows under mouse pointer" setting
-# This controls the checkbox in Performance Options > Visual Effects
-# Uses SystemParametersInfo with SPI_SETCURSORSHADOW
-
-# Function to pause on error
-function Wait-OnError {
-    param(
-        [string]$ErrorMessage
-    )
-    Write-Host "`nERROR: $ErrorMessage" -ForegroundColor Red
-    Write-Host "Press Enter to close this window..." -ForegroundColor Yellow
-    Read-Host
-}
-
 # Add P/Invoke for SystemParametersInfo
 # Check if type already exists to avoid conflicts
 if (-not ([System.Management.Automation.PSTypeName]'SystemParams').Type) {

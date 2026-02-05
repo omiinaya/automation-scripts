@@ -1,23 +1,15 @@
-# Audit: Allow Administrator account lockout setting on Windows
-# CIS Benchmark: 1.2.3 (L1) Ensure 'Allow Administrator account lockout' is set to 'Enabled'
-# Refactored to use CIS Framework Module
+# Audit: 1.2.3
+# CIS Benchmark: 1.2.3 (L1)
 
 [CmdletBinding()]
 param()
 
-$VerboseOutput = $PSCmdlet.MyInvocation.BoundParameters.ContainsKey('Verbose')
-
-# Import the required modules using ModuleIndex
-$modulePath = Join-Path $PSScriptRoot "..\..\..\..\modules\ModuleIndex.psm1"
+$scriptRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
+$modulePath = Join-Path $scriptRoot "..\..\..\modules\ScriptTemplates.psm1"
 Import-Module $modulePath -Force -WarningAction SilentlyContinue
 
-# Check admin rights and handle elevation
-if (-not (Test-AdminRights)) {
-    Invoke-Elevation
-}
-
-try {
-    if ($VerboseOutput) {
+Invoke-CISAuditScript -ScriptRoot $scriptRoot -AuditBlock {
+if ($VerboseOutput) {
         Write-SectionHeader -Title "Account Lockout Policy Audit: Allow Administrator Account Lockout"
     }
     
@@ -31,7 +23,6 @@ try {
         $source = "Unknown"
         
         # Method 1: Check via secedit (if available in newer OS versions)
-        try {
             # Export current security policy
             $tempFile = [System.IO.Path]::GetTempFileName()
             secedit /export /cfg $tempFile /quiet
@@ -60,48 +51,4 @@ try {
             Remove-Item $tempFile -ErrorAction SilentlyContinue
         } catch {
             # secedit method failed
-        }
-        
-        # Method 2: Check registry (alternative method)
-        if ($source -eq "Unknown") {
-            try {
-                # This registry path might contain the setting
-                $registryPath = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System"
-                $valueName = "AllowAdministratorAccountLockout"
-                
-                if (Test-Path $registryPath) {
-                    $registryValue = Get-ItemProperty -Path $registryPath -Name $valueName -ErrorAction SilentlyContinue
-                    
-                    if ($registryValue -ne $null) {
-                        $adminLockoutEnabled = ($registryValue.$valueName -eq 1)
-                        $source = "Registry Policy"
-                    } else {
-                        $adminLockoutEnabled = $false
-                        $source = "Default (Disabled)"
-                    }
-                } else {
-                    $adminLockoutEnabled = $false
-                    $source = "Default (Disabled)"
-                }
-            } catch {
-                # Registry check failed
-            }
-        }
-        
-        # Return custom audit result
-        return @{
-            CurrentValue = $(if ($adminLockoutEnabled) { "Enabled" } else { "Disabled" })
-            Source = $source
-            Details = "Allow Administrator account lockout setting audit - $(if ($isDomainMember) { 'Domain member' } else { 'Standalone workstation' })"
-        }
-    }
-    
-    # Return the compliance status
-    $auditResult.IsCompliant
-} catch {
-    if ($VerboseOutput) {
-        Wait-OnError -ErrorMessage "Failed to perform account lockout policy audit: $($_.Exception.Message)"
-    } else {
-        $false
-    }
 }

@@ -1,35 +1,21 @@
-# Audit: Act as part of the operating system setting on Windows
-# CIS Benchmark: 2.2.3 (L1) Ensure 'Act as part of the operating system' is set to 'No One'
-# Refactored to use CIS Framework Module
+# Audit: 2.2.3
+# CIS Benchmark: 2.2.3 (L1)
 
 [CmdletBinding()]
 param()
 
-$VerboseOutput = $PSCmdlet.MyInvocation.BoundParameters.ContainsKey('Verbose')
-
-# Import the required modules using ModuleIndex with verbose suppression
-$modulePath = Join-Path $PSScriptRoot "..\..\..\..\modules\ModuleIndex.psm1"
-
-# Suppress verbose output during module import
-$originalVerbosePreference = $VerbosePreference
-$VerbosePreference = 'SilentlyContinue'
+$scriptRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
+$modulePath = Join-Path $scriptRoot "..\..\..\modules\ScriptTemplates.psm1"
 Import-Module $modulePath -Force -WarningAction SilentlyContinue
-$VerbosePreference = $originalVerbosePreference
 
-# Check admin rights and handle elevation
-if (-not (Test-AdminRights)) {
-    Invoke-Elevation
-}
-
-try {
-    if ($VerboseOutput) {
+Invoke-CISAuditScript -ScriptRoot $scriptRoot -AuditBlock {
+if ($VerboseOutput) {
         Write-SectionHeader -Title "User Rights Assignment Audit: Act as part of the operating system"
     }
     
     # Use Invoke-CISAudit with custom script block for user rights assignment audit
     $auditResult = Invoke-CISAudit -CIS_ID "2.2.3" -AuditType "Custom" -VerboseOutput:$VerboseOutput -Section "2" -CustomScriptBlock {
         # Check user rights assignment using secedit
-        try {
             # Export current security policy
             $tempFile = [System.IO.Path]::GetTempFileName()
             secedit /export /cfg $tempFile /quiet
@@ -58,22 +44,4 @@ try {
         } catch {
             $currentValue = "No One"
             $source = "Local Default (assumed)"
-        }
-        
-        # Return custom audit result
-        return @{
-            CurrentValue = $currentValue
-            Source = $source
-            Details = "Act as part of the operating system user right assignment audit"
-        }
-    }
-    
-    # Return the compliance status
-    $auditResult.IsCompliant
-} catch {
-    if ($VerboseOutput) {
-        Wait-OnError -ErrorMessage "Failed to perform user rights assignment audit: $($_.Exception.Message)"
-    } else {
-        $false
-    }
 }

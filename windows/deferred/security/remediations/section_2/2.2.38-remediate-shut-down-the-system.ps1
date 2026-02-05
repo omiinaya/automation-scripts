@@ -1,39 +1,13 @@
-<#
-.SYNOPSIS
-    Remediation script for CIS 2.2.38: Ensure 'Shut down the system' is set to 'Administrators, Users'
-.DESCRIPTION
-    This script remediates the User Rights Assignment policy for 'Shut down the system' to ensure it is configured as recommended.
-.PARAMETER None
-    This script does not accept parameters.
-.EXAMPLE
-    .\2.2.38-remediate-shut-down-the-system.ps1
-.NOTES
-    CIS ID: 2.2.38
-    Profile: L1
-    Recommended: Administrators, Users
-    Default: Administrators, Backup Operators, Users
-#> 
+# Remediation: 2.2.38
+# CIS Benchmark: 2.2.38 (L1)
 
-# Import the CIS Remediation module
-Import-Module -Name "$PSScriptRoot\..\..\modules\CISRemediation.psm1" -Force
+[CmdletBinding()]
+param()
 
-# Define the CIS ID and policy information
-$CisId = "2.2.38"
-$PolicyName = "SeShutdownPrivilege"
-$RecommendedPrincipals = @("Administrators", "Users")
-$PolicyDisplayName = "Shut down the system"
+$scriptRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
+$modulePath = Join-Path $scriptRoot "..\..\..\modules\ScriptTemplates.psm1"
+Import-Module $modulePath -Force -WarningAction SilentlyContinue
 
-# Create the remediation configuration
-$RemediationConfig = @{
-    CisId = $CisId
-    PolicyName = $PolicyName
-    RecommendedPrincipals = $RecommendedPrincipals
-    PolicyDisplayName = $PolicyDisplayName
-    PolicyPath = "Computer Configuration\Policies\Windows Settings\Security Settings\Local Policies\User Rights Assignment\Shut down the system"
+Invoke-CISRemediationScript -ScriptRoot $scriptRoot -RemediationBlock {
+
 }
-
-# Execute the remediation
-$RemediationResult = Set-CISUserRightsAssignment @RemediationConfig
-
-# Output the result
-return $RemediationResult

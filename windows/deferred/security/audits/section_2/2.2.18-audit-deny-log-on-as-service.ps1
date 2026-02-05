@@ -1,23 +1,15 @@
-# Audit: Deny log on as a service setting on Windows
-# CIS Benchmark: 2.2.18 (L1) Ensure 'Deny log on as a service' to include 'Guests'
-# Refactored to use CISFramework
+# Audit: 2.2.18
+# CIS Benchmark: 2.2.18 (L1)
 
 [CmdletBinding()]
 param()
 
-$VerboseOutput = $PSCmdlet.MyInvocation.BoundParameters.ContainsKey('Verbose')
-
-# Import the Windows modules
-$modulePath = Join-Path $PSScriptRoot "..\..\..\..\modules\ModuleIndex.psm1"
+$scriptRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
+$modulePath = Join-Path $scriptRoot "..\..\..\modules\ScriptTemplates.psm1"
 Import-Module $modulePath -Force -WarningAction SilentlyContinue
 
-# Check admin rights and handle elevation
-if (-not (Test-AdminRights)) {
-    Invoke-Elevation
-}
-
-try {
-    if ($VerboseOutput) {
+Invoke-CISAuditScript -ScriptRoot $scriptRoot -AuditBlock {
+if ($VerboseOutput) {
         Write-SectionHeader -Title "User Rights Assignment Audit: Deny log on as a service"
     }
     

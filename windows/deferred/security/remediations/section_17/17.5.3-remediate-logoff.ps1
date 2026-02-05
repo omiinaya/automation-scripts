@@ -1,28 +1,15 @@
-<#
-.SYNOPSIS
-    CIS Remediation Script for 17.5.3 - Ensure 'Audit Logoff' is set to include 'Success'
-.DESCRIPTION
-    This script remediates the configuration of Audit Logoff settings using auditpol.exe.
-    It configures the subcategory to include success auditing.
-.NOTES
-    CIS ID: 17.5.3
-    Profile: L1
-    File Name: 17.5.3-remediate-logoff.ps1
-    Author: System Administrator
-    Prerequisite: PowerShell 5.1 or later
-    Dependencies: CISRemediation.psm1
-#> 
+# Remediation: 17.5.3
+# CIS Benchmark: 17.5.3 (L1)
 
-# Import required modules
-Import-Module "$PSScriptRoot\..\..\..\modules\CISRemediation.psm1" -Force -WarningAction SilentlyContinue
+[CmdletBinding()]
+param()
 
-# CIS ID for this remediation
-$CIS_ID = "17.5.3"
+$scriptRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
+$modulePath = Join-Path $scriptRoot "..\..\..\modules\ScriptTemplates.psm1"
+Import-Module $modulePath -Force -WarningAction SilentlyContinue
 
-# Custom remediation script block for auditpol.exe subcategory configuration
-$remediationScriptBlock = {
-    try {
-        # Get current setting first
+Invoke-CISRemediationScript -ScriptRoot $scriptRoot -RemediationBlock {
+# Get current setting first
         $auditResult = auditpol /get /subcategory:"{0cce9216-69ae-11d9-bed3-505054503030}"
         $previousSetting = "Unknown"
         foreach ($line in $auditResult) {
@@ -74,33 +61,4 @@ $remediationScriptBlock = {
                 IsCompliant = $false
             }
         }
-    }
-    catch {
-        return @{
-            PreviousValue = "Error"
-            NewValue = "Error"
-            IsCompliant = $false
-        }
-    }
-}
-
-# Invoke the remediation using CISRemediation
-$remediationResult = Invoke-CISRemediation -CIS_ID $CIS_ID -RemediationType "Custom" -CustomScriptBlock $remediationScriptBlock -VerboseOutput
-
-# Output the result
-if ($remediationResult.IsCompliant) {
-    Write-Host "SUCCESS: $($remediationResult.Title)" -ForegroundColor Green
-    Write-Host "Previous Value: $($remediationResult.PreviousValue)" -ForegroundColor Yellow
-    Write-Host "New Value: $($remediationResult.NewValue)" -ForegroundColor Green
-    Write-Host "Status: $($remediationResult.Status)" -ForegroundColor Green
-    exit 0
-} else {
-    Write-Host "FAILED: $($remediationResult.Title)" -ForegroundColor Red
-    Write-Host "Previous Value: $($remediationResult.PreviousValue)" -ForegroundColor Yellow
-    Write-Host "New Value: $($remediationResult.NewValue)" -ForegroundColor Red
-    Write-Host "Status: $($remediationResult.Status)" -ForegroundColor Red
-    if ($remediationResult.ErrorMessage) {
-        Write-Host "Error: $($remediationResult.ErrorMessage)" -ForegroundColor Red
-    }
-    exit 1
 }

@@ -1,41 +1,15 @@
-<#
-.SYNOPSIS
-    Audits CIS control 19.7.8.3 - Do not use diagnostic data for tailored experiences
-.DESCRIPTION
-    This script audits whether diagnostic data is used for tailored experiences as recommended by CIS.
-.NOTES
-    CIS ID: 19.7.8.3
-    Profile: L2
-    File Name: 19.7.8.3-audit-do-not-use-diagnostic-data-for-tailored-experiences.ps1
-    Author: System Administrator
-    Prerequisite: PowerShell 5.1 or later
-#>
+# Audit: 19.7.8.3
+# CIS Benchmark: 19.7.8.3 (L1)
 
-# Import required modules
-Import-Module "$PSScriptRoot\..\..\..\modules\CISFramework.psm1" -Force -WarningAction SilentlyContinue
+[CmdletBinding()]
+param()
 
-# Get CIS recommendation
-$cisId = "19.7.8.3"
-$recommendation = Get-CISRecommendation -CIS_ID $cisId -Section "19"
+$scriptRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
+$modulePath = Join-Path $scriptRoot "..\..\..\modules\ScriptTemplates.psm1"
+Import-Module $modulePath -Force -WarningAction SilentlyContinue
 
-if (-not $recommendation) {
-    Write-Error "CIS recommendation '$cisId' not found"
-    exit 1
-}
-
-Write-Host ""
-Write-SectionHeader -Title "CIS Audit: $cisId"
-Write-Host "Setting: $($recommendation.title)" -ForegroundColor White
-Write-Host "Profile: $($recommendation.profile)" -ForegroundColor White
-Write-Host ""
-
-# Audit diagnostic data for tailored experiences setting
-# This setting is stored in user registry hive: HKU\[USER SID]\Software\Policies\Microsoft\Windows\CloudContent
-# The value name is: DisableTailoredExperiencesWithDiagnosticData
-# Expected value: 1 (Enabled)
-
-try {
-    # Get current user SID
+Invoke-CISAuditScript -ScriptRoot $scriptRoot -AuditBlock {
+# Get current user SID
     $currentUserSid = [System.Security.Principal.WindowsIdentity]::GetCurrent().User.Value
     
     # Construct registry path
@@ -57,15 +31,3 @@ try {
 } catch {
     $result = New-CISResultObject -CIS_ID $cisId -Title $recommendation.title -CurrentValue "Error" -RecommendedValue "Enabled" -ComplianceStatus "Error" -Source "Registry" -ErrorMessage "Audit failed: $_" -Profile $recommendation.profile
 }
-
-# Output results
-Write-Host "Current Value: $($result.CurrentValue)" -ForegroundColor White
-Write-Host "Recommended: $($result.RecommendedValue)" -ForegroundColor White
-Write-Host "Compliance: $($result.ComplianceStatus)" -ForegroundColor $(if ($result.IsCompliant) { "Green" } else { "Red" })
-Write-Host "Source: $($result.Source)" -ForegroundColor White
-if ($result.Details) {
-    Write-Host "Details: $($result.Details)" -ForegroundColor Gray
-}
-
-# Return the result object
-return $result

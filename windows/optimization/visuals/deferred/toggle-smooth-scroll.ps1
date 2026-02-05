@@ -1,17 +1,3 @@
-# Toggle "Smooth-scroll list boxes" setting
-# This controls the checkbox in Performance Options > Visual Effects
-# Controls whether list boxes have smooth scrolling animation
-
-# Function to pause on error
-function Wait-OnError {
-    param(
-        [string]$ErrorMessage
-    )
-    Write-Host "`nERROR: $ErrorMessage" -ForegroundColor Red
-    Write-Host "Press Enter to close this window..." -ForegroundColor Yellow
-    Read-Host
-}
-
 # Import the Windows modules
 $modulePath = Join-Path $PSScriptRoot "..\..\..\modules\ModuleIndex.psm1"
 Import-Module $modulePath -Force -WarningAction SilentlyContinue

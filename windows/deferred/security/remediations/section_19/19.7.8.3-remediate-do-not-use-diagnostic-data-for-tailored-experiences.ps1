@@ -1,41 +1,15 @@
-<#
-.SYNOPSIS
-    Remediates CIS control 19.7.8.3 - Do not use diagnostic data for tailored experiences
-.DESCRIPTION
-    This script remediates the diagnostic data for tailored experiences setting to comply with CIS recommendations.
-.NOTES
-    CIS ID: 19.7.8.3
-    Profile: L2
-    File Name: 19.7.8.3-remediate-do-not-use-diagnostic-data-for-tailored-experiences.ps1
-    Author: System Administrator
-    Prerequisite: PowerShell 5.1 or later
-#>
+# Remediation: 19.7.8.3
+# CIS Benchmark: 19.7.8.3 (L1)
 
-# Import required modules
-Import-Module "$PSScriptRoot\..\..\..\modules\CISRemediation.psm1" -Force -WarningAction SilentlyContinue
+[CmdletBinding()]
+param()
 
-# Get CIS recommendation
-$cisId = "19.7.8.3"
-$recommendation = Get-CISRecommendation -CIS_ID $cisId -Section "19"
+$scriptRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
+$modulePath = Join-Path $scriptRoot "..\..\..\modules\ScriptTemplates.psm1"
+Import-Module $modulePath -Force -WarningAction SilentlyContinue
 
-if (-not $recommendation) {
-    Write-Error "CIS recommendation '$cisId' not found"
-    exit 1
-}
-
-Write-Host ""
-Write-SectionHeader -Title "CIS Remediation: $cisId"
-Write-Host "Setting: $($recommendation.title)" -ForegroundColor White
-Write-Host "Profile: $($recommendation.profile)" -ForegroundColor White
-Write-Host ""
-
-# Remediate diagnostic data for tailored experiences setting
-# This setting is stored in user registry hive: HKU\[USER SID]\Software\Policies\Microsoft\Windows\CloudContent
-# The value name is: DisableTailoredExperiencesWithDiagnosticData
-# Expected value: 1 (Enabled)
-
-try {
-    # Get current user SID
+Invoke-CISRemediationScript -ScriptRoot $scriptRoot -RemediationBlock {
+# Get current user SID
     $currentUserSid = [System.Security.Principal.WindowsIdentity]::GetCurrent().User.Value
     
     # Construct registry path
@@ -76,13 +50,3 @@ try {
 } catch {
     $result = New-CISRemediationResult -CIS_ID $cisId -Title $recommendation.title -PreviousValue "Unknown" -NewValue "Unknown" -Status "Error" -Message "Remediation failed: $_" -IsCompliant $false -RequiresManualAction $true -ErrorMessage $_
 }
-
-# Output results
-Write-Host "Previous Value: $($result.PreviousValue)" -ForegroundColor White
-Write-Host "New Value: $($result.NewValue)" -ForegroundColor White
-Write-Host "Status: $($result.Status)" -ForegroundColor $(if ($result.IsCompliant) { "Green" } else { "Red" })
-Write-Host "Message: $($result.Message)" -ForegroundColor White
-Write-Host "Source: $($result.Source)" -ForegroundColor White
-
-# Return the result object
-return $result

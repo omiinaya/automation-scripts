@@ -23,7 +23,10 @@
 # Get the directory where this module is located
 $script:ModuleRoot = $PSScriptRoot
 
-# Import all modules
+# Module caching to avoid redundant imports within the same session
+$script:ModuleImportCache = @{}
+
+# Import all modules with caching
 $modulesToImport = @(
     "CommonUtilities.psm1"
     # New utility modules (added after CommonUtilities as they depend on it)
@@ -45,6 +48,12 @@ $modulesToImport = @(
 )
 
 foreach ($module in $modulesToImport) {
+    # Skip if already imported in this session (caching)
+    if ($script:ModuleImportCache.ContainsKey($module)) {
+        Write-Verbose "Module $module already imported (cached)"
+        continue
+    }
+    
     $modulePath = Join-Path -Path $script:ModuleRoot -ChildPath $module
     
     if (Test-Path -Path $modulePath) {
@@ -64,6 +73,9 @@ foreach ($module in $modulesToImport) {
             
             # Execute in a clean scope with suppressed output
             $null = & $scriptBlock $modulePath
+            
+            # Cache the successful import
+            $script:ModuleImportCache[$module] = $true
             
             # Restore original verbose preference
             $VerbosePreference = $originalVerbosePreference

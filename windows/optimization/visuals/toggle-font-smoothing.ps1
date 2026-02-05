@@ -1,18 +1,3 @@
-# Toggle "Smooth edges of screen fonts" setting with ClearType tuning
-# This controls the checkbox in Performance Options > Visual Effects
-# Uses SystemParametersInfo with SPI_SETFONTSMOOTHING and SPI_SETFONTSMOOTHINGTYPE
-# Also configures ClearType registry settings for proper font rendering
-
-# Function to pause on error
-function Wait-OnError {
-    param(
-        [string]$ErrorMessage
-    )
-    Write-Host "`nERROR: $ErrorMessage" -ForegroundColor Red
-    Write-Host "Press Enter to close this window..." -ForegroundColor Yellow
-    Read-Host
-}
-
 # Import the Windows modules
 $modulePath = Join-Path $PSScriptRoot "..\..\..\modules\ModuleIndex.psm1"
 Import-Module $modulePath -Force -WarningAction SilentlyContinue

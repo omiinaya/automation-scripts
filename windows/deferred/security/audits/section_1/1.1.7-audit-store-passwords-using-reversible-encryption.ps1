@@ -1,23 +1,15 @@
-# Audit: Store passwords using reversible encryption setting on Windows
-# CIS Benchmark: 1.1.7 (L1) Ensure 'Store passwords using reversible encryption' is set to 'Disabled'
-# Refactored to use CIS Framework Module
+# Audit: 1.1.7
+# CIS Benchmark: 1.1.7 (L1)
 
 [CmdletBinding()]
 param()
 
-$VerboseOutput = $PSCmdlet.MyInvocation.BoundParameters.ContainsKey('Verbose')
-
-# Import the required modules using ModuleIndex
-$modulePath = Join-Path $PSScriptRoot "..\..\..\..\modules\ModuleIndex.psm1"
+$scriptRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
+$modulePath = Join-Path $scriptRoot "..\..\..\modules\ScriptTemplates.psm1"
 Import-Module $modulePath -Force -WarningAction SilentlyContinue
 
-# Check admin rights and handle elevation
-if (-not (Test-AdminRights)) {
-    Invoke-Elevation
-}
-
-try {
-    if ($VerboseOutput) {
+Invoke-CISAuditScript -ScriptRoot $scriptRoot -AuditBlock {
+if ($VerboseOutput) {
         Write-SectionHeader -Title "Password Policy Audit: Store Passwords Using Reversible Encryption"
     }
     
@@ -28,7 +20,6 @@ try {
         
         if ($isDomainMember) {
             # For domain members, check password policy using net accounts
-            try {
                 $netAccounts = net accounts
                 $reversibleLine = $netAccounts | Where-Object { $_ -like "*reversible*" }
                 
@@ -42,48 +33,4 @@ try {
             } catch {
                 $reversibleValue = "Disabled"
                 $source = "Domain Default (assumed)"
-            }
-        } else {
-            # For standalone systems, check local policy using secedit
-            try {
-                # Export current security policy
-                $tempFile = [System.IO.Path]::GetTempFileName()
-                secedit /export /cfg $tempFile /quiet
-                
-                # Read the exported policy
-                $policyContent = Get-Content $tempFile
-                $reversibleLine = $policyContent | Where-Object { $_ -like "ClearTextPassword*" }
-                
-                if ($reversibleLine) {
-                    $reversibleValue = if (($reversibleLine -split "=")[1].Trim() -eq "1") { "Enabled" } else { "Disabled" }
-                    $source = "Local Policy"
-                } else {
-                    $reversibleValue = "Disabled"
-                    $source = "Local Default"
-                }
-                
-                # Clean up temp file
-                Remove-Item $tempFile -ErrorAction SilentlyContinue
-            } catch {
-                $reversibleValue = "Disabled"
-                $source = "Local Default (assumed)"
-            }
-        }
-        
-        # Return custom audit result
-        return @{
-            CurrentValue = $reversibleValue
-            Source = $source
-            Details = "Store passwords using reversible encryption audit - $(if ($isDomainMember) { 'Domain member' } else { 'Standalone workstation' })"
-        }
-    }
-    
-    # Return the compliance status
-    $auditResult.IsCompliant
-} catch {
-    if ($VerboseOutput) {
-        Wait-OnError -ErrorMessage "Failed to perform password policy audit: $($_.Exception.Message)"
-    } else {
-        $false
-    }
 }

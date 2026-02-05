@@ -1,21 +1,13 @@
-<#
-.SYNOPSIS
-    CIS Audit Script for Windows Firewall: Public: Inbound connections (CIS ID 9.3.2)
-.DESCRIPTION
-    Audits whether Windows Firewall: Public profile inbound connections are set to 'Block (default)'
-    according to CIS benchmark recommendations.
-.NOTES
-    CIS ID: 9.3.2
-    Profile: L1
-    Section: Windows Firewall
-    Version: 4.0.0
-#>
+# Audit: 9.3.2
+# CIS Benchmark: 9.3.2 (L1)
 
-# Import required modules
-Import-Module "$PSScriptRoot\..\..\..\modules\CISFramework.psm1" -Force
+[CmdletBinding()]
+param()
 
-# Perform CIS audit
-$auditResult = Invoke-CISAudit -CIS_ID "9.3.2" -AuditType "Registry" -RegistryPath "HKLM:\SOFTWARE\Policies\Microsoft\WindowsFirewall\PublicProfile" -RegistryValueName "DefaultInboundAction" -Section "9" -VerboseOutput
+$scriptRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
+$modulePath = Join-Path $scriptRoot "..\..\..\modules\ScriptTemplates.psm1"
+Import-Module $modulePath -Force -WarningAction SilentlyContinue
 
-# Output the result
-return $auditResult
+Invoke-CISAuditScript -ScriptRoot $scriptRoot -AuditBlock {
+
+}

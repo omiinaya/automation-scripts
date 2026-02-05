@@ -1,35 +1,21 @@
-# Audit: Access this computer from the network setting on Windows
-# CIS Benchmark: 2.2.2 (L1) Ensure 'Access this computer from the network' is set to 'Administrators, Remote Desktop Users'
-# Refactored to use CIS Framework Module
+# Audit: 2.2.2
+# CIS Benchmark: 2.2.2 (L1)
 
 [CmdletBinding()]
 param()
 
-$VerboseOutput = $PSCmdlet.MyInvocation.BoundParameters.ContainsKey('Verbose')
-
-# Import the required modules using ModuleIndex with verbose suppression
-$modulePath = Join-Path $PSScriptRoot "..\..\..\..\modules\ModuleIndex.psm1"
-
-# Suppress verbose output during module import
-$originalVerbosePreference = $VerbosePreference
-$VerbosePreference = 'SilentlyContinue'
+$scriptRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
+$modulePath = Join-Path $scriptRoot "..\..\..\modules\ScriptTemplates.psm1"
 Import-Module $modulePath -Force -WarningAction SilentlyContinue
-$VerbosePreference = $originalVerbosePreference
 
-# Check admin rights and handle elevation
-if (-not (Test-AdminRights)) {
-    Invoke-Elevation
-}
-
-try {
-    if ($VerboseOutput) {
+Invoke-CISAuditScript -ScriptRoot $scriptRoot -AuditBlock {
+if ($VerboseOutput) {
         Write-SectionHeader -Title "User Rights Assignment Audit: Access this computer from the network"
     }
     
     # Use Invoke-CISAudit with custom script block for user rights assignment audit
     $auditResult = Invoke-CISAudit -CIS_ID "2.2.2" -AuditType "Custom" -VerboseOutput:$VerboseOutput -Section "2" -CustomScriptBlock {
         # Check user rights assignment using secedit
-        try {
             # Export current security policy
             $tempFile = [System.IO.Path]::GetTempFileName()
             secedit /export /cfg $tempFile /quiet
@@ -54,22 +40,4 @@ try {
         } catch {
             $currentValue = "Administrators, Remote Desktop Users"
             $source = "Local Default (assumed)"
-        }
-        
-        # Return custom audit result
-        return @{
-            CurrentValue = $currentValue
-            Source = $source
-            Details = "Access this computer from the network user right assignment audit"
-        }
-    }
-    
-    # Return the compliance status
-    $auditResult.IsCompliant
-} catch {
-    if ($VerboseOutput) {
-        Wait-OnError -ErrorMessage "Failed to perform user rights assignment audit: $($_.Exception.Message)"
-    } else {
-        $false
-    }
 }

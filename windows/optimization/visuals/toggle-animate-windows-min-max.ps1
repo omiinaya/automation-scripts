@@ -1,17 +1,3 @@
-# Toggle "Animate windows when minimizing and maximizing" setting
-# This controls the checkbox in Performance Options > Visual Effects
-# Uses SystemParametersInfo with SPI_SETANIMATION
-
-# Function to pause on error
-function Wait-OnError {
-    param(
-        [string]$ErrorMessage
-    )
-    Write-Host "`nERROR: $ErrorMessage" -ForegroundColor Red
-    Write-Host "Press Enter to close this window..." -ForegroundColor Yellow
-    Read-Host
-}
-
 # Add P/Invoke for SystemParametersInfo with ANIMATIONINFO structure
 # Check if types already exist to avoid conflicts
 if (-not ([System.Management.Automation.PSTypeName]'ANIMATIONINFO').Type) {

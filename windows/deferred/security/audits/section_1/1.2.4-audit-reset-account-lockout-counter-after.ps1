@@ -1,23 +1,15 @@
-# Audit: Reset account lockout counter after setting on Windows
-# CIS Benchmark: 1.2.4 (L1) Ensure 'Reset account lockout counter after' is set to '15 or more minute(s)'
-# Refactored to use CIS Framework Module
+# Audit: 1.2.4
+# CIS Benchmark: 1.2.4 (L1)
 
 [CmdletBinding()]
 param()
 
-$VerboseOutput = $PSCmdlet.MyInvocation.BoundParameters.ContainsKey('Verbose')
-
-# Import the required modules using ModuleIndex
-$modulePath = Join-Path $PSScriptRoot "..\..\..\..\modules\ModuleIndex.psm1"
+$scriptRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
+$modulePath = Join-Path $scriptRoot "..\..\..\modules\ScriptTemplates.psm1"
 Import-Module $modulePath -Force -WarningAction SilentlyContinue
 
-# Check admin rights and handle elevation
-if (-not (Test-AdminRights)) {
-    Invoke-Elevation
-}
-
-try {
-    if ($VerboseOutput) {
+Invoke-CISAuditScript -ScriptRoot $scriptRoot -AuditBlock {
+if ($VerboseOutput) {
         Write-SectionHeader -Title "Account Lockout Policy Audit: Reset Account Lockout Counter After"
     }
     
@@ -27,7 +19,6 @@ try {
         $isDomainMember = (Get-CimInstance -ClassName Win32_ComputerSystem).PartOfDomain
         
         # Check the actual setting using secedit
-        try {
             # Export current security policy
             $tempFile = [System.IO.Path]::GetTempFileName()
             secedit /export /cfg $tempFile /quiet
@@ -50,22 +41,4 @@ try {
         } catch {
             $resetCounter = 0
             $source = if ($isDomainMember) { "Domain Default (assumed)" } else { "Local Default (assumed)" }
-        }
-        
-        # Return custom audit result
-        return @{
-            CurrentValue = $resetCounter
-            Source = $source
-            Details = "Reset account lockout counter setting audit - $(if ($isDomainMember) { 'Domain member' } else { 'Standalone workstation' })"
-        }
-    }
-    
-    # Return the compliance status
-    $auditResult.IsCompliant
-} catch {
-    if ($VerboseOutput) {
-        Wait-OnError -ErrorMessage "Failed to perform account lockout policy audit: $($_.Exception.Message)"
-    } else {
-        $false
-    }
 }

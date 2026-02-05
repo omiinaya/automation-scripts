@@ -1,17 +1,3 @@
-# Toggle "Show thumbnails instead of icons" setting
-# This controls the checkbox in Performance Options > Visual Effects
-# Controls whether Windows Explorer shows thumbnail previews for images and videos
-
-# Function to pause on error
-function Wait-OnError {
-    param(
-        [string]$ErrorMessage
-    )
-    Write-Host "`nERROR: $ErrorMessage" -ForegroundColor Red
-    Write-Host "Press Enter to close this window..." -ForegroundColor Yellow
-    Read-Host
-}
-
 # Import the Windows modules
 $modulePath = Join-Path $PSScriptRoot "..\..\..\modules\ModuleIndex.psm1"
 Import-Module $modulePath -Force -WarningAction SilentlyContinue

@@ -1,17 +1,3 @@
-# Toggle "Smooth-scroll list boxes" setting
-# This controls the checkbox in Performance Options > Visual Effects
-# Uses SystemParametersInfo with SPI_SETLISTBOXSMOOTHSCROLLING
-
-# Function to pause on error
-function Wait-OnError {
-    param(
-        [string]$ErrorMessage
-    )
-    Write-Host "`nERROR: $ErrorMessage" -ForegroundColor Red
-    Write-Host "Press Enter to close this window..." -ForegroundColor Yellow
-    Read-Host
-}
-
 # Add P/Invoke for SystemParametersInfo
 Add-Type @"
 using System;
