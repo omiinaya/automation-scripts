@@ -21,7 +21,11 @@
 $originalVerbosePreference = $VerbosePreference
 $VerbosePreference = 'SilentlyContinue'
 
-Import-Module "$PSScriptRoot\CommonUtilities.psm1" -Force -WarningAction SilentlyContinue -Verbose:$false
+# Import all modules via ModuleIndex (single source of truth)
+$originalVerbosePreference = $VerbosePreference
+$VerbosePreference = 'SilentlyContinue'
+Import-Module "$PSScriptRoot\ModuleIndex.psm1" -Force -WarningAction SilentlyContinue -Verbose:$false
+$VerbosePreference = $originalVerbosePreference
 
 # Restore original verbose preference
 $VerbosePreference = $originalVerbosePreference
@@ -35,7 +39,7 @@ function Test-AdminRights {
         Returns $true if running with admin rights, $false otherwise.
         This is a wrapper function that calls CommonUtilities\Test-AdminRights.
     .EXAMPLE
-        if (Test-AdminRights) { Write-Host "Running as Administrator" }
+        if (Test-AdminRights) { Write-StatusMessage -Message "Running as Administrator" -Type Info }
     .OUTPUTS
         System.Boolean
     #>
@@ -55,7 +59,7 @@ function Invoke-Elevation {
         Invoke-Elevation
     #>
     if (-not (Test-AdminRights)) {
-        Write-Host "Administrator rights required. Requesting elevation..." -ForegroundColor Yellow
+        Write-StatusMessage -Message "Administrator rights required. Requesting elevation..." -Type Warning
         
         # Get the current script path - try multiple methods for reliability
         $scriptPath = $MyInvocation.ScriptName
@@ -68,13 +72,13 @@ function Invoke-Elevation {
         
         # Validate we have a valid script path
         if ([string]::IsNullOrEmpty($scriptPath) -or -not (Test-Path $scriptPath)) {
-            Write-Host "ERROR: Could not determine script path for elevation." -ForegroundColor Red
-            Write-Host "Current working directory: $(Get-Location)" -ForegroundColor Yellow
-            Write-Host "Please run this script manually as Administrator." -ForegroundColor Yellow
+            Write-StatusMessage -Message "ERROR: Could not determine script path for elevation." -Type Error
+            Write-StatusMessage -Message "Current working directory: $(Get-Location)" -Type Warning
+            Write-StatusMessage -Message "Please run this script manually as Administrator." -Type Warning
             exit 1
         }
         
-        Write-Host "Script path identified: $scriptPath" -ForegroundColor Cyan
+        Write-StatusMessage -Message "Script path identified: $scriptPath" -Type Info
         
         # Get the current working directory to preserve context
         $currentDirectory = Get-Location
@@ -112,7 +116,7 @@ try {
             # Write the simple wrapper script
             $command | Out-File -FilePath $tempScript -Encoding UTF8
             
-            Write-Host "Launching elevated PowerShell..." -ForegroundColor Green
+            Write-StatusMessage -Message "Launching elevated PowerShell..." -Type Success
             
             # Start the elevated process directly with the original script
             $psi = New-Object System.Diagnostics.ProcessStartInfo
@@ -126,7 +130,7 @@ try {
             # Start the elevated process and wait for it to exit
             $process = [System.Diagnostics.Process]::Start($psi)
             if ($process -eq $null) {
-                Write-Host "ERROR: Failed to start elevated process." -ForegroundColor Red
+                Write-StatusMessage -Message "ERROR: Failed to start elevated process." -Type Error
                 exit 1
             }
             $process.WaitForExit()
@@ -147,32 +151,29 @@ try {
                     # If not a boolean string, output as-is
                     $trimmed
                 }
-            } else {
-                Write-Host "ERROR: Elevated script did not produce a result file." -ForegroundColor Red
-                exit 1
-            }
-            
-            # Clean up temporary files
-            Remove-Item $tempScript -ErrorAction SilentlyContinue
-            Remove-Item $resultFile -ErrorAction SilentlyContinue
-            
-            # Exit the script with the result as output (the script will exit after this function returns)
-            # The caller should capture this output.
-            exit
+} else {
+    throw "ERROR: Elevated script did not produce a result file."
+}
+
+# Clean up temporary files
+Remove-Item $tempScript -ErrorAction SilentlyContinue
+Remove-Item $resultFile -ErrorAction SilentlyContinue
+
+# Return the result (don't exit - let caller decide what to do)
+return $trimmed
         }
-        catch {
-            Write-Host "ERROR: Failed to request elevation: $_" -ForegroundColor Red
-            Write-Host "Please manually run this script as Administrator." -ForegroundColor Yellow
-            
-            # Clean up temp file if it exists
-            if (Test-Path $tempScript) {
-                Remove-Item $tempScript -ErrorAction SilentlyContinue
-            }
-            if (Test-Path $resultFile) {
-                Remove-Item $resultFile -ErrorAction SilentlyContinue
-            }
-            exit 1
-        }
+catch {
+    # Clean up temp file if it exists
+    if (Test-Path $tempScript) {
+        Remove-Item $tempScript -ErrorAction SilentlyContinue
+    }
+    if (Test-Path $resultFile) {
+        Remove-Item $resultFile -ErrorAction SilentlyContinue
+    }
+    
+    # Throw exception instead of exiting
+    throw "Failed to request elevation: $_"
+}
     }
 }
 
@@ -185,7 +186,7 @@ function Get-SystemInfo {
         Returns an object containing system name, OS version, and architecture.
     .EXAMPLE
         $info = Get-SystemInfo
-        Write-Host "Running on $($info.ComputerName) with $($info.OSVersion)"
+        Write-StatusMessage -Message "Running on $($info.ComputerName) with $($info.OSVersion)" -Type Info
     .OUTPUTS
         PSCustomObject
     #>
@@ -210,7 +211,7 @@ function Get-CurrentUserInfo {
         Returns user name, domain, and privilege level.
     .EXAMPLE
         $user = Get-CurrentUserInfo
-        Write-Host "Logged in as $($user.Username) with $($user.PrivilegeLevel) privileges"
+        Write-StatusMessage -Message "Logged in as $($user.Username) with $($user.PrivilegeLevel) privileges" -Type Info
     .OUTPUTS
         PSCustomObject
     #>
@@ -236,7 +237,7 @@ function Test-ServiceExists {
 .PARAMETER ServiceName
     The name of the service to check.
 .EXAMPLE
-    if (Test-ServiceExists -ServiceName "Spooler") { Write-Host "Print Spooler exists" }
+    if (Test-ServiceExists -ServiceName "Spooler") { Write-StatusMessage -Message "Print Spooler exists" -Type Info }
 .EXAMPLE
     $services = @("Spooler", "W32Time", "BITS") | Where-Object { Test-ServiceExists -ServiceName $_ }
 .OUTPUTS

@@ -25,50 +25,29 @@
 # ============================================================================
 # CENTRALIZED MODULE IMPORT APPROACH
 # ============================================================================
-# This module is standalone and does not require other module imports.
-# If dependencies are added in the future, use Get-ModulePath from CommonUtilities
-# for centralized path resolution.
+# This module imports Win32API for Windows API P/Invoke declarations.
 # ============================================================================
 
-# Add P/Invoke for Windows API functions to refresh Explorer settings
-# This type is only added if it doesn't already exist
-if (-not ([System.Management.Automation.PSTypeName]'Win32API').Type) {
-    Add-Type @"
-using System;
-using System.Runtime.InteropServices;
+# Import CommonUtilities first
+$originalVerbosePreference = $VerbosePreference
+$VerbosePreference = 'SilentlyContinue'
+# Import all modules via ModuleIndex (single source of truth)
+$originalVerbosePreference = $VerbosePreference
+$VerbosePreference = 'SilentlyContinue'
+Import-Module "$PSScriptRoot\ModuleIndex.psm1" -Force -WarningAction SilentlyContinue -Verbose:$false
+$VerbosePreference = $originalVerbosePreference
+$VerbosePreference = $originalVerbosePreference
 
-public class Win32API {
-    // SendMessageTimeout for broadcasting WM_SETTINGCHANGE
-    [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
-    public static extern IntPtr SendMessageTimeout(
-        IntPtr hWnd,
-        uint Msg,
-        UIntPtr wParam,
-        string lParam,
-        uint fuFlags,
-        uint uTimeout,
-        out UIntPtr lpdwResult
-    );
-    
-    // SHChangeNotify to notify Shell of changes
-    [DllImport("shell32.dll", CharSet = CharSet.Auto)]
-    public static extern void SHChangeNotify(
-        int wEventId,
-        uint uFlags,
-        IntPtr dwItem1,
-        IntPtr dwItem2
-    );
-    
-    // Constants
-    public const int HWND_BROADCAST = 0xFFFF;
-    public const uint WM_SETTINGCHANGE = 0x001A;
-    public const uint SMTO_ABORTIFHUNG = 0x0002;
-    public const int SHCNE_ASSOCCHANGED = 0x08000000;
-    public const uint SHCNF_IDLIST = 0x0000;
-    public const uint SHCNF_FLUSH = 0x1000;
-}
-"@
-}
+# Import Win32API for Windows API declarations
+Import-Module "$PSScriptRoot\Win32API.psm1" -Force -WarningAction SilentlyContinue -Verbose:$false
+
+# Define VisualEffects-specific Windows API constants
+$script:HWND_BROADCAST = 0xFFFF
+$script:WM_SETTINGCHANGE = 0x001A
+$script:SMTO_ABORTIFHUNG = 0x0002
+$script:SHCNE_ASSOCCHANGED = 0x08000000
+$script:SHCNF_IDLIST = 0x0000
+$script:SHCNF_FLUSH = 0x1000
 
 function Invoke-ExplorerRefresh {
     <#
@@ -111,10 +90,53 @@ function Invoke-ExplorerRefresh {
         [switch]$Quiet
     )
     
-    try {
-        if (-not $Quiet) {
-            Write-Verbose "Refreshing Explorer settings..."
-        }
+try {
+    if (-not $Quiet) {
+        Write-Verbose "Refreshing Explorer settings..."
+    }
+
+    # Method 1: Broadcast WM_SETTINGCHANGE to all windows with "WindowMetrics" parameter
+    # This notifies all applications that a system setting has changed
+    $result = [IntPtr]::Zero
+    $hwndBroadcast = [IntPtr]::new([Win32Constants]::HWND_BROADCAST)
+
+    [Win32API]::SendMessageTimeout(
+        $hwndBroadcast,
+        [Win32Constants]::WM_SETTINGCHANGE,
+        [IntPtr]::Zero,
+        "WindowMetrics",
+        [Win32Constants]::SMTO_ABORTIFHUNG,
+        5000, # 5 second timeout
+        [ref]$result
+    ) | Out-Null
+
+    # Method 2: Send WM_SETTINGCHANGE with "ImmersiveColorSet" parameter
+    # This helps refresh visual elements in modern Windows
+    [Win32API]::SendMessageTimeout(
+        $hwndBroadcast,
+        [Win32Constants]::WM_SETTINGCHANGE,
+        [IntPtr]::Zero,
+        "ImmersiveColorSet",
+        [Win32Constants]::SMTO_ABORTIFHUNG,
+        5000, # 5 second timeout
+        [ref]$result
+    ) | Out-Null
+
+    # Method 3: Notify Shell of association changes
+    # This forces Explorer to refresh its cached settings
+    [Win32API]::SHChangeNotify(
+        [Win32Constants]::SHCNE_ASSOCCHANGED,
+        [Win32Constants]::SHCNF_IDLIST -bor [Win32Constants]::SHCNF_FLUSH,
+        [IntPtr]::Zero,
+        [IntPtr]::Zero
+    )
+
+    if (-not $Quiet) {
+        Write-Verbose "Explorer settings refreshed successfully"
+    }
+} catch {
+    throw "Failed to refresh Explorer settings: $($_.Exception.Message)"
+}
         
         # Method 1: Broadcast WM_SETTINGCHANGE to all windows with "WindowMetrics" parameter
         # This notifies all applications that a system setting has changed

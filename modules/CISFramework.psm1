@@ -745,15 +745,15 @@ function Private-WriteVerboseAuditOutput {
     #>
     param([PSCustomObject]$Result)
     
-    Write-Host ""
+    # Empty line for formatting
     Write-SectionHeader -Title "CIS Audit: $($Result.CIS_ID)"
-    Write-Host "Setting: $($Result.Title)" -ForegroundColor White
-    Write-Host "Current Value: $($Result.CurrentValue)" -ForegroundColor White
-    Write-Host "Recommended: $($Result.RecommendedValue)" -ForegroundColor White
+    Write-StatusMessage -Message "Setting: $($Result.Title)" -Type Info
+    Write-StatusMessage -Message "Current Value: $($Result.CurrentValue)" -Type Info
+    Write-StatusMessage -Message "Recommended: $($Result.RecommendedValue)" -Type Info
     $color = Private-GetComplianceColor -Result $Result
     Write-Host "Compliance: $($Result.ComplianceStatus)" -ForegroundColor $color
-    Write-Host "Source: $($Result.Source)" -ForegroundColor White
-    if ($Result.Details) { Write-Host "Details: $($Result.Details)" -ForegroundColor Gray }
+    Write-StatusMessage -Message "Source: $($Result.Source)" -Type Info
+    if ($Result.Details) { Write-StatusMessage -Message "Details: $($Result.Details)" -Type Info }
 }
 
 # ============================================================================
@@ -867,11 +867,11 @@ function Private-WriteVerboseScriptHeader {
     param([string]$ScriptType, [string]$CIS_ID, [string]$ServiceName, [bool]$IsAdmin)
     
     Write-SectionHeader -Title "CIS Script Execution"
-    Write-Host "Script Type: $ScriptType" -ForegroundColor White
-    if ($CIS_ID) { Write-Host "CIS ID: $CIS_ID" -ForegroundColor White }
-    if ($ServiceName) { Write-Host "Service: $ServiceName" -ForegroundColor White }
-    Write-Host "Admin Rights: $(if ($IsAdmin) { 'Yes' } else { 'No' })" -ForegroundColor White
-    Write-Host ""
+    Write-StatusMessage -Message "Script Type: $ScriptType" -Type Info
+    if ($CIS_ID) { Write-StatusMessage -Message "CIS ID: $CIS_ID" -Type Info }
+    if ($ServiceName) { Write-StatusMessage -Message "Service: $ServiceName" -Type Info }
+    Write-StatusMessage -Message "Admin Rights: $(if ($IsAdmin) { 'Yes' } else { 'No' })" -Type Info
+    # Empty line for formatting
 }
 
 function Private-WriteScriptErrorOutput {
@@ -882,9 +882,9 @@ function Private-WriteScriptErrorOutput {
     param([PSCustomObject]$ErrorInfo)
     
     Write-StatusMessage -Message "Script execution failed" -Type Error
-    Write-Host "Error Details: $($ErrorInfo.ErrorMessage)" -ForegroundColor Red
-    Write-Host "Error Type: $($ErrorInfo.ErrorType)" -ForegroundColor Red
-    Write-Host "Recommendation: $($ErrorInfo.Recommendation)" -ForegroundColor Yellow
+    Write-StatusMessage -Message "Error Details: $($ErrorInfo.ErrorMessage)" -Type Error
+    Write-StatusMessage -Message "Error Type: $($ErrorInfo.ErrorType)" -Type Error
+    Write-StatusMessage -Message "Recommendation: $($ErrorInfo.Recommendation)" -Type Warning
 }
 
 # ============================================================================
@@ -1277,7 +1277,7 @@ function Test-DomainMember {
     .DESCRIPTION
         Returns $true if the computer is joined to a domain, $false otherwise.
     .EXAMPLE
-        if (Test-DomainMember) { Write-Host "Computer is domain member" }
+        if (Test-DomainMember) { Write-StatusMessage -Message "Computer is domain member" -Type Info }
     .OUTPUTS
         System.Boolean
     #>

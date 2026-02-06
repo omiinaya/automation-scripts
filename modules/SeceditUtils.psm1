@@ -10,11 +10,68 @@
     Prerequisite   : PowerShell 5.1 or later
 #>
 
-# Import CommonUtilities for error handling patterns
+# Import all modules via ModuleIndex (single source of truth)
 $originalVerbosePreference = $VerbosePreference
 $VerbosePreference = 'SilentlyContinue'
-Import-Module "$PSScriptRoot\CommonUtilities.psm1" -Force -WarningAction SilentlyContinue -Verbose:$false
+Import-Module "$PSScriptRoot\ModuleIndex.psm1" -Force -WarningAction SilentlyContinue -Verbose:$false
 $VerbosePreference = $originalVerbosePreference
+
+# Secedit caching variables
+$script:SeceditCache = $null
+$script:SeceditCacheExpiry = $null
+$script:SeceditCacheDuration = New-TimeSpan -Seconds 30
+
+# Function to get cached secedit export or export fresh
+function Get-CachedSeceditExport {
+<#
+.SYNOPSIS
+Gets the secedit export, using cache if available and not expired.
+.DESCRIPTION
+Exports the security policy and caches it for 30 seconds to reduce disk I/O.
+.OUTPUTS
+String array of policy file lines.
+#>
+param()
+
+$now = Get-Date
+
+# Check if cache is valid
+if ($script:SeceditCache -and $script:SeceditCacheExpiry -and $now -lt $script:SeceditCacheExpiry) {
+    Write-Verbose "Using cached secedit export"
+    return $script:SeceditCache
+}
+
+# Export fresh
+$tempFile = [System.IO.Path]::GetTempFileName()
+try {
+    $result = secedit /export /cfg $tempFile /quiet 2>&1
+    if ($LASTEXITCODE -eq 0) {
+        $script:SeceditCache = Get-Content $tempFile
+        $script:SeceditCacheExpiry = $now + $script:SeceditCacheDuration
+        Write-Verbose "Exported and cached secedit policy"
+        return $script:SeceditCache
+    } else {
+        Write-Warning "Failed to export security policy: $result"
+        return $null
+    }
+} finally {
+    Remove-Item $tempFile -ErrorAction SilentlyContinue
+}
+}
+
+# Function to clear secedit cache
+function Clear-SeceditCache {
+<#
+.SYNOPSIS
+Clears the secedit export cache.
+.DESCRIPTION
+Removes the cached secedit export, forcing a fresh export on next use.
+#>
+param()
+$script:SeceditCache = $null
+$script:SeceditCacheExpiry = $null
+Write-Verbose "Secedit cache cleared"
+}
 
 # Function to export security policy
 function Export-SecurityPolicy {
@@ -36,8 +93,15 @@ function Export-SecurityPolicy {
         [string]$OutputPath
     )
     
-    $result = secedit /export /cfg $OutputPath /quiet 2>&1
-    return $LASTEXITCODE -eq 0
+$result = secedit /export /cfg $OutputPath /quiet 2>&1
+$success = $LASTEXITCODE -eq 0
+
+# Clear cache since we've exported fresh
+if ($success) {
+Clear-SeceditCache
+}
+
+return $success
 }
 
 # Function to import security policy
@@ -60,8 +124,15 @@ function Import-SecurityPolicy {
         [string]$InputPath
     )
     
-    $result = secedit /configure /db secedit.sdb /cfg $InputPath /quiet 2>&1
-    return $LASTEXITCODE -eq 0
+$result = secedit /configure /db secedit.sdb /cfg $InputPath /quiet 2>&1
+$success = $LASTEXITCODE -eq 0
+
+# Clear cache since policy has changed
+if ($success) {
+Clear-SeceditCache
+}
+
+return $success
 }
 
 # Function to test security policy setting
@@ -94,38 +165,50 @@ function Test-SecurityPolicy {
 
 # Function to get security policy value
 function Get-SecurityPolicyValue {
-    <#
-    .SYNOPSIS
-        Gets the value of a specific security policy setting.
-    .DESCRIPTION
-        Retrieves the current value of a security policy setting.
-    .PARAMETER SettingName
-        The name of the security policy setting to retrieve.
-    .EXAMPLE
-        Get-SecurityPolicyValue -SettingName "PasswordHistorySize"
-    .OUTPUTS
-        String value of the setting, or $null if not found.
-    #>
-    param(
-        [Parameter(Mandatory=$true)]
-        [ValidateNotNullOrEmpty()]
-        [string]$SettingName
-    )
-    
-    $tempFile = [System.IO.Path]::GetTempFileName()
-    try {
-        secedit /export /cfg $tempFile /quiet | Out-Null
-        $policyContent = Get-Content $tempFile
-        $settingLine = $policyContent | Where-Object { $_ -like "$SettingName*" }
-        
-        if ($settingLine) {
-            return ($settingLine -split "=")[1].Trim()
-        }
-        
-        return $null
-    } finally {
-        Remove-Item $tempFile -ErrorAction SilentlyContinue
-    }
+<#
+.SYNOPSIS
+Gets the value of a specific security policy setting.
+.DESCRIPTION
+Retrieves the current value of a security policy setting using cached export if available.
+.PARAMETER SettingName
+The name of the security policy setting to retrieve.
+.PARAMETER UseCache
+Whether to use cached export (default: $true for performance).
+.EXAMPLE
+Get-SecurityPolicyValue -SettingName "PasswordHistorySize"
+.OUTPUTS
+String value of the setting, or $null if not found.
+#>
+param(
+[Parameter(Mandatory=$true)]
+[ValidateNotNullOrEmpty()]
+[string]$SettingName,
+[bool]$UseCache = $true
+)
+
+if ($UseCache) {
+$policyContent = Get-CachedSeceditExport
+} else {
+$tempFile = [System.IO.Path]::GetTempFileName()
+try {
+secedit /export /cfg $tempFile /quiet | Out-Null
+$policyContent = Get-Content $tempFile
+} finally {
+Remove-Item $tempFile -ErrorAction SilentlyContinue
+}
+}
+
+if ($null -eq $policyContent) {
+return $null
+}
+
+$settingLine = $policyContent | Where-Object { $_ -like "$SettingName*" }
+
+if ($settingLine) {
+return ($settingLine -split "=")[1].Trim()
+}
+
+return $null
 }
 
 # Function to apply security policy template
@@ -160,35 +243,56 @@ function Apply-SecurityPolicyTemplate {
 
 # Function to get security policy section
 function Get-SecurityPolicySection {
-    <#
-    .SYNOPSIS
-        Gets a specific section from the security policy.
-    .DESCRIPTION
-        Retrieves all settings from a specific section of the security policy.
-    .PARAMETER SectionName
-        The name of the section to retrieve (e.g., "System Access", "Privilege Rights").
-    .EXAMPLE
-        Get-SecurityPolicySection -SectionName "System Access"
-    .OUTPUTS
-        Hashtable of setting names to values.
-    #>
-    param(
-        [Parameter(Mandatory=$true)]
-        [ValidateNotNullOrEmpty()]
-        [string]$SectionName
-    )
-    
-    $tempFile = [System.IO.Path]::GetTempFileName()
-    try {
-        secedit /export /cfg $tempFile /quiet | Out-Null
-        $policyContent = Get-Content $tempFile
-        $section = @{}
-        $inSection = $false
-        
-        foreach ($line in $policyContent) {
-            if ($line -match "^\[$SectionName\]") {
-                $inSection = $true; continue
-            }
+<#
+.SYNOPSIS
+Gets a specific section from the security policy.
+.DESCRIPTION
+Retrieves all settings from a specific section of the security policy using cached export if available.
+.PARAMETER SectionName
+The name of the section to retrieve (e.g., "System Access", "Privilege Rights").
+.PARAMETER UseCache
+Whether to use cached export (default: $true for performance).
+.EXAMPLE
+Get-SecurityPolicySection -SectionName "System Access"
+.OUTPUTS
+Hashtable of setting names to values.
+#>
+param(
+[Parameter(Mandatory=$true)]
+[ValidateNotNullOrEmpty()]
+[string]$SectionName,
+[bool]$UseCache = $true
+)
+
+if ($UseCache) {
+$policyContent = Get-CachedSeceditExport
+} else {
+$tempFile = [System.IO.Path]::GetTempFileName()
+try {
+secedit /export /cfg $tempFile /quiet | Out-Null
+$policyContent = Get-Content $tempFile
+} finally {
+Remove-Item $tempFile -ErrorAction SilentlyContinue
+}
+}
+
+if ($null -eq $policyContent) {
+return @{}
+}
+
+$section = @{}
+$inSection = $false
+
+foreach ($line in $policyContent) {
+if ($line -match "^\[$SectionName\]") { $inSection = $true; continue }
+if ($inSection -and $line -match "^\[") { break }
+if ($inSection -and $line -match "^(.+?)\s*=\s*(.*)$") {
+$section[$matches[1].Trim()] = $matches[2].Trim()
+}
+}
+
+return $section
+}
             if ($inSection -and $line -match "^\[") {
                 break
             }
@@ -278,4 +382,4 @@ function Test-SecurityPolicyChange {
 }
 
 # Export the module members
-Export-ModuleMember -Function Export-SecurityPolicy, Import-SecurityPolicy, Test-SecurityPolicy, Get-SecurityPolicyValue, Apply-SecurityPolicyTemplate, Get-SecurityPolicySection, New-SecurityPolicyTemplate, Test-SecurityPolicyChange -Verbose:$false
+Export-ModuleMember -Function Export-SecurityPolicy, Import-SecurityPolicy, Test-SecurityPolicy, Get-SecurityPolicyValue, Apply-SecurityPolicyTemplate, Get-SecurityPolicySection, New-SecurityPolicyTemplate, Test-SecurityPolicyChange, Get-CachedSeceditExport, Clear-SeceditCache -Verbose:$false

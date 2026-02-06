@@ -9,6 +9,13 @@
     Prerequisite   : PowerShell 5.1 or later
 #>
 
+
+# Import all modules via ModuleIndex (single source of truth)
+$originalVerbosePreference = $VerbosePreference
+$VerbosePreference = 'SilentlyContinue'
+Import-Module "$PSScriptRoot\ModuleIndex.psm1" -Force -WarningAction SilentlyContinue -Verbose:$false
+$VerbosePreference = $originalVerbosePreference
+
 # Function to test if a registry key exists
 function Test-RegistryKey {
     <#
@@ -19,7 +26,7 @@ function Test-RegistryKey {
     .PARAMETER KeyPath
         The full path to the registry key.
     .EXAMPLE
-        if (Test-RegistryKey -KeyPath "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion") { Write-Host "Key exists" }
+        if (Test-RegistryKey -KeyPath "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion") { Write-StatusMessage -Message "Key exists" -Type Info }
     .OUTPUTS
         System.Boolean
     #>
@@ -43,7 +50,7 @@ function Test-RegistryValue {
     .PARAMETER ValueName
         The name of the registry value to check.
     .EXAMPLE
-        if (Test-RegistryValue -KeyPath "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion" -ValueName "ProgramFilesDir") { Write-Host "Value exists" }
+        if (Test-RegistryValue -KeyPath "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion" -ValueName "ProgramFilesDir") { Write-StatusMessage -Message "Value exists" -Type Info }
     .OUTPUTS
         System.Boolean
     #>
@@ -135,7 +142,7 @@ param(
         }
         
         Set-ItemProperty -Path $KeyPath -Name $ValueName -Value $ValueData -Type $ValueType -Force
-        Write-Host "Registry value '$ValueName' set successfully" -ForegroundColor Green
+        Write-StatusMessage -Message "Registry value '$ValueName' set successfully" -Type Success
     }
     catch {
         Write-Error "Failed to set registry value '$ValueName': $_"
@@ -166,7 +173,7 @@ function Remove-RegistryValue {
     try {
         if (Test-RegistryValue -KeyPath $KeyPath -ValueName $ValueName) {
             Remove-ItemProperty -Path $KeyPath -Name $ValueName -Force
-            Write-Host "Registry value '$ValueName' removed successfully" -ForegroundColor Green
+            Write-StatusMessage -Message "Registry value '$ValueName' removed successfully" -Type Success
         } else {
             Write-Warning "Registry value '$ValueName' does not exist"
         }
@@ -198,7 +205,7 @@ param(
     try {
         if (Test-RegistryKey -KeyPath $KeyPath) {
             Remove-Item -Path $KeyPath -Recurse -Force
-            Write-Host "Registry key '$KeyPath' removed successfully" -ForegroundColor Green
+            Write-StatusMessage -Message "Registry key '$KeyPath' removed successfully" -Type Success
         } else {
             Write-Warning "Registry key '$KeyPath' does not exist"
         }
@@ -231,7 +238,7 @@ function New-RegistryKey {
     try {
         if (Test-RegistryKey -KeyPath $KeyPath) {
             if ($Force) {
-                Write-Host "Registry key '$KeyPath' already exists (using -Force)" -ForegroundColor Yellow
+                Write-StatusMessage -Message "Registry key '$KeyPath' already exists (using -Force)" -Type Warning
             } else {
                 Write-Warning "Registry key '$KeyPath' already exists"
                 return
@@ -239,7 +246,7 @@ function New-RegistryKey {
         }
         
         New-Item -Path $KeyPath -Force:$Force | Out-Null
-        Write-Host "Registry key '$KeyPath' created successfully" -ForegroundColor Green
+        Write-StatusMessage -Message "Registry key '$KeyPath' created successfully" -Type Success
     }
     catch {
         Write-Error "Failed to create registry key '$KeyPath': $_"
@@ -277,7 +284,7 @@ function Export-RegistryKey {
         reg export $regPath $ExportPath /y
         
         if ($LASTEXITCODE -eq 0) {
-            Write-Host "Registry key exported to '$ExportPath' successfully" -ForegroundColor Green
+            Write-StatusMessage -Message "Registry key exported to '$ExportPath' successfully" -Type Success
         } else {
             Write-Error "Failed to export registry key"
         }
@@ -313,7 +320,7 @@ function Import-RegistryFile {
         reg import $ImportPath
         
         if ($LASTEXITCODE -eq 0) {
-            Write-Host "Registry file imported successfully" -ForegroundColor Green
+            Write-StatusMessage -Message "Registry file imported successfully" -Type Success
         } else {
             Write-Error "Failed to import registry file"
         }
@@ -334,22 +341,27 @@ function Find-RegistryValue {
         The term to search for in value names or data.
     .PARAMETER KeyPath
         The registry key path to start searching from.
-    .PARAMETER SearchData
-        Search in value data as well as names.
-    .EXAMPLE
-        Find-RegistryValue -SearchTerm "MyApp" -KeyPath "HKLM:\SOFTWARE"
-    .OUTPUTS
-        PSCustomObject[]
-    #>
-    param(
-        [Parameter(Mandatory=$true)]
-        [string]$SearchTerm,
-        [string]$KeyPath = "HKLM:\SOFTWARE",
-        [switch]$SearchData
-    )
-    
-    function Find-RegistryRecursive {
-        param($Path, $Term, $SearchInData)
+.PARAMETER SearchData
+Search in value data as well as names.
+.PARAMETER MaxDepth
+Maximum recursion depth (default: 10) to prevent stack overflow on deep registry trees.
+.EXAMPLE
+Find-RegistryValue -SearchTerm "MyApp" -KeyPath "HKLM:\SOFTWARE"
+Find-RegistryValue -SearchTerm "MyApp" -KeyPath "HKLM:\SOFTWARE" -MaxDepth 5
+.OUTPUTS
+PSCustomObject[]
+#>
+param(
+[Parameter(Mandatory=$true)]
+[string]$SearchTerm,
+[string]$KeyPath = "HKLM:\SOFTWARE",
+[switch]$SearchData,
+[ValidateRange(1, 50)]
+[int]$MaxDepth = 10
+)
+
+function Find-RegistryRecursive {
+param($Path, $Term, $SearchInData, $CurrentDepth = 0, $MaxDepthLimit = 10)
         
         $results = @()
         
@@ -382,11 +394,13 @@ function Find-RegistryValue {
                     }
                 }
                 
-                # Search in subkeys
-                $subKeys = Get-ChildItem -Path $Path -ErrorAction SilentlyContinue
-                foreach ($subKey in $subKeys) {
-                    $results += Find-RegistryRecursive -Path $subKey.PSPath -Term $Term -SearchInData $SearchInData
-                }
+# Search in subkeys (with depth limit)
+if ($CurrentDepth -lt $MaxDepthLimit) {
+$subKeys = Get-ChildItem -Path $Path -ErrorAction SilentlyContinue
+foreach ($subKey in $subKeys) {
+$results += Find-RegistryRecursive -Path $subKey.PSPath -Term $Term -SearchInData $SearchInData -CurrentDepth ($CurrentDepth + 1) -MaxDepthLimit $MaxDepthLimit
+}
+}
             }
         }
         catch {
@@ -396,7 +410,7 @@ function Find-RegistryValue {
         return $results
     }
     
-    return Find-RegistryRecursive -Path $KeyPath -Term $SearchTerm -SearchInData $SearchData
+    return Find-RegistryRecursive -Path $KeyPath -Term $SearchTerm -SearchInData $SearchData -CurrentDepth 0 -MaxDepthLimit $MaxDepth
 }
 
 # Export the module members

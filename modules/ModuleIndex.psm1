@@ -342,7 +342,7 @@ function Test-WindowsModules {
     )
     
     foreach ($test in $tests) {
-        Write-Host "Testing $($test.Name)... " -NoNewline
+        Write-StatusMessage -Message "Testing $($test.Name)... " -Type Info -NoNewline
         try {
             $result = & $test.Test
             if ($result -ne $null) {
@@ -412,30 +412,29 @@ function Show-WindowsModuleHelp {
         $help = Get-Help -Name $CommandName -ErrorAction SilentlyContinue
         
         if ($help) {
-            Write-Host "Module: $($command.ModuleName)" -ForegroundColor Cyan
-            Write-Host "Type: $($command.CommandType)" -ForegroundColor Cyan
-            Write-Host ""
-            
+            Write-StatusMessage -Message "Module: $($command.ModuleName)" -Type Info
+            Write-StatusMessage -Message "Type: $($command.CommandType)" -Type Info
+            # Empty line for formatting
             if ($help.Synopsis) {
-                Write-Host "SYNOPSIS:" -ForegroundColor Yellow
+                Write-StatusMessage -Message "SYNOPSIS:" -Type Warning
                 Write-Host $help.Synopsis -ForegroundColor White
-                Write-Host ""
+                # Empty line for formatting
             }
             
             if ($help.Description) {
-                Write-Host "DESCRIPTION:" -ForegroundColor Yellow
+                Write-StatusMessage -Message "DESCRIPTION:" -Type Warning
                 Write-Host $help.Description.Text -ForegroundColor White
-                Write-Host ""
+                # Empty line for formatting
             }
             
             if ($help.Examples) {
-                Write-Host "EXAMPLES:" -ForegroundColor Yellow
+                Write-StatusMessage -Message "EXAMPLES:" -Type Warning
                 foreach ($example in $help.Examples.Example) {
                     Write-Host $example.Code -ForegroundColor Green
                     if ($example.Remarks) {
                         Write-Host $example.Remarks.Text -ForegroundColor Gray
                     }
-                    Write-Host ""
+                    # Empty line for formatting
                 }
             }
         } else {
@@ -463,15 +462,14 @@ function Initialize-WindowsModules {
     Show-SystemBanner
     
     Write-StatusMessage -Message "Windows modules loaded successfully!" -Type Success
-    Write-Host ""
-    
+    # Empty line for formatting
     $moduleInfo = Get-WindowsModuleInfo
     Show-Table -Data $moduleInfo -Title "Available Modules"
     
-    Write-Host ""
+    # Empty line for formatting
     Write-StatusMessage -Message "Use 'Get-WindowsModuleCommands' to see all available commands" -Type Info
     Write-StatusMessage -Message "Use 'Show-WindowsModuleHelp -CommandName <Command>' for detailed help" -Type Info
-    Write-Host ""
+    # Empty line for formatting
 }
 
 # Initialize on import

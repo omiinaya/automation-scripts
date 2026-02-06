@@ -10,10 +10,10 @@
     Prerequisite   : PowerShell 5.1 or later
 #>
 
-# Import CommonUtilities for error handling patterns
+# Import all modules via ModuleIndex (single source of truth)
 $originalVerbosePreference = $VerbosePreference
 $VerbosePreference = 'SilentlyContinue'
-Import-Module "$PSScriptRoot\CommonUtilities.psm1" -Force -WarningAction SilentlyContinue -Verbose:$false
+Import-Module "$PSScriptRoot\ModuleIndex.psm1" -Force -WarningAction SilentlyContinue -Verbose:$false
 $VerbosePreference = $originalVerbosePreference
 
 # Function to initialize ANIMATIONINFO structure
@@ -98,11 +98,14 @@ public static class Win32API {
     [DllImport("user32.dll", SetLastError = true)]
     public static extern bool SystemParametersInfo(uint uiAction, uint uiParam, IntPtr pvParam, uint fWinIni);
     
-    [DllImport("user32.dll", SetLastError = true)]
-    public static extern IntPtr SendMessageTimeout(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam, uint fuFlags, uint uTimeout, out IntPtr lpdwResult);
-    
-    [DllImport("kernel32.dll", SetLastError = true)]
-    public static extern bool SetLocalTime(ref SYSTEMTIME lpSystemTime);
+[DllImport("user32.dll", SetLastError = true)]
+public static extern IntPtr SendMessageTimeout(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam, uint fuFlags, uint uTimeout, out IntPtr lpdwResult);
+
+[DllImport("shell32.dll", CharSet = CharSet.Auto)]
+public static extern void SHChangeNotify(int wEventId, uint uFlags, IntPtr dwItem1, IntPtr dwItem2);
+
+[DllImport("kernel32.dll", SetLastError = true)]
+public static extern bool SetLocalTime(ref SYSTEMTIME lpSystemTime);
     
     [DllImport("kernel32.dll", SetLastError = true)]
     public static extern void GetLocalTime(out SYSTEMTIME lpSystemTime);
@@ -119,8 +122,17 @@ public struct SYSTEMTIME {
     public ushort wSecond;
     public ushort wMilliseconds;
 }
+
+public static class Win32Constants {
+    public const int HWND_BROADCAST = 0xFFFF;
+    public const uint WM_SETTINGCHANGE = 0x001A;
+    public const uint SMTO_ABORTIFHUNG = 0x0002;
+    public const int SHCNE_ASSOCCHANGED = 0x08000000;
+    public const uint SHCNF_IDLIST = 0x0000;
+    public const uint SHCNF_FLUSH = 0x1000;
+}
 "@
-    }
+}
 }
 
 # Function to get system time

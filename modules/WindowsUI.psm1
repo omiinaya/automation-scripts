@@ -21,7 +21,11 @@
 $originalVerbosePreference = $VerbosePreference
 $VerbosePreference = 'SilentlyContinue'
 
-Import-Module "$PSScriptRoot\CommonUtilities.psm1" -Force -WarningAction SilentlyContinue -Verbose:$false
+# Import all modules via ModuleIndex (single source of truth)
+$originalVerbosePreference = $VerbosePreference
+$VerbosePreference = 'SilentlyContinue'
+Import-Module "$PSScriptRoot\ModuleIndex.psm1" -Force -WarningAction SilentlyContinue -Verbose:$false
+$VerbosePreference = $originalVerbosePreference
 
 # Restore original verbose preference
 $VerbosePreference = $originalVerbosePreference
@@ -116,11 +120,11 @@ function Write-SectionHeader {
     $leftBorder = $borderChar * $sidePadding
     $rightBorder = $borderChar * ($Width - $sidePadding - $titleLength - 2)
     
-    Write-Host ""
+    # Empty line for formatting
     Write-Host ($borderChar * $Width) -ForegroundColor Cyan
-    Write-Host "$leftBorder$padding$Title$padding$rightBorder" -ForegroundColor Cyan
+    Write-StatusMessage -Message "$leftBorder$padding$Title$padding$rightBorder" -Type Info
     Write-Host ($borderChar * $Width) -ForegroundColor Cyan
-    Write-Host ""
+    # Empty line for formatting
 }
 
 # Function to write a progress bar
@@ -153,9 +157,9 @@ function Write-ProgressBar {
     $bar = "#" * $filled + "-" * $empty
     
     if ($Activity) {
-        Write-Host "$Activity [$bar] $Percent%" -ForegroundColor Green
+        Write-StatusMessage -Message "$Activity [$bar] $Percent%" -Type Success
     } else {
-        Write-Host "[$bar] $Percent%" -ForegroundColor Green
+        Write-StatusMessage -Message "[$bar] $Percent%" -Type Success
     }
 }
 
@@ -185,22 +189,21 @@ function Show-Menu {
         [switch]$AllowMultiple
     )
     
-    Write-Host ""
+    # Empty line for formatting
     Write-SectionHeader -Title $Title
     
     for ($i = 0; $i -lt $Options.Count; $i++) {
         Write-Host ("  {0}. {1}" -f ($i + 1), $Options[$i]) -ForegroundColor White
     }
     
-    Write-Host ""
-    
+    # Empty line for formatting
     if ($AllowMultiple) {
-        Write-Host "Enter your choices (comma-separated numbers): " -ForegroundColor Yellow -NoNewline
+        Write-StatusMessage -Message "Enter your choices (comma-separated numbers): " -Type Warning -NoNewline
         $input = Read-Host
         $choices = $input -split ',' | ForEach-Object { [int]$_.Trim() - 1 }
         return $choices | Where-Object { $_ -ge 0 -and $_ -lt $Options.Count }
     } else {
-        Write-Host "Enter your choice (1-$($Options.Count)): " -ForegroundColor Yellow -NoNewline
+        Write-StatusMessage -Message "Enter your choice (1-$($Options.Count)): " -Type Warning -NoNewline
         $choice = Read-Host
         $index = [int]$choice - 1
         
@@ -225,7 +228,7 @@ function Show-Confirmation {
     .PARAMETER DefaultChoice
         The default choice (Yes, No).
     .EXAMPLE
-        if (Show-Confirmation -Message "Continue with operation?") { Write-Host "Proceeding..." }
+        if (Show-Confirmation -Message "Continue with operation?") { Write-StatusMessage -Message "Proceeding..." -Type Info }
     .OUTPUTS
         System.Boolean
     #>
@@ -247,7 +250,7 @@ function Show-Confirmation {
         $no = "N"
     }
     
-    Write-Host "$Message [$yes/$no]: " -ForegroundColor Yellow -NoNewline
+    Write-StatusMessage -Message "$Message [$yes/$no]: " -Type Warning -NoNewline
     $response = Read-Host
     
     if ($DefaultChoice -eq "Yes") {
@@ -285,7 +288,7 @@ param(
 )
     
     if ($Title) {
-        Write-Host ""
+        # Empty line for formatting
         Write-Host $Title -ForegroundColor Cyan
         Write-Host ("-" * $Title.Length) -ForegroundColor Cyan
     }
@@ -350,13 +353,13 @@ function Show-List {
     )
     
     if ($Title) {
-        Write-Host ""
+        # Empty line for formatting
         Write-Host $Title -ForegroundColor Cyan
         Write-Host ("-" * $Title.Length) -ForegroundColor Cyan
     }
     
     foreach ($item in $Items) {
-        Write-Host "  * $item" -ForegroundColor White
+        Write-StatusMessage -Message "  * $item" -Type Info
     }
 }
 
@@ -376,7 +379,7 @@ function Show-Pause {
         [string]$Message = "Press Enter to continue..."
     )
     
-    Write-Host ""
+    # Empty line for formatting
     Write-Host $Message -ForegroundColor Yellow -NoNewline
     $null = Read-Host
 }
@@ -399,7 +402,7 @@ function Clear-ScreenWithHeader {
     
     Clear-Host
     Write-SectionHeader -Title $Title -Width 80
-    Write-Host ""
+    # Empty line for formatting
 }
 
 # Function to display system information banner
@@ -415,17 +418,17 @@ function Show-SystemBanner {
     $os = Get-CimInstance -ClassName Win32_OperatingSystem
     $computer = Get-CimInstance -ClassName Win32_ComputerSystem
     
-    Write-Host ""
-    Write-Host "+----------------------------------------------------------------+" -ForegroundColor Cyan
-    Write-Host "|                        SYSTEM INFORMATION                      |" -ForegroundColor Cyan
-    Write-Host "+----------------------------------------------------------------+" -ForegroundColor Cyan
+    # Empty line for formatting
+    Write-StatusMessage -Message "+----------------------------------------------------------------+" -Type Info
+    Write-StatusMessage -Message "|                        SYSTEM INFORMATION                      |" -Type Info
+    Write-StatusMessage -Message "+----------------------------------------------------------------+" -Type Info
     Write-Host ("| Computer: {0,-52} |" -f $env:COMPUTERNAME) -ForegroundColor White
     Write-Host ("| User:     {0,-52} |" -f $env:USERNAME) -ForegroundColor White
     Write-Host ("| OS:       {0,-52} |" -f $os.Caption) -ForegroundColor White
     Write-Host ("| Version:  {0,-52} |" -f $os.Version) -ForegroundColor White
     Write-Host ("| Boot:     {0,-52} |" -f $computer.BootupState) -ForegroundColor White
-    Write-Host "+----------------------------------------------------------------+" -ForegroundColor Cyan
-    Write-Host ""
+    Write-StatusMessage -Message "+----------------------------------------------------------------+" -Type Info
+    # Empty line for formatting
 }
 
 # Function to wait on error with user interaction (wrapper for CommonUtilities)

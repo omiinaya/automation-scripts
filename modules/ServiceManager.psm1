@@ -30,7 +30,11 @@
 $originalVerbosePreference = $VerbosePreference
 $VerbosePreference = 'SilentlyContinue'
 
-Import-Module "$PSScriptRoot\CommonUtilities.psm1" -Force -WarningAction SilentlyContinue -Verbose:$false
+# Import all modules via ModuleIndex (single source of truth)
+$originalVerbosePreference = $VerbosePreference
+$VerbosePreference = 'SilentlyContinue'
+Import-Module "$PSScriptRoot\ModuleIndex.psm1" -Force -WarningAction SilentlyContinue -Verbose:$false
+$VerbosePreference = $originalVerbosePreference
 
 # Import required modules using Get-ModulePath for centralized path resolution
 $modulePath = Get-ModulePath

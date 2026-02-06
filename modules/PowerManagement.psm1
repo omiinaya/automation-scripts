@@ -1,14 +1,24 @@
-<#
-.SYNOPSIS
-    Power management functions for Windows power schemes and settings.
-.DESCRIPTION
-    Provides functions for managing power schemes, power settings, Windows 11 Power Mode,
-    and retrieving power-related information.
-.NOTES
-    File Name      : PowerManagement.psm1
-    Author         : System Administrator
-    Prerequisite   : PowerShell 5.1 or later
+<#  
+.SYNOPSIS  
+Power management functions for Windows power schemes and settings.  
+.DESCRIPTION  
+Provides functions for managing power schemes, power settings, Windows 11 Power Mode,  
+and retrieving power-related information.  
+.NOTES  
+File Name : PowerManagement.psm1  
+Author : System Administrator  
+Prerequisite : PowerShell 5.1 or later  
 #>
+
+# Import CommonUtilities for status messaging
+$originalVerbosePreference = $VerbosePreference
+$VerbosePreference = 'SilentlyContinue'
+# Import all modules via ModuleIndex (single source of truth)
+$originalVerbosePreference = $VerbosePreference
+$VerbosePreference = 'SilentlyContinue'
+Import-Module "$PSScriptRoot\ModuleIndex.psm1" -Force -WarningAction SilentlyContinue -Verbose:$false
+$VerbosePreference = $originalVerbosePreference
+$VerbosePreference = $originalVerbosePreference
 
 # Function to get all available power schemes
 function Get-PowerSchemes {
@@ -48,7 +58,7 @@ function Get-ActivePowerScheme {
         Returns the active power scheme with its GUID and name.
     .EXAMPLE
         $active = Get-ActivePowerScheme
-        Write-Host "Current scheme: $($active.Name)"
+        # Example usage in documentation - not actual code execution
     .OUTPUTS
         PSCustomObject
     #>
@@ -79,7 +89,7 @@ param(
     try {
         $result = powercfg /setactive $SchemeGUID
         if ($LASTEXITCODE -eq 0) {
-            Write-Host "Power scheme activated successfully" -ForegroundColor Green
+            Write-StatusMessage -Message "Power scheme activated successfully" -Type Success
         } else {
             Write-Error "Failed to activate power scheme"
         }
@@ -99,7 +109,7 @@ function Get-Windows11PowerMode {
         from the registry for both AC and DC power states.
     .EXAMPLE
         $powerMode = Get-Windows11PowerMode
-        Write-Host "Current power mode: $($powerMode.CurrentModeName)"
+        Write-StatusMessage -Message "Current power mode: $($powerMode.CurrentModeName)" -Type Info
     .OUTPUTS
         PSCustomObject
     #>
@@ -222,7 +232,7 @@ function Set-Windows11PowerMode {
             Set-ItemProperty -Path $path -Name "OverlayScheme" -Value $Mode -Type DWord -Force
         }
         
-        Write-Host "Power mode set to: $($modeNames[$Mode])" -ForegroundColor Green
+        Write-StatusMessage -Message "Power mode set to: $($modeNames[$Mode])" -Type Success
         
         # Force Windows to recognize the registry changes
         # This ensures the Settings UI reflects the changes
@@ -416,7 +426,7 @@ param(
         powercfg /setdcvalueindex $PowerSchemeGUID sub_none $SettingGUID $Value
         powercfg /setactive $PowerSchemeGUID
         
-        Write-Host "Power setting updated successfully" -ForegroundColor Green
+        Write-StatusMessage -Message "Power setting updated successfully" -Type Success
     }
     catch {
         Write-Error "Failed to set power setting: $_"
@@ -531,7 +541,7 @@ function Get-BatteryInfo {
         Returns battery charge level, charging status, and estimated runtime.
     .EXAMPLE
         $battery = Get-BatteryInfo
-        Write-Host "Battery: $($battery.ChargeLevel)% - $($battery.Status)"
+        Write-StatusMessage -Message "Battery: $($battery.ChargeLevel)% - $($battery.Status)" -Type Info
     .OUTPUTS
         PSCustomObject
     #>
@@ -626,7 +636,7 @@ function Remove-PowerScheme {
     try {
         $result = powercfg /delete $SchemeGUID
         if ($LASTEXITCODE -eq 0) {
-            Write-Host "Power scheme deleted successfully" -ForegroundColor Green
+            Write-StatusMessage -Message "Power scheme deleted successfully" -Type Success
         } else {
             Write-Error "Failed to delete power scheme"
         }

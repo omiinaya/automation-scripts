@@ -10,10 +10,10 @@
     Prerequisite   : PowerShell 5.1 or later
 #>
 
-# Import CommonUtilities for error handling patterns
+# Import all modules via ModuleIndex (single source of truth)
 $originalVerbosePreference = $VerbosePreference
 $VerbosePreference = 'SilentlyContinue'
-Import-Module "$PSScriptRoot\CommonUtilities.psm1" -Force -WarningAction SilentlyContinue -Verbose:$false
+Import-Module "$PSScriptRoot\ModuleIndex.psm1" -Force -WarningAction SilentlyContinue -Verbose:$false
 $VerbosePreference = $originalVerbosePreference
 
 # Function to get user rights assignment

@@ -341,7 +341,7 @@ function Invoke-CISRemediation {
             $domainInstructions = Get-DomainRemediationInstructions -CIS_ID $CIS_ID -SettingName $recommendation.title -RecommendedValue $recommendation.title
             
             if ($VerboseOutput) {
-                Write-Host ""
+                # Empty line for formatting
                 Write-SectionHeader -Title "Domain Environment Detected"
                 Write-Host $domainInstructions.Instructions -ForegroundColor Yellow
             }
@@ -351,11 +351,11 @@ function Invoke-CISRemediation {
         
         # For standalone systems, perform remediation
         if ($VerboseOutput) {
-            Write-Host ""
+            # Empty line for formatting
             Write-SectionHeader -Title "CIS Remediation: $CIS_ID"
-            Write-Host "Setting: $($recommendation.title)" -ForegroundColor White
-            Write-Host "Recommended: $($recommendation.title)" -ForegroundColor White
-            Write-Host ""
+            Write-StatusMessage -Message "Setting: $($recommendation.title)" -Type Info
+            Write-StatusMessage -Message "Recommended: $($recommendation.title)" -Type Info
+            # Empty line for formatting
         }
         
         # Get user confirmation (unless AutoConfirm is specified)
@@ -414,14 +414,14 @@ function Invoke-CISRemediation {
         
         # Output verbose information if requested
         if ($VerboseOutput -and $result) {
-            Write-Host ""
+            # Empty line for formatting
             Write-SectionHeader -Title "Remediation Summary"
-            Write-Host "Setting: $($result.Title)" -ForegroundColor White
-            Write-Host "Previous Value: $($result.PreviousValue)" -ForegroundColor White
-            Write-Host "New Value: $($result.NewValue)" -ForegroundColor White
+            Write-StatusMessage -Message "Setting: $($result.Title)" -Type Info
+            Write-StatusMessage -Message "Previous Value: $($result.PreviousValue)" -Type Info
+            Write-StatusMessage -Message "New Value: $($result.NewValue)" -Type Info
             Write-Host "Status: $($result.Status)" -ForegroundColor $(if ($result.IsCompliant) { "Green" } else { "Red" })
-            Write-Host "Message: $($result.Message)" -ForegroundColor White
-            Write-Host "Source: $($result.Source)" -ForegroundColor White
+            Write-StatusMessage -Message "Message: $($result.Message)" -Type Info
+            Write-StatusMessage -Message "Source: $($result.Source)" -Type Info
         }
         
         return $result

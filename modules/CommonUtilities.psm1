@@ -12,9 +12,9 @@
 .EXAMPLE
     Wait-OnError -ErrorMessage "Operation failed" -Troubleshooting "Check permissions"
 .EXAMPLE
-    if (Test-AdminRights) { Write-Host "Running as Administrator" }
+    if (Test-AdminRights) { Write-StatusMessage -Message "Running as Administrator" -Type Info }
 .EXAMPLE
-    if (Test-ServiceExists -ServiceName "Spooler") { Write-Host "Print Spooler exists" }
+    if (Test-ServiceExists -ServiceName "Spooler") { Write-StatusMessage -Message "Print Spooler exists" -Type Info }
 #>
 
 # Function to pause on error with standardized error handling
@@ -43,14 +43,14 @@ function Wait-OnError {
         [int]$ExitCode = 1
     )
     
-    Write-Host "`nERROR: $ErrorMessage" -ForegroundColor Red
+    Write-StatusMessage -Message "`nERROR: $ErrorMessage" -Type Error
     
     if ($Troubleshooting) {
-        Write-Host "`nTroubleshooting steps:" -ForegroundColor Yellow
+        Write-StatusMessage -Message "`nTroubleshooting steps:" -Type Warning
         Write-Host $Troubleshooting -ForegroundColor Yellow
     }
     
-    Write-Host "`nPress Enter to close this window..." -ForegroundColor Yellow
+    Write-StatusMessage -Message "`nPress Enter to close this window..." -Type Warning
     Read-Host
     
     exit $ExitCode
@@ -64,7 +64,7 @@ function Test-AdminRights {
     .DESCRIPTION
         Returns $true if running with admin rights, $false otherwise.
     .EXAMPLE
-        if (Test-AdminRights) { Write-Host "Running as Administrator" }
+        if (Test-AdminRights) { Write-StatusMessage -Message "Running as Administrator" -Type Info }
     .OUTPUTS
         System.Boolean
     #>
@@ -83,7 +83,7 @@ function Test-ServiceExists {
     .PARAMETER ServiceName
         The name of the service to check.
     .EXAMPLE
-        if (Test-ServiceExists -ServiceName "Spooler") { Write-Host "Print Spooler exists" }
+        if (Test-ServiceExists -ServiceName "Spooler") { Write-StatusMessage -Message "Print Spooler exists" -Type Info }
     .EXAMPLE
         $services = @("Spooler", "W32Time", "BITS") | Where-Object { Test-ServiceExists -ServiceName $_ }
     .OUTPUTS
@@ -270,8 +270,8 @@ function Test-ScriptRequirements {
     
     # Check admin rights
     if ($RequireAdmin -and -not (Test-AdminRights)) {
-        Write-Host "ERROR: Administrator privileges are required for this script." -ForegroundColor Red
-        Write-Host "Please run PowerShell as Administrator." -ForegroundColor Yellow
+        Write-StatusMessage -Message "ERROR: Administrator privileges are required for this script." -Type Error
+        Write-StatusMessage -Message "Please run PowerShell as Administrator." -Type Warning
         return $false
     }
     
@@ -284,8 +284,8 @@ function Test-ScriptRequirements {
             if ($MinWindowsVersion) {
                 $minVersion = [version]$MinWindowsVersion
                 if ($currentVersion -lt $minVersion) {
-                    Write-Host "ERROR: This script requires Windows version $MinWindowsVersion or higher." -ForegroundColor Red
-                    Write-Host "Current version: $($os.Caption)" -ForegroundColor Yellow
+                    Write-StatusMessage -Message "ERROR: This script requires Windows version $MinWindowsVersion or higher." -Type Error
+                    Write-StatusMessage -Message "Current version: $($os.Caption)" -Type Warning
                     return $false
                 }
             }
@@ -293,13 +293,13 @@ function Test-ScriptRequirements {
             if ($RequireWindows11) {
                 # Windows 11 version is 10.0.22000 or higher
                 if (-not ($currentVersion.Major -eq 10 -and $currentVersion.Minor -eq 0 -and $currentVersion.Build -ge 22000)) {
-                    Write-Host "ERROR: This script requires Windows 11." -ForegroundColor Red
-                    Write-Host "Current version: $($os.Caption)" -ForegroundColor Yellow
+                    Write-StatusMessage -Message "ERROR: This script requires Windows 11." -Type Error
+                    Write-StatusMessage -Message "Current version: $($os.Caption)" -Type Warning
                     return $false
                 }
             }
         } catch {
-            Write-Host "WARNING: Could not determine Windows version: $_" -ForegroundColor Yellow
+            Write-StatusMessage -Message "WARNING: Could not determine Windows version: $_" -Type Warning
         }
     }
     
@@ -336,9 +336,9 @@ function Restart-ServiceSafely {
     }
     
     try {
-        Write-Host "Restarting service '$ServiceName'..." -ForegroundColor Cyan
+        Write-StatusMessage -Message "Restarting service '$ServiceName'..." -Type Info
         Restart-Service -Name $ServiceName -Force -ErrorAction Stop
-        Write-Host "Service '$ServiceName' restarted successfully" -ForegroundColor Green
+        Write-StatusMessage -Message "Service '$ServiceName' restarted successfully" -Type Success
     } catch {
         Write-Error "Failed to restart service '$ServiceName': $_"
     }
@@ -381,9 +381,102 @@ function Wait-ProcessExit {
     if ($process) {
         Write-Warning "Process '$ProcessName' did not exit within $TimeoutSeconds seconds"
     } else {
-        Write-Host "Process '$ProcessName' has exited" -ForegroundColor Green
+        Write-StatusMessage -Message "Process '$ProcessName' has exited" -Type Success
     }
 }
 
+# Function to import a module quietly (suppressing verbose output)
+function Import-ModuleQuiet {
+<#
+.SYNOPSIS
+Imports a PowerShell module with verbose output suppressed.
+.DESCRIPTION
+Temporarily suppresses verbose output during module import to keep the console clean.
+.PARAMETER Path
+The path to the module to import.
+.PARAMETER Force
+Whether to force import even if already loaded.
+.EXAMPLE
+Import-ModuleQuiet -Path ".\modules\WindowsUtils.psm1"
+Import-ModuleQuiet -Path "$PSScriptRoot\CommonUtilities.psm1" -Force
+.OUTPUTS
+None. Imports the module.
+#>
+param(
+    [Parameter(Mandatory=$true)]
+    [string]$Path,
+    [switch]$Force
+)
+
+$originalVerbosePreference = $VerbosePreference
+$originalWarningPreference = $WarningPreference
+$VerbosePreference = 'SilentlyContinue'
+$WarningPreference = 'SilentlyContinue'
+
+try {
+    if ($Force) {
+        Import-Module $Path -Force -ErrorAction Stop
+    } else {
+        Import-Module $Path -ErrorAction Stop
+    }
+} finally {
+    $VerbosePreference = $originalVerbosePreference
+    $WarningPreference = $originalWarningPreference
+}
+}
+
+# Function to write status messages that can be captured or suppressed
+function Write-StatusMessage {
+<#
+.SYNOPSIS
+Writes a status message with optional color coding.
+.DESCRIPTION
+Writes messages to the information stream (not the host) so they can be captured,
+piped, or suppressed. Use -Host switch to force Write-Host behavior for interactive scripts.
+.PARAMETER Message
+The message to display.
+.PARAMETER Type
+The type of message: Info, Success, Warning, or Error.
+.PARAMETER Host
+Switch to use Write-Host instead of Write-Information (for interactive scripts).
+.EXAMPLE
+Write-StatusMessage -Message "Operation complete" -Type Success
+Write-StatusMessage -Message "Warning: file not found" -Type Warning
+Write-StatusMessage -Message "Error occurred" -Type Error -Host
+.OUTPUTS
+None. Writes to information stream or host.
+#>
+param(
+    [Parameter(Mandatory=$true)]
+    [string]$Message,
+    [ValidateSet("Info", "Success", "Warning", "Error")]
+    [string]$Type = "Info",
+    [switch]$Host
+)
+
+$prefix = switch ($Type) {
+    "Success" { "[SUCCESS]" }
+    "Warning" { "[WARNING]" }
+    "Error" { "[ERROR]" }
+    default { "[INFO]" }
+}
+
+$fullMessage = "$prefix $Message"
+
+if ($Host) {
+    # Use Write-Host only when explicitly requested
+    $color = switch ($Type) {
+        "Success" { "Green" }
+        "Warning" { "Yellow" }
+        "Error" { "Red" }
+        default { "White" }
+    }
+    Microsoft.PowerShell.Utility\Write-Host $fullMessage -ForegroundColor $color
+} else {
+    # Default: Write to Information stream (can be captured, piped, or suppressed)
+    Microsoft.PowerShell.Utility\Write-Information $fullMessage -InformationAction Continue
+}
+}
+
 # Export the module members
-Export-ModuleMember -Function Wait-OnError, Test-AdminRights, Test-ServiceExists, Handle-CommonError, Get-ModulePath, Test-ScriptRequirements, Restart-ServiceSafely, Wait-ProcessExit -Verbose:$false
+Export-ModuleMember -Function Wait-OnError, Test-AdminRights, Test-ServiceExists, Handle-CommonError, Get-ModulePath, Test-ScriptRequirements, Restart-ServiceSafely, Wait-ProcessExit, Import-ModuleQuiet, Write-StatusMessage -Verbose:$false
