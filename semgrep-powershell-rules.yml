@@ -64,7 +64,7 @@ rules:
       category: security
       
   - id: powershell-set-strictmode-off
-    pattern-regex: "(?i)Set-StrictMode\\s+-Version\\s+0|Off"
+    pattern-regex: "(?i)Set-StrictMode\\s+-Version\\s+(0|Off)"
     message: "StrictMode disabled - can mask errors and bugs"
     languages: [generic]
     severity: INFO

@@ -840,7 +840,7 @@ function Private-ElevatePrivileges {
         throw "Cannot determine script path for elevation. Please run PowerShell as administrator."
     }
     
-    $arguments = "-ExecutionPolicy Bypass -File `"$currentScript`""
+    $arguments = "-ExecutionPolicy RemoteSigned -File `"$currentScript`""
     Start-Process -FilePath "powershell.exe" -ArgumentList $arguments -Verb RunAs -Wait
     exit 0
 }

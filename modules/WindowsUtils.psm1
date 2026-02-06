@@ -121,7 +121,7 @@ try {
             # Start the elevated process directly with the original script
             $psi = New-Object System.Diagnostics.ProcessStartInfo
             $psi.FileName = "powershell.exe"
-            $psi.Arguments = "-NoLogo -NoProfile -ExecutionPolicy Bypass -File `"$tempScript`""
+            $psi.Arguments = "-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -File `"$tempScript`""
             $psi.Verb = "runas"  # This triggers UAC elevation
             $psi.UseShellExecute = $true
             $psi.WindowStyle = [System.Diagnostics.ProcessWindowStyle]::Hidden
