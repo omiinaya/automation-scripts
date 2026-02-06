@@ -1,0 +1,172 @@
+================================================================================
+POWERSHELL CODE SMELLS REPORT
+================================================================================
+
+Total Findings: 835
+Files Scanned: 505
+Files with Issues: 140
+Rules Run: 16
+
+SUMMARY BY SEVERITY:
+----------------------------------------
+  WARNING: 127
+  INFO: 708
+
+SUMMARY BY RULE:
+----------------------------------------
+   655 - powershell-write-host
+   125 - powershell-erroraction-silentlycontinue
+    41 - powershell-set-strictmode-off
+    12 - powershell-verbose-output
+     2 - powershell-execution-policy-bypass
+
+TOP 25 FILES WITH MOST ISSUES:
+----------------------------------------
+    74 - verify-optimization-changes.ps1
+    44 - windows/deferred/security/audit-batch-execution.ps1
+    32 - windows/deferred/security/remediations/section_1/1.1.5-remediate-password-complexity.ps1
+    32 - windows/deferred/security/remediations/section_1/1.1.6-remediate-relax-minimum-password-length-limits.ps1
+    32 - windows/deferred/security/remediations/section_1/1.1.7-remediate-store-passwords-using-reversible-encryption.ps1
+    18 - helpers/remove-local-wait-on-error.ps1
+    18 - modules/WindowsUI.psm1
+    18 - windows/deferred/security/remediations/section_2/2.3.9.5-remediate-microsoft-network-server-server-spn-target-name-validation-level.ps1
+    17 - windows/deferred/security/audits/section_2/2.3.9.5-audit-microsoft-network-server-server-spn-target-name-validation-level.ps1
+    16 - windows/deferred/security/remediations/section_2/2.3.7.8-remediate-interactive-logon-smart-card-removal-behavior.ps1
+    14 - windows/deferred/security/remediations/section_2/2.3.9.4-remediate-microsoft-network-server-disconnect-clients-when-logon-hours-expire.ps1
+    13 - windows/deferred/security/remediations/section_2/2.3.7.7-remediate-interactive-logon-prompt-user-to-change-password-before-expiration.ps1
+    13 - windows/deferred/security/remediations/section_2/2.3.8.1-remediate-microsoft-network-client-digitally-sign-communications-always.ps1
+    13 - windows/deferred/security/remediations/section_2/2.3.8.2-remediate-microsoft-network-client-digitally-sign-communications-if-server-agrees.ps1
+    13 - windows/deferred/security/remediations/section_2/2.3.8.3-remediate-microsoft-network-client-send-unencrypted-password-to-third-party-smb-servers.ps1
+    13 - windows/deferred/security/remediations/section_2/2.3.9.1-remediate-microsoft-network-server-amount-of-idle-time-required-before-suspending-session.ps1
+    13 - windows/deferred/security/remediations/section_2/2.3.9.2-remediate-microsoft-network-server-digitally-sign-communications-always.ps1
+    13 - windows/deferred/security/remediations/section_2/2.3.9.3-remediate-microsoft-network-server-digitally-sign-communications-if-client-agrees.ps1
+    12 - modules/ModuleIndex.psm1
+    11 - windows/deferred/security/remediations/section_2/2.3.7.1-remediate-interactive-logon-do-not-require-ctrl-alt-del.ps1
+    11 - windows/deferred/security/remediations/section_2/2.3.7.3-remediate-interactive-logon-machine-account-lockout-threshold.ps1
+    11 - windows/deferred/security/remediations/section_2/2.3.7.4-remediate-interactive-logon-machine-inactivity-limit.ps1
+    10 - windows/deferred/security/audits/section_2/2.3.1.1-audit-guest-account-status.ps1
+    10 - windows/deferred/security/audits/section_2/2.3.7.8-audit-interactive-logon-smart-card-removal-behavior.ps1
+    10 - windows/deferred/security/audits/section_2/2.3.9.4-audit-microsoft-network-server-disconnect-clients-when-logon-hours-expire.ps1
+
+================================================================================
+DETAILED FINDINGS BY RULE
+================================================================================
+
+
+POWERSHELL-ERRORACTION-SILENTLYCONTINUE
+--------------------------------------------------------------------------------
+Message: Errors silently ignored - consider proper error handling
+Total occurrences: 125
+
+  1. modules/CISFramework.psm1:770
+     Code: if (-not (Get-Module -Name $ModuleName -ErrorAction SilentlyContinue)) {
+  2. modules/CISRemediation.psm1:183
+     Code: Remove-Item $verifyTempFile -ErrorAction SilentlyContinue
+  3. modules/CISRemediation.psm1:184
+     Code: Remove-Item $templateFile -ErrorAction SilentlyContinue
+  4. modules/CISRemediation.psm1:189
+     Code: Remove-Item $verifyTempFile -ErrorAction SilentlyContinue
+  5. modules/CISRemediation.psm1:190
+     Code: Remove-Item $templateFile -ErrorAction SilentlyContinue
+  6. modules/CISRemediation.psm1:196
+     Code: Remove-Item $templateFile -ErrorAction SilentlyContinue
+  7. modules/CommonUtilities.psm1:100
+     Code: $service = Get-Service -Name $ServiceName -ErrorAction SilentlyContinue
+  8. modules/CommonUtilities.psm1:376
+     Code: while ((Get-Process -Name $ProcessName -ErrorAction SilentlyContinue) -and ((Get-Date) - $startTime)
+  9. modules/CommonUtilities.psm1:380
+     Code: $process = Get-Process -Name $ProcessName -ErrorAction SilentlyContinue
+  10. modules/ModuleIndex.psm1:291
+     Code: Status = if (Get-Module -Name $module.Name -ErrorAction SilentlyContinue) { "Loaded" } else { "Not L
+  ... and 115 more occurrences
+
+POWERSHELL-EXECUTION-POLICY-BYPASS
+--------------------------------------------------------------------------------
+Message: Execution policy bypass detected - allows running any script
+Total occurrences: 2
+
+  1. modules/CISFramework.psm1:843
+     Code: $arguments = "-ExecutionPolicy Bypass -File `"$currentScript`""
+  2. modules/WindowsUtils.psm1:124
+     Code: $psi.Arguments = "-NoLogo -NoProfile -ExecutionPolicy Bypass -File `"$tempScript`""
+
+POWERSHELL-SET-STRICTMODE-OFF
+--------------------------------------------------------------------------------
+Message: StrictMode disabled - can mask errors and bugs
+Total occurrences: 41
+
+  1. modules/PowerManagement.psm1:511
+     Code: @{Name = "Turn off display after"; GUID = "3c0bc021-c8a8-4e07-a973-6b14cbcb2b7e"},
+  2. verify-optimization-changes.ps1:246
+     Code: "windows/deferred/security/audits/section_19/19.5.1.1-audit-turn-off-toast-notifications-on-lock-scr
+  3. verify-optimization-changes.ps1:247
+     Code: "windows/deferred/security/audits/section_19/19.6.6.1.1-audit-turn-off-help-experience-improvement-p
+  4. verify-optimization-changes.ps1:313
+     Code: "windows/deferred/security/remediations/section_19/19.5.1.1-remediate-turn-off-toast-notifications-o
+  5. verify-optimization-changes.ps1:314
+     Code: "windows/deferred/security/remediations/section_19/19.6.6.1.1-remediate-turn-off-help-experience-imp
+  6. windows/deferred/security/audits/section_17/17.5.3-audit-logoff.ps1:12
+     Code: # Get current audit policy setting for Logoff subcategory
+  7. windows/deferred/security/audits/section_17/17.5.3-audit-logoff.ps1:16
+     Code: if ($line -match "Logoff" -and $line -match "Success and Failure|Success|Failure|No Auditing") {
+  8. windows/deferred/security/audits/section_17/17.5.5-audit-other-logonlogoff-events.ps1:18
+     Code: if ($line -match "Other Logon/Logoff Events" -and $line -match "Success and Failure|Success|Failure|
+  9. windows/deferred/security/audits/section_19/19.5.1.1-audit-turn-off-toast-notifications-on-lock-screen.ps1:3
+     Code: Audits CIS control 19.5.1.1 - Turn off toast notifications on the lock screen
+  10. windows/deferred/security/audits/section_19/19.6.6.1.1-audit-turn-off-help-experience-improvement-program.ps1:3
+     Code: Audits CIS control 19.6.6.1.1 - Turn off Help Experience Improvement Program
+  ... and 31 more occurrences
+
+POWERSHELL-VERBOSE-OUTPUT
+--------------------------------------------------------------------------------
+Message: Verbose output present - good for debugging
+Total occurrences: 12
+
+  1. modules/ModuleIndex.psm1:53
+     Code: Write-Verbose "Module $module already imported (cached)"
+  2. modules/ModuleIndex.psm1:477
+     Code: Write-Verbose "Windows Module Index loaded successfully"
+  3. modules/ModuleIndex.psm1:478
+     Code: Write-Verbose "Use Initialize-WindowsModules to display welcome information"
+  4. modules/PowerManagement.psm1:564
+     Code: Write-Verbose "No battery found - system might be a desktop"
+  5. modules/RegistryUtils.psm1:407
+     Code: Write-Verbose "Error accessing registry key: $_"
+  6. modules/SeceditUtils.psm1:40
+     Code: Write-Verbose "Using cached secedit export"
+  7. modules/SeceditUtils.psm1:51
+     Code: Write-Verbose "Exported and cached secedit policy"
+  8. modules/SeceditUtils.psm1:73
+     Code: Write-Verbose "Secedit cache cleared"
+  9. modules/VisualEffects.psm1:95
+     Code: Write-Verbose "Refreshing Explorer settings..."
+  10. modules/VisualEffects.psm1:135
+     Code: Write-Verbose "Explorer settings refreshed successfully"
+  ... and 2 more occurrences
+
+POWERSHELL-WRITE-HOST
+--------------------------------------------------------------------------------
+Message: Write-Host should be avoided - use Write-Output or logging instead
+Total occurrences: 655
+
+  1. helpers/remove-local-wait-on-error.ps1:26
+     Code: Write-Host "Found $($files.Count) PowerShell files in optimization directory" -ForegroundColor Cyan
+  2. helpers/remove-local-wait-on-error.ps1:28
+     Code: Write-Host ""
+  3. helpers/remove-local-wait-on-error.ps1:35
+     Code: Write-Host "Processing: $($file.FullName)" -ForegroundColor Yellow
+  4. helpers/remove-local-wait-on-error.ps1:53
+     Code: Write-Host "  Modified successfully" -ForegroundColor Green
+  5. helpers/remove-local-wait-on-error.ps1:57
+     Code: Write-Host "  ERROR: Failed to modify file - $($_.Exception.Message)" -ForegroundColor Red
+  6. helpers/remove-local-wait-on-error.ps1:61
+     Code: Write-Host "  Would modify (WhatIf mode)" -ForegroundColor Cyan
+  7. helpers/remove-local-wait-on-error.ps1:113
+     Code: Write-Host "  Modified successfully (manual pattern)" -ForegroundColor Green
+  8. helpers/remove-local-wait-on-error.ps1:117
+     Code: Write-Host "  ERROR: Failed to modify file - $($_.Exception.Message)" -ForegroundColor Red
+  9. helpers/remove-local-wait-on-error.ps1:121
+     Code: Write-Host "  Would modify (manual pattern, WhatIf mode)" -ForegroundColor Cyan
+  10. helpers/remove-local-wait-on-error.ps1:125
+     Code: Write-Host "  Could not find function boundaries" -ForegroundColor Red
+  ... and 645 more occurrences

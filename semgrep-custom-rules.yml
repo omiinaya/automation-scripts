@@ -1,0 +1,40 @@
+rules:
+  - id: bare-except
+    pattern: |
+      try:
+        ...
+      except:
+        ...
+    message: "Bare except clause found - should catch specific exceptions"
+    languages: [python]
+    severity: WARNING
+    
+  - id: hardcoded-password
+    pattern-regex: (?i)(password|passwd|pwd)\s*=\s*["'][^"']+["']
+    message: "Potential hardcoded password"
+    languages: [python]
+    severity: WARNING
+    
+  - id: dangerous-eval
+    pattern: eval(...)
+    message: "Use of eval() is dangerous"
+    languages: [python]
+    severity: ERROR
+    
+  - id: dangerous-exec
+    pattern: exec(...)
+    message: "Use of exec() is dangerous"
+    languages: [python]
+    severity: ERROR
+    
+  - id: subprocess-shell-true
+    pattern: subprocess.run(..., shell=True, ...)
+    message: "subprocess with shell=True is dangerous"
+    languages: [python]
+    severity: WARNING
+    
+  - id: debug-print
+    pattern-regex: print\s*\(\s*["']DEBUG|debug|Debug
+    message: "Debug print statement found"
+    languages: [python]
+    severity: INFO

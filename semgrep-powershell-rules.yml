@@ -1,0 +1,128 @@
+rules:
+  - id: powershell-hardcoded-credentials
+    pattern-regex: "(?i)(password|pwd|secret|apikey|api_key|token)\\s*=\\s*['\"][^'\"]+['\"]"
+    message: "Potential hardcoded credentials detected"
+    languages: [generic]
+    severity: ERROR
+    metadata:
+      category: security
+      
+  - id: powershell-invoke-expression
+    pattern-regex: "(?i)(Invoke-Expression|iex)\\s+"
+    message: "Use of Invoke-Expression (iex) is dangerous - can execute arbitrary code"
+    languages: [generic]
+    severity: ERROR
+    metadata:
+      category: security
+      
+  - id: powershell-convertto-securestring-plaintext
+    pattern-regex: "(?i)ConvertTo-SecureString.*-AsPlainText"
+    message: "Converting plaintext to SecureString - secrets should not be in plaintext"
+    languages: [generic]
+    severity: WARNING
+    metadata:
+      category: security
+      
+  - id: powershell-execution-policy-bypass
+    pattern-regex: "(?i)-ExecutionPolicy\\s+(Bypass|Unrestricted)"
+    message: "Execution policy bypass detected - allows running any script"
+    languages: [generic]
+    severity: WARNING
+    metadata:
+      category: security
+      
+  - id: powershell-weak-ssl
+    pattern-regex: "(?i)\\[System\\.Net\\.ServicePointManager\\]::ServerCertificateValidationCallback"
+    message: "SSL certificate validation disabled - security risk"
+    languages: [generic]
+    severity: ERROR
+    metadata:
+      category: security
+      
+  - id: powershell-webclient-downloadstring
+    pattern-regex: "(?i)\\.DownloadString\\s*\\("
+    message: "DownloadString can execute downloaded content - security risk"
+    languages: [generic]
+    severity: WARNING
+    metadata:
+      category: security
+      
+  - id: powershell-tls-1.0
+    pattern-regex: "(?i)\\[Net\\.ServicePointManager\\]::SecurityProtocol.*Tls|Ssl3"
+    message: "Using deprecated TLS/SSL versions - use TLS 1.2 or higher"
+    languages: [generic]
+    severity: WARNING
+    metadata:
+      category: security
+      
+  - id: powershell-start-process-credentials
+    pattern-regex: "(?i)Start-Process.*-Credential.*\\$"
+    message: "Credentials passed to Start-Process - ensure secure handling"
+    languages: [generic]
+    severity: INFO
+    metadata:
+      category: security
+      
+  - id: powershell-set-strictmode-off
+    pattern-regex: "(?i)Set-StrictMode\\s+-Version\\s+0|Off"
+    message: "StrictMode disabled - can mask errors and bugs"
+    languages: [generic]
+    severity: INFO
+    metadata:
+      category: best-practice
+      
+  - id: powershell-erroraction-silentlycontinue
+    pattern-regex: "(?i)-ErrorAction\\s+SilentlyContinue"
+    message: "Errors silently ignored - consider proper error handling"
+    languages: [generic]
+    severity: WARNING
+    metadata:
+      category: best-practice
+      
+  - id: powershell-write-host
+    pattern-regex: "(?i)^\\s*Write-Host\\s+"
+    message: "Write-Host should be avoided - use Write-Output or logging instead"
+    languages: [generic]
+    severity: INFO
+    metadata:
+      category: best-practice
+      
+  - id: powershell-empty-catch
+    pattern-regex: "(?i)catch\\s*\\{\\s*\\}"
+    message: "Empty catch block - errors silently swallowed"
+    languages: [generic]
+    severity: WARNING
+    metadata:
+      category: best-practice
+      
+  - id: powershell-global-variable
+    pattern-regex: "(?i)\\$global:\\w+"
+    message: "Global variable used - prefer script or local scope"
+    languages: [generic]
+    severity: WARNING
+    metadata:
+      category: best-practice
+      
+  - id: powershell-verbose-output
+    pattern-regex: "(?i)Write-Verbose\\s+['\"]"
+    message: "Verbose output present - good for debugging"
+    languages: [generic]
+    severity: INFO
+    metadata:
+      category: best-practice
+      
+  - id: powershell-com-object
+    pattern-regex: "(?i)New-Object\\s+-ComObject"
+    message: "COM object creation - may indicate legacy code"
+    languages: [generic]
+    severity: INFO
+    metadata:
+      category: best-practice
+      
+  - id: powershell-unencoded-command
+    pattern-regex: "(?i)-EncodedCommand\\s+\\w+"
+    message: "Encoded command detected - may hide malicious code"
+    languages: [generic]
+    severity: ERROR
+    metadata:
+      category: security
