@@ -10,7 +10,7 @@ from pathlib import Path
 from typing import Set
 
 
-def extract_cis_ids_from_json(json_dir: str) -> Set[str]:
+def extract_cis_ids_from_json(json_dir: str) -> set[str]:
     """Extract all unique CIS IDs from JSON files."""
     cis_ids = set()
     json_dir_path = Path(json_dir)
@@ -28,7 +28,7 @@ def extract_cis_ids_from_json(json_dir: str) -> Set[str]:
     return cis_ids
 
 
-def extract_existing_scripts(scripts_dir: str, script_type: str) -> Set[str]:
+def extract_existing_scripts(scripts_dir: str, script_type: str) -> set[str]:
     """Extract CIS IDs from existing script filenames."""
     script_ids = set()
     scripts_dir_path = Path(scripts_dir)

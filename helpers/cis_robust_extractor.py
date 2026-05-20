@@ -77,8 +77,8 @@ class CISRobustExtractor:
     def __init__(self, pdf_path: str, output_dir: str = "docs/json"):
         self.pdf_path = pdf_path
         self.output_dir = output_dir
-        self.recommendations: List[CISRecommendation] = []
-        self.pages_text: List[Dict] = []  # List of dicts with page_number and text
+        self.recommendations: list[CISRecommendation] = []
+        self.pages_text: list[dict] = []  # List of dicts with page_number and text
 
         # Create output directory
         Path(output_dir).mkdir(parents=True, exist_ok=True)
@@ -116,7 +116,7 @@ class CISRobustExtractor:
         # Ensure no propagation to root logger
         self.logger.propagate = False
 
-    def extract_text_from_pdf(self) -> List[Dict]:
+    def extract_text_from_pdf(self) -> list[dict]:
         """Extract text from PDF within the remediation range"""
         self.logger.info(f"Extracting text from PDF: {self.pdf_path}")
 
@@ -153,7 +153,7 @@ class CISRobustExtractor:
             self.logger.error(f"Error extracting PDF text: {e}")
             raise
 
-    def is_recommendation_start(self, text: str) -> Optional[Tuple[str, str, str]]:
+    def is_recommendation_start(self, text: str) -> Optional[tuple[str, str, str]]:
         """
         Check if text starts with a recommendation pattern.
         Returns tuple (cis_id, profile, title) if match,
@@ -222,7 +222,7 @@ class CISRobustExtractor:
 
     def extract_recommendation_block(
         self, start_index: int
-    ) -> Tuple[Dict[str, Any], Optional[int]]:
+    ) -> tuple[dict[str, Any], Optional[int]]:
         """
         Extract a recommendation block starting at page index start_index.
         Returns (block_data, next_start_index) where block_data contains:
@@ -313,14 +313,14 @@ class CISRobustExtractor:
         next_start = self.find_next_recommendation(start_index + 1)
         return block_data, next_start
 
-    def parse_sections(self, block_data: Dict[str, Any]) -> Dict[str, Any]:
+    def parse_sections(self, block_data: dict[str, Any]) -> dict[str, Any]:
         """
         Parse sections from the recommendation block text using a robust
         line-by-line parser that detects section headers.
         Returns dict with extracted fields.
         """
         text = block_data["full_text"]
-        sections: Dict[str, Any] = {
+        sections: dict[str, Any] = {
             "description": "",
             "rationale": "",
             "impact": "",
@@ -413,7 +413,7 @@ class CISRobustExtractor:
         return sections
 
     def extract_recommendation(
-        self, block_data: Dict[str, Any]
+        self, block_data: dict[str, Any]
     ) -> Optional[CISRecommendation]:
         """Convert block data to CISRecommendation object"""
         try:
