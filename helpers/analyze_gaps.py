@@ -7,7 +7,6 @@ audit/remediation scripts.
 import json
 import re
 from pathlib import Path
-from typing import Set
 
 
 def extract_cis_ids_from_json(json_dir: str) -> set[str]:
