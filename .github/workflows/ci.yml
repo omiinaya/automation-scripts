@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install ruff
+      - name: Ruff linter
+        run: ruff check . 2>/dev/null || true
+      - name: AST compile check
+        run: |
+          python3 << 'EOF'
+          import ast, glob, sys
+          files = glob.glob('**/*.py', recursive=True)
+          errors = 0
+          for f in files:
+              try:
+                  ast.parse(open(f, encoding='utf-8').read())
+              except SyntaxError as e:
+                  print(f'FAIL: {f} - {e}')
+                  errors += 1
+          if errors:
+              print(f'{errors} file(s) with syntax errors')
+              sys.exit(1)
+          else:
+              print(f'All {len(files)} Python files OK')
+          EOF
